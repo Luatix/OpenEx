@@ -1,0 +1,69 @@
+version: '3'
+services:
+  openbas-telemetry-otlp:
+    container_name: openbas-telemetry-otlp
+    image: otel/opentelemetry-collector:0.96.0
+    restart: unless-stopped
+    command: [ "--config=/etc/config/config.yaml" ]
+    volumes:
+      - C:/Users/RomualdLemesle/Desktop/config/otlp-config.yaml:/etc/config/config.yaml
+      - C:/Users/RomualdLemesle/Desktop/config/otlp-output.log:/otlp-output.log
+    ports:
+      - "4318:4318"
+      - "8889:8889"
+  openbas-telemetry-prometheus:
+    container_name: openbas-telemetry-prometheus
+    image: prom/prometheus
+    restart: unless-stopped
+    volumes:
+      - C:/Users/RomualdLemesle/Desktop/config/prometheus-config.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - "9090:9090"
+      - "9464:9464"
+  openbas-telemetry-jaeger:
+    container_name: openbas-telemetry-jaeger
+    image: jaegertracing/all-in-one
+    restart: unless-stopped
+    ports:
+      - "16686:16686"
+      - "4317:4317"
+  openbas-telemetry-elasticsearch:
+    container_name: openbas-telemetry-elasticsearch
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.13.2
+    environment:
+      - discovery.type=single-node
+      - xpack.ml.enabled=false
+      - xpack.security.enabled=false
+      - "ES_JAVA_OPTS=-Xms2G -Xmx2G"
+    restart: unless-stopped
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      nofile:
+        soft: 65536
+        hard: 65536
+    ports:
+      - 9200:9200
+      - 9300:9300
+  openbas-telemetry-kibana:
+    container_name: openbas-telemetry-kibana
+    image: docker.elastic.co/kibana/kibana:8.13.2
+    environment:
+      - ELASTICSEARCH_HOSTS=http://openbas-telemetry-elasticsearch:9200
+    restart: unless-stopped
+    ports:
+      - 5601:5601
+    depends_on:
+      - openbas-telemetry-elasticsearch
+  openbas-telemetry-filebeat:
+    container_name: openbas-telemetry-filebeat
+    image: docker.elastic.co/beats/filebeat:8.13.2
+    user: root
+    volumes:
+      - C:/Users/RomualdLemesle/Desktop/config/filebeat-config.yml:/usr/share/filebeat/filebeat.yml
+      - C:/Users/RomualdLemesle/Desktop/config/otlp-output.log:/otlp-output.log
+    command: [ "/usr/share/filebeat/filebeat", "-e", "-c", "/usr/share/filebeat/filebeat.yml", "--strict.perms=false" ]
+    restart: unless-stopped
+    depends_on:
+      - openbas-telemetry-elasticsearch

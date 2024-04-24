@@ -1,6 +1,9 @@
 package io.openbas.config;
 
 import io.openbas.database.model.User;
+import jakarta.servlet.http.HttpSession;
+import jakarta.servlet.http.HttpSessionEvent;
+import jakarta.servlet.http.HttpSessionListener;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.Authentication;
@@ -9,14 +12,12 @@ import org.springframework.security.oauth2.client.authentication.OAuth2Authentic
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
 
-import jakarta.servlet.http.HttpSession;
-import jakarta.servlet.http.HttpSessionEvent;
-import jakarta.servlet.http.HttpSessionListener;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Stream;
 
+import static java.util.stream.Collectors.groupingBy;
 import static org.springframework.security.web.context.HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY;
 
 @Configuration
@@ -103,5 +104,18 @@ public class SessionManager {
 
   public void invalidateUserSession(String userId) {
     getUserSessions(userId).forEach(HttpSession::invalidate);
+  }
+
+  // Should have one session by user
+  public long getUserSessionsCount() {
+    int value = sessions.values()
+        .stream()
+        .map(this::extractPrincipal)
+        .filter((Optional::isPresent))
+        .map((Optional::get))
+        .collect(groupingBy(OpenBASPrincipal::getId))
+        .keySet()
+        .size();
+     return value;
   }
 }

@@ -15,6 +15,7 @@ import io.openbas.rest.exercise.exports.VariableWithValueMixin;
 import io.openbas.rest.exercise.form.*;
 import io.openbas.rest.helper.RestBehavior;
 import io.openbas.service.*;
+import io.openbas.telemetry.Tracing;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.transaction.Transactional;
@@ -424,6 +425,7 @@ public class ExerciseApi extends RestBehavior {
   // region exercises
   @Transactional(rollbackOn = Exception.class)
   @PostMapping("/api/exercises")
+  @Tracing(name = "EXERCISE CREATION", layer = "api", operation = "create")
   public Exercise createExercise(@Valid @RequestBody ExerciseCreateInput input) {
     Exercise exercise = new Exercise();
     exercise.setUpdateAttributes(input);
@@ -611,7 +613,7 @@ public class ExerciseApi extends RestBehavior {
         : exerciseRepository.findAllGranted(currentUser().getId());
     return fromIterable(exercises).stream().map(ExerciseSimple::fromExercise).toList();
   }
-  // endregion
+// endregion
 
   // region communication
   @GetMapping("/api/exercises/{exerciseId}/communications")
@@ -624,7 +626,7 @@ public class ExerciseApi extends RestBehavior {
   }
 
   @GetMapping("/api/communications/attachment")
-  // @PreAuthorize("isExerciseObserver(#exerciseId)")
+// @PreAuthorize("isExerciseObserver(#exerciseId)")
   public void downloadAttachment(@RequestParam String file, HttpServletResponse response) throws IOException {
     FileContainer fileContainer = fileService.getFileContainer(file).orElseThrow();
     response.addHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + fileContainer.getName());
@@ -632,7 +634,7 @@ public class ExerciseApi extends RestBehavior {
     response.setStatus(HttpServletResponse.SC_OK);
     fileContainer.getInputStream().transferTo(response.getOutputStream());
   }
-  // endregion
+// endregion
 
   // region import/export
   @GetMapping("/api/exercises/{exerciseId}/export")
@@ -763,5 +765,5 @@ public class ExerciseApi extends RestBehavior {
     importService.handleFileImport(file);
   }
 
-  // endregion
+// endregion
 }

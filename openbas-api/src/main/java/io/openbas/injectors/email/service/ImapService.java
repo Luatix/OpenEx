@@ -327,29 +327,20 @@ public class ImapService {
   }
 
   private void syncFolders() throws Exception {
-    try {
-      // Sync sent
-      tryToSynchronizeFolderFromBox(sentFolder, true);
-      // Sync received
-      for (String listeningFolder : inboxFolders) {
-        tryToSynchronizeFolderFromBox(listeningFolder, false);
-      }
-    } catch (MessagingException e) {
-      log.warning("Connection failure: " + e.getMessage());
-      // Retry logic or rethrow the exception
-      retrySyncFolders();
-    }
-  }
-
-  private void retrySyncFolders() throws Exception {
     for (int i = 0; i < 3; i++) {
       try {
-        syncFolders();
+        // Sync sent
+        tryToSynchronizeFolderFromBox(sentFolder, true);
+        // Sync received
+        for (String listeningFolder : inboxFolders) {
+          tryToSynchronizeFolderFromBox(listeningFolder, false);
+        }
         break;
       } catch (MessagingException e) {
-        log.warning("Retrying connection..." + e.getMessage());
+        log.warning("Connection failure: " + e.getMessage());
+        // Retry logic or rethrow the exception
         Thread.sleep(2000);
-        if (i == 2 && imapStore != null && imapStore.isConnected()) {
+        if (i == 2 && imapStore != null && !imapStore.isConnected()) {
           imapStore.close();
         }
       }

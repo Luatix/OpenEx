@@ -15,6 +15,10 @@ public class LogApi extends RestBehavior {
 
   @PostMapping("/api/logs/frontend-error")
   public void logError(@RequestBody ErrorDetailsInput errorDetails) {
-    logger.error("Error received: " + errorDetails);
+    logger.error(
+        "Message error received: {} stacktrace: {} at {}",
+        errorDetails.getMessage(),
+        errorDetails.getStack(),
+        errorDetails.getTimestamp());
   }
 }

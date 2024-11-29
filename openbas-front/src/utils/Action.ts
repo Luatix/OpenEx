@@ -219,7 +219,7 @@ export const bulkDeleteReferential = (uri: string, type: string, data: unknown) 
 export const sendErrorToBackend = async (error: Error, stack: ErrorInfo) => {
   const errorDetails = {
     message: error.message,
-    stack: stack,
+    stack: stack.componentStack,
     timestamp: new Date().toISOString(),
   };
   simplePostCall('/api/logs/frontend-error', errorDetails)

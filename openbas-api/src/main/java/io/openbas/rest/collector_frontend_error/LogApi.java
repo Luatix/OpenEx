@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/logs")
-public class LogController {
+public class LogApi {
 
-  public static final Logger logger = LoggerFactory.getLogger(LogController.class);
+  public static final Logger logger = LoggerFactory.getLogger(LogApi.class);
 
   @PostMapping("/frontend-error")
   public ResponseEntity<Void> logError(@RequestBody ErrorDetailsInput errorDetails) {

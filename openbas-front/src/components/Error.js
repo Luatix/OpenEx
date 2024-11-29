@@ -12,6 +12,8 @@ class ErrorBoundaryComponent extends React.Component {
 
   componentDidCatch(error, stack) {
     this.setState({ error, stack });
+    // Send the error to the backend
+    this.sendErrorToBackend(error, info.componentStack);
   }
 
   render() {

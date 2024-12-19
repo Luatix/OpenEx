@@ -2,7 +2,7 @@ package io.openbas.service;
 
 import static io.openbas.database.specification.TeamSpecification.fromScenario;
 import static io.openbas.injectors.email.EmailContract.EMAIL_DEFAULT;
-import static io.openbas.utils.fixtures.InjectFixture.getInjectForEmailContract;
+import static io.openbas.utils.fixtures.InjectFixture.createDefaultInjectEmail;
 import static io.openbas.utils.fixtures.TeamFixture.getTeam;
 import static io.openbas.utils.fixtures.UserFixture.getUser;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -156,7 +156,7 @@ class ScenarioServiceTest {
 
     InjectorContract injectorContract =
         this.injectorContractRepository.findById(EMAIL_DEFAULT).orElseThrow();
-    Inject injectDefaultEmail = getInjectForEmailContract(injectorContract);
+    Inject injectDefaultEmail = createDefaultInjectEmail(injectorContract);
     injectDefaultEmail.setScenario(scenarioSaved);
     injectDefaultEmail.setTeams(List.of(teamSaved));
     Inject injectDefaultEmailSaved = this.injectRepository.saveAndFlush(injectDefaultEmail);

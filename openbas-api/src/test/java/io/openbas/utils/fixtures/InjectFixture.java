@@ -15,19 +15,20 @@ public class InjectFixture {
 
   private static Inject createInject(InjectorContract injectorContract, String title) {
     Inject inject = new Inject();
-    inject.setTitle(INJECT_EMAIL_NAME);
+    inject.setTitle(title);
     inject.setInjectorContract(injectorContract);
     inject.setEnabled(true);
     inject.setDependsDuration(0L);
     return inject;
   }
 
-  public static Inject getInjectForEmailContract(InjectorContract injectorContract) {
+  public static Inject createDefaultInjectEmail(InjectorContract injectorContract) {
     return createInject(injectorContract, INJECT_EMAIL_NAME);
   }
 
   public static Inject createDefaultInjectChallenge(
-      InjectorContract injectorContract, ObjectMapper objectMapper, List<String> challengeIds) {
+      InjectorContract injectorContract, ObjectMapper objectMapper, List<String> challengeIds
+  ) {
     Inject inject = createInject(injectorContract, INJECT_CHALLENGE_NAME);
 
     ChallengeContent content = new ChallengeContent();
@@ -37,7 +38,8 @@ public class InjectFixture {
   }
 
   public static Inject createInjectCommandPayload(
-      InjectorContract injectorContract, Map<String, String> payloadArguments) {
+      InjectorContract injectorContract, Map<String, String> payloadArguments
+  ) {
 
     Inject inject = createInject(injectorContract, "Inject title");
     ObjectMapper objectMapper = new ObjectMapper();

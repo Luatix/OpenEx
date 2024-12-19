@@ -42,10 +42,10 @@ public class AtomicTestingApiTest extends IntegrationTest {
   @BeforeAll
   void beforeAll() {
     INJECTOR_CONTRACT = injectorContractRepository.findById(EMAIL_DEFAULT).orElseThrow();
-    Inject injectWithoutPayload = InjectFixture.getInjectForEmailContract(INJECTOR_CONTRACT);
+    Inject injectWithoutPayload = InjectFixture.createDefaultInjectEmail(INJECTOR_CONTRACT);
     INJECT_WITHOUT_STATUS = injectRepository.save(injectWithoutPayload);
 
-    Inject injectWithPayload = InjectFixture.getInjectForEmailContract(INJECTOR_CONTRACT);
+    Inject injectWithPayload = InjectFixture.createDefaultInjectEmail(INJECTOR_CONTRACT);
     INJECT_WITH_STATUS_AND_COMMAND_LINES = injectRepository.save(injectWithPayload);
     InjectStatus injectStatus = InjectStatusFixture.createDefaultInjectStatus();
     injectStatus.setInject(injectWithPayload);

@@ -7,7 +7,7 @@ import static io.openbas.rest.exercise.ExerciseApi.EXERCISE_URI;
 import static io.openbas.rest.inject.InjectApi.INJECT_URI;
 import static io.openbas.rest.scenario.ScenarioApi.SCENARIO_URI;
 import static io.openbas.utils.JsonUtils.asJsonString;
-import static io.openbas.utils.fixtures.InjectFixture.getInjectForEmailContract;
+import static io.openbas.utils.fixtures.InjectFixture.createDefaultInjectEmail;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS;
 import static org.mockito.Mockito.*;
@@ -389,7 +389,7 @@ class InjectApiTest extends IntegrationTest {
     // -- PREPARE --
     InjectorContract injectorContract =
         this.injectorContractRepository.findById(EMAIL_DEFAULT).orElseThrow();
-    Inject inject = getInjectForEmailContract(injectorContract);
+    Inject inject = createDefaultInjectEmail(injectorContract);
     User user = userRepository.findById(currentUser().getId()).orElseThrow();
     DirectInjectInput input = new DirectInjectInput();
     input.setTitle(inject.getTitle());
@@ -450,7 +450,7 @@ class InjectApiTest extends IntegrationTest {
     // -- PREPARE --
     InjectorContract injectorContract =
         this.injectorContractRepository.findById(EMAIL_DEFAULT).orElseThrow();
-    Inject inject = getInjectForEmailContract(injectorContract);
+    Inject inject = createDefaultInjectEmail(injectorContract);
 
     DirectInjectInput input = new DirectInjectInput();
     input.setTitle(inject.getTitle());
@@ -489,7 +489,7 @@ class InjectApiTest extends IntegrationTest {
     // -- PREPARE --
     InjectorContract injectorContract =
         this.injectorContractRepository.findById(EMAIL_DEFAULT).orElseThrow();
-    Inject inject = getInjectForEmailContract(injectorContract);
+    Inject inject = createDefaultInjectEmail(injectorContract);
 
     DirectInjectInput input = new DirectInjectInput();
     input.setTitle(inject.getTitle());

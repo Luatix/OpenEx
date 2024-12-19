@@ -27,8 +27,7 @@ public class InjectFixture {
   }
 
   public static Inject createDefaultInjectChallenge(
-      InjectorContract injectorContract, ObjectMapper objectMapper, List<String> challengeIds
-  ) {
+      InjectorContract injectorContract, ObjectMapper objectMapper, List<String> challengeIds) {
     Inject inject = createInject(injectorContract, INJECT_CHALLENGE_NAME);
 
     ChallengeContent content = new ChallengeContent();
@@ -38,8 +37,7 @@ public class InjectFixture {
   }
 
   public static Inject createInjectCommandPayload(
-      InjectorContract injectorContract, Map<String, String> payloadArguments
-  ) {
+      InjectorContract injectorContract, Map<String, String> payloadArguments) {
 
     Inject inject = createInject(injectorContract, "Inject title");
     ObjectMapper objectMapper = new ObjectMapper();

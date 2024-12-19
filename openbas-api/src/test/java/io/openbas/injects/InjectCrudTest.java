@@ -10,11 +10,9 @@ import io.openbas.IntegrationTest;
 import io.openbas.database.model.Exercise;
 import io.openbas.database.model.Inject;
 import io.openbas.database.model.InjectorContract;
-import io.openbas.database.repository.ExerciseRepository;
 import io.openbas.database.repository.InjectRepository;
 import io.openbas.database.repository.InjectorContractRepository;
 import io.openbas.rest.exercise.service.ExerciseService;
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -28,16 +26,6 @@ class InjectCrudTest extends IntegrationTest {
   @Autowired private InjectRepository injectRepository;
 
   @Autowired private ExerciseService exerciseService;
-  @Autowired private ExerciseRepository exerciseRepository;
-
-  private static String EXERCISE_ID;
-  private static String INJECT_ID;
-
-  @AfterAll
-  void afterAll() {
-    this.exerciseRepository.deleteById(EXERCISE_ID);
-    this.injectRepository.deleteById(INJECT_ID);
-  }
 
   @DisplayName("Test inject creation with non null depends duration")
   @Test
@@ -45,8 +33,7 @@ class InjectCrudTest extends IntegrationTest {
   void createInjectSuccess() {
     // -- PREPARE --
     Exercise exercise = this.exerciseService.createExercise(getExercise());
-    assertNotNull(exercise.getId(), "Exercise ID should not be null after creation.");
-    EXERCISE_ID = exercise.getId();
+    assertNotNull(exercise.getId(), "Exercise should be successfully created");
 
     InjectorContract contract =
         injectorContractRepository
@@ -57,8 +44,7 @@ class InjectCrudTest extends IntegrationTest {
 
     // -- EXECUTE --
     Inject injectCreated = this.injectRepository.save(inject);
-    assertNotNull(injectCreated.getId(), "Inject ID should not be null after saving.");
-    INJECT_ID = injectCreated.getId();
+    assertNotNull(injectCreated.getId(), "Inject should be successfully created");
 
     // -- VALIDATE --
     assertNotNull(injectCreated.getExercise(), "Inject should reference a valid Exercise.");

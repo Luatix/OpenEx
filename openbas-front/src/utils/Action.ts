@@ -221,8 +221,9 @@ export const sendErrorToBackend = async (error: Error, stack: ErrorInfo) => {
     message: error.message,
     stack: stack.componentStack,
     timestamp: new Date().toISOString(),
+    level: 'ERROR',
   };
-  simplePostCall('/api/logs/frontend-error', errorDetails)
+  simplePostCall('/api/logs/', errorDetails)
     .then((response) => {
       notifySuccess('Error successfully sent to backend:' + response);
     })

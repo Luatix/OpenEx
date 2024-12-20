@@ -20,29 +20,25 @@ public class LogApi extends RestBehavior {
         logger.warn(
             "Message warn received: {} stacktrace: {} at {}",
             logDetailsInput.getMessage(),
-            logDetailsInput.getStack(),
-            logDetailsInput.getTimestamp());
+            logDetailsInput.getStack());
         break;
       case "INFO":
         logger.info(
             "Message info received: {} stacktrace: {} at {}",
             logDetailsInput.getMessage(),
-            logDetailsInput.getStack(),
-            logDetailsInput.getTimestamp());
+            logDetailsInput.getStack());
         break;
       case "DEBUG":
         logger.debug(
             "Message debug received: {} stacktrace: {} at {}",
             logDetailsInput.getMessage(),
-            logDetailsInput.getStack(),
-            logDetailsInput.getTimestamp());
+            logDetailsInput.getStack());
         break;
       default:
         logger.error(
-            "Message error received: {} stacktrace: {} at {}",
+            "Message error received: {} stacktrace: {}",
             logDetailsInput.getMessage(),
-            logDetailsInput.getStack(),
-            logDetailsInput.getTimestamp());
+            logDetailsInput.getStack());
         break;
     }
   }

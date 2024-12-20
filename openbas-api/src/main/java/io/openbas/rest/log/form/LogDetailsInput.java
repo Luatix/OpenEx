@@ -9,6 +9,5 @@ public class LogDetailsInput {
 
   private String message;
   private String stack;
-  private String timestamp;
   private String level;
 }

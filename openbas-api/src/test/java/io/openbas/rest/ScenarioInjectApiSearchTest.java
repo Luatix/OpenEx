@@ -4,7 +4,7 @@ import static io.openbas.database.model.Filters.FilterOperator.contains;
 import static io.openbas.injectors.email.EmailContract.EMAIL_DEFAULT;
 import static io.openbas.rest.scenario.ScenarioApi.SCENARIO_URI;
 import static io.openbas.utils.JsonUtils.asJsonString;
-import static io.openbas.utils.fixtures.InjectFixture.getInjectForEmailContract;
+import static io.openbas.utils.fixtures.InjectFixture.createDefaultInjectEmail;
 import static io.openbas.utils.fixtures.ScenarioFixture.createDefaultCrisisScenario;
 import static org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -52,14 +52,14 @@ public class ScenarioInjectApiSearchTest extends IntegrationTest {
     Scenario scenarioSaved = this.scenarioRepository.save(scenario);
     SCENARIO_ID = scenarioSaved.getId();
 
-    Inject injectDefaultEmail = getInjectForEmailContract(injectorContract);
+    Inject injectDefaultEmail = createDefaultInjectEmail(injectorContract);
     injectDefaultEmail.setScenario(scenarioSaved);
     injectDefaultEmail.setTitle("Inject default email");
     injectDefaultEmail.setDependsDuration(1L);
     Inject injectDefaultEmailSaved = this.injectRepository.save(injectDefaultEmail);
     INJECT_IDS.add(injectDefaultEmailSaved.getId());
 
-    Inject injectDefaultGlobal = getInjectForEmailContract(injectorContract);
+    Inject injectDefaultGlobal = createDefaultInjectEmail(injectorContract);
     injectDefaultGlobal.setScenario(scenarioSaved);
     injectDefaultGlobal.setTitle("Inject global email");
     Inject injectDefaultGlobalSaved = this.injectRepository.save(injectDefaultGlobal);

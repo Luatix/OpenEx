@@ -3,7 +3,7 @@ package io.openbas.rest.exercise;
 import static io.openbas.injectors.email.EmailContract.EMAIL_DEFAULT;
 import static io.openbas.rest.exercise.ExerciseApi.EXERCISE_URI;
 import static io.openbas.utils.JsonUtils.asJsonString;
-import static io.openbas.utils.fixtures.InjectFixture.getInjectForEmailContract;
+import static io.openbas.utils.fixtures.InjectFixture.createDefaultInjectEmail;
 import static java.time.Instant.now;
 import static java.time.temporal.ChronoUnit.MINUTES;
 import static org.junit.jupiter.api.Assertions.*;
@@ -92,26 +92,26 @@ public class ExerciseApiStatusTest {
 
     InjectorContract injectorContract =
         this.injectorContractRepository.findById(EMAIL_DEFAULT).orElseThrow();
-    Inject inject1 = getInjectForEmailContract(injectorContract);
+    Inject inject1 = createDefaultInjectEmail(injectorContract);
     EmailContent content = new EmailContent();
     content.setSubject("Subject email");
     content.setBody("A body");
     inject1.setContent(this.mapper.valueToTree(content));
     inject1.setExercise(scheduledExercise);
 
-    Inject inject2 = getInjectForEmailContract(injectorContract);
+    Inject inject2 = createDefaultInjectEmail(injectorContract);
     inject2.setContent(this.mapper.valueToTree(content));
     inject2.setExercise(runningExercise);
 
-    Inject inject3 = getInjectForEmailContract(injectorContract);
+    Inject inject3 = createDefaultInjectEmail(injectorContract);
     inject3.setContent(this.mapper.valueToTree(content));
     inject3.setExercise(pausedExercise);
 
-    Inject inject4 = getInjectForEmailContract(injectorContract);
+    Inject inject4 = createDefaultInjectEmail(injectorContract);
     inject4.setContent(this.mapper.valueToTree(content));
     inject4.setExercise(canceledExercise);
 
-    Inject inject5 = getInjectForEmailContract(injectorContract);
+    Inject inject5 = createDefaultInjectEmail(injectorContract);
     inject5.setContent(this.mapper.valueToTree(content));
     inject5.setExercise(finishedExercise);
 

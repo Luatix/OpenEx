@@ -15,14 +15,14 @@ public class InjectFixture {
 
   private static Inject createInject(InjectorContract injectorContract, String title) {
     Inject inject = new Inject();
-    inject.setTitle(INJECT_EMAIL_NAME);
+    inject.setTitle(title);
     inject.setInjectorContract(injectorContract);
     inject.setEnabled(true);
     inject.setDependsDuration(0L);
     return inject;
   }
 
-  public static Inject getInjectForEmailContract(InjectorContract injectorContract) {
+  public static Inject createDefaultInjectEmail(InjectorContract injectorContract) {
     return createInject(injectorContract, INJECT_EMAIL_NAME);
   }
 

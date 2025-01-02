@@ -4,7 +4,7 @@ import static io.openbas.injectors.email.EmailContract.EMAIL_DEFAULT;
 import static io.openbas.utils.fixtures.ArticleFixture.ARTICLE_NAME;
 import static io.openbas.utils.fixtures.ArticleFixture.getArticle;
 import static io.openbas.utils.fixtures.DocumentFixture.getDocumentJpeg;
-import static io.openbas.utils.fixtures.InjectFixture.getInjectForEmailContract;
+import static io.openbas.utils.fixtures.InjectFixture.createDefaultInjectEmail;
 import static io.openbas.utils.fixtures.ObjectiveFixture.OBJECTIVE_NAME;
 import static io.openbas.utils.fixtures.ObjectiveFixture.getObjective;
 import static io.openbas.utils.fixtures.TagFixture.getTag;
@@ -211,7 +211,7 @@ class ScenarioToExerciseServiceTest {
 
     // Inject
     Inject inject =
-        getInjectForEmailContract(
+        createDefaultInjectEmail(
             this.injectorContractRepository.findById(EMAIL_DEFAULT).orElseThrow());
     inject.setTeams(
         new ArrayList<>() {

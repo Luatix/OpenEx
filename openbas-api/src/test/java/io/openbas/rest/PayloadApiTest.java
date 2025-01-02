@@ -31,6 +31,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.transaction.annotation.Transactional;
 
 @TestInstance(PER_CLASS)
 class PayloadApiTest extends IntegrationTest {
@@ -52,11 +53,11 @@ class PayloadApiTest extends IntegrationTest {
   @AfterAll
   void afterAll() {
     this.documentRepository.deleteAll(List.of(EXECUTABLE_FILE));
-    this.payloadRepository.deleteAll();
   }
 
   @Test
   @DisplayName("Create Payload")
+  @Transactional
   @WithMockAdminUser
   void createExecutablePayload() throws Exception {
     PayloadCreateInput input = PayloadInputFixture.createDefaultPayloadCreateInputForExecutable();
@@ -77,6 +78,7 @@ class PayloadApiTest extends IntegrationTest {
 
   @Test
   @DisplayName("Creating a Payload with a null as arch should fail")
+  @Transactional
   @WithMockAdminUser
   void createPayloadWithNullArch() throws Exception {
     PayloadCreateInput input = PayloadInputFixture.createDefaultPayloadCreateInputForCommandLine();
@@ -89,6 +91,7 @@ class PayloadApiTest extends IntegrationTest {
   @Test
   @DisplayName(
       "Creating an executable Payload with an arch different from x86_64 or arm64 should fail")
+  @Transactional
   @WithMockAdminUser
   void createExecutablePayloadWithoutArch() throws Exception {
     PayloadCreateInput input = PayloadInputFixture.createDefaultPayloadCreateInputForExecutable();
@@ -107,6 +110,7 @@ class PayloadApiTest extends IntegrationTest {
 
   @Test
   @DisplayName("Update Executable Payload")
+  @Transactional
   @WithMockAdminUser
   void updateExecutablePayload() throws Exception {
     PayloadCreateInput createInput =
@@ -147,6 +151,7 @@ class PayloadApiTest extends IntegrationTest {
 
   @Test
   @DisplayName("Updating an Executed Payload with null as arch should fail")
+  @Transactional
   @WithMockAdminUser
   void updateExecutablePayloadWithoutArch() throws Exception {
     PayloadCreateInput createInput =
@@ -183,6 +188,7 @@ class PayloadApiTest extends IntegrationTest {
 
   @Test
   @DisplayName("Updating a Payload no Executable without arch should set ALL_ARCHITECTURES")
+  @Transactional
   @WithMockAdminUser
   void updatePayloadNoExecutableWithoutArch() throws Exception {
     PayloadCreateInput createInput =
@@ -217,6 +223,7 @@ class PayloadApiTest extends IntegrationTest {
 
   @Test
   @DisplayName("Upsert architecture of a Payload")
+  @Transactional
   @WithMockPlannerUser
   void upsertCommandPayloadToValidateArchitecture() throws Exception {
     Payload payload = payloadRepository.save(PayloadFixture.createDefaultCommand());
@@ -252,6 +259,7 @@ class PayloadApiTest extends IntegrationTest {
 
   @Test
   @DisplayName("Creating Command Line payload with both set executor and content should succeed")
+  @Transactional
   @WithMockAdminUser
   void createCommandLinePayloadWithBothSetExecutorAndContent() throws Exception {
     PayloadCreateInput createInput =
@@ -270,6 +278,7 @@ class PayloadApiTest extends IntegrationTest {
   @Test
   @DisplayName(
       "Creating Command Line payload with both null cleanup executor and command should succeed")
+  @Transactional
   @WithMockAdminUser
   void createCommandLinePayloadWithBothNullCleanupExecutorAndCommand() throws Exception {
     PayloadCreateInput createInput =
@@ -288,6 +297,7 @@ class PayloadApiTest extends IntegrationTest {
   @Test
   @DisplayName(
       "Creating Command Line payload with both set cleanup executor and command should succeed")
+  @Transactional
   @WithMockAdminUser
   void createCommandLinePayloadWithBothSetCleanupExecutorAndCommand() throws Exception {
     PayloadCreateInput createInput =
@@ -306,6 +316,7 @@ class PayloadApiTest extends IntegrationTest {
   @Test
   @DisplayName(
       "Creating Command Line payload with only set cleanup executor and null command should fail")
+  @Transactional
   @WithMockAdminUser
   void createCommandLinePayloadWithOnlySetCleanupExecutorAndNullCommand() throws Exception {
     PayloadCreateInput createInput =
@@ -324,6 +335,7 @@ class PayloadApiTest extends IntegrationTest {
   @Test
   @DisplayName(
       "Creating Command Line payload with only set cleanup command and null executor should fail")
+  @Transactional
   @WithMockAdminUser
   void createCommandLinePayloadWithOnlySetCommandAndNullExecutor() throws Exception {
     PayloadCreateInput createInput =
@@ -342,6 +354,7 @@ class PayloadApiTest extends IntegrationTest {
   @Test
   @DisplayName(
       "Updating Command Line payload with only set cleanup command and null executor should fail")
+  @Transactional
   @WithMockAdminUser
   void updateCommandLinePayloadWithOnlySetCommandAndNullExecutor() throws Exception {
     PayloadCreateInput createInput =
@@ -380,6 +393,7 @@ class PayloadApiTest extends IntegrationTest {
   @Test
   @DisplayName(
       "Duplicating a Community and Verified Payload should result in a Manual and Unverified Payload")
+  @Transactional
   @WithMockAdminUser
   void duplicateExecutablePayload() throws Exception {
     PayloadCreateInput createInput =
@@ -420,6 +434,7 @@ class PayloadApiTest extends IntegrationTest {
 
   @Test
   @DisplayName("Process Deprecated Payloads")
+  @Transactional
   @WithMockAdminUser
   void processDeprecatedPayloads() throws Exception {
     String collectorId = "039eee9b-b95d-4b11-95bb-a9ac233f1738";

@@ -28,8 +28,8 @@ import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.transaction.annotation.Transactional;
 
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @TestInstance(PER_CLASS)
 class ChallengeApiTest extends IntegrationTest {
 
@@ -41,50 +41,34 @@ class ChallengeApiTest extends IntegrationTest {
   @Autowired private InjectorContractRepository injectorContractRepository;
   @Resource private ObjectMapper objectMapper;
 
-  private static String SCENARIO_ID;
-  private static String CHALLENGE_ID;
-  private static String INJECT_ID;
-
-  @AfterAll
-  void afterAll() {
-    this.scenarioService.deleteScenario(SCENARIO_ID);
-    this.challengeRepository.deleteById(CHALLENGE_ID);
-    this.injectRepository.deleteById(INJECT_ID);
-  }
-
   // -- SCENARIOS --
 
   @DisplayName("Retrieve challenges for scenario")
   @Test
-  @Order(1)
+  @Transactional
   @WithMockObserverUser
   void retrieveChallengesVariableForScenarioTest() throws Exception {
     // -- PREPARE --
-    Scenario scenario = createDefaultCrisisScenario();
-    Scenario scenarioCreated = this.scenarioService.createScenario(scenario);
+    Scenario scenarioCreated = this.scenarioService.createScenario(createDefaultCrisisScenario());
     assertNotNull(scenarioCreated, "Scenario should be successfully created");
-    SCENARIO_ID = scenarioCreated.getId();
 
-    Challenge challenge = createDefaultChallenge();
-    Challenge challengeCreated = this.challengeRepository.save(challenge);
+    Challenge challengeCreated = this.challengeRepository.save(createDefaultChallenge());
     assertNotNull(challengeCreated, "Challenge should be successfully created");
-    CHALLENGE_ID = challengeCreated.getId();
 
     Inject inject =
         createDefaultInjectChallenge(
             this.injectorContractRepository.findById(CHALLENGE_PUBLISH).orElseThrow(),
             this.objectMapper,
-            List.of(CHALLENGE_ID));
+            List.of(challengeCreated.getId()));
     inject.setScenario(scenarioCreated);
     Inject injectCreated = this.injectRepository.save(inject);
     assertNotNull(injectCreated, "Inject should be successfully created");
-    INJECT_ID = injectCreated.getId();
 
     // -- EXECUTE --
     String response =
         this.mvc
             .perform(
-                get(SCENARIO_URI + "/" + SCENARIO_ID + "/challenges")
+                get(SCENARIO_URI + "/" + scenarioCreated.getId() + "/challenges")
                     .accept(MediaType.APPLICATION_JSON))
             .andExpect(status().is2xxSuccessful())
             .andReturn()
@@ -94,7 +78,7 @@ class ChallengeApiTest extends IntegrationTest {
     // -- ASSERT --
     assertNotNull(response, "Response should not be null");
     assertEquals(
-        challenge.getName(),
+        challengeCreated.getName(),
         JsonPath.read(response, "$[0].challenge_name"),
         "Challenge name should match the expected value");
   }

@@ -18,19 +18,19 @@ public class LogApi extends RestBehavior {
     switch (logDetailsInput.getLevel()) {
       case "WARN":
         logger.warn(
-            "Message warn received: {} stacktrace: {} at {}",
+            "Message warn received: {} stacktrace: {}",
             logDetailsInput.getMessage(),
             logDetailsInput.getStack());
         break;
       case "INFO":
         logger.info(
-            "Message info received: {} stacktrace: {} at {}",
+            "Message info received: {} stacktrace: {}",
             logDetailsInput.getMessage(),
             logDetailsInput.getStack());
         break;
       case "DEBUG":
         logger.debug(
-            "Message debug received: {} stacktrace: {} at {}",
+            "Message debug received: {} stacktrace: {}",
             logDetailsInput.getMessage(),
             logDetailsInput.getStack());
         break;

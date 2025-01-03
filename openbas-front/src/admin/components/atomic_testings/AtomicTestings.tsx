@@ -73,7 +73,7 @@ const AtomicTestings = () => {
           <ButtonCreate onClick={() => setOpenCreateDrawer(true)} />
           <TeamContext.Provider value={teamContextForAtomicTesting()}>
             <CreateInject
-              title={t('Create a new atomic test')}
+              title={t(null)}
               onCreateInject={onCreateAtomicTesting}
               isAtomic
               open={openCreateDrawer}

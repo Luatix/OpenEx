@@ -1,7 +1,6 @@
 package io.openbas.rest.asset.endpoint;
 
-import static io.openbas.database.model.User.ROLE_ADMIN;
-import static io.openbas.database.model.User.ROLE_USER;
+import static io.openbas.database.model.User.*;
 import static io.openbas.database.specification.EndpointSpecification.fromIds;
 import static io.openbas.executors.openbas.OpenBASExecutor.OPENBAS_EXECUTOR_ID;
 import static io.openbas.helper.StreamHelper.iterableToSet;
@@ -74,7 +73,7 @@ public class EndpointApi {
     return this.endpointService.createEndpoint(endpoint);
   }
 
-  @Secured(ROLE_ADMIN)
+  @Secured(ROLE_AGENT)
   @PostMapping(ENDPOINT_URI + "/register")
   @Transactional(rollbackFor = Exception.class)
   public Endpoint upsertEndpoint(@Valid @RequestBody final EndpointRegisterInput input)
@@ -129,8 +128,8 @@ public class EndpointApi {
     return updatedEndpoint;
   }
 
+  @Secured(ROLE_AGENT)
   @GetMapping(ENDPOINT_URI + "/jobs/{endpointExternalReference}")
-  @PreAuthorize("isPlanner()")
   @Transactional(rollbackFor = Exception.class)
   public List<AssetAgentJob> getEndpointJobs(
       @PathVariable @NotBlank final String endpointExternalReference) {
@@ -138,8 +137,8 @@ public class EndpointApi {
         AssetAgentJobSpecification.forEndpoint(endpointExternalReference));
   }
 
+  @Secured(ROLE_AGENT)
   @PostMapping(ENDPOINT_URI + "/jobs/{assetAgentJobId}")
-  @PreAuthorize("isPlanner()")
   @Transactional(rollbackFor = Exception.class)
   public void cleanupAssetAgentJob(@PathVariable @NotBlank final String assetAgentJobId) {
     this.assetAgentJobRepository.deleteById(assetAgentJobId);

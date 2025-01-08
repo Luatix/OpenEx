@@ -23,6 +23,8 @@ import java.io.InputStream;
 import java.net.URL;
 import java.time.Instant;
 import java.util.Optional;
+import java.util.UUID;
+
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -215,6 +217,8 @@ public class ExecutorApi extends RestBehavior {
     if (resolvedToken.isEmpty()) {
       throw new UnsupportedOperationException("Invalid token");
     }
+    //todo pass agent token
+    token.setValue(UUID.randomUUID().toString());
     String installCommand = this.endpointService.generateInstallCommand(platform, token);
     return ResponseEntity.ok().contentType(MediaType.TEXT_PLAIN).body(installCommand);
   }

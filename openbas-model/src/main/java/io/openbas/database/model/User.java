@@ -40,6 +40,7 @@ public class User implements Base {
   public static final String ADMIN_LASTNAME = "openbas";
   public static final String ROLE_ADMIN = "ROLE_ADMIN";
   public static final String ROLE_USER = "ROLE_USER";
+  public static final String ROLE_AGENT = "ROLE_AGENT";
   public static final String THEME_DEFAULT = "default";
   public static final String LANG_AUTO = "auto";
 

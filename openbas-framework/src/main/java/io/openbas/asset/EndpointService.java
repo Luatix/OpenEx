@@ -100,7 +100,7 @@ public class EndpointService {
     this.endpointRepository.deleteById(endpointId);
   }
 
-  public String getFileOrDownloadFromJfrog(String platform, String file, String adminToken)
+  public String getFileOrDownloadFromJfrog(String platform, String file, String token)
       throws IOException {
     String extension =
         switch (platform.toLowerCase()) {
@@ -127,7 +127,7 @@ public class EndpointService {
 
     return IOUtils.toString(in, StandardCharsets.UTF_8)
         .replace("${OPENBAS_URL}", openBASConfig.getBaseUrlForAgent())
-        .replace("${OPENBAS_TOKEN}", adminToken)
+        .replace("${OPENBAS_TOKEN}", token)
         .replace(
             "${OPENBAS_UNSECURED_CERTIFICATE}",
             String.valueOf(openBASConfig.isUnsecuredCertificate()))

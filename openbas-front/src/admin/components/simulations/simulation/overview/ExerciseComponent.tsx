@@ -81,7 +81,7 @@ const ExerciseComponent = () => {
       >
         <Grid item xs={6} style={{ paddingTop: 10 }}>
           <Typography variant="h4" gutterBottom>
-            {t(null)}
+            {t('Information')}
           </Typography>
           <ExerciseMainInformation exercise={exercise} />
         </Grid>

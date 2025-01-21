@@ -26,6 +26,7 @@ import io.openbas.service.MailingService;
 import io.openbas.service.UserService;
 import io.openbas.telemetry.Tracing;
 import io.openbas.utils.pagination.SearchPaginationInput;
+import io.swagger.v3.oas.annotations.ExternalDocumentation;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -51,7 +52,13 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @UserRoleDescription
-@Tag(name = "Users management")
+@Tag(
+    name = "Users management",
+    description = "Endpoints to manage users",
+    externalDocs =
+        @ExternalDocumentation(
+            description = "Documentation about users",
+            url = "https://docs.openbas.io/latest/administration/users/"))
 public class UserApi extends RestBehavior {
 
   public static final String USER_URI = "/api/users";

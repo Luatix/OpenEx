@@ -32,6 +32,7 @@ import io.openbas.rest.team.output.TeamOutput;
 import io.openbas.service.TeamService;
 import io.openbas.telemetry.Tracing;
 import io.openbas.utils.pagination.SearchPaginationInput;
+import io.swagger.v3.oas.annotations.ExternalDocumentation;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -53,7 +54,14 @@ import org.springframework.web.bind.annotation.*;
 @Secured(ROLE_USER)
 @RequiredArgsConstructor
 @UserRoleDescription
-@Tag(name = "Teams management")
+@Tag(
+    name = "Teams management",
+    description = "Endpoints to manage teams",
+    externalDocs =
+        @ExternalDocumentation(
+            description = "Documentation about teams",
+            url =
+                "https://docs.openbas.io/latest/usage/teams_and_players_and_organizations/#teams"))
 public class TeamApi extends RestBehavior {
 
   public static final String TEAM_URI = "/api/teams";

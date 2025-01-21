@@ -22,7 +22,7 @@ public class TagRuleOutput {
 
   @NotBlank(message = MANDATORY_MESSAGE)
   @JsonProperty("tag_name")
-  @Schema(description = "Name of the tag rule")
+  @Schema(description = "Name of the tag associated with the tag rule")
   private String tagName;
 
   @JsonProperty("asset_groups")

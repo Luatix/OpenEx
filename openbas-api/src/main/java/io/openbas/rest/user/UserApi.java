@@ -5,6 +5,7 @@ import static io.openbas.database.specification.UserSpecification.fromIds;
 import static io.openbas.helper.DatabaseHelper.updateRelation;
 import static io.openbas.helper.StreamHelper.iterableToSet;
 
+import io.openbas.aop.UserRoleDescription;
 import io.openbas.config.SessionManager;
 import io.openbas.database.model.User;
 import io.openbas.database.raw.RawUser;
@@ -25,6 +26,13 @@ import io.openbas.service.MailingService;
 import io.openbas.service.UserService;
 import io.openbas.telemetry.Tracing;
 import io.openbas.utils.pagination.SearchPaginationInput;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -42,6 +50,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@UserRoleDescription
+@Tag(name = "Users management")
 public class UserApi extends RestBehavior {
 
   public static final String USER_URI = "/api/users";
@@ -85,7 +95,16 @@ public class UserApi extends RestBehavior {
     this.userCriteriaBuilderService = userCriteriaBuilderService;
   }
 
+  @Operation(description = "Endpoint to login", summary = "Endpoint to login")
+  @ApiResponses(
+      value = {
+        @ApiResponse(
+            responseCode = "200",
+            description = "Login successful",
+            content = @Content(schema = @Schema(implementation = User.class))),
+      })
   @PostMapping("/api/login")
+  @UserRoleDescription(needAuthenticated = false)
   public User login(@Valid @RequestBody LoginUserInput input) {
     Optional<User> optionalUser = userRepository.findByEmailIgnoreCase(input.getLogin());
     if (optionalUser.isPresent()) {
@@ -98,6 +117,12 @@ public class UserApi extends RestBehavior {
     throw new BadCredentialsException("Invalid credential.");
   }
 
+  @Operation(description = "Reset the password", summary = "Password reset")
+  @ApiResponses(
+      value = {
+        @ApiResponse(responseCode = "200", description = "Mail to reset the password sent"),
+        @ApiResponse(responseCode = "400", description = "The user was not found")
+      })
   @PostMapping("/api/reset")
   public ResponseEntity<?> passwordReset(@Valid @RequestBody ResetUserInput input) {
     Optional<User> optionalUser = userRepository.findByEmailIgnoreCase(input.getLogin());
@@ -133,9 +158,18 @@ public class UserApi extends RestBehavior {
     return ResponseEntity.badRequest().build();
   }
 
+  @Operation(description = "Change the password", summary = "Password change")
+  @ApiResponses(
+      value = {
+        @ApiResponse(
+            responseCode = "200",
+            description = "The password was changed",
+            content = @Content(schema = @Schema(implementation = User.class))),
+      })
   @PostMapping("/api/reset/{token}")
   public User changePasswordReset(
-      @PathVariable String token, @Valid @RequestBody ChangePasswordInput input)
+      @PathVariable @Schema(description = "Token generated during reset") String token,
+      @Valid @RequestBody ChangePasswordInput input)
       throws InputValidationException {
     String userId = resetTokenMap.get(token);
     if (userId != null) {
@@ -154,35 +188,59 @@ public class UserApi extends RestBehavior {
     throw new AccessDeniedException("Invalid credentials");
   }
 
+  @Operation(
+      description = "Validate that the reset token does exist",
+      summary = "Check reset token")
+  @ApiResponses(
+      value = {
+        @ApiResponse(
+            responseCode = "200",
+            description = "Mail to reset the password sent",
+            content = @Content(schema = @Schema(implementation = Boolean.class))),
+      })
   @GetMapping("/api/reset/{token}")
-  public boolean validatePasswordResetToken(@PathVariable String token) {
+  public boolean validatePasswordResetToken(
+      @PathVariable @Schema(description = "Token generated during reset") String token) {
     return resetTokenMap.get(token) != null;
   }
 
+  @Operation(description = "List all the users", summary = "List users")
+  @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "The list of users")})
   @Secured(ROLE_ADMIN)
   @GetMapping("/api/users")
   public List<RawUser> users() {
     return userRepository.rawAll();
   }
 
+  @Operation(
+      description = "Search the users corresponding to the criteria",
+      summary = "Search users")
+  @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "The list of users")})
   @PostMapping(USER_URI + "/search")
   public Page<UserOutput> users(
       @RequestBody @Valid final SearchPaginationInput searchPaginationInput) {
     return this.userCriteriaBuilderService.userPagination(searchPaginationInput);
   }
 
+  @Operation(description = "Find a list of users based on their ids", summary = "Find users")
+  @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "The list of users")})
   @PostMapping(USER_URI + "/find")
   @Transactional(readOnly = true)
   @Tracing(name = "Find users", layer = "api", operation = "POST")
-  public List<UserOutput> findUsers(@RequestBody @Valid @NotNull final List<String> userIds) {
+  public List<UserOutput> findUsers(
+      @RequestBody @Valid @NotNull @Parameter(description = "List of ids")
+          final List<String> userIds) {
     return this.userCriteriaBuilderService.find(fromIds(userIds));
   }
 
   @Secured(ROLE_ADMIN)
   @PutMapping("/api/users/{userId}/password")
   @Transactional(rollbackFor = Exception.class)
+  @Operation(description = "Change the password of a user", summary = "Change password")
+  @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "The modified user")})
   public User changePassword(
-      @PathVariable String userId, @Valid @RequestBody ChangePasswordInput input) {
+      @PathVariable @Schema(description = "ID of the user") String userId,
+      @Valid @RequestBody ChangePasswordInput input) {
     User user = userRepository.findById(userId).orElseThrow(ElementNotFoundException::new);
     user.setPassword(userService.encodeUserPassword(input.getPassword()));
     return userRepository.save(user);
@@ -191,6 +249,8 @@ public class UserApi extends RestBehavior {
   @Secured(ROLE_ADMIN)
   @PostMapping("/api/users")
   @Transactional(rollbackFor = Exception.class)
+  @Operation(description = "Create a new user", summary = "Create user")
+  @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "The new user")})
   public User createUser(@Valid @RequestBody CreateUserInput input) {
     return userService.createUser(input, 1);
   }
@@ -198,7 +258,11 @@ public class UserApi extends RestBehavior {
   @Secured(ROLE_ADMIN)
   @PutMapping("/api/users/{userId}")
   @Transactional(rollbackFor = Exception.class)
-  public User updateUser(@PathVariable String userId, @Valid @RequestBody UpdateUserInput input) {
+  @Operation(description = "Update a user", summary = "Update user")
+  @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "The modified user")})
+  public User updateUser(
+      @PathVariable @Schema(description = "ID of the user") String userId,
+      @Valid @RequestBody UpdateUserInput input) {
     User user = userRepository.findById(userId).orElseThrow(ElementNotFoundException::new);
     user.setUpdateAttributes(input);
     user.setTags(iterableToSet(tagRepository.findAllById(input.getTagIds())));
@@ -212,7 +276,9 @@ public class UserApi extends RestBehavior {
   @Secured(ROLE_ADMIN)
   @DeleteMapping("/api/users/{userId}")
   @Transactional(rollbackFor = Exception.class)
-  public void deleteUser(@PathVariable String userId) {
+  @Operation(description = "Delete a user", summary = "Delete user")
+  @ApiResponses(value = {@ApiResponse(responseCode = "200")})
+  public void deleteUser(@PathVariable @Schema(description = "ID of the user") String userId) {
     sessionManager.invalidateUserSession(userId);
     userRepository.deleteById(userId);
   }

@@ -43,6 +43,8 @@ public class User implements Base {
   public static final String THEME_DEFAULT = "default";
   public static final String LANG_AUTO = "auto";
 
+  public static final List<String> ALL_ROLES = Arrays.asList(ROLE_ADMIN, ROLE_USER);
+
   @Setter
   @Id
   @Column(name = "user_id")
@@ -50,30 +52,35 @@ public class User implements Base {
   @UuidGenerator
   @JsonProperty("user_id")
   @NotBlank
+  @Schema(description = "User ID")
   private String id;
 
   @Setter
   @Column(name = "user_firstname")
   @JsonProperty("user_firstname")
   @Queryable(filterable = true, searchable = true, sortable = true)
+  @Schema(description = "First name of the user")
   private String firstname;
 
   @Setter
   @Column(name = "user_lastname")
   @JsonProperty("user_lastname")
   @Queryable(filterable = true, searchable = true, sortable = true)
+  @Schema(description = "Last name of the user")
   private String lastname;
 
   @Getter(NONE)
   @Setter
   @Column(name = "user_lang")
   @JsonProperty("user_lang")
+  @Schema(description = "Language of the user")
   private String lang = LANG_AUTO;
 
   @Getter(NONE)
   @Setter
   @Column(name = "user_theme")
   @JsonProperty("user_theme")
+  @Schema(description = "Theme of the user")
   private String theme = THEME_DEFAULT;
 
   @Getter(NONE)
@@ -81,27 +88,32 @@ public class User implements Base {
   @JsonProperty("user_email")
   @Queryable(filterable = true, searchable = true, sortable = true)
   @NotBlank
+  @Schema(description = "Email of the user")
   private String email;
 
   @Setter
   @Column(name = "user_phone")
   @JsonProperty("user_phone")
+  @Schema(description = "Phone number of the user")
   private String phone;
 
   @Setter
   @Column(name = "user_phone2")
   @JsonProperty("user_phone2")
+  @Schema(description = "Secondary phone number of the user")
   private String phone2;
 
   @Setter
   @Column(name = "user_pgp_key")
   @JsonProperty("user_pgp_key")
+  @Schema(description = "PGP key of the user")
   private String pgpKey;
 
   @Setter
   @Column(name = "user_status")
   @JsonProperty("user_status")
   @NotNull
+  @Schema(description = "Status of the user")
   private Short status = 0;
 
   @Setter
@@ -113,12 +125,14 @@ public class User implements Base {
   @Column(name = "user_created_at")
   @JsonProperty("user_created_at")
   @NotNull
+  @Schema(description = "Creation date of the user")
   private Instant createdAt = now();
 
   @Setter
   @Column(name = "user_updated_at")
   @JsonProperty("user_updated_at")
   @NotNull
+  @Schema(description = "Update date of the user")
   private Instant updatedAt = now();
 
   @Setter
@@ -127,23 +141,26 @@ public class User implements Base {
   @JsonSerialize(using = MonoIdDeserializer.class)
   @JsonProperty("user_organization")
   @Queryable(dynamicValues = true, filterable = true, sortable = true, path = "organization.id")
-  @Schema(type = "string")
+  @Schema(description = "Organization of the user", type = "string")
   private Organization organization;
 
   @Setter
   @Column(name = "user_admin")
   @JsonProperty("user_admin")
   @Queryable(filterable = true, sortable = true)
+  @Schema(description = "True if the user is admin")
   private boolean admin = false;
 
   @Setter
   @Column(name = "user_country")
   @JsonProperty("user_country")
+  @Schema(description = "Country of the user")
   private String country;
 
   @Setter
   @Column(name = "user_city")
   @JsonProperty("user_city")
+  @Schema(description = "City of the user")
   private String city;
 
   @ArraySchema(schema = @Schema(type = "string"))
@@ -156,6 +173,7 @@ public class User implements Base {
       inverseJoinColumns = @JoinColumn(name = "group_id"))
   @JsonSerialize(using = MultiIdListDeserializer.class)
   @JsonProperty("user_groups")
+  @Schema(description = "Groups of the user")
   private List<Group> groups = new ArrayList<>();
 
   @ArraySchema(schema = @Schema(type = "string"))
@@ -167,6 +185,7 @@ public class User implements Base {
       inverseJoinColumns = @JoinColumn(name = "team_id"))
   @JsonSerialize(using = MultiIdListDeserializer.class)
   @JsonProperty("user_teams")
+  @Schema(description = "Teams of the user")
   private List<Team> teams = new ArrayList<>();
 
   @ArraySchema(schema = @Schema(type = "string"))
@@ -179,6 +198,7 @@ public class User implements Base {
   @JsonSerialize(using = MultiIdSetDeserializer.class)
   @JsonProperty("user_tags")
   @Queryable(dynamicValues = true, filterable = true, sortable = true, path = "tags.id")
+  @Schema(description = "Tags of the user")
   private Set<Tag> tags = new HashSet<>();
 
   @ArraySchema(schema = @Schema(type = "string"))
@@ -190,6 +210,7 @@ public class User implements Base {
       inverseJoinColumns = @JoinColumn(name = "communication_id"))
   @JsonSerialize(using = MultiIdListDeserializer.class)
   @JsonProperty("user_communications")
+  @Schema(description = "Communications of the user")
   private List<Communication> communications = new ArrayList<>();
 
   @Setter
@@ -222,11 +243,13 @@ public class User implements Base {
   }
 
   @JsonProperty("user_gravatar")
+  @Schema(description = "Gravatar of the user")
   public String getGravatar() {
     return UserHelper.getGravatar(getEmail());
   }
 
   @JsonProperty("user_is_planner")
+  @Schema(description = "True if the user is planner")
   public boolean isPlanner() {
     return isAdmin()
         || getGroups().stream()
@@ -235,21 +258,25 @@ public class User implements Base {
   }
 
   @JsonProperty("user_is_observer")
+  @Schema(description = "True if the user is observer")
   public boolean isObserver() {
     return isAdmin() || getGroups().stream().mapToLong(group -> group.getGrants().size()).sum() > 0;
   }
 
   @JsonProperty("user_is_manager")
+  @Schema(description = "True if the user is manager")
   public boolean isManager() {
     return isPlanner() || isObserver();
   }
 
   @JsonProperty("user_is_player")
+  @Schema(description = "True if the user is player")
   public boolean isPlayer() {
     return isAdmin() || isPlanner() || isObserver() || !getTeams().isEmpty();
   }
 
   @JsonProperty("user_last_comcheck")
+  @Schema(description = "Last communication of ther user")
   public Optional<Instant> getLastComcheck() {
     return getComcheckStatuses().stream()
         .filter(comcheckStatus -> comcheckStatus.getReceiveDate().isPresent())
@@ -258,6 +285,7 @@ public class User implements Base {
   }
 
   @JsonProperty("user_is_external")
+  @Schema(description = "True if the user is external")
   public boolean isExternal() {
     return this.getId().equals(ADMIN_UUID);
   }
@@ -268,6 +296,7 @@ public class User implements Base {
   }
 
   @JsonProperty("user_is_only_player")
+  @Schema(description = "True if the user is only a player")
   public boolean isOnlyPlayer() {
     return !isAdmin() && !isManager();
   }

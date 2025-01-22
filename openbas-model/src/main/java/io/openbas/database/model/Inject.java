@@ -1,6 +1,5 @@
 package io.openbas.database.model;
 
-import static io.openbas.database.model.Endpoint.ENDPOINT_TYPE;
 import static io.openbas.database.specification.InjectSpecification.VALID_TESTABLE_TYPES;
 import static java.time.Instant.now;
 import static java.util.Optional.ofNullable;

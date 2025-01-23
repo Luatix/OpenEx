@@ -4,13 +4,9 @@ import { describe, expect, it, vi } from 'vitest';
 import {createDefaultTags, createTagMap} from "../../fixtures/api-types.fixtures";
 import { faker } from '@faker-js/faker';
 import TestRootComponent from "../../fixtures/TestRootComponent";
-import type { TagHelper as TagHelperType } from '../../../actions/helper';
-import {fetchTags } from '../../../actions/Tag'
 import React from "react";
-import {useAppDispatch} from "../../../utils/hooks";
-import useDataLoader from "../../../utils/hooks/useDataLoader";
-import {fetchPlatformParameters} from "../../../actions/Application";
-import { store } from '../../../store'
+import Intermediate from "../../fixtures/Intermediate";
+import {storeHelper} from "../../../actions/Schema";
 
 /* eslint-disable  @typescript-eslint/no-explicit-any */
 type testobj = { [key: string]: any };
@@ -39,23 +35,37 @@ describe('Generic export button', () => {
     for(let obj of exportData) {
         obj[`${exportType}_tags`] = tags.map(t => t.tag_id);
     }
-    vi.mock(
-        '../../../actions/Tag',
-        () => ({fetchTags: () => tagMap})
+    vi.doMock(import('../../../actions/Schema'),
+        async () => {
+            const orig = await vi.importActual('../../../actions/Schema');
+            let _cache: any = null;
+            const mockGetTagsMap = vi.fn(() => tagMap);
+            const mock = (state: any) => {
+                if(!_cache) {
+                    console.log("HI ctor")
+                    // @ts-ignore
+                    const helper = orig.storeHelper(state);
+                    helper.getTagsMap = mockGetTagsMap;
+                    _cache = helper;
+                }
+                return _cache;
+            };
+            return { ...orig, storeHelper: mock };
+        }
     );
-
-    useAppDispatch()(fetchTags())
 
     it("does something", async () => {
         const { getByRole } = render(
             <TestRootComponent>
+                <Intermediate testData={tagMap}>
                 <ExportButton totalElements={numberOfElements} exportProps={{
                     exportType: exportType,
                     exportKeys: exportKeys,
                     exportData: [createObjWithDefaultKeys(exportType)],
                     exportFileName: "export.csv"
-                }} />
-            </TestRootComponent>,
+                }}/>
+                </Intermediate>
+            </TestRootComponent>
         );
         await act(async () => {
             const firstname = getByRole("link");

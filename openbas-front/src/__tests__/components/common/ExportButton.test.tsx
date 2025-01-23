@@ -35,17 +35,20 @@ describe('Generic export button', () => {
     for(let obj of exportData) {
         obj[`${exportType}_tags`] = tags.map(t => t.tag_id);
     }
-    vi.doMock(import('../../../actions/Schema'),
+
+    const { mockedMethod } = vi.hoisted(() => {
+        return { mockedMethod: vi.fn() }
+    })
+
+    vi.mock(import('../../../actions/Schema'),
         async () => {
             const orig = await vi.importActual('../../../actions/Schema');
             let _cache: any = null;
-            const mockGetTagsMap = vi.fn(() => tagMap);
             const mock = (state: any) => {
                 if(!_cache) {
-                    console.log("HI ctor")
                     // @ts-ignore
                     const helper = orig.storeHelper(state);
-                    helper.getTagsMap = mockGetTagsMap;
+                    helper.getTagsMap = mockedMethod;
                     _cache = helper;
                 }
                 return _cache;
@@ -54,6 +57,8 @@ describe('Generic export button', () => {
         }
     );
 
+    mockedMethod.mockReturnValue(tagMap);
+
     it("does something", async () => {
         const { getByRole } = render(
             <TestRootComponent>
@@ -61,7 +66,7 @@ describe('Generic export button', () => {
                 <ExportButton totalElements={numberOfElements} exportProps={{
                     exportType: exportType,
                     exportKeys: exportKeys,
-                    exportData: [createObjWithDefaultKeys(exportType)],
+                    exportData: exportData,
                     exportFileName: "export.csv"
                 }}/>
                 </Intermediate>

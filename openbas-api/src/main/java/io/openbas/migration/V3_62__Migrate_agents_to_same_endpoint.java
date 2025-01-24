@@ -15,6 +15,8 @@ public class V3_62__Migrate_agents_to_same_endpoint extends BaseJavaMigration {
     // At the end, delete endpoints no longer linked to an agent.
     select.execute(
         """
+                -- update hostnames to have lowercase for every executors
+                UPDATE assets SET endpoint_hostname = lower(endpoint_hostname) WHERE asset_type='Endpoint';
                 -- create temp asset table to group the identical endpoints
                 CREATE TABLE temp_assets
                 AS SELECT count(asset_id), cast(array_agg(asset_id) AS VARCHAR) AS array_asset_id, min(asset_id) AS uniq_asset_id, endpoint_hostname, endpoint_platform, endpoint_arch

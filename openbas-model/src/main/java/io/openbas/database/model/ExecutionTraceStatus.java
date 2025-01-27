@@ -15,6 +15,6 @@ public enum ExecutionTraceStatus {
   MAYBE_PARTIAL_PREVENTED,
 
   // Other informations
-  ASSET_INACTIVE,
+  AGENT_INACTIVE,
   INFO,
 }

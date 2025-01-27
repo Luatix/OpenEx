@@ -112,6 +112,14 @@ public class Endpoint extends Asset {
     return this.agents.getFirst().isActive();
   }
 
+  public String getHostname() {
+    return hostname.toLowerCase();
+  }
+
+  public void setHostname(String hostname) {
+    this.hostname = hostname.toLowerCase();
+  }
+
   public Endpoint() {}
 
   public Endpoint(String id, String type, String name, PLATFORM_TYPE platform) {

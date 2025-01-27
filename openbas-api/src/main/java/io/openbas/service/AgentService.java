@@ -14,8 +14,16 @@ public class AgentService {
 
   private final AgentRepository agentRepository;
 
+  public List<Agent> getAgentsByAssetIds(List<String> assetIds) {
+    return agentRepository.findByAssetIds(assetIds);
+  }
+
+  public List<Agent> getAgentsByAssetGroupIds(List<String> assetGroupIds) {
+    return agentRepository.findByAssetGroupIds(assetGroupIds);
+  }
+
   public Map<String, List<Agent>> getAgentsGroupedByAsset(List<String> assetIds) {
-    List<Agent> agents = agentRepository.findAgentsByAssetIds(assetIds);
+    List<Agent> agents = agentRepository.findByAssetIds(assetIds);
 
     return agents.stream()
         .filter(Agent::isActive)

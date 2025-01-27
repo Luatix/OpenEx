@@ -159,7 +159,7 @@ class EndpointApiTest extends IntegrationTest {
             .getContentAsString();
 
     // --ASSERT--
-    assertEquals(newName.toLowerCase(), JsonPath.read(response, "$.asset_name"));
+    assertEquals(newName, JsonPath.read(response, "$.asset_name"));
   }
 
   @DisplayName("Given valid input, should delete an endpoint successfully")

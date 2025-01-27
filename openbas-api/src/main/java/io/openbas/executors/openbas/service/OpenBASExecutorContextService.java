@@ -44,7 +44,9 @@ public class OpenBASExecutorContextService {
   }
 
   public void launchExecutorSubprocess(
-      @NotNull final Inject inject, @NotNull final Endpoint assetEndpoint) {
+      @NotNull final Inject inject,
+      @NotNull final Endpoint assetEndpoint,
+      @NotNull final Agent agent) {
     Endpoint.PLATFORM_TYPE platform =
         Objects.equals(assetEndpoint.getType(), "Endpoint") ? assetEndpoint.getPlatform() : null;
     Endpoint.PLATFORM_ARCH arch =
@@ -53,9 +55,8 @@ public class OpenBASExecutorContextService {
       throw new RuntimeException("Unsupported null platform");
     }
     AssetAgentJob assetAgentJob = new AssetAgentJob();
-    assetAgentJob.setCommand(
-        computeCommand(inject, assetEndpoint.getAgents().getFirst().getId(), platform, arch));
-    assetAgentJob.setAgent(assetEndpoint.getAgents().getFirst());
+    assetAgentJob.setCommand(computeCommand(inject, agent.getId(), platform, arch));
+    assetAgentJob.setAgent(agent);
     assetAgentJob.setInject(inject);
     assetAgentJobRepository.save(assetAgentJob);
   }

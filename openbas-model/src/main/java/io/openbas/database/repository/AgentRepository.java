@@ -12,6 +12,25 @@ import org.springframework.stereotype.Repository;
 public interface AgentRepository
     extends JpaRepository<Agent, String>, JpaSpecificationExecutor<Agent> {
 
-  @Query("SELECT a FROM Agent a WHERE a.asset.id IN :assetIds")
-  List<Agent> findAgentsByAssetIds(@Param("assetIds") List<String> assetIds);
+  /**
+   * Returns the agents having the asset ids passed in parameter
+   *
+   * @param assetIds the asset ids
+   * @return the list of agents
+   */
+  @Query(value = "SELECT a.* FROM agents a WHERE a.agent_asset IN :assetIds ;", nativeQuery = true)
+  List<Agent> findByAssetIds(@Param("assetIds") List<String> assetIds);
+
+  /**
+   * Returns the agents having the asset group ids passed in parameter
+   *
+   * @param assetGroupIds the asset group ids
+   * @return the list of agents
+   */
+  @Query(
+      value =
+          "SELECT a.* FROM agents a left join asset_groups_assets aga ON a.agent_asset = aga.asset_id "
+              + "where aga.asset_group_id in :assetGroupIds ;",
+      nativeQuery = true)
+  List<Agent> findByAssetGroupIds(@Param("assetGroupIds") List<String> assetGroupIds);
 }

@@ -71,7 +71,9 @@ public class CalderaExecutorContextService {
   }
 
   public void launchExecutorSubprocess(
-      @NotNull final Inject inject, @NotNull final Endpoint assetEndpoint) {
+      @NotNull final Inject inject,
+      @NotNull final Endpoint assetEndpoint,
+      @NotNull final Agent agent) {
     inject
         .getInjectorContract()
         .map(InjectorContract::getInjector)
@@ -81,14 +83,10 @@ public class CalderaExecutorContextService {
                 List<Map<String, String>> additionalFields =
                     List.of(
                         Map.of("trait", "inject", "value", inject.getId()),
-                        Map.of(
-                            "trait",
-                            "agent",
-                            "value",
-                            assetEndpoint.getAgents().getFirst().getId()));
+                        Map.of("trait", "agent", "value", agent.getId()));
                 calderaExecutorClient.exploit(
                     "base64",
-                    assetEndpoint.getAgents().getFirst().getExternalReference(),
+                    agent.getExternalReference(),
                     this.injectorExecutorAbilities.get(injector.getId()).getAbility_id(),
                     additionalFields);
               }

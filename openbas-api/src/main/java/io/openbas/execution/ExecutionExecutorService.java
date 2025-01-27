@@ -11,12 +11,12 @@ import io.openbas.executors.crowdstrike.service.CrowdStrikeExecutorContextServic
 import io.openbas.executors.openbas.service.OpenBASExecutorContextService;
 import io.openbas.executors.tanium.config.TaniumExecutorConfig;
 import io.openbas.executors.tanium.service.TaniumExecutorContextService;
+import io.openbas.service.AgentService;
 import io.openbas.rest.exception.AgentException;
-import io.openbas.service.AssetGroupService;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.logging.Level;
-import java.util.stream.Stream;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
 import org.hibernate.Hibernate;
@@ -26,7 +26,6 @@ import org.springframework.stereotype.Service;
 @Service
 @Log
 public class ExecutionExecutorService {
-  private final AssetGroupService assetGroupService;
   private final CalderaExecutorConfig calderaExecutorConfig;
   private final CalderaExecutorContextService calderaExecutorContextService;
   private final TaniumExecutorConfig taniumExecutorConfig;
@@ -35,39 +34,37 @@ public class ExecutionExecutorService {
   private final CrowdStrikeExecutorContextService crowdStrikeExecutorContextService;
   private final OpenBASExecutorContextService openBASExecutorContextService;
   private final InjectStatusRepository injectStatusRepository;
+  private final AgentService agentService;
 
-  public void launchExecutorContext(Inject inject) {
-    // First, get the assets of this injects
-    List<Asset> assets =
-        Stream.concat(
-                inject.getAssets().stream(),
-                inject.getAssetGroups().stream()
-                    .flatMap(
-                        assetGroup ->
-                            this.assetGroupService
-                                .assetsFromAssetGroup(assetGroup.getId())
-                                .stream()))
-            .toList();
+  public void launchExecutorContext(ExecutableInject executableInject, Inject inject)
+      throws InterruptedException {
+    // First, get the agents of this injects
+    List<Agent> agents =
+        this.agentService.getAgentsByAssetIds(
+            inject.getAssets().stream().map(Asset::getId).collect(Collectors.toList()));
+    agents.addAll(
+        this.agentService.getAgentsByAssetGroupIds(
+            inject.getAssetGroups().stream().map(AssetGroup::getId).collect(Collectors.toList())));
     InjectStatus injectStatus =
         inject.getStatus().orElseThrow(() -> new IllegalArgumentException("Status should exists"));
     AtomicBoolean atLeastOneExecution = new AtomicBoolean(false);
     AtomicBoolean atOneTraceAdded = new AtomicBoolean(false);
-    assets.forEach(
-        asset -> {
+    agents.forEach(
+        agent -> {
           try {
-            launchExecutorContextForAsset(inject, asset);
+            launchExecutorContextForAgent(inject, agent);
             atLeastOneExecution.set(true);
           } catch (AgentException e) {
             ExecutionTraceStatus traceStatus =
-                e.getMessage().startsWith("Asset error")
-                    ? ExecutionTraceStatus.ASSET_INACTIVE
+                e.getMessage().startsWith("Agent error")
+                    ? ExecutionTraceStatus.AGENT_INACTIVE
                     : ExecutionTraceStatus.ERROR;
             injectStatus.addTrace(
                 traceStatus, e.getMessage(), ExecutionTraceAction.COMPLETE, e.getAgent());
             atOneTraceAdded.set(true);
           }
         });
-    // if launchExecutorContextForAsset fail for every assets we throw to manually set injectStatus
+    // if launchExecutorContextForAgent fail for every agents we throw to manually set injectStatus
     // to error
     if (atOneTraceAdded.get()) {
       this.injectStatusRepository.save(injectStatus);
@@ -77,22 +74,29 @@ public class ExecutionExecutorService {
     }
   }
 
-  private void launchExecutorContextForAsset(Inject inject, Asset asset) {
-    Endpoint assetEndpoint = (Endpoint) Hibernate.unproxy(asset);
-    Executor executor = assetEndpoint.getExecutor();
+  private void launchExecutorContextForAgent(Inject inject, Agent agent) {
+    Endpoint assetEndpoint = (Endpoint) Hibernate.unproxy(agent.getAsset());
+    Executor executor = agent.getExecutor();
     if (executor == null) {
-      log.log(Level.SEVERE, "Cannot find the executor for the asset " + assetEndpoint.getName());
-    } else if (!assetEndpoint.getActive()) {
+      log.log(
+          Level.SEVERE,
+          "Cannot find the executor for the agent "
+              + agent.getExecutedByUser()
+              + " from the asset "
+              + assetEndpoint.getName());
+    } else if (!agent.isActive()) {
       throw new AgentException(
-          "Asset error: " + assetEndpoint.getName() + " is inactive",
-          assetEndpoint.getAgents().getFirst());
+          "Agent error: agent "
+              + agent.getExecutedByUser()
+              + " is inactive for the asset "
+              + assetEndpoint.getName(), agent);
     } else {
       switch (executor.getType()) {
         case "openbas_caldera" -> {
           if (!this.calderaExecutorConfig.isEnable()) {
             throw new AgentException(
                 "Fatal error: Caldera executor is not enabled",
-                assetEndpoint.getAgents().getFirst());
+                agent);
           }
           this.calderaExecutorContextService.launchExecutorSubprocess(inject, assetEndpoint);
         }
@@ -100,7 +104,7 @@ public class ExecutionExecutorService {
           if (!this.taniumExecutorConfig.isEnable()) {
             throw new AgentException(
                 "Fatal error: Tanium executor is not enabled",
-                assetEndpoint.getAgents().getFirst());
+                agent);
           }
           this.taniumExecutorContextService.launchExecutorSubprocess(inject, assetEndpoint);
         }
@@ -108,7 +112,7 @@ public class ExecutionExecutorService {
           if (!this.crowdStrikeExecutorConfig.isEnable()) {
             throw new AgentException(
                 "Fatal error: CrowdStrike executor is not enabled",
-                assetEndpoint.getAgents().getFirst());
+                agent);
           }
           this.crowdStrikeExecutorContextService.launchExecutorSubprocess(inject, assetEndpoint);
         }
@@ -117,7 +121,7 @@ public class ExecutionExecutorService {
         default ->
             throw new AgentException(
                 "Fatal error: Unsupported executor " + executor.getType(),
-                assetEndpoint.getAgents().getFirst());
+                agent);
       }
     }
   }

@@ -19,11 +19,9 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Locale;
-import java.util.Optional;
+import java.util.*;
 import java.util.logging.Level;
+import java.util.stream.Collectors;
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -105,8 +103,7 @@ public class CrowdStrikeExecutorService implements Runnable {
   public void run() {
     log.info("Running CrowdStrike executor endpoints gathering...");
     List<CrowdStrikeDevice> devices = this.client.devices().getResources().stream().toList();
-    List<Endpoint> endpoints =
-        toEndpoint(devices).stream().filter(endpoint -> endpoint.getActive()).toList();
+    List<Endpoint> endpoints = toEndpoint(devices);
     log.info("CrowdStrike executor provisioning based on " + endpoints.size() + " assets");
     endpoints.forEach(
         endpoint -> {
@@ -150,34 +147,36 @@ public class CrowdStrikeExecutorService implements Runnable {
 
   // -- PRIVATE --
 
-  private List<Endpoint> toEndpoint(@NotNull final List<CrowdStrikeDevice> devices) {
+  private Map<Endpoint, Agent> toEndpoint(@NotNull final List<CrowdStrikeDevice> devices) {
     return devices.stream()
         .map(
-            (crowdStrikeDevice) -> {
+            crowdStrikeDevice -> {
               Endpoint endpoint = new Endpoint();
               Agent agent = new Agent();
+
               agent.setExecutor(this.executor);
               agent.setExternalReference(crowdStrikeDevice.getDevice_id());
               agent.setPrivilege(Agent.PRIVILEGE.admin);
               agent.setDeploymentMode(Agent.DEPLOYMENT_MODE.service);
+
               endpoint.setName(crowdStrikeDevice.getHostname());
               endpoint.setDescription("Asset collected by CrowdStrike executor context.");
               endpoint.setIps(new String[] {crowdStrikeDevice.getConnection_ip()});
               endpoint.setMacAddresses(new String[] {crowdStrikeDevice.getMac_address()});
               endpoint.setHostname(crowdStrikeDevice.getHostname());
               endpoint.setPlatform(toPlatform(crowdStrikeDevice.getPlatform_name()));
+              endpoint.setArch(toArch("x64"));
+
               agent.setExecutedByUser(
                   Endpoint.PLATFORM_TYPE.Windows.equals(endpoint.getPlatform())
                       ? Agent.ADMIN_SYSTEM_WINDOWS
                       : Agent.ADMIN_SYSTEM_UNIX);
-              // Cannot find arch in CrowdStrike for the moment
-              endpoint.setArch(toArch("x64"));
               agent.setLastSeen(toInstant(crowdStrikeDevice.getLast_seen()));
               agent.setAsset(endpoint);
-              endpoint.setAgents(List.of(agent));
-              return endpoint;
+
+              return Map.entry(endpoint, agent);
             })
-        .toList();
+        .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
   }
 
   private void updateEndpoint(

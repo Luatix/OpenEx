@@ -12,6 +12,7 @@ import io.openbas.executors.crowdstrike.config.CrowdStrikeExecutorConfig;
 import io.openbas.executors.crowdstrike.model.CrowdStrikeDevice;
 import io.openbas.integrations.ExecutorService;
 import io.openbas.integrations.InjectorService;
+import io.openbas.service.AgentService;
 import io.openbas.service.EndpointService;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -41,6 +42,8 @@ public class CrowdStrikeExecutorService implements Runnable {
   private final CrowdStrikeExecutorClient client;
 
   private final EndpointService endpointService;
+
+  private final AgentService agentService;
 
   private final CrowdStrikeExecutorContextService crowdStrikeExecutorContextService;
 
@@ -72,8 +75,10 @@ public class CrowdStrikeExecutorService implements Runnable {
       CrowdStrikeExecutorConfig config,
       CrowdStrikeExecutorContextService crowdStrikeExecutorContextService,
       EndpointService endpointService,
-      InjectorService injectorService) {
+      InjectorService injectorService,
+      AgentService agentService) {
     this.client = client;
+    this.agentService = agentService;
     this.endpointService = endpointService;
     this.crowdStrikeExecutorContextService = crowdStrikeExecutorContextService;
     this.injectorService = injectorService;
@@ -103,46 +108,63 @@ public class CrowdStrikeExecutorService implements Runnable {
   public void run() {
     log.info("Running CrowdStrike executor endpoints gathering...");
     List<CrowdStrikeDevice> devices = this.client.devices().getResources().stream().toList();
-    List<Endpoint> endpoints = toEndpoint(devices);
-    log.info("CrowdStrike executor provisioning based on " + endpoints.size() + " assets");
-    endpoints.forEach(
-        endpoint -> {
-          List<Endpoint> existingEndpoints =
-              this.endpointService.findAssetsForInjectionByHostname(endpoint.getHostname()).stream()
-                  .filter(
-                      endpoint1 ->
-                          Arrays.stream(endpoint1.getIps())
-                              .anyMatch(s -> Arrays.stream(endpoint.getIps()).toList().contains(s)))
-                  .toList();
-          if (existingEndpoints.isEmpty()) {
-            Optional<Endpoint> endpointByExternalReference =
-                endpointService.findByExternalReference(
-                    endpoint.getAgents().getFirst().getExternalReference());
-            if (endpointByExternalReference.isPresent()) {
-              this.updateEndpoint(endpoint, List.of(endpointByExternalReference.get()));
-            } else {
-              this.endpointService.createEndpoint(endpoint);
-            }
+    Map<Endpoint, Agent> endpointAgentMap = toEndpoint(devices);
+    log.info("CrowdStrike executor provisioning based on " + endpointAgentMap.size() + " assets");
+
+    for (var endpointAgent : endpointAgentMap.entrySet()) {
+      Endpoint endpoint = endpointAgent.getKey();
+      Agent agent = endpointAgent.getValue();
+      Optional<Endpoint> optionalEndpoint =
+          this.endpointService.findEndpointByAgentDetails(
+              endpoint.getHostname(), endpoint.getPlatform(), endpoint.getArch());
+      if (agent.isActive()) {
+        // Endpoint already created -> attributes to update
+        if (optionalEndpoint.isPresent()) {
+          Endpoint endpointToUpdate = optionalEndpoint.get();
+          Optional<Agent> optionalAgent =
+              this.agentService.getAgentByAgentDetailsForAnAsset(
+                  endpointToUpdate.getId(),
+                  agent.getExecutedByUser(),
+                  agent.getDeploymentMode(),
+                  agent.getPrivilege(),
+                  CROWDSTRIKE_EXECUTOR_TYPE);
+          endpointToUpdate.setIps(endpoint.getIps());
+          endpointToUpdate.setMacAddresses(endpoint.getMacAddresses());
+          this.endpointService.updateEndpoint(endpointToUpdate);
+          // Agent already created -> attributes to update
+          if (optionalAgent.isPresent()) {
+            Agent agentToUpdate = optionalAgent.get();
+            agentToUpdate.setAsset(endpointToUpdate);
+            this.agentService.registerAgent(agentToUpdate);
           } else {
-            this.updateEndpoint(endpoint, existingEndpoints);
+            // New agent to create for the endpoint
+            this.agentService.registerAgent(agent);
           }
-        });
-    List<Endpoint> inactiveEndpoints =
-        toEndpoint(devices).stream().filter(endpoint -> !endpoint.getActive()).toList();
-    inactiveEndpoints.forEach(
-        endpoint -> {
-          Optional<Endpoint> optionalExistingEndpoint =
-              this.endpointService.findByExternalReference(
-                  endpoint.getAgents().getFirst().getExternalReference());
-          if (optionalExistingEndpoint.isPresent()) {
-            Endpoint existingEndpoint = optionalExistingEndpoint.get();
-            if ((now().toEpochMilli() - existingEndpoint.getClearedAt().toEpochMilli())
-                > DELETE_TTL) {
-              log.info("Found stale endpoint " + existingEndpoint.getName() + ", deleting it...");
-              this.endpointService.deleteEndpoint(existingEndpoint.getId());
+        } else {
+          // New endpoint and new agent to create
+          this.endpointService.createEndpoint(endpoint);
+          this.agentService.registerAgent(agent);
+        }
+      } else {
+        if (optionalEndpoint.isPresent()) {
+          Optional<Agent> optionalAgent =
+              this.agentService.getAgentByAgentDetailsForAnAsset(
+                  optionalEndpoint.get().getId(),
+                  agent.getExecutedByUser(),
+                  agent.getDeploymentMode(),
+                  agent.getPrivilege(),
+                  CROWDSTRIKE_EXECUTOR_TYPE);
+          if (optionalAgent.isPresent()) {
+            Agent existingAgent = optionalAgent.get();
+            if ((now().toEpochMilli() - existingAgent.getLastSeen().toEpochMilli()) > DELETE_TTL) {
+              log.info(
+                  "Found stale endpoint " + endpoint.getName() + ", deleting the agent in it...");
+              this.agentService.deleteAgent(existingAgent.getId());
             }
           }
-        });
+        }
+      }
+    }
   }
 
   // -- PRIVATE --

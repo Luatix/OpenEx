@@ -6,12 +6,10 @@ import static java.time.ZoneOffset.UTC;
 import io.openbas.database.model.Agent;
 import io.openbas.database.model.Endpoint;
 import io.openbas.database.model.Executor;
-import io.openbas.database.model.Injector;
 import io.openbas.executors.crowdstrike.client.CrowdStrikeExecutorClient;
 import io.openbas.executors.crowdstrike.config.CrowdStrikeExecutorConfig;
 import io.openbas.executors.crowdstrike.model.CrowdStrikeDevice;
 import io.openbas.integrations.ExecutorService;
-import io.openbas.integrations.InjectorService;
 import io.openbas.service.AgentService;
 import io.openbas.service.EndpointService;
 import jakarta.validation.constraints.NotBlank;
@@ -32,7 +30,6 @@ import org.springframework.stereotype.Service;
 @Log
 @Service
 public class CrowdStrikeExecutorService implements Runnable {
-  private static final int CLEAR_TTL = 1800000; // 30 minutes
   private static final int DELETE_TTL = 86400000; // 24 hours
   private static final String CROWDSTRIKE_EXECUTOR_TYPE = "openbas_crowdstrike";
   private static final String CROWDSTRIKE_EXECUTOR_NAME = "CrowdStrike";
@@ -44,10 +41,6 @@ public class CrowdStrikeExecutorService implements Runnable {
   private final EndpointService endpointService;
 
   private final AgentService agentService;
-
-  private final CrowdStrikeExecutorContextService crowdStrikeExecutorContextService;
-
-  private final InjectorService injectorService;
 
   private Executor executor = null;
 
@@ -73,15 +66,11 @@ public class CrowdStrikeExecutorService implements Runnable {
       ExecutorService executorService,
       CrowdStrikeExecutorClient client,
       CrowdStrikeExecutorConfig config,
-      CrowdStrikeExecutorContextService crowdStrikeExecutorContextService,
       EndpointService endpointService,
-      InjectorService injectorService,
       AgentService agentService) {
     this.client = client;
     this.agentService = agentService;
     this.endpointService = endpointService;
-    this.crowdStrikeExecutorContextService = crowdStrikeExecutorContextService;
-    this.injectorService = injectorService;
     try {
       if (config.isEnable()) {
         this.executor =
@@ -199,43 +188,6 @@ public class CrowdStrikeExecutorService implements Runnable {
               return Map.entry(endpoint, agent);
             })
         .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
-  }
-
-  private void updateEndpoint(
-      @NotNull final Endpoint external, @NotNull final List<Endpoint> existingList) {
-    Endpoint matchingExistingEndpoint = existingList.getFirst();
-    matchingExistingEndpoint
-        .getAgents()
-        .getFirst()
-        .setLastSeen(external.getAgents().getFirst().getLastSeen());
-    matchingExistingEndpoint.setName(external.getName());
-    matchingExistingEndpoint.setIps(external.getIps());
-    matchingExistingEndpoint.setHostname(external.getHostname());
-    matchingExistingEndpoint
-        .getAgents()
-        .getFirst()
-        .setExternalReference(external.getAgents().getFirst().getExternalReference());
-    matchingExistingEndpoint.setPlatform(external.getPlatform());
-    matchingExistingEndpoint.setArch(external.getArch());
-    matchingExistingEndpoint.getAgents().getFirst().setExecutor(this.executor);
-    if ((now().toEpochMilli() - matchingExistingEndpoint.getClearedAt().toEpochMilli())
-        > CLEAR_TTL) {
-      try {
-        log.info("Clearing endpoint " + matchingExistingEndpoint.getHostname());
-        Iterable<Injector> injectors = injectorService.injectors();
-        injectors.forEach(
-            injector -> {
-              if (injector.getExecutorClearCommands() != null) {
-                this.crowdStrikeExecutorContextService.launchExecutorClear(
-                    injector, matchingExistingEndpoint);
-              }
-            });
-        matchingExistingEndpoint.setClearedAt(now());
-      } catch (RuntimeException e) {
-        log.info("Failed clear agents");
-      }
-    }
-    this.endpointService.updateEndpoint(matchingExistingEndpoint);
   }
 
   private Instant toInstant(@NotNull final String lastSeen) {

@@ -9,7 +9,7 @@ import io.openbas.executors.tanium.config.TaniumExecutorConfig;
 import io.openbas.executors.tanium.model.NodeEndpoint;
 import io.openbas.executors.tanium.model.TaniumEndpoint;
 import io.openbas.integrations.ExecutorService;
-import io.openbas.integrations.InjectorService;
+import io.openbas.service.AgentService;
 import io.openbas.service.EndpointService;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -28,7 +28,6 @@ import org.springframework.stereotype.Service;
 @Log
 @Service
 public class TaniumExecutorService implements Runnable {
-  private static final int CLEAR_TTL = 1800000; // 30 minutes
   private static final int DELETE_TTL = 86400000; // 24 hours
   private static final String TANIUM_EXECUTOR_TYPE = "openbas_tanium";
   private static final String TANIUM_EXECUTOR_NAME = "Tanium";
@@ -39,9 +38,7 @@ public class TaniumExecutorService implements Runnable {
 
   private final EndpointService endpointService;
 
-  private final TaniumExecutorContextService taniumExecutorContextService;
-
-  private final InjectorService injectorService;
+  private final AgentService agentService;
 
   private Executor executor = null;
 
@@ -67,13 +64,11 @@ public class TaniumExecutorService implements Runnable {
       ExecutorService executorService,
       TaniumExecutorClient client,
       TaniumExecutorConfig config,
-      TaniumExecutorContextService taniumExecutorContextService,
       EndpointService endpointService,
-      InjectorService injectorService) {
+      AgentService agentService) {
     this.client = client;
     this.endpointService = endpointService;
-    this.taniumExecutorContextService = taniumExecutorContextService;
-    this.injectorService = injectorService;
+    this.agentService = agentService;
     try {
       if (config.isEnable()) {
         this.executor =
@@ -101,116 +96,93 @@ public class TaniumExecutorService implements Runnable {
     log.info("Running Tanium executor endpoints gathering...");
     List<NodeEndpoint> nodeEndpoints =
         this.client.endpoints().getData().getEndpoints().getEdges().stream().toList();
-    List<Endpoint> endpoints =
-        toEndpoint(nodeEndpoints).stream().filter(endpoint -> endpoint.getActive()).toList();
-    log.info("Tanium executor provisioning based on " + endpoints.size() + " assets");
-    endpoints.forEach(
-        endpoint -> {
-          List<Endpoint> existingEndpoints =
-              this.endpointService.findAssetsForInjectionByHostname(endpoint.getHostname()).stream()
-                  .filter(
-                      endpoint1 ->
-                          Arrays.stream(endpoint1.getIps())
-                              .anyMatch(s -> Arrays.stream(endpoint.getIps()).toList().contains(s)))
-                  .toList();
-          if (existingEndpoints.isEmpty()) {
-            Optional<Endpoint> endpointByExternalReference =
-                endpointService.findByExternalReference(
-                    endpoint.getAgents().getFirst().getExternalReference());
-            if (endpointByExternalReference.isPresent()) {
-              this.updateEndpoint(endpoint, List.of(endpointByExternalReference.get()));
-            } else {
-              this.endpointService.createEndpoint(endpoint);
-            }
+    Map<Endpoint, Agent> endpointsAgents = toEndpoint(nodeEndpoints);
+    log.info("Tanium executor provisioning based on " + endpointsAgents.size() + " assets");
+    for (var endpointAgent : endpointsAgents.entrySet()) {
+      Endpoint endpoint = endpointAgent.getKey();
+      Agent agent = endpointAgent.getValue();
+      Optional<Endpoint> optionalEndpoint =
+              this.endpointService.findEndpointByAgentDetails(
+                      endpoint.getHostname(), endpoint.getPlatform(), endpoint.getArch());
+      if (agent.isActive()) {
+        // Endpoint already created -> attributes to update
+        if (optionalEndpoint.isPresent()) {
+          Endpoint endpointToUpdate = optionalEndpoint.get();
+          Optional<Agent> optionalAgent =
+              this.agentService.getAgentByAgentDetailsForAnAsset(
+                  endpointToUpdate.getId(),
+                  agent.getExecutedByUser(),
+                  agent.getDeploymentMode(),
+                  agent.getPrivilege(),
+                  TANIUM_EXECUTOR_TYPE);
+          endpointToUpdate.setIps(endpoint.getIps());
+          endpointToUpdate.setMacAddresses(endpoint.getMacAddresses());
+          this.endpointService.updateEndpoint(endpointToUpdate);
+          // Agent already created -> attributes to update
+          if (optionalAgent.isPresent()) {
+            Agent agentToUpdate = optionalAgent.get();
+            agentToUpdate.setAsset(endpointToUpdate);
+            this.agentService.registerAgent(agentToUpdate);
           } else {
-            this.updateEndpoint(endpoint, existingEndpoints);
+            // New agent to create for the endpoint
+            this.agentService.registerAgent(agent);
           }
-        });
-    List<Endpoint> inactiveEndpoints =
-        toEndpoint(nodeEndpoints).stream().filter(endpoint -> !endpoint.getActive()).toList();
-    inactiveEndpoints.forEach(
-        endpoint -> {
-          Optional<Endpoint> optionalExistingEndpoint =
-              this.endpointService.findByExternalReference(
-                  endpoint.getAgents().getFirst().getExternalReference());
-          if (optionalExistingEndpoint.isPresent()) {
-            Endpoint existingEndpoint = optionalExistingEndpoint.get();
-            if ((now().toEpochMilli() - existingEndpoint.getClearedAt().toEpochMilli())
-                > DELETE_TTL) {
-              log.info("Found stale endpoint " + existingEndpoint.getName() + ", deleting it...");
-              this.endpointService.deleteEndpoint(existingEndpoint.getId());
+        } else {
+          // New endpoint and new agent to create
+          this.endpointService.createEndpoint(endpoint);
+          this.agentService.registerAgent(agent);
+        }
+      } else {
+        if(optionalEndpoint.isPresent()) {
+          Optional<Agent> optionalAgent =
+                  this.agentService.getAgentByAgentDetailsForAnAsset(
+                          optionalEndpoint.get().getId(),
+                          agent.getExecutedByUser(),
+                          agent.getDeploymentMode(),
+                          agent.getPrivilege(),
+                          TANIUM_EXECUTOR_TYPE);
+          if (optionalAgent.isPresent()) {
+            Agent existingAgent = optionalAgent.get();
+            if ((now().toEpochMilli() - existingAgent.getLastSeen().toEpochMilli()) > DELETE_TTL) {
+              log.info(
+                      "Found stale endpoint " + endpoint.getName() + ", deleting the agent in it...");
+              this.agentService.deleteAgent(existingAgent.getId());
             }
           }
-        });
+        }
+      }
+    }
   }
 
   // -- PRIVATE --
 
-  private List<Endpoint> toEndpoint(@NotNull final List<NodeEndpoint> nodeEndpoints) {
-    return nodeEndpoints.stream()
-        .map(
-            (nodeEndpoint) -> {
-              TaniumEndpoint taniumEndpoint = nodeEndpoint.getNode();
-              Endpoint endpoint = new Endpoint();
-              Agent agent = new Agent();
-              agent.setExecutor(this.executor);
-              agent.setExternalReference(taniumEndpoint.getId());
-              agent.setPrivilege(io.openbas.database.model.Agent.PRIVILEGE.admin);
-              agent.setDeploymentMode(Agent.DEPLOYMENT_MODE.service);
-              endpoint.setName(taniumEndpoint.getName());
-              endpoint.setDescription("Asset collected by Tanium executor context.");
-              endpoint.setIps(taniumEndpoint.getIpAddresses());
-              endpoint.setMacAddresses(taniumEndpoint.getMacAddresses());
-              endpoint.setHostname(taniumEndpoint.getName());
-              endpoint.setPlatform(toPlatform(taniumEndpoint.getOs().getPlatform()));
-              agent.setExecutedByUser(
-                  Endpoint.PLATFORM_TYPE.Windows.equals(endpoint.getPlatform())
-                      ? Agent.ADMIN_SYSTEM_WINDOWS
-                      : Agent.ADMIN_SYSTEM_UNIX);
-              endpoint.setArch(toArch(taniumEndpoint.getProcessor().getArchitecture()));
-              agent.setLastSeen(toInstant(taniumEndpoint.getEidLastSeen()));
-              agent.setAsset(endpoint);
-              endpoint.setAgents(List.of(agent));
-              return endpoint;
-            })
-        .toList();
-  }
-
-  private void updateEndpoint(
-      @NotNull final Endpoint external, @NotNull final List<Endpoint> existingList) {
-    Endpoint matchingExistingEndpoint = existingList.getFirst();
-    matchingExistingEndpoint
-        .getAgents()
-        .getFirst()
-        .setLastSeen(external.getAgents().getFirst().getLastSeen());
-    matchingExistingEndpoint.setName(external.getName());
-    matchingExistingEndpoint.setIps(external.getIps());
-    matchingExistingEndpoint.setHostname(external.getHostname());
-    matchingExistingEndpoint
-        .getAgents()
-        .getFirst()
-        .setExternalReference(external.getAgents().getFirst().getExternalReference());
-    matchingExistingEndpoint.setPlatform(external.getPlatform());
-    matchingExistingEndpoint.setArch(external.getArch());
-    matchingExistingEndpoint.getAgents().getFirst().setExecutor(this.executor);
-    if ((now().toEpochMilli() - matchingExistingEndpoint.getClearedAt().toEpochMilli())
-        > CLEAR_TTL) {
-      try {
-        log.info("Clearing endpoint " + matchingExistingEndpoint.getHostname());
-        Iterable<Injector> injectors = injectorService.injectors();
-        injectors.forEach(
-            injector -> {
-              if (injector.getExecutorClearCommands() != null) {
-                this.taniumExecutorContextService.launchExecutorClear(
-                    injector, matchingExistingEndpoint);
-              }
-            });
-        matchingExistingEndpoint.setClearedAt(now());
-      } catch (RuntimeException e) {
-        log.info("Failed clear agents");
-      }
-    }
-    this.endpointService.updateEndpoint(matchingExistingEndpoint);
+  private Map<Endpoint, Agent> toEndpoint(@NotNull final List<NodeEndpoint> nodeEndpoints) {
+    HashMap<Endpoint, Agent> endpointsAgents = new HashMap<>();
+    nodeEndpoints.forEach(
+        nodeEndpoint -> {
+          TaniumEndpoint taniumEndpoint = nodeEndpoint.getNode();
+          Endpoint endpoint = new Endpoint();
+          Agent agent = new Agent();
+          agent.setExecutor(this.executor);
+          agent.setExternalReference(taniumEndpoint.getId());
+          agent.setPrivilege(io.openbas.database.model.Agent.PRIVILEGE.admin);
+          agent.setDeploymentMode(Agent.DEPLOYMENT_MODE.service);
+          endpoint.setName(taniumEndpoint.getName());
+          endpoint.setDescription("Asset collected by Tanium executor context.");
+          endpoint.setIps(taniumEndpoint.getIpAddresses());
+          endpoint.setMacAddresses(taniumEndpoint.getMacAddresses());
+          endpoint.setHostname(taniumEndpoint.getName());
+          endpoint.setPlatform(toPlatform(taniumEndpoint.getOs().getPlatform()));
+          agent.setExecutedByUser(
+              Endpoint.PLATFORM_TYPE.Windows.equals(endpoint.getPlatform())
+                  ? Agent.ADMIN_SYSTEM_WINDOWS
+                  : Agent.ADMIN_SYSTEM_UNIX);
+          endpoint.setArch(toArch(taniumEndpoint.getProcessor().getArchitecture()));
+          agent.setLastSeen(toInstant(taniumEndpoint.getEidLastSeen()));
+          agent.setAsset(endpoint);
+          endpointsAgents.put(endpoint, agent);
+        });
+    return endpointsAgents;
   }
 
   private Instant toInstant(@NotNull final String lastSeen) {

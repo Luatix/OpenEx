@@ -2,6 +2,7 @@ package io.openbas.service;
 
 import io.openbas.database.model.Agent;
 import io.openbas.database.repository.AgentRepository;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Optional;

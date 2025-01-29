@@ -186,6 +186,7 @@ public class Inject implements Base, Injection {
       inverseJoinColumns = @JoinColumn(name = "team_id"))
   @JsonSerialize(using = MultiIdListDeserializer.class)
   @JsonProperty("inject_teams")
+  @Queryable(filterable = true, path = "teams.name")
   private List<Team> teams = new ArrayList<>();
 
   @ArraySchema(schema = @Schema(type = "string"))
@@ -197,6 +198,7 @@ public class Inject implements Base, Injection {
       inverseJoinColumns = @JoinColumn(name = "asset_id"))
   @JsonSerialize(using = MultiIdListDeserializer.class)
   @JsonProperty("inject_assets")
+  @Queryable(filterable = true, path = "assets.name")
   private List<Asset> assets = new ArrayList<>();
 
   @ArraySchema(schema = @Schema(type = "string"))
@@ -208,6 +210,7 @@ public class Inject implements Base, Injection {
       inverseJoinColumns = @JoinColumn(name = "asset_group_id"))
   @JsonSerialize(using = MultiIdListDeserializer.class)
   @JsonProperty("inject_asset_groups")
+  @Queryable(filterable = true, path = "assetGroups.name")
   private List<AssetGroup> assetGroups = new ArrayList<>();
 
   // CascadeType.ALL is required here because of complex relationships

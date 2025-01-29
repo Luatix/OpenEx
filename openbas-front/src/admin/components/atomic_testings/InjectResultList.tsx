@@ -94,6 +94,9 @@ const InjectResultList: FunctionComponent<Props> = ({
     'inject_title',
     'inject_type',
     'inject_updated_at',
+    'inject_assets',
+    'inject_asset_groups',
+    'inject_teams',
   ];
   const [injects, setInjects] = useState<InjectResultOutput[]>([]);
 

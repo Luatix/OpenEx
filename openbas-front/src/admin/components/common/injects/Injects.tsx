@@ -232,6 +232,9 @@ const Injects: FunctionComponent<Props> = ({
     'inject_injector_contract',
     'inject_type',
     'inject_title',
+    'inject_assets',
+    'inject_asset_groups',
+    'inject_teams',
   ];
 
   const quickFilter: FilterGroup = {

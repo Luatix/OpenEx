@@ -2,6 +2,7 @@ package io.openbas.database.repository;
 
 import io.openbas.database.model.Agent;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
@@ -33,4 +34,17 @@ public interface AgentRepository
               + "where aga.asset_group_id in :assetGroupIds ;",
       nativeQuery = true)
   List<Agent> findByAssetGroupIds(@Param("assetGroupIds") List<String> assetGroupIds);
+
+  @Query(
+      value =
+          "SELECT a.* FROM agents a left join executors ex on a.agent_executor = ex.executor_id "
+              + "where a.agent_asset = :assetId and a.agent_executed_by_user = :user and a.agent_deployment_mode = :deployment "
+              + "and a.agent_privilege = :privilege and ex.executor_type = :executor",
+      nativeQuery = true)
+  Optional<Agent> findByAssetExecutorUserDeploymentAndPrivilege(
+      @Param("assetId") String assetId,
+      @Param("user") String user,
+      @Param("deployment") String deployment,
+      @Param("privilege") String privilege,
+      @Param("executor") String executor);
 }

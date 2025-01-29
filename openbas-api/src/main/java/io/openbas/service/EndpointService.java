@@ -65,6 +65,7 @@ public class EndpointService {
   private final ExecutorRepository executorRepository;
   private final AssetAgentJobRepository assetAgentJobRepository;
   private final TagRepository tagRepository;
+  private final AgentService agentService;
 
   // -- CRUD --
   public Endpoint createEndpoint(@NotNull final Endpoint endpoint) {
@@ -88,8 +89,12 @@ public class EndpointService {
   }
 
   @Transactional(readOnly = true)
-  public Optional<Endpoint> findEndpointByAgentDetailsWithAgentsByExecutor(@NotBlank final String hostname, @NotNull final Endpoint.PLATFORM_TYPE platform, @NotNull final Endpoint.PLATFORM_ARCH arch, @NotBlank final String executor) {
-    return this.endpointRepository.findByHostnameArchAndPlatformWithAgentsByExecutor(hostname.toLowerCase(), platform.name(), arch.name(), executor);
+  public Optional<Endpoint> findEndpointByAgentDetails(
+      @NotBlank final String hostname,
+      @NotNull final Endpoint.PLATFORM_TYPE platform,
+      @NotNull final Endpoint.PLATFORM_ARCH arch) {
+    return this.endpointRepository.findByHostnameArchAndPlatform(
+        hostname.toLowerCase(), platform.name(), arch.name());
   }
 
   public List<Endpoint> endpoints() {
@@ -133,7 +138,8 @@ public class EndpointService {
   // -- INSTALLATION AGENT --
 
   public Endpoint register(final EndpointRegisterInput input) throws IOException {
-    Optional<Endpoint> optionalEndpoint = findEndpointByAgentDetailsWithAgentsByExecutor(input.getHostname(), input.getPlatform(), input.getArch(), OPENBAS_EXECUTOR_TYPE);
+    Optional<Endpoint> optionalEndpoint =
+        findEndpointByAgentDetails(input.getHostname(), input.getPlatform(), input.getArch());
     Endpoint endpoint;
     Agent agent;
     // Endpoint already created -> attributes to update
@@ -144,12 +150,19 @@ public class EndpointService {
       endpoint.setHostname(input.getHostname());
       endpoint.setPlatform(input.getPlatform());
       endpoint.setArch(input.getArch());
-      Agent.PRIVILEGE privilege = input.isElevated() ? Agent.PRIVILEGE.admin : Agent.PRIVILEGE.standard;
-      Agent.DEPLOYMENT_MODE deploymentMode = input.isService() ? Agent.DEPLOYMENT_MODE.service : Agent.DEPLOYMENT_MODE.session;
-      Optional<Agent> optionalAgent = endpoint.getAgents().stream().filter(ag -> privilege.equals(ag.getPrivilege())
-              && deploymentMode.equals(ag.getDeploymentMode()) && input.getExecutedByUser().equals(ag.getExecutedByUser())).findFirst();
+      Agent.PRIVILEGE privilege =
+          input.isElevated() ? Agent.PRIVILEGE.admin : Agent.PRIVILEGE.standard;
+      Agent.DEPLOYMENT_MODE deploymentMode =
+          input.isService() ? Agent.DEPLOYMENT_MODE.service : Agent.DEPLOYMENT_MODE.session;
+      Optional<Agent> optionalAgent =
+          agentService.getAgentByAgentDetailsForAnAsset(
+              endpoint.getId(),
+              input.getExecutedByUser(),
+              deploymentMode,
+              privilege,
+              OPENBAS_EXECUTOR_TYPE);
       // Agent already created -> attributes to update
-      if(optionalAgent.isPresent()) {
+      if (optionalAgent.isPresent()) {
         agent = optionalAgent.get();
       } else {
         // New agent to create for the endpoint
@@ -167,8 +180,8 @@ public class EndpointService {
     agent.setVersion(input.getAgentVersion());
     agent.setLastSeen(Instant.now());
     agent.setAsset(endpoint);
-    endpoint.setAgents(List.of(agent));
     Endpoint updatedEndpoint = updateEndpoint(endpoint);
+    agentService.registerAgent(agent);
     // If agent is not temporary and not the same version as the platform => Create an upgrade task
     // for the agent
     if (agent.getParent() == null && !agent.getVersion().equals(version)) {

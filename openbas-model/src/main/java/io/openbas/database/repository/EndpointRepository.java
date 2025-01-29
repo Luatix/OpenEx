@@ -16,13 +16,14 @@ public interface EndpointRepository
         StatisticRepository,
         JpaSpecificationExecutor<Endpoint> {
 
-  // TODO DGO rework with Stephanya
   @Query(
-          value = "select e.* from assets e left join agents a on e.asset_id = a.agent_asset left join executors ex on a.agent_executor = ex.executor_id " +
-                  "where e.endpoint_hostname = :hostname and e.endpoint_platform = :platform and e.endpoint_arch = :arch and ex.executor_type = :executor",
-          nativeQuery = true)
-  Optional<Endpoint> findByHostnameArchAndPlatformWithAgentsByExecutor(@NotBlank final @Param("hostname") String hostname, @NotBlank final @Param("platform") String platform,
-                                                   @NotBlank final @Param("arch") String arch, @NotBlank final @Param("executor") String executor);
+      value =
+          "select e.* from assets e where e.endpoint_hostname = :hostname and e.endpoint_platform = :platform and e.endpoint_arch = :arch",
+      nativeQuery = true)
+  Optional<Endpoint> findByHostnameArchAndPlatform(
+      @NotBlank final @Param("hostname") String hostname,
+      @NotBlank final @Param("platform") String platform,
+      @NotBlank final @Param("arch") String arch);
 
   @Query(
       value =

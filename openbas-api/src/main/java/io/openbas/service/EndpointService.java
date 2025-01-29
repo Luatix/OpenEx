@@ -147,9 +147,6 @@ public class EndpointService {
       endpoint = optionalEndpoint.get();
       endpoint.setIps(input.getIps());
       endpoint.setMacAddresses(input.getMacAddresses());
-      endpoint.setHostname(input.getHostname());
-      endpoint.setPlatform(input.getPlatform());
-      endpoint.setArch(input.getArch());
       Agent.PRIVILEGE privilege =
           input.isElevated() ? Agent.PRIVILEGE.admin : Agent.PRIVILEGE.standard;
       Agent.DEPLOYMENT_MODE deploymentMode =

@@ -2,10 +2,9 @@ package io.openbas.executors.tanium;
 
 import io.openbas.executors.tanium.client.TaniumExecutorClient;
 import io.openbas.executors.tanium.config.TaniumExecutorConfig;
-import io.openbas.executors.tanium.service.TaniumExecutorContextService;
 import io.openbas.executors.tanium.service.TaniumExecutorService;
 import io.openbas.integrations.ExecutorService;
-import io.openbas.integrations.InjectorService;
+import io.openbas.service.AgentService;
 import io.openbas.service.EndpointService;
 import jakarta.annotation.PostConstruct;
 import java.time.Duration;
@@ -21,9 +20,8 @@ public class TaniumExecutor {
   private final ThreadPoolTaskScheduler taskScheduler;
   private final TaniumExecutorClient client;
   private final EndpointService endpointService;
-  private final TaniumExecutorContextService taniumExecutorContextService;
   private final ExecutorService executorService;
-  private final InjectorService injectorService;
+  private final AgentService agentService;
 
   @PostConstruct
   public void init() {
@@ -32,9 +30,8 @@ public class TaniumExecutor {
             this.executorService,
             this.client,
             this.config,
-            this.taniumExecutorContextService,
             this.endpointService,
-            this.injectorService);
+            this.agentService);
     if (this.config.isEnable()) {
       this.taskScheduler.scheduleAtFixedRate(service, Duration.ofSeconds(60));
     }

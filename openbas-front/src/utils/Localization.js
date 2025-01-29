@@ -916,6 +916,9 @@ const i18n = {
       'inject_tags': 'Tags',
       'inject_title': 'Titre',
       'inject_type': 'Type',
+      'inject_asset_groups': 'Groupe d\'actifs',
+      'inject_assets': 'Actifs',
+      'inject_teams': 'Equipes',
       'inject_updated_at': 'Mis à jour à',
       // Injector Contract
       'injector_contract_kill_chain_phases': 'Phase de kill chain',
@@ -2342,6 +2345,9 @@ const i18n = {
       'inject_tags': '标签',
       'inject_title': '标题',
       'inject_type': '类型',
+      'inject_asset_groups': '资产组',
+      'inject_assets': '资产',
+      'inject_teams': '团队',
       'inject_updated_at': '更新于',
       // Injector Contract
       'injector_contract_kill_chain_phases': '杀伤链阶段',
@@ -2935,6 +2941,9 @@ const i18n = {
       'inject_tags': 'Tags',
       'inject_title': 'Title',
       'inject_type': 'Type',
+      'inject_asset_groups': 'Asset groups',
+      'inject_assets': 'Assets',
+      'inject_teams': 'Teams',
       'inject_updated_at': 'Updated at',
       // Injector Contract
       'injector_contract_kill_chain_phases': 'Kill chain phase',

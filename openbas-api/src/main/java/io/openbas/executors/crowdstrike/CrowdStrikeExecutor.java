@@ -6,6 +6,7 @@ import io.openbas.executors.crowdstrike.service.CrowdStrikeExecutorContextServic
 import io.openbas.executors.crowdstrike.service.CrowdStrikeExecutorService;
 import io.openbas.integrations.ExecutorService;
 import io.openbas.integrations.InjectorService;
+import io.openbas.service.AgentService;
 import io.openbas.service.EndpointService;
 import jakarta.annotation.PostConstruct;
 import java.time.Duration;
@@ -24,6 +25,7 @@ public class CrowdStrikeExecutor {
   private final CrowdStrikeExecutorContextService crowdStrikeExecutorContextService;
   private final ExecutorService executorService;
   private final InjectorService injectorService;
+  private final AgentService agentService;
 
   @PostConstruct
   public void init() {
@@ -34,7 +36,8 @@ public class CrowdStrikeExecutor {
             this.config,
             this.crowdStrikeExecutorContextService,
             this.endpointService,
-            this.injectorService);
+            this.injectorService,
+            this.agentService);
     if (this.config.isEnable()) {
       this.taskScheduler.scheduleAtFixedRate(service, Duration.ofSeconds(60));
     }

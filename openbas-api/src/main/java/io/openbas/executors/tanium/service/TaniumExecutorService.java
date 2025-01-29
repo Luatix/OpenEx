@@ -102,8 +102,8 @@ public class TaniumExecutorService implements Runnable {
       Endpoint endpoint = endpointAgent.getKey();
       Agent agent = endpointAgent.getValue();
       Optional<Endpoint> optionalEndpoint =
-              this.endpointService.findEndpointByAgentDetails(
-                      endpoint.getHostname(), endpoint.getPlatform(), endpoint.getArch());
+          this.endpointService.findEndpointByAgentDetails(
+              endpoint.getHostname(), endpoint.getPlatform(), endpoint.getArch());
       if (agent.isActive()) {
         // Endpoint already created -> attributes to update
         if (optionalEndpoint.isPresent()) {
@@ -133,19 +133,19 @@ public class TaniumExecutorService implements Runnable {
           this.agentService.registerAgent(agent);
         }
       } else {
-        if(optionalEndpoint.isPresent()) {
+        if (optionalEndpoint.isPresent()) {
           Optional<Agent> optionalAgent =
-                  this.agentService.getAgentByAgentDetailsForAnAsset(
-                          optionalEndpoint.get().getId(),
-                          agent.getExecutedByUser(),
-                          agent.getDeploymentMode(),
-                          agent.getPrivilege(),
-                          TANIUM_EXECUTOR_TYPE);
+              this.agentService.getAgentByAgentDetailsForAnAsset(
+                  optionalEndpoint.get().getId(),
+                  agent.getExecutedByUser(),
+                  agent.getDeploymentMode(),
+                  agent.getPrivilege(),
+                  TANIUM_EXECUTOR_TYPE);
           if (optionalAgent.isPresent()) {
             Agent existingAgent = optionalAgent.get();
             if ((now().toEpochMilli() - existingAgent.getLastSeen().toEpochMilli()) > DELETE_TTL) {
               log.info(
-                      "Found stale endpoint " + endpoint.getName() + ", deleting the agent in it...");
+                  "Found stale endpoint " + endpoint.getName() + ", deleting the agent in it...");
               this.agentService.deleteAgent(existingAgent.getId());
             }
           }

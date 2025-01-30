@@ -406,9 +406,9 @@ public class CalderaExecutor extends Injector {
             log.log(Level.INFO, "Agent found and not present in the database, creating it...");
             io.openbas.database.model.Agent newAgent = new io.openbas.database.model.Agent();
             newAgent.setInject(inject);
-            newAgent.setParent(assetEndpoint.getAgents().getFirst());
+            newAgent.setParent(agent);
             newAgent.setProcessName(agentCaldera.getExe_name());
-            newAgent.setExecutor(assetEndpoint.getExecutor());
+            newAgent.setExecutor(agent.getExecutor());
             newAgent.setExternalReference(agentCaldera.getPaw());
             newAgent.setPrivilege(io.openbas.database.model.Agent.PRIVILEGE.admin);
             newAgent.setDeploymentMode(io.openbas.database.model.Agent.DEPLOYMENT_MODE.session);

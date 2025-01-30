@@ -5,8 +5,8 @@ import io.openbas.database.repository.AgentRepository;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import java.util.List;
-import java.util.Optional;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -29,8 +29,8 @@ public class AgentService {
     List<Agent> agents = agentRepository.findByAssetIds(assetIds);
 
     return agents.stream()
-            .filter(Agent::isActive)
-            .collect(Collectors.groupingBy(agent -> agent.getAsset().getId()));
+        .filter(Agent::isActive)
+        .collect(Collectors.groupingBy(agent -> agent.getAsset().getId()));
   }
 
   public Optional<Agent> getAgentByAgentDetailsForAnAsset(

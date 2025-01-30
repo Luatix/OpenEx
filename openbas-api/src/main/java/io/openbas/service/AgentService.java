@@ -25,6 +25,14 @@ public class AgentService {
     return agentRepository.findByAssetGroupIds(assetGroupIds);
   }
 
+  public Map<String, List<Agent>> getAgentsGroupedByAsset(List<String> assetIds) {
+    List<Agent> agents = agentRepository.findByAssetIds(assetIds);
+
+    return agents.stream()
+            .filter(Agent::isActive)
+            .collect(Collectors.groupingBy(agent -> agent.getAsset().getId()));
+  }
+
   public Optional<Agent> getAgentByAgentDetailsForAnAsset(
       String assetId,
       String user,
@@ -39,11 +47,5 @@ public class AgentService {
     return this.agentRepository.save(agent);
   }
 
-  public Map<String, List<Agent>> getAgentsGroupedByAsset(List<String> assetIds) {
-    List<Agent> agents = agentRepository.findByAssetIds(assetIds);
-
-    return agents.stream()
-        .filter(Agent::isActive)
-        .collect(Collectors.groupingBy(agent -> agent.getAsset().getId()));
-  }
+  public void deleteAgent(@NotBlank final String agentId) { this.agentRepository.deleteById(agentId); }
 }

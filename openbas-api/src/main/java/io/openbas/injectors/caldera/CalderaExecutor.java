@@ -136,7 +136,7 @@ public class CalderaExecutor extends Injector {
                         try {
                           Endpoint endpointAgent = (Endpoint) Hibernate.unproxy(agent.getAsset());
                           io.openbas.database.model.Agent executionAgent =
-                              this.findAndRegisterAssetForExecution(
+                              this.findAndRegisterAgentForExecution(
                                   injection.getInjection().getInject(), endpointAgent, agent);
 
                           if (executionAgent != null) {
@@ -356,7 +356,7 @@ public class CalderaExecutor extends Injector {
     return assets;
   }
 
-  private io.openbas.database.model.Agent findAndRegisterAssetForExecution(
+  private io.openbas.database.model.Agent findAndRegisterAgentForExecution(
       @NotNull final Inject inject,
       @NotNull final Endpoint assetEndpoint,
       @NotNull final io.openbas.database.model.Agent agent)

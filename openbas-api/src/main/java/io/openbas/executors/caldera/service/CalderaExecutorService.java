@@ -142,15 +142,15 @@ public class CalderaExecutorService implements Runnable {
               io.openbas.database.model.Agent agentToUpdate = optionalAgent.get();
               agentToUpdate.setAsset(endpointToUpdate);
               clearAbilityForAgent(agentToUpdate);
-              this.agentService.registerAgent(agentToUpdate);
+              this.agentService.createOrUpdateAgent(agentToUpdate);
             } else {
               // New agent to create for the endpoint
-              this.agentService.registerAgent(agent);
+              this.agentService.createOrUpdateAgent(agent);
             }
           } else {
             // New endpoint and new agent to create
             this.endpointService.createEndpoint(endpoint);
-            this.agentService.registerAgent(agent);
+            this.agentService.createOrUpdateAgent(agent);
           }
         } else {
           Optional<io.openbas.database.model.Agent> optionalAgent =

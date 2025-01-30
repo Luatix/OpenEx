@@ -25,12 +25,6 @@ public interface EndpointRepository
       @NotBlank final @Param("platform") String platform,
       @NotBlank final @Param("arch") String arch);
 
-  @Query(
-      value =
-          "select e.* from assets e left join agents a on e.asset_id = a.agent_asset where a.agent_external_reference = :externalReference",
-      nativeQuery = true)
-  Optional<Endpoint> findByExternalReference(@Param("externalReference") String externalReference);
-
   @Override
   @Query(
       "select COUNT(DISTINCT a) from Inject i "

@@ -84,11 +84,6 @@ public class EndpointService {
   }
 
   @Transactional(readOnly = true)
-  public Optional<Endpoint> findByExternalReference(@NotBlank final String externalReference) {
-    return this.endpointRepository.findByExternalReference(externalReference);
-  }
-
-  @Transactional(readOnly = true)
   public Optional<Endpoint> findEndpointByAgentDetails(
       @NotBlank final String hostname,
       @NotNull final Endpoint.PLATFORM_TYPE platform,

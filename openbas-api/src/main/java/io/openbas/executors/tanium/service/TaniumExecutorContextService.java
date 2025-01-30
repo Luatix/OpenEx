@@ -64,6 +64,4 @@ public class TaniumExecutorContextService {
         packageId,
         Base64.getEncoder().encodeToString(command.getBytes()));
   }
-
-  public void launchExecutorClear(@NotNull final Injector injector, @NotNull final Asset asset) {}
 }

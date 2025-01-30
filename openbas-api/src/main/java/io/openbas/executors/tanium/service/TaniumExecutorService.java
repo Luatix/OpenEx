@@ -145,7 +145,11 @@ public class TaniumExecutorService implements Runnable {
             Agent existingAgent = optionalAgent.get();
             if ((now().toEpochMilli() - existingAgent.getLastSeen().toEpochMilli()) > DELETE_TTL) {
               log.info(
-                  "Found stale endpoint " + endpoint.getName() + ", deleting the agent in it...");
+                  "Found stale endpoint "
+                      + endpoint.getName()
+                      + ", deleting the agent "
+                      + existingAgent.getExecutedByUser()
+                      + " in it...");
               this.agentService.deleteAgent(existingAgent.getId());
             }
           }

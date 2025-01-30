@@ -1,5 +1,7 @@
 package io.openbas.executors.caldera.service;
 
+import static io.openbas.executors.caldera.service.CalderaExecutorService.toArch;
+import static io.openbas.executors.caldera.service.CalderaExecutorService.toPlatform;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.verify;
@@ -94,7 +96,7 @@ public class CalderaExecutorServiceTest {
     endpoint.setDescription("Asset collected by Caldera executor context.");
     endpoint.setIps(agent.getHost_ip_addrs());
     endpoint.setHostname(agent.getHost());
-    endpoint.setPlatform(CalderaExecutorService.toPlatform("windows"));
+    endpoint.setPlatform(toPlatform("windows"));
     endpoint.setArch(CalderaExecutorService.toArch("amd64"));
     agentEndpoint.setProcessName(agent.getExe_name());
     agentEndpoint.setExecutor(executor);
@@ -139,7 +141,11 @@ public class CalderaExecutorServiceTest {
 
   @Test
   void test_findExistingEndpointForAnAgent_WITH_2_existing_endpoint_same_host() throws Exception {
-    Optional<Endpoint> result = calderaExecutorService.findExistingEndpointForAnAgent(calderaAgent);
+    Optional<Endpoint> result =
+        endpointService.findEndpointByAgentDetails(
+            calderaAgent.getHost(),
+            toPlatform(calderaAgent.getPlatform()),
+            toArch(calderaAgent.getArchitecture()));
     assertEquals(calderaEndpoint, result.get());
   }
 
@@ -147,7 +153,11 @@ public class CalderaExecutorServiceTest {
   void test_findExistingEndpointForAnAgent_WITH_no_existing_endpoint() throws Exception {
     when(endpointService.findAssetsForInjectionByHostname(CALDERA_AGENT_HOSTNAME))
         .thenReturn(List.of());
-    Optional<Endpoint> result = calderaExecutorService.findExistingEndpointForAnAgent(calderaAgent);
+    Optional<Endpoint> result =
+        endpointService.findEndpointByAgentDetails(
+            calderaAgent.getHost(),
+            toPlatform(calderaAgent.getPlatform()),
+            toArch(calderaAgent.getArchitecture()));
     assertTrue(result.isEmpty());
   }
 
@@ -156,7 +166,11 @@ public class CalderaExecutorServiceTest {
     randomEndpoint.getAgents().getFirst().setExecutor(null);
     randomEndpoint.setHostname(CALDERA_AGENT_HOSTNAME);
     randomEndpoint.setIps(new String[] {CALDERA_AGENT_IP});
-    Optional<Endpoint> result = calderaExecutorService.findExistingEndpointForAnAgent(calderaAgent);
+    Optional<Endpoint> result =
+        endpointService.findEndpointByAgentDetails(
+            calderaAgent.getHost(),
+            toPlatform(calderaAgent.getPlatform()),
+            toArch(calderaAgent.getArchitecture()));
     assertEquals(calderaEndpoint, result.get());
   }
 }

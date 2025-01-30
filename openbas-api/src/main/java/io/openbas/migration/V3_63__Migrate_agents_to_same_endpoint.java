@@ -6,7 +6,7 @@ import org.flywaydb.core.api.migration.Context;
 import org.springframework.stereotype.Component;
 
 @Component
-public class V3_62__Migrate_agents_to_same_endpoint extends BaseJavaMigration {
+public class V3_63__Migrate_agents_to_same_endpoint extends BaseJavaMigration {
   @Override
   public void migrate(Context context) throws Exception {
     Statement select = context.getConnection().createStatement();

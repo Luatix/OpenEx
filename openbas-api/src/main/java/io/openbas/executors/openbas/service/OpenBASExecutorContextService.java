@@ -60,8 +60,4 @@ public class OpenBASExecutorContextService {
     assetAgentJob.setInject(inject);
     assetAgentJobRepository.save(assetAgentJob);
   }
-
-  public void launchExecutorClear(@NotNull final Injector injector, @NotNull final Asset asset) {
-    // TODO
-  }
 }

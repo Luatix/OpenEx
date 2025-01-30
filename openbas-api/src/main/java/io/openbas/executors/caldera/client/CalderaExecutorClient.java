@@ -51,13 +51,9 @@ public class CalderaExecutorClient {
     }
   }
 
-  public void deleteAgent(Endpoint endpoint) {
+  public void deleteAgent(io.openbas.database.model.Agent agent) {
     try {
-      this.delete(
-          this.config.getRestApiV2Url()
-              + AGENT_URI
-              + "/"
-              + endpoint.getAgents().getFirst().getExternalReference());
+      this.delete(this.config.getRestApiV2Url() + AGENT_URI + "/" + agent.getExternalReference());
     } catch (IOException e) {
       throw new RuntimeException(e);
     }

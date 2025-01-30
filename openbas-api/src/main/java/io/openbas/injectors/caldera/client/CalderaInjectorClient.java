@@ -2,7 +2,6 @@ package io.openbas.injectors.caldera.client;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.openbas.database.model.Endpoint;
 import io.openbas.injectors.caldera.client.model.Ability;
 import io.openbas.injectors.caldera.client.model.Agent;
 import io.openbas.injectors.caldera.client.model.Result;
@@ -105,23 +104,6 @@ public class CalderaInjectorClient {
     }
   }
 
-  public void killAgent(Endpoint endpoint) {
-    try {
-      Map<String, Object> body = new HashMap<>();
-      body.put("watchdog", 1);
-      body.put("sleep_min", 3);
-      body.put("sleep_max", 3);
-      this.patch(
-          this.config.getRestApiV2Url()
-              + AGENT_URI
-              + "/"
-              + endpoint.getAgents().getFirst().getExternalReference(),
-          body);
-    } catch (IOException e) {
-      throw new RuntimeException(e);
-    }
-  }
-
   public void killAgent(Agent agent) {
     try {
       Map<String, Object> body = new HashMap<>();
@@ -129,18 +111,6 @@ public class CalderaInjectorClient {
       body.put("sleep_min", 3);
       body.put("sleep_max", 3);
       this.patch(this.config.getRestApiV2Url() + AGENT_URI + "/" + agent.getPaw(), body);
-    } catch (IOException e) {
-      throw new RuntimeException(e);
-    }
-  }
-
-  public void deleteAgent(Endpoint endpoint) {
-    try {
-      this.delete(
-          this.config.getRestApiV2Url()
-              + AGENT_URI
-              + "/"
-              + endpoint.getAgents().getFirst().getExternalReference());
     } catch (IOException e) {
       throw new RuntimeException(e);
     }

@@ -10,6 +10,7 @@ import io.openbas.executors.caldera.config.CalderaExecutorConfig;
 import io.openbas.executors.caldera.model.Agent;
 import io.openbas.integrations.ExecutorService;
 import io.openbas.integrations.InjectorService;
+import io.openbas.service.AgentService;
 import io.openbas.service.EndpointService;
 import io.openbas.service.PlatformSettingsService;
 import jakarta.validation.constraints.NotBlank;
@@ -18,10 +19,7 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Locale;
-import java.util.Optional;
+import java.util.*;
 import java.util.logging.Level;
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +42,7 @@ public class CalderaExecutorService implements Runnable {
 
   private final InjectorService injectorService;
   private final PlatformSettingsService platformSettingsService;
+  private final AgentService agentService;
 
   private Executor executor = null;
 
@@ -72,12 +71,14 @@ public class CalderaExecutorService implements Runnable {
       CalderaExecutorContextService calderaExecutorContextService,
       EndpointService endpointService,
       InjectorService injectorService,
-      PlatformSettingsService platformSettingsService) {
+      PlatformSettingsService platformSettingsService,
+      AgentService agentService) {
     this.client = client;
     this.endpointService = endpointService;
     this.calderaExecutorContextService = calderaExecutorContextService;
     this.injectorService = injectorService;
     this.platformSettingsService = platformSettingsService;
+    this.agentService = agentService;
     try {
       if (config.isEnable()) {
         this.executor =
@@ -110,44 +111,70 @@ public class CalderaExecutorService implements Runnable {
       // This is NOT a standard behaviour, this is because we are using Caldera as an executor and
       // we should not
       // Will be replaced by the XTM agent
-      List<Agent> agents =
-          this.client.agents().stream()
-              .filter(agent -> !agent.getExe_name().contains("implant"))
-              .toList();
-      log.info("Caldera executor provisioning based on " + agents.size() + " assets");
-      agents.forEach(
-          agent -> {
-            Optional<Endpoint> existingEndpoint = findExistingEndpointForAnAgent(agent);
-
-            if (existingEndpoint.isEmpty()) {
-              Optional<Endpoint> endpointByExternalReference =
-                  endpointService.findByExternalReference(agent.getPaw());
-              if (endpointByExternalReference.isPresent()) {
-                this.updateEndpoint(agent, endpointByExternalReference.get());
-              } else {
-                this.endpointService.createEndpoint(toEndpoint(agent));
-              }
+      Map<Endpoint, io.openbas.database.model.Agent> endpointsAgents =
+          toEndpoint(
+              this.client.agents().stream()
+                  .filter(agent -> !agent.getExe_name().contains("implant"))
+                  .toList());
+      log.info("Caldera executor provisioning based on " + endpointsAgents.size() + " assets");
+      for (var endpointAgent : endpointsAgents.entrySet()) {
+        Endpoint endpoint = endpointAgent.getKey();
+        io.openbas.database.model.Agent agent = endpointAgent.getValue();
+        Optional<Endpoint> optionalEndpoint =
+            this.endpointService.findEndpointByAgentDetails(
+                endpoint.getHostname(), endpoint.getPlatform(), endpoint.getArch());
+        if (agent.isActive()) {
+          // Endpoint already created -> attributes to update
+          if (optionalEndpoint.isPresent()) {
+            Endpoint endpointToUpdate = optionalEndpoint.get();
+            Optional<io.openbas.database.model.Agent> optionalAgent =
+                this.agentService.getAgentByAgentDetailsForAnAsset(
+                    endpointToUpdate.getId(),
+                    agent.getExecutedByUser(),
+                    agent.getDeploymentMode(),
+                    agent.getPrivilege(),
+                    CALDERA_EXECUTOR_TYPE);
+            endpointToUpdate.setIps(endpoint.getIps());
+            endpointToUpdate.setMacAddresses(endpoint.getMacAddresses());
+            this.endpointService.updateEndpoint(endpointToUpdate);
+            // Agent already created -> attributes to update
+            if (optionalAgent.isPresent()) {
+              io.openbas.database.model.Agent agentToUpdate = optionalAgent.get();
+              agentToUpdate.setAsset(endpointToUpdate);
+              clearAbilityForAgent(agentToUpdate);
+              this.agentService.registerAgent(agentToUpdate);
             } else {
-              this.updateEndpoint(agent, existingEndpoint.get());
+              // New agent to create for the endpoint
+              this.agentService.registerAgent(agent);
             }
-          });
-      List<Endpoint> inactiveEndpoints =
-          toEndpoint(agents).stream().filter(endpoint -> !endpoint.getActive()).toList();
-      inactiveEndpoints.forEach(
-          endpoint -> {
-            Optional<Endpoint> optionalExistingEndpoint =
-                this.endpointService.findByExternalReference(
-                    endpoint.getAgents().getFirst().getExternalReference());
-            if (optionalExistingEndpoint.isPresent()) {
-              Endpoint existingEndpoint = optionalExistingEndpoint.get();
-              if ((now().toEpochMilli() - existingEndpoint.getClearedAt().toEpochMilli())
-                  > DELETE_TTL) {
-                log.info("Found stale agent " + existingEndpoint.getName() + ", deleting it...");
-                this.client.deleteAgent(existingEndpoint);
-                this.endpointService.deleteEndpoint(existingEndpoint.getId());
-              }
+          } else {
+            // New endpoint and new agent to create
+            this.endpointService.createEndpoint(endpoint);
+            this.agentService.registerAgent(agent);
+          }
+        } else {
+          Optional<io.openbas.database.model.Agent> optionalAgent =
+              this.agentService.getAgentByAgentDetailsForAnAsset(
+                  optionalEndpoint.get().getId(),
+                  agent.getExecutedByUser(),
+                  agent.getDeploymentMode(),
+                  agent.getPrivilege(),
+                  CALDERA_EXECUTOR_TYPE);
+          if (optionalAgent.isPresent()) {
+            io.openbas.database.model.Agent existingAgent = optionalAgent.get();
+            if ((now().toEpochMilli() - agent.getLastSeen().toEpochMilli()) > DELETE_TTL) {
+              log.info(
+                  "Found stale endpoint "
+                      + endpoint.getName()
+                      + ", deleting the agent "
+                      + existingAgent.getExecutedByUser()
+                      + " in it...");
+              this.client.deleteAgent(existingAgent);
+              this.agentService.deleteAgent(existingAgent.getId());
             }
-          });
+          }
+        }
+      }
       this.platformSettingsService.cleanMessage(BannerMessage.BANNER_KEYS.CALDERA_UNAVAILABLE);
     } catch (Exception e) {
       this.platformSettingsService.errorMessage(BannerMessage.BANNER_KEYS.CALDERA_UNAVAILABLE);
@@ -156,71 +183,48 @@ public class CalderaExecutorService implements Runnable {
 
   // -- PRIVATE --
 
-  @VisibleForTesting
-  protected Optional<Endpoint> findExistingEndpointForAnAgent(@NotNull final Agent agent) {
-    return this.endpointService.findAssetsForInjectionByHostname(agent.getHost()).stream()
-        .filter(
-            endpoint ->
-                Arrays.stream(endpoint.getIps())
-                        .anyMatch(Arrays.asList(agent.getHost_ip_addrs())::contains)
-                    && endpoint.getExecutor() != null
-                    && CALDERA_EXECUTOR_TYPE.equals(endpoint.getExecutor().getType()))
-        .findFirst();
+  private Map<Endpoint, io.openbas.database.model.Agent> toEndpoint(
+      @NotNull final List<Agent> agentsCaldera) {
+    HashMap<Endpoint, io.openbas.database.model.Agent> endpointsAgents = new HashMap<>();
+    agentsCaldera.forEach(
+        agent -> {
+          Endpoint endpoint = new Endpoint();
+          endpoint.setName(agent.getHost());
+          endpoint.setDescription("Asset collected by Caldera executor context.");
+          endpoint.setIps(agent.getHost_ip_addrs());
+          endpoint.setHostname(agent.getHost());
+          endpoint.setPlatform(toPlatform(agent.getPlatform()));
+          endpoint.setArch(toArch(agent.getArchitecture()));
+          io.openbas.database.model.Agent agentEndpoint = new io.openbas.database.model.Agent();
+          agentEndpoint.setExecutor(this.executor);
+          agentEndpoint.setExternalReference(agent.getPaw());
+          agentEndpoint.setPrivilege(io.openbas.database.model.Agent.PRIVILEGE.admin);
+          agentEndpoint.setDeploymentMode(io.openbas.database.model.Agent.DEPLOYMENT_MODE.session);
+          agentEndpoint.setExecutedByUser(agent.getUsername());
+          agentEndpoint.setLastSeen(toInstant(agent.getLast_seen()));
+          agentEndpoint.setProcessName(agent.getExe_name());
+          agentEndpoint.setAsset(endpoint);
+          endpointsAgents.put(endpoint, agentEndpoint);
+        });
+    return endpointsAgents;
   }
 
-  private Endpoint toEndpoint(@NotNull final Agent agent) {
-    Endpoint endpoint = new Endpoint();
-    endpoint.setName(agent.getHost());
-    endpoint.setDescription("Asset collected by Caldera executor context.");
-    endpoint.setIps(agent.getHost_ip_addrs());
-    endpoint.setHostname(agent.getHost());
-    endpoint.setPlatform(toPlatform(agent.getPlatform()));
-    endpoint.setArch(toArch(agent.getArchitecture()));
-    io.openbas.database.model.Agent agentEndpoint = new io.openbas.database.model.Agent();
-    agentEndpoint.setExecutor(this.executor);
-    agentEndpoint.setExternalReference(agent.getPaw());
-    agentEndpoint.setPrivilege(io.openbas.database.model.Agent.PRIVILEGE.admin);
-    agentEndpoint.setDeploymentMode(io.openbas.database.model.Agent.DEPLOYMENT_MODE.session);
-    agentEndpoint.setExecutedByUser(agent.getUsername());
-    agentEndpoint.setLastSeen(toInstant(agent.getLast_seen()));
-    agentEndpoint.setProcessName(agent.getExe_name());
-    agentEndpoint.setAsset(endpoint);
-    endpoint.setAgents(List.of(agentEndpoint));
-    return endpoint;
-  }
-
-  private List<Endpoint> toEndpoint(@NotNull final List<Agent> agents) {
-    return agents.stream().map(this::toEndpoint).toList();
-  }
-
-  private void updateEndpoint(
-      @NotNull final Agent agent, @NotNull final Endpoint existingEndpoint) {
-    existingEndpoint.getAgents().getFirst().setLastSeen(toInstant(agent.getLast_seen()));
-    existingEndpoint.getAgents().getFirst().setExternalReference(agent.getPaw());
-    existingEndpoint.getAgents().getFirst().setExecutedByUser(agent.getUsername());
-    existingEndpoint.getAgents().getFirst().setExecutor(this.executor);
-    existingEndpoint.setName(agent.getHost());
-    existingEndpoint.setIps(agent.getHost_ip_addrs());
-    existingEndpoint.setHostname(agent.getHost());
-    existingEndpoint.getAgents().getFirst().setProcessName(agent.getExe_name());
-    existingEndpoint.setPlatform(toPlatform(agent.getPlatform()));
-    existingEndpoint.setArch(toArch(agent.getArchitecture()));
-    if ((now().toEpochMilli() - existingEndpoint.getClearedAt().toEpochMilli()) > CLEAR_TTL) {
+  private void clearAbilityForAgent(@NotNull final io.openbas.database.model.Agent existingAgent) {
+    if ((now().toEpochMilli() - existingAgent.getClearedAt().toEpochMilli()) > CLEAR_TTL) {
       try {
-        log.info("Clearing endpoint " + existingEndpoint.getHostname());
+        log.info("Clearing agent caldera " + existingAgent.getExecutedByUser());
         Iterable<Injector> injectors = injectorService.injectors();
         injectors.forEach(
             injector -> {
               if (injector.getExecutorClearCommands() != null) {
-                this.calderaExecutorContextService.launchExecutorClear(injector, existingEndpoint);
+                this.calderaExecutorContextService.launchExecutorClear(injector, existingAgent);
               }
             });
-        existingEndpoint.setClearedAt(now());
+        existingAgent.setClearedAt(now());
       } catch (RuntimeException e) {
         log.info("Failed clear agents");
       }
     }
-    this.endpointService.updateEndpoint(existingEndpoint);
   }
 
   @VisibleForTesting

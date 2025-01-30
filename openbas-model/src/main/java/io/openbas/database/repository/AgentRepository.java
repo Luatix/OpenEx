@@ -19,7 +19,10 @@ public interface AgentRepository
    * @param assetIds the asset ids
    * @return the list of agents
    */
-  @Query(value = "SELECT a.* FROM agents a WHERE a.agent_asset IN :assetIds ;", nativeQuery = true)
+  @Query(
+      value =
+          "SELECT a.* FROM agents a WHERE a.agent_asset IN :assetIds and a.agent_parent is null and a.agent_inject is null;",
+      nativeQuery = true)
   List<Agent> findByAssetIds(@Param("assetIds") List<String> assetIds);
 
   /**
@@ -31,7 +34,7 @@ public interface AgentRepository
   @Query(
       value =
           "SELECT a.* FROM agents a left join asset_groups_assets aga ON a.agent_asset = aga.asset_id "
-              + "where aga.asset_group_id in :assetGroupIds ;",
+              + "where aga.asset_group_id in :assetGroupIds and a.agent_parent is null and a.agent_inject is null;",
       nativeQuery = true)
   List<Agent> findByAssetGroupIds(@Param("assetGroupIds") List<String> assetGroupIds);
 
@@ -39,7 +42,7 @@ public interface AgentRepository
       value =
           "SELECT a.* FROM agents a left join executors ex on a.agent_executor = ex.executor_id "
               + "where a.agent_asset = :assetId and a.agent_executed_by_user = :user and a.agent_deployment_mode = :deployment "
-              + "and a.agent_privilege = :privilege and ex.executor_type = :executor",
+              + "and a.agent_privilege = :privilege and a.agent_parent is null and a.agent_inject is null and ex.executor_type = :executor",
       nativeQuery = true)
   Optional<Agent> findByAssetExecutorUserDeploymentAndPrivilege(
       @Param("assetId") String assetId,

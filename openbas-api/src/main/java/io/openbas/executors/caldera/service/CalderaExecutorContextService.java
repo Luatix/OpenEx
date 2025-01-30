@@ -93,12 +93,11 @@ public class CalderaExecutorContextService {
             });
   }
 
-  public void launchExecutorClear(
-      @NotNull final Injector injector, @NotNull final Endpoint assetEndpoint) {
+  public void launchExecutorClear(@NotNull final Injector injector, @NotNull final Agent agent) {
     if (this.injectorExecutorAbilities.containsKey(injector.getId())) {
       calderaExecutorClient.exploit(
           "base64",
-          assetEndpoint.getAgents().getFirst().getExternalReference(),
+          agent.getExternalReference(),
           this.injectorExecutorClearAbilities.get(injector.getId()).getAbility_id(),
           List.of());
     }

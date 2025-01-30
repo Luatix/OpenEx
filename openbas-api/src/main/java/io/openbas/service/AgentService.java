@@ -47,5 +47,11 @@ public class AgentService {
     return this.agentRepository.save(agent);
   }
 
-  public void deleteAgent(@NotBlank final String agentId) { this.agentRepository.deleteById(agentId); }
+  public void deleteAgent(@NotBlank final String agentId) {
+    this.agentRepository.deleteById(agentId);
+  }
+
+  public Optional<Agent> findByExternalReference(String externalReference) {
+    return agentRepository.findByExternalReference(externalReference);
+  }
 }

@@ -178,7 +178,7 @@ public class EndpointService {
     agent.setLastSeen(Instant.now());
     agent.setAsset(endpoint);
     Endpoint updatedEndpoint = updateEndpoint(endpoint);
-    agentService.registerAgent(agent);
+    agentService.createOrUpdateAgent(agent);
     // If agent is not temporary and not the same version as the platform => Create an upgrade task
     // for the agent
     if (agent.getParent() == null && !agent.getVersion().equals(version)) {

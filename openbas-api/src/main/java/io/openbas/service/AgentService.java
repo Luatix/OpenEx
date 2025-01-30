@@ -35,7 +35,7 @@ public class AgentService {
         assetId, user, deploymentMode.name(), privilege.name(), executor);
   }
 
-  public Agent registerAgent(@NotNull final Agent agent) {
+  public Agent createOrUpdateAgent(@NotNull final Agent agent) {
     return this.agentRepository.save(agent);
   }
 

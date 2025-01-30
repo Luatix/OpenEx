@@ -53,10 +53,6 @@ public class Asset implements Base {
   @JsonProperty("asset_description")
   private String description;
 
-  @Column(name = "asset_cleared_at")
-  @JsonProperty("asset_cleared_at")
-  private Instant clearedAt = now();
-
   // -- TAG --
 
   @ArraySchema(schema = @Schema(type = "string"))

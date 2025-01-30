@@ -124,15 +124,15 @@ public class CrowdStrikeExecutorService implements Runnable {
           if (optionalAgent.isPresent()) {
             Agent agentToUpdate = optionalAgent.get();
             agentToUpdate.setAsset(endpointToUpdate);
-            this.agentService.registerAgent(agentToUpdate);
+            this.agentService.createOrUpdateAgent(agentToUpdate);
           } else {
             // New agent to create for the endpoint
-            this.agentService.registerAgent(agent);
+            this.agentService.createOrUpdateAgent(agent);
           }
         } else {
           // New endpoint and new agent to create
           this.endpointService.createEndpoint(endpoint);
-          this.agentService.registerAgent(agent);
+          this.agentService.createOrUpdateAgent(agent);
         }
       } else {
         if (optionalEndpoint.isPresent()) {

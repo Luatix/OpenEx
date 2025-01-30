@@ -12,13 +12,21 @@ import { DATA_FETCH_ERROR } from '../constants/ActionTypes';
 import { api } from '../network';
 import { store } from '../store';
 import { MESSAGING$ } from './Environment';
-import i18n from './Localization';
+import enOpenBAS from './lang/en.json';
+import frOpenBAS from './lang/fr.json';
+import zhOpenBAS from './lang/zh.json';
 
 const isEmptyPath = R.isNil(window.BASE_PATH) || R.isEmpty(window.BASE_PATH);
 const contextPath = isEmptyPath || window.BASE_PATH === '/' ? '' : window.BASE_PATH;
 export const APP_BASE_PATH = isEmptyPath || contextPath.startsWith('/') ? contextPath : `/${contextPath}`;
 
 const cache = createIntlCache();
+
+const langOpenBAS = {
+  en: enOpenBAS,
+  fr: frOpenBAS,
+  zh: zhOpenBAS,
+};
 
 export const buildUri = (uri: string) => `${APP_BASE_PATH}${uri}`;
 
@@ -44,7 +52,7 @@ const buildError = (data: AxiosError) => {
 const notifyError = (error: AxiosError) => {
   const intl = createIntl({
     locale: LANG,
-    messages: i18n.messages[LANG as keyof typeof i18n.messages],
+    messages: langOpenBAS[LANG as keyof typeof langOpenBAS],
   }, cache);
   if (error.status === 401 || error.status === 404) {
     // Do not notify the user, as a 401 error will already trigger a disconnection, as 404 already handle inside the app
@@ -66,10 +74,10 @@ const notifyError = (error: AxiosError) => {
 };
 
 const notifySuccess = (message: string) => {
-  const messages = i18n.messages[LANG as keyof typeof i18n.messages] as Record<string, string>;
+  const messages = langOpenBAS[LANG as keyof typeof langOpenBAS] as Record<string, string>;
   const intl = createIntl({
     locale: LANG,
-    messages: i18n.messages[LANG as keyof typeof i18n.messages],
+    messages: langOpenBAS[LANG as keyof typeof langOpenBAS],
   }, cache);
 
   if (!messages[message]) {

@@ -5,10 +5,6 @@ import 'cronstrue/locales/zh_CN';
 
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFnsV3';
-import enLocale from 'date-fns/locale/en-US';
-import esLocale from 'date-fns/locale/es';
-import frLocale from 'date-fns/locale/fr';
-import cnLocale from 'date-fns/locale/zh-CN';
 import moment from 'moment';
 import * as PropTypes from 'prop-types';
 import { useEffect } from 'react';
@@ -16,13 +12,14 @@ import { IntlProvider } from 'react-intl';
 
 import { useHelper } from '../store';
 import locale, { DEFAULT_LANG } from '../utils/BrowserLanguage';
-import i18n from '../utils/Localization';
+import enOpenBAS from '../utils/lang/en.json';
+import frOpenBAS from '../utils/lang/fr.json';
+import zhOpenBAS from '../utils/lang/zh.json';
 
-const localeMap = {
-  en: enLocale,
-  fr: frLocale,
-  es: esLocale,
-  zh: cnLocale,
+const langOpenBAS = {
+  en: enOpenBAS,
+  fr: frOpenBAS,
+  zh: zhOpenBAS,
 };
 
 const momentMap = {
@@ -49,7 +46,10 @@ const AppIntlProvider = (props) => {
     return { platformName: name, lang: userLang };
   });
   LANG = lang;
-  const baseMessages = i18n.messages[lang] || i18n.messages[DEFAULT_LANG];
+  const baseMessages = langOpenBAS[lang] || langOpenBAS[DEFAULT_LANG];
+  /*
+  passser l'anglais par défaut ou le fichier approprié en fonction de la langue
+   */
   const momentLocale = momentMap[lang];
   moment.locale(momentLocale);
   useEffect(() => {
@@ -70,7 +70,7 @@ const AppIntlProvider = (props) => {
     >
       <LocalizationProvider
         dateAdapter={AdapterDateFns}
-        adapterLocale={localeMap[lang]}
+        adapterLocale={langOpenBAS[lang]}
       >
         {children}
       </LocalizationProvider>

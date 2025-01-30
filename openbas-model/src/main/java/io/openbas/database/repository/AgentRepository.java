@@ -50,4 +50,6 @@ public interface AgentRepository
       @Param("deployment") String deployment,
       @Param("privilege") String privilege,
       @Param("executor") String executor);
+
+  Optional<Agent> findByExternalReference(String externalReference);
 }

@@ -61,8 +61,8 @@ public class Executor {
     // After execution, expectations are already created
     // Injection status is filled after complete execution
     // Report inject execution
-    Inject executedInject = injectRepository.findById(inject.getId()).orElseThrow();
-    InjectStatus completeStatus = injectStatusService.fromExecution(execution, executedInject);
+    InjectStatus injectStatus = this.injectStatusRepository.findByInject(inject).orElseThrow();
+    InjectStatus completeStatus = injectStatusService.fromExecution(execution, injectStatus);
     return injectStatusRepository.save(completeStatus);
   }
 
@@ -85,8 +85,7 @@ public class Executor {
                             + injectorContract.getInjector().getType()));
 
     // Status
-    InjectStatus injectStatus =
-        this.injectStatusService.initializeInjectStatus(inject.getId(), EXECUTING);
+    InjectStatus injectStatus = this.injectStatusService.initializeInjectStatus(inject.getId(), EXECUTING);
     if (Boolean.TRUE.equals(injectorContract.getNeedsExecutor())) {
       try {
         this.executionExecutorService.launchExecutorContext(inject);

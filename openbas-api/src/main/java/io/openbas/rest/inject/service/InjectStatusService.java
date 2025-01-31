@@ -171,10 +171,8 @@ public class InjectStatusService {
     return executionStatus;
   }
 
-  public InjectStatus fromExecution(Execution execution, Inject executedInject) {
-    InjectStatus injectStatus = executedInject.getStatus().orElse(new InjectStatus());
+  public InjectStatus fromExecution(Execution execution, InjectStatus injectStatus) {
     injectStatus.setTrackingSentDate(Instant.now());
-    injectStatus.setInject(executedInject);
 
     if (!execution.getTraces().isEmpty()) {
       List<ExecutionTraces> traces =

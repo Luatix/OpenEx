@@ -8,14 +8,17 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import io.openbas.annotation.Queryable;
 import io.openbas.database.audit.ModelBaseListener;
+import io.openbas.helper.MonoIdDeserializer;
 import io.openbas.helper.MultiIdSetDeserializer;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+
 import java.time.Instant;
 import java.util.*;
+
 import lombok.Data;
 import lombok.Setter;
 import org.hibernate.annotations.UuidGenerator;
@@ -69,6 +72,16 @@ public class Asset implements Base {
   @JsonProperty("asset_tags")
   private Set<Tag> tags = new HashSet<>();
 
+  // -- SNAPSHOT --
+
+  @ManyToOne(fetch = FetchType.LAZY)
+  @MapsId("injectSnapshotId")
+  @JoinColumn(name = "inject_snapshot_id")
+  @JsonProperty("inject_snapshot_id")
+  @JsonSerialize(using = MonoIdDeserializer.class)
+  @Schema(type = "string")
+  private InjectSnapshot snapshot;
+
   // -- AUDIT --
 
   @Column(name = "asset_created_at")
@@ -86,7 +99,8 @@ public class Asset implements Base {
     return Objects.hash(id);
   }
 
-  public Asset() {}
+  public Asset() {
+  }
 
   public Asset(String id, String type, String name) {
     this.name = name;

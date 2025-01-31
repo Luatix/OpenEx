@@ -15,10 +15,12 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+
 import java.time.Instant;
 import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.UuidGenerator;
@@ -29,7 +31,7 @@ import org.hibernate.annotations.UuidGenerator;
 @Table(name = "teams")
 @EntityListeners(ModelBaseListener.class)
 @NamedEntityGraphs({
-  @NamedEntityGraph(name = "Team.tags", attributeNodes = @NamedAttributeNode("tags"))
+    @NamedEntityGraph(name = "Team.tags", attributeNodes = @NamedAttributeNode("tags"))
 })
 public class Team implements Base {
 
@@ -124,6 +126,16 @@ public class Team implements Base {
   @JsonProperty("team_exercises_users")
   @JsonSerialize(using = MultiModelDeserializer.class)
   private List<ExerciseTeamUser> exerciseTeamUsers = new ArrayList<>();
+
+  // -- SNAPSHOT --
+
+  @ManyToOne(fetch = FetchType.LAZY)
+  @MapsId("injectSnapshotId")
+  @JoinColumn(name = "inject_snapshot_id")
+  @JsonProperty("inject_snapshot_id")
+  @JsonSerialize(using = MonoIdDeserializer.class)
+  @Schema(type = "string")
+  private InjectSnapshot snapshot;
 
   @JsonProperty("team_users_number")
   public long getUsersNumber() {
@@ -237,8 +249,12 @@ public class Team implements Base {
 
   @Override
   public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || !Base.class.isAssignableFrom(o.getClass())) return false;
+    if (this == o) {
+      return true;
+    }
+    if (o == null || !Base.class.isAssignableFrom(o.getClass())) {
+      return false;
+    }
     Base base = (Base) o;
     return id.equals(base.getId());
   }

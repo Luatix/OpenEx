@@ -9,6 +9,7 @@ import io.hypersistence.utils.hibernate.type.json.JsonType;
 import io.openbas.annotation.Queryable;
 import io.openbas.database.audit.ModelBaseListener;
 import io.openbas.database.model.Filters.FilterGroup;
+import io.openbas.helper.MonoIdDeserializer;
 import io.openbas.helper.MultiIdListDeserializer;
 import io.openbas.helper.MultiIdSetDeserializer;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -16,8 +17,10 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+
 import java.time.Instant;
 import java.util.*;
+
 import lombok.Data;
 import lombok.Getter;
 import org.hibernate.annotations.Type;
@@ -28,9 +31,9 @@ import org.hibernate.annotations.UuidGenerator;
 @Table(name = "asset_groups")
 @EntityListeners(ModelBaseListener.class)
 @NamedEntityGraphs({
-  @NamedEntityGraph(
-      name = "AssetGroup.tags-assets",
-      attributeNodes = {@NamedAttributeNode("tags"), @NamedAttributeNode("assets")})
+    @NamedEntityGraph(
+        name = "AssetGroup.tags-assets",
+        attributeNodes = {@NamedAttributeNode("tags"), @NamedAttributeNode("assets")})
 })
 public class AssetGroup implements Base {
 
@@ -94,6 +97,16 @@ public class AssetGroup implements Base {
   @JsonProperty("asset_group_tags")
   @Queryable(filterable = true, sortable = true, dynamicValues = true, path = "tags.id")
   private Set<Tag> tags = new HashSet<>();
+
+  // -- SNAPSHOT --
+
+  @ManyToOne(fetch = FetchType.LAZY)
+  @MapsId("injectSnapshotId")
+  @JoinColumn(name = "inject_snapshot_id")
+  @JsonProperty("inject_snapshot_id")
+  @JsonSerialize(using = MonoIdDeserializer.class)
+  @Schema(type = "string")
+  private InjectSnapshot snapshot;
 
   // -- AUDIT --
 

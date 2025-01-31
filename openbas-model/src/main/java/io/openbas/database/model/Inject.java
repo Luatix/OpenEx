@@ -20,9 +20,11 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+
 import java.time.Instant;
 import java.util.*;
 import java.util.stream.Collectors;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.java.Log;
@@ -246,7 +248,17 @@ public class Inject implements Base, Injection {
   @JsonSerialize(using = MultiModelDeserializer.class)
   private List<InjectExpectation> expectations = new ArrayList<>();
 
-  @Getter @Setter @Transient private boolean isListened = true;
+  // -- SNAPSHOT --
+  @OneToOne
+  @Getter
+  @JoinColumn(name = "inject_snapshot")
+  @JsonIgnore
+  private InjectSnapshot snapshot;
+
+  @Getter
+  @Setter
+  @Transient
+  private boolean isListened = true;
 
   // region transient
   @Transient
@@ -310,7 +322,7 @@ public class Inject implements Base, Injection {
       Optional<Instant> exerciseStartOpt = getExercise().getStart();
       if (exerciseStartOpt.isPresent()
           && (exerciseStartOpt.get().equals(triggerNowDate)
-              || exerciseStartOpt.get().isBefore(triggerNowDate))) {
+          || exerciseStartOpt.get().isBefore(triggerNowDate))) {
         return Optional.of(now().minusSeconds(60));
       }
     }
@@ -446,14 +458,12 @@ public class Inject implements Base, Injection {
   /**
    * Creates an Inject from a Raw Inject
    *
-   * @param rawInject the raw inject to convert
-   * @param rawTeams the map of the teams containing at least the ones linked to this inject
-   * @param rawInjectExpectationMap the map of the expectations containing at least the ones linked
-   *     to this inject
-   * @param mapOfAssetGroups the map of the asset groups containing at least the ones linked to this
-   *     inject
-   * @param mapOfAsset the map of the asset containing at least the ones linked to this inject and
-   *     the asset groups linked to it
+   * @param rawInject               the raw inject to convert
+   * @param rawTeams                the map of the teams containing at least the ones linked to this inject
+   * @param rawInjectExpectationMap the map of the expectations containing at least the ones linked to this inject
+   * @param mapOfAssetGroups        the map of the asset groups containing at least the ones linked to this inject
+   * @param mapOfAsset              the map of the asset containing at least the ones linked to this inject and the
+   *                                asset groups linked to it
    * @return an Inject
    */
   public static Inject fromRawInject(

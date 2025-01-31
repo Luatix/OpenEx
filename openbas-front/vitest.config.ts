@@ -6,9 +6,24 @@ import react from '@vitejs/plugin-react';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import jsdom from 'jsdom';
 import { defineConfig } from 'vitest/config';
+import {transformWithEsbuild} from "vite";
 
 export default defineConfig({
-  plugins: [react()],
+  plugins: [
+    {
+      name: 'treat-js-files-as-jsx',
+      async transform(code, id) {
+        if (!id.match(/src\/.*\.js$/)) return null;
+        // Use the exposed transform from vite, instead of directly
+        // transforming with esbuild
+        return transformWithEsbuild(code, id, {
+          loader: 'jsx',
+          jsx: 'automatic',
+        });
+      },
+    },
+    react()
+  ],
   test: {
     environment: 'jsdom',
     include: ['src/__tests__/**/**/*.test.{ts,tsx}'],

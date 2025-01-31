@@ -137,9 +137,20 @@ public class ExpectationApiTest extends IntegrationTest {
       DetectionExpectation detectionExpectationForAsset =
           ExpectationFixture.createTechnicalDetectionExpectation(
               savedEndpoint, EXPIRATION_TIME_SIX_HOURS);
+      DetectionExpectation detectionExpectationAgent =
+          ExpectationFixture.createTechnicalDetectionExpectation(
+              savedAgent, savedEndpoint, detectionExpectation, emptyList());
+      DetectionExpectation detectionExpectationAgent1 =
+          ExpectationFixture.createTechnicalDetectionExpectation(
+              savedAgent1, savedEndpoint, detectionExpectation, emptyList());
 
       injectExpectationService.buildAndSaveInjectExpectations(
-          executableInject, List.of(detectionExpectation, detectionExpectationForAsset));
+          executableInject,
+          List.of(
+              detectionExpectation,
+              detectionExpectationForAsset,
+              detectionExpectationAgent,
+              detectionExpectationAgent1));
 
       // Fetch injectExpectation created for asset group
       List<InjectExpectation> injectExpectations =
@@ -307,9 +318,17 @@ public class ExpectationApiTest extends IntegrationTest {
       DetectionExpectation detectionExpectationForAsset =
           ExpectationFixture.createTechnicalDetectionExpectation(
               savedEndpoint, EXPIRATION_TIME_SIX_HOURS);
+      DetectionExpectation detectionExpectationAgent =
+          ExpectationFixture.createTechnicalDetectionExpectation(
+              savedAgent, savedEndpoint, detectionExpectationForAsset, emptyList());
+      DetectionExpectation detectionExpectationAgent1 =
+          ExpectationFixture.createTechnicalDetectionExpectation(
+              savedAgent1, savedEndpoint, detectionExpectationForAsset, emptyList());
 
       injectExpectationService.buildAndSaveInjectExpectations(
-          executableInject, List.of(detectionExpectationForAsset));
+          executableInject,
+          List.of(
+              detectionExpectationForAsset, detectionExpectationAgent, detectionExpectationAgent1));
 
       // Fetch injectExpectation created for asset group
       List<InjectExpectation> injectExpectations =
@@ -455,8 +474,17 @@ public class ExpectationApiTest extends IntegrationTest {
           ExpectationFixture.createTechnicalDetectionExpectation(
               savedEndpoint, EXPIRATION_TIME_SIX_HOURS);
 
+      DetectionExpectation detectionExpectationAgent =
+          ExpectationFixture.createTechnicalDetectionExpectation(
+              savedAgent, savedEndpoint, detectionExpectationForAsset, emptyList());
+      DetectionExpectation detectionExpectationAgent1 =
+          ExpectationFixture.createTechnicalDetectionExpectation(
+              savedAgent1, savedEndpoint, detectionExpectationForAsset, emptyList());
+
       injectExpectationService.buildAndSaveInjectExpectations(
-          executableInject, List.of(detectionExpectationForAsset));
+          executableInject,
+          List.of(
+              detectionExpectationForAsset, detectionExpectationAgent, detectionExpectationAgent1));
 
       // Update one expectation from one agent with source collector-id
       List<InjectExpectation> injectExpectations =
@@ -511,8 +539,19 @@ public class ExpectationApiTest extends IntegrationTest {
           ExpectationFixture.createTechnicalPreventionExpectation(
               savedEndpoint, EXPIRATION_TIME_SIX_HOURS);
 
+      PreventionExpectation preventionExpectationAgent =
+          ExpectationFixture.createTechnicalPreventionExpectation(
+              savedAgent, savedEndpoint, preventionExpectationForAsset, emptyList());
+      PreventionExpectation preventionExpectationAgent1 =
+          ExpectationFixture.createTechnicalPreventionExpectation(
+              savedAgent1, savedEndpoint, preventionExpectationForAsset, emptyList());
+
       injectExpectationService.buildAndSaveInjectExpectations(
-          executableInject, List.of(preventionExpectationForAsset));
+          executableInject,
+          List.of(
+              preventionExpectationForAsset,
+              preventionExpectationAgent,
+              preventionExpectationAgent1));
 
       // -- EXECUTE --
       String response =
@@ -585,8 +624,17 @@ public class ExpectationApiTest extends IntegrationTest {
           ExpectationFixture.createTechnicalDetectionExpectation(
               savedEndpoint, EXPIRATION_TIME_SIX_HOURS);
 
+      DetectionExpectation detectionExpectationAgent =
+          ExpectationFixture.createTechnicalDetectionExpectation(
+              savedAgent, savedEndpoint, detectionExpectationForAsset, emptyList());
+      DetectionExpectation detectionExpectationAgent1 =
+          ExpectationFixture.createTechnicalDetectionExpectation(
+              savedAgent1, savedEndpoint, detectionExpectationForAsset, emptyList());
+
       injectExpectationService.buildAndSaveInjectExpectations(
-          executableInject, List.of(detectionExpectationForAsset));
+          executableInject,
+          List.of(
+              detectionExpectationForAsset, detectionExpectationAgent, detectionExpectationAgent1));
 
       // -- EXECUTE --
       String response =
@@ -661,10 +709,20 @@ public class ExpectationApiTest extends IntegrationTest {
       DetectionExpectation detectionExpectationForAsset =
           ExpectationFixture.createTechnicalDetectionExpectation(
               savedEndpoint, EXPIRATION_TIME_SIX_HOURS);
+      DetectionExpectation detectionExpectationAgent =
+          ExpectationFixture.createTechnicalDetectionExpectation(
+              savedAgent, savedEndpoint, detectionExpectationForAsset, emptyList());
+      DetectionExpectation detectionExpectationAgent1 =
+          ExpectationFixture.createTechnicalDetectionExpectation(
+              savedAgent1, savedEndpoint, detectionExpectationForAsset, emptyList());
 
       injectExpectationService.buildAndSaveInjectExpectations(
           executableInject,
-          List.of(detectionExpectationForAssetGroup, detectionExpectationForAsset));
+          List.of(
+              detectionExpectationForAssetGroup,
+              detectionExpectationForAsset,
+              detectionExpectationAgent,
+              detectionExpectationAgent1));
 
       // Fetch injectExpectation created for agent 1
       List<InjectExpectation> injectExpectations =
@@ -773,10 +831,20 @@ public class ExpectationApiTest extends IntegrationTest {
       DetectionExpectation detectionExpectationForAsset =
           ExpectationFixture.createTechnicalDetectionExpectation(
               savedEndpoint, EXPIRATION_TIME_SIX_HOURS);
+      DetectionExpectation detectionExpectationAgent =
+          ExpectationFixture.createTechnicalDetectionExpectation(
+              savedAgent, savedEndpoint, detectionExpectationForAsset, emptyList());
+      DetectionExpectation detectionExpectationAgent1 =
+          ExpectationFixture.createTechnicalDetectionExpectation(
+              savedAgent1, savedEndpoint, detectionExpectationForAsset, emptyList());
 
       injectExpectationService.buildAndSaveInjectExpectations(
           executableInject,
-          List.of(detectionExpectationForAssetGroup, detectionExpectationForAsset));
+          List.of(
+              detectionExpectationForAssetGroup,
+              detectionExpectationForAsset,
+              detectionExpectationAgent,
+              detectionExpectationAgent1));
 
       // Fetch injectExpectation created for agent 1
       List<InjectExpectation> injectExpectations =

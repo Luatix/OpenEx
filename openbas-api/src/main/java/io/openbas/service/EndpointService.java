@@ -72,7 +72,7 @@ public class EndpointService {
 
   public Endpoint endpoint(@NotBlank final String endpointId) {
     return this.endpointRepository
-        .findById(endpointId)
+        .findByEndpointIdWithAgents(endpointId)
         .orElseThrow(() -> new ElementNotFoundException("Endpoint not found"));
   }
 

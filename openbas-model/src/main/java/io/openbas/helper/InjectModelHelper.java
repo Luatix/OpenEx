@@ -50,46 +50,58 @@ public class InjectModelHelper {
     }
 
     ObjectNode contractContent = injectorContract.getConvertedContent();
-    List<JsonNode> contractMandatoryFields =
+    List<JsonNode> contractFields =
         StreamSupport.stream(contractContent.get(CONTACT_CONTENT_FIELDS).spliterator(), false)
-            .filter(
-                field -> {
-                  String key = field.get(CONTACT_ELEMENT_CONTENT_KEY).asText();
-                  boolean isMandatory = field.get(CONTACT_ELEMENT_CONTENT_MANDATORY).asBoolean();
-                  boolean isMandatoryGroup =
-                      field.hasNonNull(CONTACT_ELEMENT_CONTENT_MANDATORY_GROUPS)
-                          && field.get(CONTACT_ELEMENT_CONTENT_MANDATORY_GROUPS).asBoolean();
-                  return key.equals(CONTACT_ELEMENT_CONTENT_KEY_ASSETS)
-                      || isMandatory
-                      || isMandatoryGroup;
-                })
             .toList();
 
     boolean isReady = true;
-    for (JsonNode jsonField : contractMandatoryFields) {
-      String key = jsonField.get(CONTACT_ELEMENT_CONTENT_KEY).asText();
+    for (JsonNode jsonField : contractFields) {
 
-      switch (key) {
-        case CONTACT_ELEMENT_CONTENT_KEY_TEAMS -> {
-          if (teams.isEmpty() && !allTeams) {
+      // if field is mandatory or if field is asset, check if the field is set
+      String key = jsonField.get(CONTACT_ELEMENT_CONTENT_KEY).asText();
+      if (jsonField.get(CONTACT_ELEMENT_CONTENT_MANDATORY).asBoolean()
+          || (jsonField.hasNonNull(CONTACT_ELEMENT_CONTENT_MANDATORY_GROUPS)
+                  && jsonField.get(CONTACT_ELEMENT_CONTENT_MANDATORY_GROUPS).asBoolean()
+              || CONTACT_ELEMENT_CONTENT_KEY_ASSETS.equals(key))) {
+        isReady =
+            isFieldSet(
+                allTeams, teams, assets, assetGroups, jsonField, content, injectContractFields);
+      }
+
+      // if field is mandatory conditional, if the conditional field is set check if the current
+      // field is set
+      if (jsonField.hasNonNull(CONTACT_ELEMENT_CONTENT_MANDATORY_CONDITIONAL)) {
+        String mandatoryConditionalFieldKey =
+            jsonField.get(CONTACT_ELEMENT_CONTENT_MANDATORY_CONDITIONAL).asText();
+        Optional<JsonNode> mandatoryConditionalField =
+            contractFields.stream()
+                .filter(
+                    jsonNode ->
+                        mandatoryConditionalFieldKey.equals(
+                            jsonNode.get(CONTACT_ELEMENT_CONTENT_KEY).asText()))
+                .findFirst();
+        if (mandatoryConditionalField.isPresent()) {
+          if (isFieldSet(
+                  allTeams,
+                  teams,
+                  assets,
+                  assetGroups,
+                  mandatoryConditionalField.get(),
+                  content,
+                  injectContractFields)
+              && !isFieldSet(
+                  allTeams, teams, assets, assetGroups, jsonField, content, injectContractFields)) {
             isReady = false;
           }
-        }
-        case CONTACT_ELEMENT_CONTENT_KEY_ASSETS -> {
-          if (assets.isEmpty() && assetGroups.isEmpty()) {
-            isReady = false;
-          }
-        }
-        default -> {
-          if (isTextOrTextarea(jsonField) && !isFieldValid(content, injectContractFields, key)) {
-            isReady = false;
-          }
+        } else {
+          isReady = false;
         }
       }
       if (!isReady) {
         break;
       }
     }
+
     return isReady;
   }
 
@@ -183,5 +195,40 @@ public class InjectModelHelper {
       return status.orElseThrow().getTrackingSentDate();
     }
     return null;
+  }
+
+  public static boolean isFieldSet(
+      final boolean allTeams,
+      @NotNull final List<String> teams,
+      @NotNull final List<String> assets,
+      @NotNull final List<String> assetGroups,
+      @NotNull final JsonNode jsonField,
+      @NotNull final ObjectNode content,
+      @NotNull final ArrayNode injectContractFields) {
+    boolean isSet = true;
+    String key = jsonField.get(CONTACT_ELEMENT_CONTENT_KEY).asText();
+    switch (key) {
+      case CONTACT_ELEMENT_CONTENT_KEY_TEAMS -> {
+        if (teams.isEmpty() && !allTeams) {
+          isSet = false;
+        }
+      }
+      case CONTACT_ELEMENT_CONTENT_KEY_ASSETS -> {
+        if (assets.isEmpty() && assetGroups.isEmpty()) {
+          isSet = false;
+        }
+      }
+      default -> {
+        if (isTextOrTextarea(jsonField) && !isFieldValid(content, injectContractFields, key)) {
+          isSet = false;
+        } else if (content.get(key) == null
+            || (content.get(key).isArray() && content.get(key).isEmpty())
+            || (content.get(key).isObject() && content.get(key).isEmpty())
+            || (content.get(key).isTextual() && content.get(key).asText().isEmpty())) {
+          isSet = false;
+        }
+      }
+    }
+    return isSet;
   }
 }

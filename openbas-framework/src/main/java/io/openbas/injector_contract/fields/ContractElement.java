@@ -21,6 +21,8 @@ public abstract class ContractElement {
 
   private List<String> mandatoryGroups;
 
+  private String mandatoryConditionField;
+
   private List<LinkedFieldModel> linkedFields = new ArrayList<>();
 
   private List<String> linkedValues = new ArrayList<>();

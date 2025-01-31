@@ -43,6 +43,19 @@ public class ContractDef {
     return this;
   }
 
+  /**
+   * Add a field that will be mandatory if another field is set
+   * @param element element to be mandatory
+   * @param conditionalElement if this field is set the element will be mandatory
+   * @return
+   */
+  public ContractDef mandatoryConditional(ContractElement element, ContractElement conditionalElement) {
+    element.setMandatoryConditionField(conditionalElement.getKey());
+    element.setMandatory(false);
+    this.fields.add(element);
+    return this;
+  }
+
   public List<ContractElement> build() {
     return this.fields;
   }

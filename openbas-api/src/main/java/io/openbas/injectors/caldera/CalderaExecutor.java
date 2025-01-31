@@ -3,11 +3,8 @@ package io.openbas.injectors.caldera;
 import static io.openbas.database.model.ExecutionTraces.getNewErrorTrace;
 import static io.openbas.database.model.ExecutionTraces.getNewInfoTrace;
 import static io.openbas.database.model.InjectExpectationSignature.*;
-import static io.openbas.model.expectation.DetectionExpectation.detectionExpectationForAsset;
 import static io.openbas.model.expectation.DetectionExpectation.detectionExpectationForAssetGroup;
-import static io.openbas.model.expectation.ManualExpectation.manualExpectationForAsset;
 import static io.openbas.model.expectation.ManualExpectation.manualExpectationForAssetGroup;
-import static io.openbas.model.expectation.PreventionExpectation.preventionExpectationForAsset;
 import static io.openbas.model.expectation.PreventionExpectation.preventionExpectationForAssetGroup;
 import static java.time.Instant.now;
 
@@ -31,7 +28,6 @@ import io.openbas.model.expectation.PreventionExpectation;
 import io.openbas.rest.inject.service.InjectService;
 import io.openbas.service.AgentService;
 import io.openbas.service.AssetGroupService;
-import io.openbas.service.EndpointService;
 import io.openbas.service.InjectExpectationService;
 import io.openbas.utils.Time;
 import jakarta.validation.constraints.NotNull;
@@ -53,7 +49,6 @@ public class CalderaExecutor extends Injector {
   private final int RETRY_NUMBER = 20;
 
   private final CalderaInjectorService calderaService;
-  private final EndpointService endpointService;
   private final AgentService agentService;
   private final AssetGroupService assetGroupService;
   private final InjectExpectationService injectExpectationService;
@@ -259,10 +254,10 @@ public class CalderaExecutor extends Injector {
                             execution.addTrace(
                                 getNewErrorTrace(
                                     "Caldera failed to execute the ability on agent "
-                                        + executionAgent.getExecutedByUser()
+                                        + agent.getExecutedByUser()
                                         + " (temporary injector not spawned correctly)",
                                     ExecutionTraceAction.COMPLETE,
-                                    executionAgent));
+                                    agent));
                           }
                         } catch (Exception e) {
                           execution.addTrace(
@@ -400,55 +395,6 @@ public class CalderaExecutor extends Injector {
       Thread.sleep(5000);
     }
     return agentForExecution;
-  }
-
-  /** In case of direct asset, we have an individual expectation for the asset */
-  private void computeExpectationsForAsset(
-      @NotNull final List<Expectation> expectations,
-      @NotNull final CalderaInjectContent content,
-      @NotNull final Asset asset,
-      final boolean expectationGroup,
-      final List<InjectExpectationSignature> injectExpectationSignatures) {
-    if (!content.getExpectations().isEmpty()) {
-      expectations.addAll(
-          content.getExpectations().stream()
-              .flatMap(
-                  (expectation) ->
-                      switch (expectation.getType()) {
-                        case PREVENTION ->
-                            Stream.of(
-                                preventionExpectationForAsset(
-                                    expectation.getScore(),
-                                    expectation.getName(),
-                                    expectation.getDescription(),
-                                    asset,
-                                    expectationGroup,
-                                    expectation.getExpirationTime(),
-                                    injectExpectationSignatures)); // expectationGroup usefully in
-                        // front-end
-                        case DETECTION ->
-                            Stream.of(
-                                detectionExpectationForAsset(
-                                    expectation.getScore(),
-                                    expectation.getName(),
-                                    expectation.getDescription(),
-                                    asset,
-                                    expectationGroup,
-                                    expectation.getExpirationTime(),
-                                    injectExpectationSignatures));
-                        case MANUAL ->
-                            Stream.of(
-                                manualExpectationForAsset(
-                                    expectation.getScore(),
-                                    expectation.getName(),
-                                    expectation.getDescription(),
-                                    asset,
-                                    expectation.getExpirationTime(),
-                                    expectationGroup));
-                        default -> Stream.of();
-                      })
-              .toList());
-    }
   }
 
   /**

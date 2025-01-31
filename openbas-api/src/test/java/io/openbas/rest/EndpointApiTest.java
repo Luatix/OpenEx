@@ -84,7 +84,7 @@ class EndpointApiTest extends IntegrationTest {
             .getContentAsString();
 
     // --ASSERT--
-    assertEquals(newName, JsonPath.read(response, "$.endpoint_hostname"));
+    assertEquals(newName.toLowerCase(), JsonPath.read(response, "$.endpoint_hostname"));
   }
 
   @DisplayName(

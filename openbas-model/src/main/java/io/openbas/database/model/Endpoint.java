@@ -1,6 +1,5 @@
 package io.openbas.database.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import io.hypersistence.utils.hibernate.type.array.StringArrayType;
@@ -90,26 +89,18 @@ public class Endpoint extends Asset {
       mappedBy = "asset",
       fetch = FetchType.EAGER,
       cascade = CascadeType.ALL,
-      orphanRemoval = true) // TODO lazy with transactions with agent repository for the "getAgents"
+      orphanRemoval = true)
   // method
   @JsonProperty("asset_agents")
   @JsonSerialize(using = MultiModelDeserializer.class)
   private List<Agent> agents = new ArrayList<>();
 
-  @JsonIgnore
-  public Executor getExecutor() {
-    if (this.agents.isEmpty()) {
-      return null;
-    }
-    return this.agents.getFirst().getExecutor();
+  public String getHostname() {
+    return hostname.toLowerCase();
   }
 
-  @JsonIgnore
-  public boolean getActive() {
-    if (this.agents.isEmpty()) {
-      return false;
-    }
-    return this.agents.getFirst().isActive();
+  public void setHostname(String hostname) {
+    this.hostname = hostname.toLowerCase();
   }
 
   public Endpoint() {}

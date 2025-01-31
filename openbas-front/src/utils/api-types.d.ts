@@ -1592,7 +1592,7 @@ export interface InjectStatusExecution {
     | "COMMAND_NOT_FOUND"
     | "COMMAND_CANNOT_BE_EXECUTED"
     | "WARNING"
-    | "ASSET_INACTIVE";
+    | "AGENT_INACTIVE";
   /** @format date-time */
   execution_time?: string;
 }

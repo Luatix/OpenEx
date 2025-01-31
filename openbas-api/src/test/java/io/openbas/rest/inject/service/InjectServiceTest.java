@@ -8,7 +8,6 @@ import static org.mockito.Mockito.*;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.openbas.database.model.*;
-import io.openbas.database.repository.InjectDocumentRepository;
 import io.openbas.database.repository.InjectRepository;
 import io.openbas.database.repository.InjectStatusRepository;
 import io.openbas.database.repository.TeamRepository;
@@ -20,9 +19,7 @@ import io.openbas.rest.inject.form.InjectBulkUpdateSupportedFields;
 import io.openbas.rest.inject.form.InjectBulkUpdateSupportedOperations;
 import io.openbas.rest.security.SecurityExpression;
 import io.openbas.rest.security.SecurityExpressionHandler;
-import io.openbas.service.AssetGroupService;
 import io.openbas.service.AssetService;
-import io.openbas.utils.InjectMapper;
 import io.openbas.utils.InjectUtils;
 import io.openbas.utils.fixtures.AssetGroupFixture;
 import io.openbas.utils.pagination.SearchPaginationInput;

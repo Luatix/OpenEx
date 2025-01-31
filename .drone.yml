@@ -148,7 +148,7 @@ services:
       MINIO_ROOT_PASSWORD: minioadmin
     command: [ server, /data ]
   - name: pgsql
-    image: postgres:16-alpine
+    image: postgres:17-alpine
     environment:
       POSTGRES_USER: openbas
       POSTGRES_PASSWORD: openbas
@@ -160,7 +160,7 @@ services:
       MINIO_ROOT_PASSWORD: minioadmin
     command: [ server, /data ]
   - name: pgsql-e2e
-    image: postgres:16-alpine
+    image: postgres:17-alpine
     environment:
       POSTGRES_USER: openbas
       POSTGRES_PASSWORD: openbas

@@ -151,7 +151,7 @@ public class CalderaExecutor extends Injector {
                                     getNewInfoTrace(
                                         exploitResult.getCommand(),
                                         ExecutionTraceAction.EXECUTION,
-                                        executionAgent,
+                                        agent,
                                         List.of()));
 
                                 List<InjectExpectationSignature> injectExpectationSignatures =
@@ -217,7 +217,7 @@ public class CalderaExecutor extends Injector {
                                 execution.addTrace(
                                     getNewInfoTrace(
                                         "Caldera executed the ability on agent"
-                                            + executionAgent.getExecutedByUser()
+                                            + agent.getExecutedByUser()
                                             + " using "
                                             + executionAgent.getProcessName()
                                             + " (paw: "
@@ -226,29 +226,29 @@ public class CalderaExecutor extends Injector {
                                             + exploitResult.getLinkId()
                                             + ")",
                                         ExecutionTraceAction.EXECUTION,
-                                        executionAgent,
+                                        agent,
                                         List.of(exploitResult.getLinkId())));
                               } else {
                                 execution.addTrace(
                                     getNewErrorTrace(
                                         "Caldera failed to execute the ability on agent"
-                                            + executionAgent.getExecutedByUser()
+                                            + agent.getExecutedByUser()
                                             + " ("
                                             + result
                                             + ")",
                                         ExecutionTraceAction.COMPLETE,
-                                        executionAgent));
+                                        agent));
                               }
                             } else {
                               execution.addTrace(
                                   getNewErrorTrace(
                                       "Caldera failed to execute ability on agent "
-                                          + executionAgent.getExecutedByUser()
+                                          + agent.getExecutedByUser()
                                           + "(platform is not compatible:"
                                           + endpointAgent.getPlatform().name()
                                           + ")",
                                       ExecutionTraceAction.COMPLETE,
-                                      executionAgent));
+                                      agent));
                             }
                           } else {
                             execution.addTrace(

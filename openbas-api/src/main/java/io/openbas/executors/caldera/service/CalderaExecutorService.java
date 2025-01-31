@@ -156,21 +156,21 @@ public class CalderaExecutorService implements Runnable {
         } else {
           if (optionalEndpoint.isPresent()) {
             Optional<io.openbas.database.model.Agent> optionalAgent =
-                    this.agentService.getAgentByAgentDetailsForAnAsset(
-                            optionalEndpoint.get().getId(),
-                            agent.getExecutedByUser(),
-                            agent.getDeploymentMode(),
-                            agent.getPrivilege(),
-                            CALDERA_EXECUTOR_TYPE);
+                this.agentService.getAgentByAgentDetailsForAnAsset(
+                    optionalEndpoint.get().getId(),
+                    agent.getExecutedByUser(),
+                    agent.getDeploymentMode(),
+                    agent.getPrivilege(),
+                    CALDERA_EXECUTOR_TYPE);
             if (optionalAgent.isPresent()) {
               io.openbas.database.model.Agent existingAgent = optionalAgent.get();
               if ((now().toEpochMilli() - agent.getLastSeen().toEpochMilli()) > DELETE_TTL) {
                 log.info(
-                        "Found stale endpoint "
-                                + endpoint.getName()
-                                + ", deleting the agent "
-                                + existingAgent.getExecutedByUser()
-                                + " in it...");
+                    "Found stale endpoint "
+                        + endpoint.getName()
+                        + ", deleting the agent "
+                        + existingAgent.getExecutedByUser()
+                        + " in it...");
                 this.client.deleteAgent(existingAgent);
                 this.agentService.deleteAgent(existingAgent.getId());
               }

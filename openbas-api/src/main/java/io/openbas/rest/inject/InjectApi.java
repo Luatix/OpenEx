@@ -383,7 +383,7 @@ public class InjectApi extends RestBehavior {
             savedInject.getAssetGroups(),
             userInjectContexts);
     file.ifPresent(injection::addDirectAttachment);
-    return executor.execute(injection);
+    return executor.directExecute(injection);
   }
 
   @Transactional(rollbackFor = Exception.class)

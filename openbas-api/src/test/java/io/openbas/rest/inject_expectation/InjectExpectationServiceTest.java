@@ -40,7 +40,7 @@ class InjectExpectationServiceTest extends IntegrationTest {
 
   private static Injector savedInjector;
   private static InjectorContract savedInjectorContract;
-  private static Asset savedAsset;
+  private static Endpoint savedAsset;
 
   @BeforeAll
   void beforeAll() {
@@ -53,7 +53,7 @@ class InjectExpectationServiceTest extends IntegrationTest {
     injectorContract.setInjector(savedInjector);
 
     savedInjectorContract = injectorContractRepository.save(injectorContract);
-    savedAsset = assetRepository.save(AssetFixture.createDefaultAsset("asset name"));
+    savedAsset = assetRepository.save(EndpointFixture.createEndpoint());
   }
 
   @AfterAll
@@ -105,10 +105,21 @@ class InjectExpectationServiceTest extends IntegrationTest {
     PreventionExpectation preventionExpectation =
         ExpectationFixture.createTechnicalPreventionExpectation(
             savedAsset, EXPIRATION_TIME_SIX_HOURS);
+    DetectionExpectation detectionExpectationAgent =
+        ExpectationFixture.createTechnicalDetectionExpectation(
+            savedAgent, savedAsset, detectionExpectation, emptyList());
+    PreventionExpectation preventionExpectationAgent =
+        ExpectationFixture.createTechnicalPreventionExpectation(
+            savedAgent, savedAsset, preventionExpectation, emptyList());
 
     // -- EXECUTE --
     injectExpectationService.buildAndSaveInjectExpectations(
-        executableInject, List.of(preventionExpectation, detectionExpectation));
+        executableInject,
+        List.of(
+            preventionExpectation,
+            detectionExpectation,
+            preventionExpectationAgent,
+            detectionExpectationAgent));
 
     // -- ASSERT --
     assertEquals(4, injectExpectationRepository.findAll().spliterator().getExactSizeIfKnown());
@@ -146,6 +157,12 @@ class InjectExpectationServiceTest extends IntegrationTest {
     PreventionExpectation preventionExpectationAsset =
         ExpectationFixture.createTechnicalPreventionExpectation(
             savedAsset, EXPIRATION_TIME_SIX_HOURS);
+    DetectionExpectation detectionExpectationAgent =
+        ExpectationFixture.createTechnicalDetectionExpectation(
+            savedAgent, savedAsset, detectionExpectation, emptyList());
+    PreventionExpectation preventionExpectationAgent =
+        ExpectationFixture.createTechnicalPreventionExpectation(
+            savedAgent, savedAsset, preventionExpectation, emptyList());
 
     // -- EXECUTE --
     injectExpectationService.buildAndSaveInjectExpectations(
@@ -154,7 +171,9 @@ class InjectExpectationServiceTest extends IntegrationTest {
             preventionExpectation,
             detectionExpectation,
             preventionExpectationAsset,
-            detectionExpectationAsset));
+            detectionExpectationAsset,
+            preventionExpectationAgent,
+            detectionExpectationAgent));
 
     // -- ASSERT --
     assertEquals(6, injectExpectationRepository.findAll().spliterator().getExactSizeIfKnown());
@@ -189,10 +208,29 @@ class InjectExpectationServiceTest extends IntegrationTest {
     PreventionExpectation preventionExpectation =
         ExpectationFixture.createTechnicalPreventionExpectation(
             savedAsset, EXPIRATION_TIME_SIX_HOURS);
+    DetectionExpectation detectionExpectationAgent =
+        ExpectationFixture.createTechnicalDetectionExpectation(
+            savedAgent, savedAsset, detectionExpectation, emptyList());
+    PreventionExpectation preventionExpectationAgent =
+        ExpectationFixture.createTechnicalPreventionExpectation(
+            savedAgent, savedAsset, preventionExpectation, emptyList());
+    DetectionExpectation detectionExpectationAgent1 =
+        ExpectationFixture.createTechnicalDetectionExpectation(
+            savedAgent1, savedAsset, detectionExpectation, emptyList());
+    PreventionExpectation preventionExpectationAgent1 =
+        ExpectationFixture.createTechnicalPreventionExpectation(
+            savedAgent1, savedAsset, preventionExpectation, emptyList());
 
     // -- EXECUTE --
     injectExpectationService.buildAndSaveInjectExpectations(
-        executableInject, List.of(preventionExpectation, detectionExpectation));
+        executableInject,
+        List.of(
+            preventionExpectation,
+            detectionExpectation,
+            preventionExpectationAgent,
+            detectionExpectationAgent,
+            preventionExpectationAgent1,
+            detectionExpectationAgent1));
 
     // -- ASSERT --
     assertEquals(6, injectExpectationRepository.findAll().spliterator().getExactSizeIfKnown());
@@ -235,6 +273,18 @@ class InjectExpectationServiceTest extends IntegrationTest {
     PreventionExpectation preventionExpectationAsset =
         ExpectationFixture.createTechnicalPreventionExpectation(
             savedAsset, EXPIRATION_TIME_SIX_HOURS);
+    DetectionExpectation detectionExpectationAgent =
+        ExpectationFixture.createTechnicalDetectionExpectation(
+            savedAgent, savedAsset, detectionExpectation, emptyList());
+    PreventionExpectation preventionExpectationAgent =
+        ExpectationFixture.createTechnicalPreventionExpectation(
+            savedAgent, savedAsset, preventionExpectation, emptyList());
+    DetectionExpectation detectionExpectationAgent1 =
+        ExpectationFixture.createTechnicalDetectionExpectation(
+            savedAgent1, savedAsset, detectionExpectation, emptyList());
+    PreventionExpectation preventionExpectationAgent1 =
+        ExpectationFixture.createTechnicalPreventionExpectation(
+            savedAgent1, savedAsset, preventionExpectation, emptyList());
 
     // -- EXECUTE --
     injectExpectationService.buildAndSaveInjectExpectations(
@@ -243,7 +293,11 @@ class InjectExpectationServiceTest extends IntegrationTest {
             preventionExpectation,
             detectionExpectation,
             preventionExpectationAsset,
-            detectionExpectationAsset));
+            detectionExpectationAsset,
+            preventionExpectationAgent,
+            detectionExpectationAgent,
+            preventionExpectationAgent1,
+            detectionExpectationAgent1));
 
     // -- ASSERT --
     assertEquals(8, injectExpectationRepository.findAll().spliterator().getExactSizeIfKnown());

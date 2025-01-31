@@ -11,8 +11,8 @@ import io.openbas.executors.crowdstrike.service.CrowdStrikeExecutorContextServic
 import io.openbas.executors.openbas.service.OpenBASExecutorContextService;
 import io.openbas.executors.tanium.config.TaniumExecutorConfig;
 import io.openbas.executors.tanium.service.TaniumExecutorContextService;
-import io.openbas.service.AgentService;
 import io.openbas.rest.exception.AgentException;
+import io.openbas.service.AgentService;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.logging.Level;
@@ -89,39 +89,33 @@ public class ExecutionExecutorService {
           "Agent error: agent "
               + agent.getExecutedByUser()
               + " is inactive for the asset "
-              + assetEndpoint.getName(), agent);
+              + assetEndpoint.getName(),
+          agent);
     } else {
       switch (executor.getType()) {
         case "openbas_caldera" -> {
           if (!this.calderaExecutorConfig.isEnable()) {
-            throw new AgentException(
-                "Fatal error: Caldera executor is not enabled",
-                agent);
+            throw new AgentException("Fatal error: Caldera executor is not enabled", agent);
           }
-          this.calderaExecutorContextService.launchExecutorSubprocess(inject, assetEndpoint);
+          this.calderaExecutorContextService.launchExecutorSubprocess(inject, assetEndpoint, agent);
         }
         case "openbas_tanium" -> {
           if (!this.taniumExecutorConfig.isEnable()) {
-            throw new AgentException(
-                "Fatal error: Tanium executor is not enabled",
-                agent);
+            throw new AgentException("Fatal error: Tanium executor is not enabled", agent);
           }
-          this.taniumExecutorContextService.launchExecutorSubprocess(inject, assetEndpoint);
+          this.taniumExecutorContextService.launchExecutorSubprocess(inject, assetEndpoint, agent);
         }
         case "openbas_crowdstrike" -> {
           if (!this.crowdStrikeExecutorConfig.isEnable()) {
-            throw new AgentException(
-                "Fatal error: CrowdStrike executor is not enabled",
-                agent);
+            throw new AgentException("Fatal error: CrowdStrike executor is not enabled", agent);
           }
-          this.crowdStrikeExecutorContextService.launchExecutorSubprocess(inject, assetEndpoint);
+          this.crowdStrikeExecutorContextService.launchExecutorSubprocess(inject, assetEndpoint, agent);
         }
         case "openbas_agent" ->
-            this.openBASExecutorContextService.launchExecutorSubprocess(inject, assetEndpoint);
+            this.openBASExecutorContextService.launchExecutorSubprocess(inject, assetEndpoint, agent);
         default ->
             throw new AgentException(
-                "Fatal error: Unsupported executor " + executor.getType(),
-                agent);
+                "Fatal error: Unsupported executor " + executor.getType(), agent);
       }
     }
   }

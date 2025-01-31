@@ -101,7 +101,6 @@ public class InjectModelHelper {
   private static boolean isFieldValid(
       ObjectNode content, ArrayNode injectContractFields, String key) {
     JsonNode fieldValue = content.get(key);
-
     if (fieldValue == null || fieldValue.asText().isEmpty()) {
       for (JsonNode contractField : injectContractFields) {
         if (key.equals(contractField.get(CONTACT_ELEMENT_CONTENT_KEY).asText())) {

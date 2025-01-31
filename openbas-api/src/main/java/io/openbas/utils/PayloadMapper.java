@@ -64,10 +64,12 @@ public class PayloadMapper {
             statusPayloadOutputBuilder.payloadCommandBlocks(payloadCommandBlocks);
           } else if (EXECUTABLE_TYPE.equals(injectorContract.getPayload().getType())) {
             Executable payloadExecutable = (Executable) Hibernate.unproxy(payload);
-            statusPayloadOutputBuilder.executableFile(payloadExecutable.getExecutableFile());
+            statusPayloadOutputBuilder.executableFile(
+                new StatusPayloadDocument(payloadExecutable.getExecutableFile()));
           } else if (FILE_DROP_TYPE.equals(injectorContract.getPayload().getType())) {
             FileDrop payloadFileDrop = (FileDrop) Hibernate.unproxy(payload);
-            statusPayloadOutputBuilder.fileDropFile(payloadFileDrop.getFileDropFile());
+            statusPayloadOutputBuilder.fileDropFile(
+                new StatusPayloadDocument(payloadFileDrop.getFileDropFile()));
           } else if (DNS_RESOLUTION_TYPE.equals(injectorContract.getPayload().getType())) {
             DnsResolution payloadDnsResolution = (DnsResolution) Hibernate.unproxy(payload);
             statusPayloadOutputBuilder.hostname(payloadDnsResolution.getHostname());

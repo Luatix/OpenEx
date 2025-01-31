@@ -36,8 +36,7 @@ public class ExecutionExecutorService {
   private final OpenBASExecutorContextService openBASExecutorContextService;
   private final InjectStatusRepository injectStatusRepository;
 
-  public ExecutableInject launchExecutorContext(ExecutableInject executableInject, Inject inject)
-      throws InterruptedException {
+  public void launchExecutorContext(Inject inject) {
     // First, get the assets of this injects
     List<Asset> assets =
         Stream.concat(
@@ -76,8 +75,6 @@ public class ExecutionExecutorService {
     if (!atLeastOneExecution.get()) {
       throw new ExecutionExecutorException("No asset executed");
     }
-
-    return executableInject;
   }
 
   private void launchExecutorContextForAsset(Inject inject, Asset asset) {

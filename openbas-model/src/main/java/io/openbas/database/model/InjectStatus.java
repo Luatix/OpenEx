@@ -78,4 +78,10 @@ public class InjectStatus extends BaseInjectStatus {
         new ExecutionTraces(this, ExecutionTraceStatus.ERROR, List.of(), message, action, null);
     this.getTraces().add(newTrace);
   }
+
+  public void addInfoTrace(String message, ExecutionTraceAction action) {
+    ExecutionTraces newTrace =
+        new ExecutionTraces(this, ExecutionTraceStatus.INFO, List.of(), message, action, null);
+    this.getTraces().add(newTrace);
+  }
 }

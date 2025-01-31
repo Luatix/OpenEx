@@ -217,14 +217,9 @@ public class InjectStatusService {
 
   @Transactional
   public InjectStatus initializeInjectStatus(
-      @NotNull String injectId, @NotNull ExecutionStatus status, @Nullable ExecutionTraces trace) {
+      @NotNull String injectId, @NotNull ExecutionStatus status) {
     Inject inject = this.injectRepository.findById(injectId).orElseThrow();
     InjectStatus injectStatus = getOrInitializeInjectStatus(inject);
-
-    if (trace != null) {
-      trace.setInjectStatus(injectStatus);
-      injectStatus.addTrace(trace);
-    }
     injectStatus.setName(status);
     injectStatus.setTrackingSentDate(Instant.now());
     injectStatus.setPayloadOutput(injectUtils.getStatusPayloadFromInject(inject));

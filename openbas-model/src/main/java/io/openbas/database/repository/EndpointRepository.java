@@ -41,4 +41,10 @@ public interface EndpointRepository
   @Override
   @Query("select count(distinct e) from Endpoint e where e.createdAt > :creationDate")
   long globalCount(@Param("creationDate") Instant creationDate);
+
+  @Query(
+      value =
+          "select asset.* from assets asset left join agents agent on asset.asset_id = agent.agent_asset where agent.agent_parent is null AND agent.agent_inject is null AND asset.asset_id = :endpointId",
+      nativeQuery = true)
+  Optional<Endpoint> findByEndpointIdWithAgents(@NotBlank String endpointId);
 }

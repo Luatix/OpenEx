@@ -1,6 +1,5 @@
 package io.openbas.database.model;
 
-import static io.openbas.database.model.InjectExpectationSignature.EXPECTATION_SIGNATURE_TYPE_PARENT_PROCESS_NAME;
 import static java.time.Instant.now;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -73,6 +72,7 @@ public class InjectExpectation implements Base {
   @JsonProperty("inject_expectation_description")
   private String description;
 
+  @Setter
   @Type(JsonType.class)
   @Column(name = "inject_expectation_signatures")
   @JsonProperty("inject_expectation_signatures")
@@ -233,38 +233,34 @@ public class InjectExpectation implements Base {
     this.challenge = challenge;
   }
 
-  public void setManual(@NotNull final Asset asset, @NotNull final AssetGroup assetGroup) {
+  public void setManual(
+      @NotNull final Agent agent,
+      @NotNull final Asset asset,
+      @NotNull final AssetGroup assetGroup) {
     this.type = EXPECTATION_TYPE.MANUAL;
+    this.agent = agent;
     this.asset = asset;
     this.assetGroup = assetGroup;
   }
 
-  public void setPrevention(@NotNull final Asset asset, @NotNull final AssetGroup assetGroup) {
+  public void setPrevention(
+      @NotNull final Agent agent,
+      @NotNull final Asset asset,
+      @NotNull final AssetGroup assetGroup) {
     this.type = EXPECTATION_TYPE.PREVENTION;
+    this.agent = agent;
     this.asset = asset;
     this.assetGroup = assetGroup;
   }
 
-  public void setDetection(@NotNull final Asset asset, @NotNull final AssetGroup assetGroup) {
+  public void setDetection(
+      @NotNull final Agent agent,
+      @NotNull final Asset asset,
+      @NotNull final AssetGroup assetGroup) {
     this.type = EXPECTATION_TYPE.DETECTION;
+    this.agent = agent;
     this.asset = asset;
     this.assetGroup = assetGroup;
-  }
-
-  public void setSignatures(List<InjectExpectationSignature> injectExpectationSignatures) {
-    this.signatures =
-        injectExpectationSignatures.stream()
-            .map(
-                signature -> {
-                  if (EXPECTATION_SIGNATURE_TYPE_PARENT_PROCESS_NAME.equals(signature.getType())
-                      && this.agent != null) {
-                    return new InjectExpectationSignature(
-                        EXPECTATION_SIGNATURE_TYPE_PARENT_PROCESS_NAME,
-                        signature.getValue() + "-agent-" + this.agent.getId());
-                  }
-                  return signature;
-                })
-            .toList();
   }
 
   public boolean isUserHasAccess(User user) {

@@ -3,12 +3,9 @@ package io.openbas.injectors.caldera;
 import static io.openbas.database.model.ExecutionTraces.getNewErrorTrace;
 import static io.openbas.database.model.ExecutionTraces.getNewInfoTrace;
 import static io.openbas.database.model.InjectExpectationSignature.*;
-import static io.openbas.model.expectation.DetectionExpectation.detectionExpectationForAsset;
-import static io.openbas.model.expectation.DetectionExpectation.detectionExpectationForAssetGroup;
-import static io.openbas.model.expectation.ManualExpectation.manualExpectationForAsset;
-import static io.openbas.model.expectation.ManualExpectation.manualExpectationForAssetGroup;
-import static io.openbas.model.expectation.PreventionExpectation.preventionExpectationForAsset;
-import static io.openbas.model.expectation.PreventionExpectation.preventionExpectationForAssetGroup;
+import static io.openbas.model.expectation.DetectionExpectation.*;
+import static io.openbas.model.expectation.ManualExpectation.*;
+import static io.openbas.model.expectation.PreventionExpectation.*;
 import static java.time.Instant.now;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -160,73 +157,15 @@ public class CalderaExecutor extends Injector {
                                         .getFirst()
                                         .getParent()
                                         .getAsset());
-                            List<InjectExpectationSignature> injectExpectationSignatures =
-                                new ArrayList<>();
-                            if (injectorContract.getPayload() != null) {
-                              switch (injectorContract.getPayload().getTypeEnum()) {
-                                case PayloadType.COMMAND:
-                                  injectExpectationSignatures.add(
-                                      InjectExpectationSignature.builder()
-                                          .type(EXPECTATION_SIGNATURE_TYPE_PROCESS_NAME)
-                                          .value(
-                                              executionEndpoint
-                                                  .getAgents()
-                                                  .getFirst()
-                                                  .getProcessName())
-                                          .build());
-                                  break;
-                                case PayloadType.EXECUTABLE:
-                                  Executable payloadExecutable =
-                                      (Executable) Hibernate.unproxy(injectorContract.getPayload());
-                                  injectExpectationSignatures.add(
-                                      InjectExpectationSignature.builder()
-                                          .type(EXPECTATION_SIGNATURE_TYPE_FILE_NAME)
-                                          .value(payloadExecutable.getExecutableFile().getName())
-                                          .build());
-                                  // TODO File hash
-                                  break;
-                                case PayloadType.FILE_DROP:
-                                  FileDrop payloadFileDrop =
-                                      (FileDrop) Hibernate.unproxy(injectorContract.getPayload());
-                                  injectExpectationSignatures.add(
-                                      InjectExpectationSignature.builder()
-                                          .type(EXPECTATION_SIGNATURE_TYPE_FILE_NAME)
-                                          .value(payloadFileDrop.getFileDropFile().getName())
-                                          .build());
-                                  // TODO File hash
-                                  break;
-                                case PayloadType.DNS_RESOLUTION:
-                                  DnsResolution payloadDnsResolution =
-                                      (DnsResolution)
-                                          Hibernate.unproxy(injectorContract.getPayload());
-                                  injectExpectationSignatures.add(
-                                      InjectExpectationSignature.builder()
-                                          .type(EXPECTATION_SIGNATURE_TYPE_HOSTNAME)
-                                          .value(
-                                              payloadDnsResolution.getHostname()
-                                                  .split("\\r?\\n")[0])
-                                          .build());
-                                  break;
-                                default:
-                                  throw new UnsupportedOperationException(
-                                      "Payload type "
-                                          + injectorContract.getPayload().getType()
-                                          + " is not supported");
-                              }
-                            } else {
-                              injectExpectationSignatures.add(
-                                  InjectExpectationSignature.builder()
-                                      .type(EXPECTATION_SIGNATURE_TYPE_PROCESS_NAME)
-                                      .value(
-                                          executionEndpoint.getAgents().getFirst().getProcessName())
-                                      .build());
-                            }
+
                             computeExpectationsForAsset(
                                 expectations,
                                 content,
                                 executionEndpoint.getAgents().getFirst().getParent().getAsset(),
+                                executionEndpoint.getAgents().getFirst(),
                                 isInGroup,
-                                injectExpectationSignatures);
+                                injectorContract);
+
                             execution.addTrace(
                                 getNewInfoTrace(
                                     "Caldera executed the ability on agent"
@@ -318,6 +257,61 @@ public class CalderaExecutor extends Injector {
     execution.addTrace(getNewInfoTrace(message, ExecutionTraceAction.EXECUTION, asyncIds));
     injectExpectationService.buildAndSaveInjectExpectations(injection, expectations);
     return new ExecutionProcess(true);
+  }
+
+  private List<InjectExpectationSignature> computeSignatures(
+      InjectorContract injectorContract, String processName) {
+    List<InjectExpectationSignature> injectExpectationSignatures = new ArrayList<>();
+    if (injectorContract.getPayload() != null) {
+      switch (injectorContract.getPayload().getTypeEnum()) {
+        case PayloadType.COMMAND:
+          injectExpectationSignatures.add(
+              InjectExpectationSignature.builder()
+                  .type(EXPECTATION_SIGNATURE_TYPE_PROCESS_NAME)
+                  .value(processName)
+                  .build());
+          break;
+        case PayloadType.EXECUTABLE:
+          Executable payloadExecutable =
+              (Executable) Hibernate.unproxy(injectorContract.getPayload());
+          injectExpectationSignatures.add(
+              InjectExpectationSignature.builder()
+                  .type(EXPECTATION_SIGNATURE_TYPE_FILE_NAME)
+                  .value(payloadExecutable.getExecutableFile().getName())
+                  .build());
+          // TODO File hash
+          break;
+        case PayloadType.FILE_DROP:
+          FileDrop payloadFileDrop = (FileDrop) Hibernate.unproxy(injectorContract.getPayload());
+          injectExpectationSignatures.add(
+              InjectExpectationSignature.builder()
+                  .type(EXPECTATION_SIGNATURE_TYPE_FILE_NAME)
+                  .value(payloadFileDrop.getFileDropFile().getName())
+                  .build());
+          // TODO File hash
+          break;
+        case PayloadType.DNS_RESOLUTION:
+          DnsResolution payloadDnsResolution =
+              (DnsResolution) Hibernate.unproxy(injectorContract.getPayload());
+          injectExpectationSignatures.add(
+              InjectExpectationSignature.builder()
+                  .type(EXPECTATION_SIGNATURE_TYPE_HOSTNAME)
+                  .value(payloadDnsResolution.getHostname().split("\\r?\\n")[0])
+                  .build());
+          break;
+        default:
+          throw new UnsupportedOperationException(
+              "Payload type " + injectorContract.getPayload().getType() + " is not supported");
+      }
+    } else {
+      injectExpectationSignatures.add(
+          InjectExpectationSignature.builder()
+              .type(EXPECTATION_SIGNATURE_TYPE_PROCESS_NAME)
+              .value(processName)
+              .build());
+    }
+
+    return injectExpectationSignatures;
   }
 
   @Override
@@ -427,44 +421,71 @@ public class CalderaExecutor extends Injector {
       @NotNull final List<Expectation> expectations,
       @NotNull final CalderaInjectContent content,
       @NotNull final Asset asset,
+      @NotNull final io.openbas.database.model.Agent executionAgent,
       final boolean expectationGroup,
-      final List<InjectExpectationSignature> injectExpectationSignatures) {
+      final InjectorContract injectorContract) {
     if (!content.getExpectations().isEmpty()) {
       expectations.addAll(
           content.getExpectations().stream()
               .flatMap(
                   (expectation) ->
                       switch (expectation.getType()) {
-                        case PREVENTION ->
-                            Stream.of(
-                                preventionExpectationForAsset(
-                                    expectation.getScore(),
-                                    expectation.getName(),
-                                    expectation.getDescription(),
-                                    asset,
-                                    expectationGroup,
-                                    expectation.getExpirationTime(),
-                                    injectExpectationSignatures)); // expectationGroup usefully in
-                        // front-end
-                        case DETECTION ->
-                            Stream.of(
-                                detectionExpectationForAsset(
-                                    expectation.getScore(),
-                                    expectation.getName(),
-                                    expectation.getDescription(),
-                                    asset,
-                                    expectationGroup,
-                                    expectation.getExpirationTime(),
-                                    injectExpectationSignatures));
-                        case MANUAL ->
-                            Stream.of(
-                                manualExpectationForAsset(
-                                    expectation.getScore(),
-                                    expectation.getName(),
-                                    expectation.getDescription(),
-                                    asset,
-                                    expectation.getExpirationTime(),
-                                    expectationGroup));
+                        case PREVENTION -> {
+                          PreventionExpectation preventionExpectation =
+                              preventionExpectationForAsset(
+                                  expectation.getScore(),
+                                  expectation.getName(),
+                                  expectation.getDescription(),
+                                  asset,
+                                  expectationGroup,
+                                  expectation.getExpirationTime());
+
+                          PreventionExpectation preventionExpectationAgent =
+                              preventionExpectationForAgent(
+                                  executionAgent.getParent(),
+                                  asset,
+                                  preventionExpectation,
+                                  computeSignatures(
+                                      injectorContract, executionAgent.getProcessName()));
+
+                          yield Stream.of(preventionExpectation, preventionExpectationAgent);
+                        } // expectationGroup usefully in front-end
+                        case DETECTION -> {
+                          DetectionExpectation detectionExpectation =
+                              detectionExpectationForAsset(
+                                  expectation.getScore(),
+                                  expectation.getName(),
+                                  expectation.getDescription(),
+                                  asset,
+                                  expectationGroup,
+                                  expectation.getExpirationTime());
+
+                          DetectionExpectation detectionExpectationAgent =
+                              detectionExpectationForAgent(
+                                  executionAgent.getParent(),
+                                  asset,
+                                  detectionExpectation,
+                                  computeSignatures(
+                                      injectorContract, executionAgent.getProcessName()));
+
+                          yield Stream.of(detectionExpectation, detectionExpectationAgent);
+                        }
+                        case MANUAL -> {
+                          ManualExpectation manualExpectation =
+                              manualExpectationForAsset(
+                                  expectation.getScore(),
+                                  expectation.getName(),
+                                  expectation.getDescription(),
+                                  asset,
+                                  expectation.getExpirationTime(),
+                                  expectationGroup);
+
+                          ManualExpectation manualExpectationAgent =
+                              manualExpectationForAgent(
+                                  executionAgent.getParent(), asset, manualExpectation);
+
+                          yield Stream.of(manualExpectation, manualExpectationAgent);
+                        }
                         default -> Stream.of();
                       })
               .toList());
@@ -509,8 +530,7 @@ public class CalderaExecutor extends Injector {
                                     expectation.getDescription(),
                                     assetGroup,
                                     expectation.isExpectationGroup(),
-                                    expectation.getExpirationTime(),
-                                    injectExpectationSignatures));
+                                    expectation.getExpirationTime()));
                           }
                           yield Stream.of();
                         }
@@ -537,8 +557,7 @@ public class CalderaExecutor extends Injector {
                                     expectation.getDescription(),
                                     assetGroup,
                                     expectation.isExpectationGroup(),
-                                    expectation.getExpirationTime(),
-                                    injectExpectationSignatures));
+                                    expectation.getExpirationTime()));
                           }
                           yield Stream.of();
                         }

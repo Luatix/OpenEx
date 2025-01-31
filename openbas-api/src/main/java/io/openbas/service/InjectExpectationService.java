@@ -21,13 +21,11 @@ import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import java.lang.reflect.InvocationTargetException;
 import java.time.Instant;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.beanutils.BeanUtils;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -751,44 +749,8 @@ public class InjectExpectationService {
             expectations.stream()
                 .map(expectation -> expectationConverter(executableInject, expectation))
                 .collect(Collectors.toList());
-
-        List<InjectExpectation> injectExpectationsByAsset =
-            injectExpectations.stream()
-                .filter(injectExpectation -> injectExpectation.getAsset() != null)
-                .toList();
-
-        List<String> assetIds =
-            injectExpectationsByAsset.stream().map(i -> i.getAsset().getId()).toList();
-
-        Map<String, List<Agent>> mapAssetAgents = agentService.getAgentsGroupedByAsset(assetIds);
-        List<InjectExpectation> injectExpectationsAgent = new ArrayList<>();
-
-        for (InjectExpectation injectExpectation : injectExpectationsByAsset) {
-          Asset asset = injectExpectation.getAsset();
-          List<Agent> agents = mapAssetAgents.getOrDefault(asset.getId(), Collections.emptyList());
-
-          for (Agent agent : agents) {
-            injectExpectationsAgent.add(cloneInjectExpectationForAgent(agent, injectExpectation));
-          }
-          injectExpectation.setSignatures(Collections.emptyList());
-        }
-        injectExpectations.addAll(injectExpectationsAgent);
         injectExpectationRepository.saveAll(injectExpectations);
       }
-    }
-  }
-
-  private InjectExpectation cloneInjectExpectationForAgent(
-      Agent agent, InjectExpectation injectExpectation) {
-    InjectExpectation clone = new InjectExpectation();
-    try {
-      BeanUtils.copyProperties(clone, injectExpectation);
-      clone.setType(injectExpectation.getType());
-      clone.setAgent(agent);
-      clone.setSignatures(injectExpectation.getSignatures());
-      return clone;
-    } catch (IllegalAccessException | InvocationTargetException e) {
-      throw new RuntimeException("Failed to copy object", e);
     }
   }
 }

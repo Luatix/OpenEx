@@ -249,9 +249,7 @@ public class CalderaExecutor extends Injector {
 
     List<AssetGroup> assetGroups = injection.getAssetGroups();
     assetGroups.forEach(
-        (assetGroup ->
-            computeExpectationsForAssetGroup(
-                expectations, content, assetGroup, new ArrayList<>())));
+        (assetGroup -> computeExpectationsForAssetGroup(expectations, content, assetGroup)));
 
     String message = "Caldera executed the ability on " + asyncIds.size() + " asset(s)";
     execution.addTrace(getNewInfoTrace(message, ExecutionTraceAction.EXECUTION, asyncIds));
@@ -499,8 +497,7 @@ public class CalderaExecutor extends Injector {
   private void computeExpectationsForAssetGroup(
       @NotNull final List<Expectation> expectations,
       @NotNull final CalderaInjectContent content,
-      @NotNull final AssetGroup assetGroup,
-      final List<InjectExpectationSignature> injectExpectationSignatures) {
+      @NotNull final AssetGroup assetGroup) {
     if (!content.getExpectations().isEmpty()) {
       expectations.addAll(
           content.getExpectations().stream()

@@ -109,10 +109,12 @@ public class ExecutionExecutorService {
           if (!this.crowdStrikeExecutorConfig.isEnable()) {
             throw new AgentException("Fatal error: CrowdStrike executor is not enabled", agent);
           }
-          this.crowdStrikeExecutorContextService.launchExecutorSubprocess(inject, assetEndpoint, agent);
+          this.crowdStrikeExecutorContextService.launchExecutorSubprocess(
+              inject, assetEndpoint, agent);
         }
         case "openbas_agent" ->
-            this.openBASExecutorContextService.launchExecutorSubprocess(inject, assetEndpoint, agent);
+            this.openBASExecutorContextService.launchExecutorSubprocess(
+                inject, assetEndpoint, agent);
         default ->
             throw new AgentException(
                 "Fatal error: Unsupported executor " + executor.getType(), agent);

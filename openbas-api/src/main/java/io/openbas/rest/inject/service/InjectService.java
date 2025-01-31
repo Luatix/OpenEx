@@ -61,7 +61,6 @@ public class InjectService {
   private final InjectStatusRepository injectStatusRepository;
   private final InjectMapper injectMapper;
   private final MethodSecurityExpressionHandler methodSecurityExpressionHandler;
-  private final InjectUtils injectUtils;
 
   @Resource protected ObjectMapper mapper;
 
@@ -95,9 +94,7 @@ public class InjectService {
     inject
         .getAssets()
         .forEach(
-            (asset -> {
-              assets.put(asset, false);
-            }));
+            (asset -> assets.put(asset, false)));
     inject
         .getAssetGroups()
         .forEach(
@@ -106,9 +103,7 @@ public class InjectService {
                   this.assetGroupService.assetsFromAssetGroup(assetGroup.getId());
               // Verify asset validity
               assetsFromGroup.forEach(
-                  (asset) -> {
-                    assets.put(asset, true);
-                  });
+                  (asset) -> assets.put(asset, true));
             }));
     return assets;
   }

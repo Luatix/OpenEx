@@ -157,7 +157,7 @@ public class InjectStatusService {
       switch (trace.getStatus()) {
         case SUCCESS, WARNING -> successCount++;
         case PARTIAL -> partialCount++;
-        case ERROR, COMMAND_NOT_FOUND, ASSET_INACTIVE -> errorCount++;
+        case ERROR, COMMAND_NOT_FOUND, AGENT_INACTIVE -> errorCount++;
         case MAYBE_PREVENTED, MAYBE_PARTIAL_PREVENTED, COMMAND_CANNOT_BE_EXECUTED ->
             maybePreventedCount++;
       }

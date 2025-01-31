@@ -125,6 +125,7 @@ public class TaniumExecutorService implements Runnable {
             this.agentService.createOrUpdateAgent(agentToUpdate);
           } else {
             // New agent to create for the endpoint
+            agent.setAsset(endpointToUpdate);
             this.agentService.createOrUpdateAgent(agent);
           }
         } else {

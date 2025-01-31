@@ -2649,14 +2649,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@react-leaflet/core@npm:^2.1.0":
-  version: 2.1.0
-  resolution: "@react-leaflet/core@npm:2.1.0"
+"@react-leaflet/core@npm:^3.0.0":
+  version: 3.0.0
+  resolution: "@react-leaflet/core@npm:3.0.0"
   peerDependencies:
     leaflet: ^1.9.0
-    react: ^18.0.0
-    react-dom: ^18.0.0
-  checksum: 10c0/d5218c79ab9decd458e1fa8a0ec3757542e3ea4e569afa151a32ef0e9ceb63a13174f3fbc740fe0d514df8b0b3e30d913bfb0b8b661dac13924934d7e430bfc9
+    react: ^19.0.0
+    react-dom: ^19.0.0
+  checksum: 10c0/1e20f92ea99d378121d7ba57b9571ca3a67a86247729d8cd5726ded26105fcbffbbdf727da34b2ad5976438979819a38c93b94389313abb3ff80ca81632609a6
   languageName: node
   linkType: hard
 
@@ -3333,12 +3333,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react-dom@npm:18.3.3":
-  version: 18.3.3
-  resolution: "@types/react-dom@npm:18.3.3"
+"@types/react-dom@npm:19.0.2":
+  version: 19.0.2
+  resolution: "@types/react-dom@npm:19.0.2"
   peerDependencies:
-    "@types/react": ^18.0.0
-  checksum: 10c0/f0bc467e09bfd1212bc350826de0faa155e1d77c5e3d8fbed3b172187173baeb90161474d2ef40df59204974a9712827baa3c46ffa7c66ba433b696f7715cb15
+    "@types/react": ^19.0.0
+  checksum: 10c0/3d0c7b78dbe8df64ea769f30af990a5950173a8321c745fe11094d765423f7964c3519dca6e7cd36b4be6521c8efc690bdd3b79b327b229dd1e9d5a8bad677dd
   languageName: node
   linkType: hard
 
@@ -3379,13 +3379,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react@npm:18.3.14":
-  version: 18.3.14
-  resolution: "@types/react@npm:18.3.14"
+"@types/react@npm:19.0.2":
+  version: 19.0.2
+  resolution: "@types/react@npm:19.0.2"
   dependencies:
-    "@types/prop-types": "npm:*"
     csstype: "npm:^3.0.2"
-  checksum: 10c0/d925fbfcf084238b93d1a0b5406d4cf9aeb37c4a1191559aa4ee107c2e55cc15327989140f03eddda4d471f5b935d4673fd74a86f451860edea18eae48ca44f8
+  checksum: 10c0/8992f39701fcf1bf893ef8f94a56196445667baf08fe4f6050a14e229a17aad3265ad3efc01595ff3b4d5d5c69da885f9aa4ff80f164a613018734efcff1eb8f
   languageName: node
   linkType: hard
 
@@ -8129,7 +8128,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"loose-envify@npm:^1.1.0, loose-envify@npm:^1.4.0":
+"loose-envify@npm:^1.4.0":
   version: 1.4.0
   resolution: "loose-envify@npm:1.4.0"
   dependencies:
@@ -8466,13 +8465,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mdi-material-ui@npm:7.9.2":
-  version: 7.9.2
-  resolution: "mdi-material-ui@npm:7.9.2"
+"mdi-material-ui@npm:7.9.3":
+  version: 7.9.3
+  resolution: "mdi-material-ui@npm:7.9.3"
   peerDependencies:
     "@mui/material": ^5.0.0 || ^6.0.0
-    react: ^16.8.0 || ^17.0.0 || ^18.0.0
-  checksum: 10c0/c772d74d7979936a686142c97daa20ba956465f394be4a988c2b1e2cbc3e211b5cdd62c013949257064e1ec180da91daffd6075354711af5d805777908e0755d
+    react: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
+  checksum: 10c0/67d9e037be721a4440ffa113a44794d22d02888229b5407d0b38826eece6bfddec4f54a4bfe93b9afc03a363e3ee567e9036cf18d24473a7f95c29c3ef1b806b
   languageName: node
   linkType: hard
 
@@ -9415,9 +9414,9 @@ __metadata:
     "@types/node": "npm:22.10.7"
     "@types/pdfmake": "npm:0.2.9"
     "@types/qs": "npm:6"
-    "@types/react": "npm:18.3.14"
+    "@types/react": "npm:19.0.2"
     "@types/react-csv": "npm:1.1.10"
-    "@types/react-dom": "npm:18.3.3"
+    "@types/react-dom": "npm:19.0.2"
     "@types/react-syntax-highlighter": "npm:15"
     "@types/seamless-immutable": "npm:7.1.19"
     "@types/uuid": "npm:10.0.0"
@@ -9461,7 +9460,7 @@ __metadata:
     js-file-download: "npm:0.4.12"
     jsdom: "npm:25.0.1"
     leaflet: "npm:1.9.4"
-    mdi-material-ui: "npm:7.9.2"
+    mdi-material-ui: "npm:7.9.3"
     moment: "npm:2.30.1"
     moment-timezone: "npm:0.5.45"
     monocart-coverage-reports: "npm:2.12.0"
@@ -9471,17 +9470,17 @@ __metadata:
     prop-types: "npm:15.8.1"
     qs: "npm:6.14.0"
     ramda: "npm:0.30.1"
-    react: "npm:18.3.1"
+    react: "npm:19.0.0"
     react-apexcharts: "patch:react-apexcharts@npm%3A1.7.0#~/.yarn/patches/react-apexcharts-npm-1.7.0-334ef0640d.patch"
     react-color: "npm:2.19.3"
     react-csv: "npm:2.2.2"
-    react-dom: "npm:18.3.1"
+    react-dom: "npm:19.0.0"
     react-dropzone: "npm:14.3.5"
     react-final-form: "npm:6.5.9"
     react-final-form-arrays: "npm:3.1.4"
     react-hook-form: "npm:7.54.1"
     react-intl: "npm:7.1.0"
-    react-leaflet: "npm:4.2.1"
+    react-leaflet: "npm:5.0.0"
     react-markdown: "npm:9.0.1"
     react-redux: "npm:9.2.0"
     react-router: "npm:7.1.1"
@@ -10037,15 +10036,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-dom@npm:18.3.1":
-  version: 18.3.1
-  resolution: "react-dom@npm:18.3.1"
+"react-dom@npm:19.0.0":
+  version: 19.0.0
+  resolution: "react-dom@npm:19.0.0"
   dependencies:
-    loose-envify: "npm:^1.1.0"
-    scheduler: "npm:^0.23.2"
+    scheduler: "npm:^0.25.0"
   peerDependencies:
-    react: ^18.3.1
-  checksum: 10c0/a752496c1941f958f2e8ac56239172296fcddce1365ce45222d04a1947e0cc5547df3e8447f855a81d6d39f008d7c32eab43db3712077f09e3f67c4874973e85
+    react: ^19.0.0
+  checksum: 10c0/a36ce7ab507b237ae2759c984cdaad4af4096d8199fb65b3815c16825e5cfeb7293da790a3fc2184b52bfba7ba3ff31c058c01947aff6fd1a3701632aabaa6a9
   languageName: node
   linkType: hard
 
@@ -10147,16 +10145,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-leaflet@npm:4.2.1":
-  version: 4.2.1
-  resolution: "react-leaflet@npm:4.2.1"
+"react-leaflet@npm:5.0.0":
+  version: 5.0.0
+  resolution: "react-leaflet@npm:5.0.0"
   dependencies:
-    "@react-leaflet/core": "npm:^2.1.0"
+    "@react-leaflet/core": "npm:^3.0.0"
   peerDependencies:
     leaflet: ^1.9.0
-    react: ^18.0.0
-    react-dom: ^18.0.0
-  checksum: 10c0/2e9d1687e883fd7d2e9798e51a04600e1b14784dc98b981a44507e65eb39a24f08c7f237c7522ae5667e999eb53b8d565ebd0f5baa25ef73a0278d6bfcc369e1
+    react: ^19.0.0
+    react-dom: ^19.0.0
+  checksum: 10c0/f0b6fb797cc2d81bc8cbb54e0cb32aefa689d35ca5f52d203ce3c5a1d14668e51244f10844bd2c88d5cb4aca5eb05bc280794e6d1652727ff9da2358e89d1b86
   languageName: node
   linkType: hard
 
@@ -10263,12 +10261,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react@npm:18.3.1":
-  version: 18.3.1
-  resolution: "react@npm:18.3.1"
-  dependencies:
-    loose-envify: "npm:^1.1.0"
-  checksum: 10c0/283e8c5efcf37802c9d1ce767f302dd569dd97a70d9bb8c7be79a789b9902451e0d16334b05d73299b20f048cbc3c7d288bbbde10b701fa194e2089c237dbea3
+"react@npm:19.0.0":
+  version: 19.0.0
+  resolution: "react@npm:19.0.0"
+  checksum: 10c0/9cad8f103e8e3a16d15cb18a0d8115d8bd9f9e1ce3420310aea381eb42aa0a4f812cf047bb5441349257a05fba8a291515691e3cb51267279b2d2c3253f38471
   languageName: node
   linkType: hard
 
@@ -10874,12 +10870,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"scheduler@npm:^0.23.2":
-  version: 0.23.2
-  resolution: "scheduler@npm:0.23.2"
-  dependencies:
-    loose-envify: "npm:^1.1.0"
-  checksum: 10c0/26383305e249651d4c58e6705d5f8425f153211aef95f15161c151f7b8de885f24751b377e4a0b3dd42cce09aad3f87a61dab7636859c0d89b7daf1a1e2a5c78
+"scheduler@npm:^0.25.0":
+  version: 0.25.0
+  resolution: "scheduler@npm:0.25.0"
+  checksum: 10c0/a4bb1da406b613ce72c1299db43759526058fdcc413999c3c3e0db8956df7633acf395cb20eb2303b6a65d658d66b6585d344460abaee8080b4aa931f10eaafe
   languageName: node
   linkType: hard
 

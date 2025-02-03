@@ -3,7 +3,6 @@ import { ToggleButton, ToggleButtonGroup, Tooltip } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { FunctionComponent, useContext } from 'react';
 
-import type { InjectOutputType } from '../../../../actions/injects/Inject';
 import { useFormatter } from '../../../../components/i18n';
 import { InjectContext, ViewModeContext } from '../Context';
 import ImportUploaderInjectFromXls from './ImportUploaderInjectFromXls';
@@ -18,19 +17,15 @@ const useStyles = makeStyles(() => ({
 }));
 
 interface Props {
-  selectedInjects: InjectOutputType[];
   setViewMode?: (mode: string) => void;
   availableButtons: string[];
   onImportedInjects?: () => void;
-  isAtLeastOneValidInject: boolean;
 }
 
 const InjectsListButtons: FunctionComponent<Props> = ({
-  selectedInjects,
   setViewMode,
   availableButtons,
   onImportedInjects,
-  isAtLeastOneValidInject,
 }) => {
   // Standard hooks
   const classes = useStyles();

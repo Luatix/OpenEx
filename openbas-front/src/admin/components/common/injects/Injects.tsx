@@ -476,12 +476,6 @@ const Injects: FunctionComponent<Props> = ({
     });
   };
 
-  const selectedInjects = () => {
-    return Object.values(selectedElements);
-  };
-
-  const atLeastOneValidInject = injects.some(inject => !inject.inject_injector_contract?.injector_contract_content_parsed);
-
   if (isBulkLoading) {
     return <Loader />;
   }
@@ -497,11 +491,9 @@ const Injects: FunctionComponent<Props> = ({
         reloadContentCount={reloadInjectCount}
         topBarButtons={(
           <InjectsListButtons
-            selectedInjects={selectedInjects()}
             availableButtons={availableButtons}
             setViewMode={setViewMode}
             onImportedInjects={() => setReloadInjectCount(prev => prev + 1)}
-            isAtLeastOneValidInject={atLeastOneValidInject}
           />
         )}
       />

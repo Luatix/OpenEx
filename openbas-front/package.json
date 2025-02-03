@@ -131,6 +131,7 @@
     "node": ">= 22.11.0"
   },
   "scripts": {
+    "auto-translation:all": "i18n-auto-translation -a deepl-free -p ./src/utils/lang/en.json -t fr -k $SUBSCRIPTION_KEY && i18n-auto-translation -a deepl-free -p ./src/utils/lang/en.json -t zh -k $SUBSCRIPTION_KEY",
     "start": "vite",
     "deprecated-start": "node builder/dev/dev.js",
     "build": "node builder/prod/prod.js",

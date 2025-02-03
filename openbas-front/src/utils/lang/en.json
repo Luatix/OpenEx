@@ -124,7 +124,11 @@
   "Browse the link": "Browse the link",
   "Builtin variables": "Builtin variables",
   "By": "By",
-  "By default we accept iso date (YYYY-MM-DDThh:mm:ss[.mmm]TZD), but you can specify your own date format in ISO notation (for instance DD.MM.YYYY hh'h'mm)": "By default we accept iso date (YYYY-MM-DDThh:mm:ss[.mmm]TZD), but you can specify your own date format in ISO notation (for instance DD.MM.YYYY hh'h'mm)",
+  "By default we accept iso date (YYYY-MM-DDThh": {
+    "mm": {
+      "ss[.mmm]TZD), but you can specify your own date format in ISO notation (for instance DD.MM.YYYY hh'h'mm)": "By default we accept iso date (YYYY-MM-DDThh:mm:ss[.mmm]TZD), but you can specify your own date format in ISO notation (for instance DD.MM.YYYY hh'h'mm)"
+    }
+  },
   "By default, only assets compliant with the injector are displayed": "By default, only assets compliant with the injector are displayed",
   "CMD does not support base64 obfuscation": "CMD does not support base64 obfuscation",
   "COMMUNITY": "Community",

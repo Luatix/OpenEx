@@ -124,8 +124,11 @@
   "Browse the link": "浏览链接",
   "Builtin variables": "内置变量",
   "By": "由",
-  "By default we accept iso date (YYYY-MM-DDThh:mm:ss[.mmm]TZD), but you can specify your own date format in ISO notation (for instance DD.MM.YYYY hh\"h\"mm)": "默认情况下，我们接受 ISO 日期(YYYY-MM-DDThh:mm:ss[.mmmm]TZD)，但您也可以指定自己的 ISO 日期格式(例如 DD.MM.YYYY hh\"h\"mm)",
-  "By default we accept iso date (YYYY-MM-DDThh:mm:ss[.mmm]TZD), but you can specify your own date format in ISO notation (for instance DD.MM.YYYY hh'h'mm)": "默認情況下，我哋接受iso日期（ YYYY-MM-DDThh：mm：ss[.mmm]TZD ），但你可以用ISO表示法指定自己嘅日期格式（例如DD.MM.YYYY hh'h'mm ）",
+  "By default we accept iso date (YYYY-MM-DDThh": {
+    "mm": {
+      "ss[.mmm]TZD), but you can specify your own date format in ISO notation (for instance DD.MM.YYYY hh'h'mm)": "默認情況下，我哋接受iso日期（ YYYY-MM-DDThh：mm：ss[.mmm]TZD ），但你可以用ISO表示法指定自己嘅日期格式（例如DD.MM.YYYY hh'h'mm ）"
+    }
+  },
   "By default, only assets compliant with the injector are displayed": "默认情况下,只显示符合注入器要求的资产",
   "CMD does not support base64 obfuscation": "CMD唔撐base64混淆",
   "COMMUNITY": "社区",
@@ -301,6 +304,7 @@
   "Do you want to delete this document?": "你想要删除这个文档么?",
   "Do you want to delete this expectation ?": "你想要删除这个期望么?",
   "Do you want to delete this group?": "你想要删除这个组么?",
+  "Do you want to delete this inject:": "您是否要删除此注释：",
   "Do you want to delete this inject?": "你想要删除这个注入么?",
   "Do you want to delete this kill chain phase?": "是否要刪除此殺傷鏈階段？",
   "Do you want to delete this lessons learned category?": "你想要删除这个经验教训分类么 ?",
@@ -998,6 +1002,9 @@
   "The element has been successfully deleted": "元素已成功删除",
   "The element has been successfully updated": "元素已成功更新",
   "The element has been updated": "元素已更新",
+  "The imported file contains absolute dates (ex.": {
+    " 9h30). A starting date must be provided for the Scenario to be build": "导入的文件包含绝对日期（例如：9h30）。必须提供起始日期，以便构建情景"
+  },
   "The inject will only be sent to you.": "注入只会发送给你.",
   "The new users will automatically be assigned to this group.": "新用户会自动分配到这个组.",
   "The score set for the team will also be applied to all players in the team": "为团队设置的分数也将应用于团队中的所有玩家",
@@ -1010,7 +1017,6 @@
   "Third": "第三",
   "This atomic testing and its previous results will be deleted": "此原子测试及其之前的结果将被删除",
   "This expectation is handled automatically by the platform and triggered when target reads the articles": "该预期由平台自动处理，并在目标阅读文章时触发",
-  "This expectation is handled automatically by the platform and triggered when team reads articles": "平台会自动处理这一期望，并在团队阅读文章时触发",
   "This expectation is handled automatically by the platform and triggered when the target completes the challenges": "该预期由平台自动处理，并在目标完成挑战时触发",
   "This expression will be used to find a match in the specified column to determine the inject type. Regular Expressions can be used.": "该表达式将用于在指定列中查找匹配项，以确定注入类型。可使用正则表达式.",
   "This field is mandatory": "该字段为必填字段",
@@ -1021,7 +1027,7 @@
   "This group will have observer permission on new simulations.": "这个组有新模拟的观察权限.",
   "This group will have planner permission on new simulations.": "这个组有新模拟的计划权限.",
   "This is a communication check before the beginning of the simulation. Please click on the following link in order to confirm you successfully received this message": {
-    " <a href='${comcheck.url}'>${comcheck.url}</a>.": "这是模拟开始前的通信检查.请点击以下链接以确认您已成功收到此信息: <a href='${comcheck.url}'>${comcheck.url}</a>."
+    " <a href=${'comcheck.url}'>${comcheck.url}</a>.": "这是模拟开始前的通信检查。请点击以下链接以确认您已成功收到此信息：<a href='${comcheck.url}'>${comcheck.url}</a>."
   },
   "This page is coming soon": "该页面即将推出",
   "This page is not found on this OpenBAS application.": "OpenBAS应用程序中未找到该页.",

@@ -3,13 +3,8 @@ import { ToggleButton, ToggleButtonGroup, Tooltip } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { FunctionComponent, useContext } from 'react';
 
-import type { TagHelper } from '../../../../actions/helper';
 import type { InjectOutputType } from '../../../../actions/injects/Inject';
-import ButtonPopover from '../../../../components/common/ButtonPopover';
 import { useFormatter } from '../../../../components/i18n';
-import { useHelper } from '../../../../store';
-import { exportData } from '../../../../utils/Environment';
-import useExportToXLS from '../../../../utils/hooks/useExportToXLS';
 import { InjectContext, ViewModeContext } from '../Context';
 import ImportUploaderInjectFromXls from './ImportUploaderInjectFromXls';
 
@@ -41,41 +36,10 @@ const InjectsListButtons: FunctionComponent<Props> = ({
   const classes = useStyles();
   const { t } = useFormatter();
   const injectContext = useContext(InjectContext);
-
   const viewModeContext = useContext(ViewModeContext);
-
-  // Fetching data
-  const { tagsMap } = useHelper((helper: TagHelper) => ({
-    tagsMap: helper.getTagsMap(),
-  }));
-
-  const exportInjects = exportData(
-    'inject',
-    [
-      'inject_type',
-      'inject_title',
-      'inject_description',
-      'inject_depends_duration',
-      'inject_enabled',
-      'inject_tags',
-      'inject_content',
-    ],
-    selectedInjects,
-    tagsMap,
-  );
-  const exportInjectsToXLS = useExportToXLS({ data: exportInjects, fileName: `${t('Injects')}` });
-
-  const entries = [
-    { label: 'Export injects', action: exportInjectsToXLS },
-  ];
 
   return (
     <div className={classes.container}>
-      <ButtonPopover
-        disabled={!isAtLeastOneValidInject}
-        entries={entries}
-        variant="icon"
-      />
       <ToggleButtonGroup
         size="small"
         exclusive

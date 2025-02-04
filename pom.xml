@@ -70,6 +70,11 @@
             <scope>runtime</scope>
             <version>42.7.5</version>
         </dependency>
+        <dependency>
+            <groupId>io.pyroscope</groupId>
+            <artifactId>agent</artifactId>
+            <version>0.17.0</version>
+        </dependency>
     </dependencies>
 
     <build>

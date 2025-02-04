@@ -2,10 +2,16 @@ package io.openbas.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.openbas.helper.ObjectMapperHelper;
+import io.openbas.telemetry.PyroscopePropertiesConfig;
+import io.pyroscope.http.Format;
+import io.pyroscope.javaagent.EventType;
+import io.pyroscope.javaagent.PyroscopeAgent;
+import io.pyroscope.javaagent.config.Config;
 import io.swagger.v3.oas.models.ExternalDocumentation;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.info.License;
+import jakarta.annotation.PostConstruct;
 import jakarta.annotation.Resource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.scheduling.annotation.EnableAsync;
@@ -28,6 +34,7 @@ public class AppConfig {
       "This field must start with '+' character and country identifier.";
 
   @Resource private OpenBASConfig openBASConfig;
+  @Resource private PyroscopePropertiesConfig pyroscopePropertiesConfig;
 
   @Bean
   ObjectMapper openBASJsonMapper() {
@@ -48,5 +55,21 @@ public class AppConfig {
             new ExternalDocumentation()
                 .description("OpenBAS documentation")
                 .url("https://docs.openbas.io/"));
+  }
+
+  @PostConstruct
+  public void init() {
+    if (pyroscopePropertiesConfig != null && pyroscopePropertiesConfig.isPyroscopeEnabled()) {
+      PyroscopeAgent.start(
+          new Config.Builder()
+              .setApplicationName(pyroscopePropertiesConfig.getPyroscopeInstanceName())
+              .setFormat(Format.JFR)
+              .setServerAddress(pyroscopePropertiesConfig.getProfilerServerAddress())
+              .setProfilingEvent(
+                  EventType.valueOf(pyroscopePropertiesConfig.getProfilerEventType().toUpperCase()))
+              .setProfilingAlloc(pyroscopePropertiesConfig.getProfilerAllocSize())
+              .setProfilingLock(pyroscopePropertiesConfig.getProfilerLockSize())
+              .build());
+    }
   }
 }

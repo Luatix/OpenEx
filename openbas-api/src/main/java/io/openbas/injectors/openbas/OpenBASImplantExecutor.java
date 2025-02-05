@@ -239,7 +239,7 @@ public class OpenBASImplantExecutor extends Injector {
                             trace.getAgent() != null
                                 && trace.getAgent().getId().equals(agent.getId())
                                 && (ExecutionTraceStatus.ERROR.equals(trace.getStatus())
-                                    || ExecutionTraceStatus.ASSET_INACTIVE.equals(
+                                    || ExecutionTraceStatus.AGENT_INACTIVE.equals(
                                         trace.getStatus()))))
         .orElse(true); // If there are no traces, return true by default
   }

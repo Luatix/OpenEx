@@ -63,13 +63,16 @@ public class CalderaExecutor extends Injector {
       @NotNull final Execution execution, @NotNull final ExecutableInject injection)
       throws Exception {
     CalderaInjectContent content = contentConvert(injection, CalderaInjectContent.class);
+
     String obfuscator =
         content.getObfuscator() != null
             ? content.getObfuscator()
             : CalderaInjectContent.getDefaultObfuscator();
+
     Inject inject = this.injectService.inject(injection.getInjection().getInject().getId());
 
     Map<Asset, Boolean> assets = this.injectService.resolveAllAssetsToExecute(inject);
+
     // Execute inject for all assets
     if (assets.isEmpty()) {
       execution.addTrace(
@@ -125,7 +128,10 @@ public class CalderaExecutor extends Injector {
               } else {
                 contract = injectorContract.getId();
               }
-              assets.forEach(
+
+              // Loop each endpoint and each agent installed on the endpoints
+              assets
+                  .forEach(
                   (asset, aBoolean) -> {
                     if (!(asset instanceof Endpoint) || !((Endpoint) asset).getActive()) {
                       return;

@@ -18,5 +18,7 @@ public @interface Queryable {
 
   String path() default "";
 
+  String[] paths() default {};
+
   Class clazz() default String.class;
 }

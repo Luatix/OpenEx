@@ -24,6 +24,7 @@ public class SearchUtilsJpa {
 
   @SuppressWarnings("unchecked")
   public static <T> Specification<T> computeSearchJpa(@Nullable final String search) {
+
     if (!hasText(search)) {
       return (Specification<T>) EMPTY_SPECIFICATION;
     }

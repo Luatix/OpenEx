@@ -34,6 +34,7 @@ public class PropertySchema {
 
   private final JoinTable joinTable;
   private final String path;
+  private final String[] paths;
 
   @Singular("propertySchema")
   private final List<PropertySchema> propertiesSchema;

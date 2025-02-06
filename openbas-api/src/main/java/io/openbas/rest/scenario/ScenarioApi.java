@@ -10,6 +10,7 @@ import static java.time.Instant.now;
 import static java.time.temporal.ChronoUnit.MINUTES;
 
 import io.openbas.aop.LogExecutionTime;
+import io.openbas.aop.UserRoleDescription;
 import io.openbas.database.model.*;
 import io.openbas.database.raw.RawPaginationScenario;
 import io.openbas.database.repository.*;
@@ -26,6 +27,7 @@ import io.openbas.service.TeamService;
 import io.openbas.telemetry.Tracing;
 import io.openbas.utils.FilterUtilsJpa;
 import io.openbas.utils.pagination.SearchPaginationInput;
+import io.swagger.v3.oas.annotations.ExternalDocumentation;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -51,6 +53,14 @@ import org.springframework.web.server.ResponseStatusException;
 @RestController
 @Secured(ROLE_USER)
 @RequiredArgsConstructor
+@UserRoleDescription
+@io.swagger.v3.oas.annotations.tags.Tag(
+    name = "Scenario management",
+    description = "Endpoints to manage scenarios",
+    externalDocs =
+        @ExternalDocumentation(
+            description = "Documentation about scenarios",
+            url = "https://docs.openbas.io/latest/usage/scenarios_and_simulations/"))
 public class ScenarioApi extends RestBehavior {
 
   public static final String SCENARIO_URI = "/api/scenarios";
@@ -65,6 +75,8 @@ public class ScenarioApi extends RestBehavior {
   private final TeamService teamService;
 
   @PostMapping(SCENARIO_URI)
+  @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "The created scenario")})
+  @Operation(summary = "Create scenario", description = "Create a scenario")
   public Scenario createScenario(@Valid @RequestBody final ScenarioInput input) {
     if (input == null) {
       throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Scenario input cannot be null");
@@ -76,17 +88,24 @@ public class ScenarioApi extends RestBehavior {
   }
 
   @PostMapping(SCENARIO_URI + "/{scenarioId}")
+  @ApiResponses(
+      value = {@ApiResponse(responseCode = "200", description = "The newly created scenario")})
+  @Operation(summary = "Duplicate scenario", description = "Duplicate a scenario")
   public Scenario duplicateScenario(@PathVariable @NotBlank final String scenarioId) {
     return scenarioService.getDuplicateScenario(scenarioId);
   }
 
   @GetMapping(SCENARIO_URI)
+  @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "The list of scenarios")})
+  @Operation(summary = "List scenarios", description = "List the scenarios")
   public List<ScenarioSimple> scenarios() {
     return this.scenarioService.scenarios();
   }
 
   @LogExecutionTime
   @PostMapping(SCENARIO_URI + "/search")
+  @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "The list of scenarios")})
+  @Operation(summary = "Search scenarios", description = "Search the scenarios")
   @Tracing(name = "Get a page of scenarios", layer = "api", operation = "POST")
   public Page<RawPaginationScenario> scenarios(
       @RequestBody @Valid final SearchPaginationInput searchPaginationInput) {

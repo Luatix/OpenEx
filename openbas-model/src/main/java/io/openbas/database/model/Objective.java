@@ -33,52 +33,60 @@ public class Objective implements Base {
   @UuidGenerator
   @JsonProperty("objective_id")
   @NotBlank
+  @Schema(description = "ID of the objective")
   private String id;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "objective_exercise")
   @JsonSerialize(using = MonoIdDeserializer.class)
   @JsonProperty("objective_exercise")
-  @Schema(type = "string")
+  @Schema(description = "Simulation ID of the objective")
   private Exercise exercise;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "objective_scenario")
   @JsonSerialize(using = MonoIdDeserializer.class)
   @JsonProperty("objective_scenario")
-  @Schema(type = "string")
+  @Schema(description = "Scenario ID of the objective")
   private Scenario scenario;
 
   @Column(name = "objective_title")
   @JsonProperty("objective_title")
+  @Schema(description = "Title of the objective")
   private String title;
 
   @Column(name = "objective_description")
   @JsonProperty("objective_description")
+  @Schema(description = "Description of the objective")
   private String description;
 
   @Column(name = "objective_priority")
   @JsonProperty("objective_priority")
+  @Schema(description = "Priority of the objective")
   private Short priority;
 
   @Column(name = "objective_created_at")
   @JsonProperty("objective_created_at")
   @NotNull
+  @Schema(description = "Creation date of the objective")
   private Instant createdAt = now();
 
   @Column(name = "objective_updated_at")
   @JsonProperty("objective_updated_at")
   @NotNull
+  @Schema(description = "Update date of the objective")
   private Instant updatedAt = now();
 
   @ArraySchema(schema = @Schema(type = "string"))
   @OneToMany(mappedBy = "objective", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
   @JsonSerialize(using = MultiIdListDeserializer.class)
   @JsonProperty("objective_evaluations")
+  @Schema(description = "Evaluation IDs of the objective")
   private List<Evaluation> evaluations = new ArrayList<>();
 
   // region transient
   @JsonProperty("objective_score")
+  @Schema(description = "Score of the objective")
   public Double getEvaluationAverage() {
     return getEvaluations().stream().mapToDouble(Evaluation::getScore).average().orElse(0D);
   }

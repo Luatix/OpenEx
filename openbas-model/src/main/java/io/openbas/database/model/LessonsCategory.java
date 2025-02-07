@@ -33,43 +33,49 @@ public class LessonsCategory implements Base {
   @UuidGenerator
   @JsonProperty("lessonscategory_id")
   @NotBlank
+  @Schema(description = "ID of the lesson category")
   private String id;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "lessons_category_exercise")
   @JsonSerialize(using = MonoIdDeserializer.class)
   @JsonProperty("lessons_category_exercise")
-  @Schema(type = "string")
+  @Schema(description = "Simulation ID of the lesson category")
   private Exercise exercise;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "lessons_category_scenario")
   @JsonSerialize(using = MonoIdDeserializer.class)
   @JsonProperty("lessons_category_scenario")
-  @Schema(type = "string")
+  @Schema(description = "Scenario ID of the lesson category")
   private Scenario scenario;
 
   @Column(name = "lessons_category_created_at")
   @JsonProperty("lessons_category_created_at")
   @NotNull
+  @Schema(description = "Creation date of the lesson category")
   private Instant created = now();
 
   @Column(name = "lessons_category_updated_at")
   @JsonProperty("lessons_category_updated_at")
   @NotNull
+  @Schema(description = "Update date of the lesson category")
   private Instant updated = now();
 
   @Column(name = "lessons_category_name")
   @JsonProperty("lessons_category_name")
   @NotBlank
+  @Schema(description = "Name of the lesson category")
   private String name;
 
   @Column(name = "lessons_category_description")
   @JsonProperty("lessons_category_description")
+  @Schema(description = "Description of the lesson category")
   private String description;
 
   @Column(name = "lessons_category_order")
   @JsonProperty("lessons_category_order")
+  @Schema(description = "Order of the lesson category")
   private int order;
 
   @ManyToMany(fetch = FetchType.LAZY)
@@ -79,17 +85,19 @@ public class LessonsCategory implements Base {
       inverseJoinColumns = @JoinColumn(name = "team_id"))
   @JsonSerialize(using = MultiIdListDeserializer.class)
   @JsonProperty("lessons_category_teams")
-  @ArraySchema(schema = @Schema(type = "string"))
+  @ArraySchema(schema = @Schema(type = "string", description = "Team IDs of the lesson category"))
   private List<Team> teams = new ArrayList<>();
 
   @OneToMany(mappedBy = "category", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
   @JsonProperty("lessons_category_questions")
   @JsonSerialize(using = MultiIdListDeserializer.class)
-  @ArraySchema(schema = @Schema(type = "string"))
+  @ArraySchema(
+      schema = @Schema(type = "string", description = "Question IDs of the lesson category"))
   private List<LessonsQuestion> questions = new ArrayList<>();
 
   // region transient
   @JsonProperty("lessons_category_users")
+  @Schema(description = "User IDs of the lesson category")
   public List<String> getUsers() {
     return getTeams().stream().flatMap(team -> team.getUsers().stream().map(User::getId)).toList();
   }

@@ -29,33 +29,35 @@ public class Grant implements Base {
   @UuidGenerator
   @JsonProperty("grant_id")
   @NotBlank
+  @Schema(description = "Id of the grant")
   private String id;
 
   @Column(name = "grant_name")
   @JsonProperty("grant_name")
   @Enumerated(EnumType.STRING)
   @NotNull
+  @Schema(description = "Name of the grant")
   private GRANT_TYPE name;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "grant_group")
   @JsonSerialize(using = MonoIdDeserializer.class)
   @JsonProperty("grant_group")
-  @Schema(type = "string")
+  @Schema(description = "Group ID of the grant")
   private Group group;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "grant_exercise")
   @JsonSerialize(using = MonoIdDeserializer.class)
   @JsonProperty("grant_exercise")
-  @Schema(type = "string")
+  @Schema(description = "Simulation ID of the grant")
   private Exercise exercise;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "grant_scenario")
   @JsonSerialize(using = MonoIdDeserializer.class)
   @JsonProperty("grant_scenario")
-  @Schema(type = "string")
+  @Schema(description = "Scenario ID of the grant")
   private Scenario scenario;
 
   @Override

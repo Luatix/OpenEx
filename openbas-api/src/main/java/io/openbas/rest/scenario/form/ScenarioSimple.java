@@ -19,17 +19,21 @@ import org.springframework.beans.BeanUtils;
 public class ScenarioSimple {
 
   @JsonProperty("scenario_id")
+  @Schema(description = "Id of the scenario")
   private String id;
 
   @JsonProperty("scenario_name")
+  @Schema(description = "Name of the scenario")
   private String name;
 
   @JsonProperty("scenario_subtitle")
+  @Schema(description = "Subtitle of the scenario")
   private String subtitle;
 
   @ArraySchema(schema = @Schema(type = "string"))
   @JsonSerialize(using = MultiIdSetDeserializer.class)
   @JsonProperty("scenario_tags")
+  @Schema(description = "List of tag IDs of the scenario")
   private Set<Tag> tags = new HashSet<>();
 
   public static ScenarioSimple fromScenario(@NotNull final Scenario scenario) {

@@ -130,8 +130,7 @@ public class CalderaExecutor extends Injector {
               }
 
               // Loop each endpoint and each agent installed on the endpoints
-              assets
-                  .forEach(
+              assets.forEach(
                   (asset, aBoolean) -> {
                     if (!(asset instanceof Endpoint) || !((Endpoint) asset).getActive()) {
                       return;

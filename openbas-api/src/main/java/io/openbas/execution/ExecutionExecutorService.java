@@ -36,8 +36,7 @@ public class ExecutionExecutorService {
   private final InjectStatusRepository injectStatusRepository;
   private final AgentService agentService;
 
-  public void launchExecutorContext(ExecutableInject executableInject, Inject inject)
-      throws InterruptedException {
+  public void launchExecutorContext(Inject inject) {
     // First, get the agents of this injects
     List<Agent> agents =
         this.agentService.getAgentsByAssetIds(
@@ -64,7 +63,7 @@ public class ExecutionExecutorService {
             atOneTraceAdded.set(true);
           }
         });
-    // if launchExecutorContextForAgent fail for every agents we throw to manually set injectStatus
+    // if launchExecutorContextForAgent fail for every agent we throw to manually set injectStatus
     // to error
     if (atOneTraceAdded.get()) {
       this.injectStatusRepository.save(injectStatus);

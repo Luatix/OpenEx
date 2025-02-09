@@ -47,7 +47,11 @@ public class EndpointMapper {
             endpoint.getMacAddresses() != null
                 ? new HashSet<>(Arrays.asList(endpoint.getMacAddresses()))
                 : emptySet())
-        .agents(toAgentOutputs(endpoint.getAgents()))
+        .agents(
+            toAgentOutputs(
+                endpoint.getAgents().stream()
+                    .filter(agent -> agent.getParent() == null && agent.getInject() == null)
+                    .collect(Collectors.toList())))
         .tags(endpoint.getTags().stream().map(Tag::getId).collect(Collectors.toSet()))
         .build();
   }

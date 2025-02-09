@@ -1,13 +1,14 @@
 package io.openbas.service;
 
 import io.openbas.database.model.Agent;
+import io.openbas.database.model.ExecutionTraceStatus;
+import io.openbas.database.model.Inject;
+import io.openbas.database.model.InjectStatus;
 import io.openbas.database.repository.AgentRepository;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -25,12 +26,8 @@ public class AgentService {
     return agentRepository.findByAssetGroupIds(assetGroupIds);
   }
 
-  public Map<String, List<Agent>> getAgentsGroupedByAsset(List<String> assetIds) {
-    List<Agent> agents = agentRepository.findByAssetIds(assetIds);
-
-    return agents.stream()
-        .filter(Agent::isActive)
-        .collect(Collectors.groupingBy(agent -> agent.getAsset().getId()));
+  public List<Agent> getAgentsByInjectId(String injectId) {
+    return agentRepository.findByInjectId(injectId);
   }
 
   public Optional<Agent> getAgentByAgentDetailsForAnAsset(
@@ -53,5 +50,24 @@ public class AgentService {
 
   public Optional<Agent> findByExternalReference(String externalReference) {
     return agentRepository.findByExternalReference(externalReference);
+  }
+
+  public static boolean hasOnlyValidTraces(Inject inject, io.openbas.database.model.Agent agent) {
+    return inject
+        .getStatus()
+        .map(InjectStatus::getTraces)
+        .map(
+            traces ->
+                Boolean.valueOf(
+                    traces.stream()
+                        .noneMatch(
+                            trace ->
+                                trace.getAgent() != null
+                                    && trace.getAgent().getId().equals(agent.getId())
+                                    && (ExecutionTraceStatus.ERROR.equals(trace.getStatus())
+                                        || ExecutionTraceStatus.AGENT_INACTIVE.equals(
+                                            trace.getStatus())))))
+        .orElse(Boolean.TRUE)
+        .booleanValue(); // If there are no traces, return true by default
   }
 }

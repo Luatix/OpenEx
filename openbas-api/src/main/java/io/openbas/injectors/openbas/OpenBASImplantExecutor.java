@@ -5,6 +5,7 @@ import static io.openbas.database.model.InjectExpectationSignature.*;
 import static io.openbas.model.expectation.DetectionExpectation.*;
 import static io.openbas.model.expectation.ManualExpectation.*;
 import static io.openbas.model.expectation.PreventionExpectation.*;
+import static io.openbas.service.AgentService.hasOnlyValidTraces;
 
 import io.openbas.database.model.*;
 import io.openbas.execution.ExecutableInject;
@@ -225,23 +226,6 @@ public class OpenBASImplantExecutor extends Injector {
             .filter(agent -> hasOnlyValidTraces(inject, agent))
             .filter(Agent::isActive)
             .toList();
-  }
-
-  private static boolean hasOnlyValidTraces(Inject inject, Agent agent) {
-    return inject
-        .getStatus()
-        .map(InjectStatus::getTraces)
-        .map(
-            traces ->
-                traces.stream()
-                    .noneMatch(
-                        trace ->
-                            trace.getAgent() != null
-                                && trace.getAgent().getId().equals(agent.getId())
-                                && (ExecutionTraceStatus.ERROR.equals(trace.getStatus())
-                                    || ExecutionTraceStatus.AGENT_INACTIVE.equals(
-                                        trace.getStatus()))))
-        .orElse(true); // If there are no traces, return true by default
   }
 
   /**

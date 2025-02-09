@@ -40,4 +40,9 @@ public class Command extends Payload {
   public Command(String id, String type, String name) {
     super(id, type, name);
   }
+
+  @Override
+  public String getExpectationSignatureValue() {
+    return getContent();
+  }
 }

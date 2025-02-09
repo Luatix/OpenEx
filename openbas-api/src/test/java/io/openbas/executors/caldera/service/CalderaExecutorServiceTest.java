@@ -14,6 +14,7 @@ import io.openbas.executors.caldera.config.CalderaExecutorConfig;
 import io.openbas.executors.caldera.model.Agent;
 import io.openbas.integrations.ExecutorService;
 import io.openbas.integrations.InjectorService;
+import io.openbas.service.AgentService;
 import io.openbas.service.EndpointService;
 import io.openbas.service.PlatformSettingsService;
 import java.util.List;
@@ -46,6 +47,8 @@ public class CalderaExecutorServiceTest {
   @Mock private CalderaExecutorContextService calderaExecutorContextService;
 
   @Mock private EndpointService endpointService;
+
+  @Mock private AgentService agentService;
 
   @Mock private InjectorService injectorService;
 
@@ -97,7 +100,7 @@ public class CalderaExecutorServiceTest {
     endpoint.setIps(agent.getHost_ip_addrs());
     endpoint.setHostname(agent.getHost());
     endpoint.setPlatform(toPlatform("windows"));
-    endpoint.setArch(CalderaExecutorService.toArch("amd64"));
+    endpoint.setArch(toArch("amd64"));
     agentEndpoint.setProcessName(agent.getExe_name());
     agentEndpoint.setExecutor(executor);
     agentEndpoint.setExternalReference(agent.getPaw());
@@ -124,14 +127,14 @@ public class CalderaExecutorServiceTest {
   }
 
   @Test
-  void test_run_WITH_one_endpoint() throws Exception {
+  void test_run_WITH_one_endpoint_one_agent() {
     when(client.agents()).thenReturn(List.of(calderaAgent));
     calderaExecutorService.run();
     verify(endpointService).updateEndpoint(calderaEndpoint);
   }
 
   @Test
-  void test_run_WITH_2_existing_endpoint_same_machine() throws Exception {
+  void test_run_WITH_2_existing_agents_same_machine() {
     when(client.agents()).thenReturn(List.of(calderaAgent));
     randomEndpoint.setHostname(CALDERA_AGENT_HOSTNAME);
     randomEndpoint.setIps(new String[] {CALDERA_AGENT_IP});
@@ -140,7 +143,7 @@ public class CalderaExecutorServiceTest {
   }
 
   @Test
-  void test_findExistingEndpointForAnAgent_WITH_2_existing_endpoint_same_host() throws Exception {
+  void test_findExistingEndpointForAnAgent_WITH_2_existing_endpoint_same_host() {
     Optional<Endpoint> result =
         endpointService.findEndpointByAgentDetails(
             calderaAgent.getHost(),
@@ -150,7 +153,7 @@ public class CalderaExecutorServiceTest {
   }
 
   @Test
-  void test_findExistingEndpointForAnAgent_WITH_no_existing_endpoint() throws Exception {
+  void test_findExistingEndpointForAnAgent_WITH_no_existing_endpoint() {
     when(endpointService.findAssetsForInjectionByHostname(CALDERA_AGENT_HOSTNAME))
         .thenReturn(List.of());
     Optional<Endpoint> result =
@@ -162,7 +165,7 @@ public class CalderaExecutorServiceTest {
   }
 
   @Test
-  void test_findExistingEndpointForAnAgent_WITH_1_enpdoint_with_null_executor() throws Exception {
+  void test_findExistingEndpointForAnAgent_WITH_1_enpdoint_with_null_executor() {
     randomEndpoint.getAgents().getFirst().setExecutor(null);
     randomEndpoint.setHostname(CALDERA_AGENT_HOSTNAME);
     randomEndpoint.setIps(new String[] {CALDERA_AGENT_IP});

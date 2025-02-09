@@ -9,6 +9,7 @@ import io.openbas.rest.exception.ElementNotFoundException;
 import io.openbas.rest.inject.form.InjectExecutionAction;
 import io.openbas.rest.inject.form.InjectExecutionInput;
 import io.openbas.rest.inject.form.InjectUpdateStatusInput;
+import io.openbas.service.AgentService;
 import io.openbas.utils.InjectUtils;
 import jakarta.annotation.Nullable;
 import jakarta.transaction.Transactional;
@@ -23,9 +24,9 @@ import org.springframework.stereotype.Service;
 public class InjectStatusService {
   private final InjectRepository injectRepository;
   private final AgentRepository agentRepository;
+  private final AgentService agentService;
   private final InjectUtils injectUtils;
   private final InjectStatusRepository injectStatusRepository;
-  private final InjectService injectService;
 
   public List<InjectStatus> findPendingInjectStatusByType(String injectType) {
     return this.injectStatusRepository.pendingForInjectType(injectType);
@@ -90,10 +91,10 @@ public class InjectStatusService {
         .size();
   }
 
-  public boolean isAllInjectAssetsExecuted(Inject inject) {
+  public boolean isAllInjectAgentsExecuted(Inject inject) {
     int totalCompleteTrace = getCompleteTrace(inject);
-    Map<Asset, Boolean> assets = this.injectService.resolveAllAssetsToExecute(inject);
-    return assets.size() == totalCompleteTrace;
+    List<Agent> agents = this.agentService.getAgentsByInjectId(inject.getId());
+    return agents.size() == totalCompleteTrace;
   }
 
   public void updateFinalInjectStatus(InjectStatus injectStatus) {
@@ -143,7 +144,7 @@ public class InjectStatusService {
     injectStatus.addTrace(executionTraces);
 
     if (executionTraces.getAction().equals(ExecutionTraceAction.COMPLETE)
-        && (agentId == null || isAllInjectAssetsExecuted(inject))) {
+        && (agentId == null || isAllInjectAgentsExecuted(inject))) {
       updateFinalInjectStatus(injectStatus);
     }
     return injectRepository.save(inject);

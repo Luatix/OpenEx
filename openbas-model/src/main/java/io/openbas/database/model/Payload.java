@@ -235,4 +235,11 @@ public class Payload implements Base {
   public int getNumberOfActions() {
     return DEFAULT_NUMBER_OF_ACTIONS_FOR_PAYLOAD;
   }
+
+  /*
+   * Return the value to match in expectations
+   */
+  public String getExpectationSignatureValue() {
+    return "";
+  }
 }

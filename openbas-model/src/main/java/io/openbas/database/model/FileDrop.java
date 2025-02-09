@@ -33,4 +33,9 @@ public class FileDrop extends Payload {
   public FileDrop(String id, String type, String name) {
     super(id, type, name);
   }
+
+  @Override
+  public String getExpectationSignatureValue() {
+    return fileDropFile.getName();
+  }
 }

@@ -14,6 +14,27 @@ public interface AgentRepository
     extends JpaRepository<Agent, String>, JpaSpecificationExecutor<Agent> {
 
   /**
+   * Returns the agents having the injectId passed in parameter
+   *
+   * @param injectId
+   * @return the list of agents
+   */
+  @Query(
+      value =
+          "SELECT DISTINCT agent.*"
+              + " FROM agents agent"
+              + " JOIN assets asset ON agent.agent_asset = asset.asset_id"
+              + " LEFT JOIN asset_groups_assets asset_groups_assets ON asset_groups_assets.asset_id = asset.asset_id"
+              + " LEFT JOIN injects_assets injects_assets ON injects_assets.asset_id = asset.asset_id"
+              + " LEFT JOIN injects_asset_groups injects_asset_groups ON injects_asset_groups.asset_group_id = asset_groups_assets.asset_group_id"
+              + " LEFT JOIN injects inject ON inject.inject_id = injects_assets.inject_id OR inject.inject_id = injects_asset_groups.inject_id"
+              + " WHERE inject.inject_id = :injectId"
+              + " AND agent.agent_parent IS NULL"
+              + " AND agent.agent_inject IS NULL;",
+      nativeQuery = true)
+  List<Agent> findByInjectId(@Param("injectId") String injectId);
+
+  /**
    * Returns the agents having the asset ids passed in parameter
    *
    * @param assetIds the asset ids

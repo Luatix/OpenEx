@@ -41,4 +41,9 @@ public class Executable extends Payload {
   public int getNumberOfActions() {
     return DEFAULT_NUMBER_OF_ACTIONS_FOR_EXECUTABLE;
   }
+
+  @Override
+  public String getExpectationSignatureValue() {
+    return executableFile.getName();
+  }
 }

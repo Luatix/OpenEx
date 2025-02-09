@@ -6,7 +6,7 @@ import org.flywaydb.core.api.migration.Context;
 import org.springframework.stereotype.Component;
 
 @Component
-public class V3_65__Migrate_agents_to_same_endpoint extends BaseJavaMigration {
+public class V3_66__Migrate_agents_to_same_endpoint extends BaseJavaMigration {
   @Override
   public void migrate(Context context) throws Exception {
     Statement select = context.getConnection().createStatement();
@@ -23,13 +23,28 @@ public class V3_65__Migrate_agents_to_same_endpoint extends BaseJavaMigration {
                 ALTER TABLE assets DROP column asset_cleared_at;
                 -- create temp asset table to group the identical endpoints
                 CREATE TABLE temp_assets
-                AS SELECT count(asset_id), cast(array_agg(asset_id) AS VARCHAR) AS array_asset_id, min(asset_id) AS uniq_asset_id, endpoint_hostname, endpoint_platform, endpoint_arch
+                AS SELECT count(asset_id),
+                cast(array_agg(asset_id) AS VARCHAR) AS array_asset_id,
+                min(asset_id) AS uniq_asset_id,
+                endpoint_hostname,
+                endpoint_platform,
+                endpoint_arch,
+                string_agg(asset_name, ', ') AS agg_name,
+                string_agg(asset_description, ', ') AS agg_description
                 FROM assets WHERE asset_type='Endpoint'
                 GROUP BY endpoint_hostname, endpoint_platform, endpoint_arch HAVING count(asset_id) > 1;
+                -- update the assets table with the aggregated name, description for the corresponding unique endpoint
+                UPDATE assets asset
+                SET asset_name = ta.agg_name, asset_description = ta.agg_description
+                FROM temp_assets ta WHERE asset.asset_id = ta.uniq_asset_id;
                 -- update the agents to match with an identical endpoint if it is possible
                 UPDATE agents a SET agent_asset=ta.uniq_asset_id
                 FROM (SELECT array_asset_id, uniq_asset_id FROM temp_assets) AS ta
                 WHERE ta.array_asset_id LIKE concat('%',a.agent_asset,'%');
+                -- update the relation assets_tags
+                UPDATE assets_tags assets_tag SET asset_id=ta.uniq_asset_id
+                FROM (SELECT array_asset_id, uniq_asset_id FROM temp_assets) AS ta
+                WHERE ta.array_asset_id LIKE concat('%',assets_tag.asset_id,'%');
                 -- drop temp asset table
                 DROP TABLE temp_assets;
                 -- delete old endpoints which are unused now

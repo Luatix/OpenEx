@@ -72,7 +72,6 @@
     "tss-react": "4.9.15",
     "usehooks-ts": "3.1.0",
     "uuid": "11.0.3",
-    "xlsx": "https://cdn.sheetjs.com/xlsx-0.20.3/xlsx-0.20.3.tgz",
     "zod": "3.24.1",
     "zustand": "5.0.1"
   },

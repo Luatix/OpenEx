@@ -1724,7 +1724,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@foliojs-fork/fontkit@npm:^1.9.1":
+"@foliojs-fork/fontkit@npm:^1.9.2":
   version: 1.9.2
   resolution: "@foliojs-fork/fontkit@npm:1.9.2"
   dependencies:
@@ -1740,7 +1740,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@foliojs-fork/linebreak@npm:^1.1.1":
+"@foliojs-fork/linebreak@npm:^1.1.1, @foliojs-fork/linebreak@npm:^1.1.2":
   version: 1.1.2
   resolution: "@foliojs-fork/linebreak@npm:1.1.2"
   dependencies:
@@ -1750,15 +1750,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@foliojs-fork/pdfkit@npm:^0.14.0":
-  version: 0.14.0
-  resolution: "@foliojs-fork/pdfkit@npm:0.14.0"
+"@foliojs-fork/pdfkit@npm:^0.15.3":
+  version: 0.15.3
+  resolution: "@foliojs-fork/pdfkit@npm:0.15.3"
   dependencies:
-    "@foliojs-fork/fontkit": "npm:^1.9.1"
+    "@foliojs-fork/fontkit": "npm:^1.9.2"
     "@foliojs-fork/linebreak": "npm:^1.1.1"
     crypto-js: "npm:^4.2.0"
+    jpeg-exif: "npm:^1.1.4"
     png-js: "npm:^1.0.0"
-  checksum: 10c0/1fbb4ff3a1b82d431c2c4407f6f3622257ee107c71ef23dd218565083224aaa1c424987cb3d400f28a38c4b9ad8345ba0e4af53ca0b69a493e38a07e75a4fe36
+  checksum: 10c0/5f3edff0182a6e29d12891e1573be6837035de8d4a4aa446ebf5ee561224b6f11b059cda05dd82a91bbe3de2cedc9676c59980506d5daf209a5d564865a297cb
   languageName: node
   linkType: hard
 
@@ -3130,13 +3131,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/pdfmake@npm:0.2.9":
-  version: 0.2.9
-  resolution: "@types/pdfmake@npm:0.2.9"
+"@types/pdfmake@npm:0.2.11":
+  version: 0.2.11
+  resolution: "@types/pdfmake@npm:0.2.11"
   dependencies:
     "@types/node": "npm:*"
     "@types/pdfkit": "npm:*"
-  checksum: 10c0/6b76e101f078882190064edeaa9f0c99de2212f94484fba17b92dad9e93007f939e1ff201f9934ae1f878efbeedead66ba41e497fd292914511236a1823af495
+  checksum: 10c0/751ea63f2a5aaacbf008543ec58d01f80a11948b7fe18ee531668f97bbed3b0622d3fb1946e3d6b02af9c7ef7396ec858e6f5f5c551b746832b94a6ac33ec453
   languageName: node
   linkType: hard
 
@@ -7309,6 +7310,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"jpeg-exif@npm:^1.1.4":
+  version: 1.1.4
+  resolution: "jpeg-exif@npm:1.1.4"
+  checksum: 10c0/0f9225b2423184d60c66b3d7361176801c17ede92fc9b3c044fcf00f379a5a1d424b360ecf0027dda47d405d253c7b62bf5b353fb08b2589e3650f38cc575e82
+  languageName: node
+  linkType: hard
+
 "js-file-download@npm:0.4.12":
   version: 0.4.12
   resolution: "js-file-download@npm:0.4.12"
@@ -8870,7 +8878,7 @@ __metadata:
     "@types/d3-hierarchy": "npm:3.1.7"
     "@types/eslint__js": "npm:8.42.3"
     "@types/node": "npm:22.10.7"
-    "@types/pdfmake": "npm:0.2.9"
+    "@types/pdfmake": "npm:0.2.11"
     "@types/qs": "npm:6"
     "@types/react": "npm:18.3.14"
     "@types/react-csv": "npm:1.1.10"
@@ -8923,7 +8931,7 @@ __metadata:
     monocart-coverage-reports: "npm:2.12.0"
     monocart-reporter: "npm:2.9.11"
     normalizr: "npm:3.6.2"
-    pdfmake: "npm:0.2.13"
+    pdfmake: "npm:0.2.18"
     prop-types: "npm:15.8.1"
     qs: "npm:6.14.0"
     ramda: "npm:0.30.1"
@@ -9201,15 +9209,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"pdfmake@npm:0.2.13":
-  version: 0.2.13
-  resolution: "pdfmake@npm:0.2.13"
+"pdfmake@npm:0.2.18":
+  version: 0.2.18
+  resolution: "pdfmake@npm:0.2.18"
   dependencies:
-    "@foliojs-fork/linebreak": "npm:^1.1.1"
-    "@foliojs-fork/pdfkit": "npm:^0.14.0"
+    "@foliojs-fork/linebreak": "npm:^1.1.2"
+    "@foliojs-fork/pdfkit": "npm:^0.15.3"
     iconv-lite: "npm:^0.6.3"
-    xmldoc: "npm:^1.1.2"
-  checksum: 10c0/dce949fe9cd2abf08b15c3d04081a95d9511b725c683020577bcba88e3781407b84db1192176e21744b17422aa6d5f450041e53c88100708c5de59753d9ffb58
+    xmldoc: "npm:^1.3.0"
+  checksum: 10c0/173c5e347d137af744a103c155822b52c58da44902a51576f0e6d151c3233c9a573a4b799fa282b5cffa3abf7f6304e75d18d7ed48ceb977d6223e823be35368
   languageName: node
   linkType: hard
 
@@ -12000,7 +12008,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"xmldoc@npm:^1.1.2":
+"xmldoc@npm:^1.3.0":
   version: 1.3.0
   resolution: "xmldoc@npm:1.3.0"
   dependencies:

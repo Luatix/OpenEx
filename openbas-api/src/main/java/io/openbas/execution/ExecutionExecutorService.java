@@ -39,15 +39,13 @@ public class ExecutionExecutorService {
   public void launchExecutorContext(Inject inject) {
     // First, get the agents of this injects
     List<Agent> agents =
-        this.agentService.getAgentsByAssetIds(
-            inject.getAssets().stream().map(Asset::getId).collect(Collectors.toList()));
-    agents.addAll(
-        this.agentService.getAgentsByAssetGroupIds(
-            inject.getAssetGroups().stream().map(AssetGroup::getId).collect(Collectors.toList())));
+        this.agentService.getAgentsByInjectId(inject.getId());
+
     InjectStatus injectStatus =
         inject.getStatus().orElseThrow(() -> new IllegalArgumentException("Status should exists"));
     AtomicBoolean atLeastOneExecution = new AtomicBoolean(false);
     AtomicBoolean atOneTraceAdded = new AtomicBoolean(false);
+
     agents.forEach(
         agent -> {
           try {

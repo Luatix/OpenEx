@@ -325,11 +325,11 @@ public class CalderaExecutor extends Injector {
                           && (now().toEpochMilli()
                                   - Time.toInstant(agentCaldera.getCreated()).toEpochMilli())
                               < io.openbas.database.model.Agent.ACTIVE_THRESHOLD
-                          && (agentCaldera.getHost().equals(assetEndpoint.getHostname())
+                          && (agentCaldera.getHost().equalsIgnoreCase(assetEndpoint.getHostname())
                               || agentCaldera
                                   .getHost()
                                   .split("\\.")[0]
-                                  .equals(assetEndpoint.getHostname().split("\\.")[0]))
+                                  .equalsIgnoreCase(assetEndpoint.getHostname().split("\\.")[0]))
                           && Arrays.stream(assetEndpoint.getIps())
                               .anyMatch(
                                   s ->
@@ -355,7 +355,7 @@ public class CalderaExecutor extends Injector {
             newAgent.setExternalReference(agentCaldera.getPaw());
             newAgent.setPrivilege(io.openbas.database.model.Agent.PRIVILEGE.admin);
             newAgent.setDeploymentMode(io.openbas.database.model.Agent.DEPLOYMENT_MODE.session);
-            newAgent.setExecutedByUser(agentCaldera.getUsername());
+            newAgent.setExecutedByUser(agent.getExecutedByUser());
             newAgent.setAsset(assetEndpoint);
             agentForExecution = this.agentService.createOrUpdateAgent(newAgent);
             break;

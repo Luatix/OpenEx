@@ -18,14 +18,6 @@ public class AgentService {
 
   private final AgentRepository agentRepository;
 
-  public List<Agent> getAgentsByAssetIds(List<String> assetIds) {
-    return agentRepository.findByAssetIds(assetIds);
-  }
-
-  public List<Agent> getAgentsByAssetGroupIds(List<String> assetGroupIds) {
-    return agentRepository.findByAssetGroupIds(assetGroupIds);
-  }
-
   public List<Agent> getAgentsByInjectId(String injectId) {
     return agentRepository.findByInjectId(injectId);
   }
@@ -38,6 +30,10 @@ public class AgentService {
       String executor) {
     return agentRepository.findByAssetExecutorUserDeploymentAndPrivilege(
         assetId, user, deploymentMode.name(), privilege.name(), executor);
+  }
+
+  public List<Agent> getAgentsForExecution() {
+    return agentRepository.findForExecution();
   }
 
   public Agent createOrUpdateAgent(@NotNull final Agent agent) {

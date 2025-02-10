@@ -3,7 +3,7 @@ package io.openbas.injectors.caldera;
 import io.openbas.injectors.caldera.client.CalderaInjectorClient;
 import io.openbas.injectors.caldera.config.CalderaInjectorConfig;
 import io.openbas.injectors.caldera.service.CalderaGarbageCollectorService;
-import io.openbas.service.EndpointService;
+import io.openbas.service.AgentService;
 import jakarta.annotation.PostConstruct;
 import java.time.Duration;
 import lombok.RequiredArgsConstructor;
@@ -19,14 +19,14 @@ public class CalderaGarbageCollector {
   private final CalderaInjectorConfig config;
   private final ThreadPoolTaskScheduler taskScheduler;
   private final CalderaInjectorClient client;
-  private final EndpointService endpointService;
+  private final AgentService agentService;
 
   @PostConstruct
   public void init() {
     // If enabled, scheduled every X seconds
     if (this.config.isEnable()) {
       CalderaGarbageCollectorService service =
-          new CalderaGarbageCollectorService(this.client, this.endpointService);
+          new CalderaGarbageCollectorService(this.client, this.agentService);
       this.taskScheduler.scheduleAtFixedRate(service, Duration.ofSeconds(120));
     }
   }

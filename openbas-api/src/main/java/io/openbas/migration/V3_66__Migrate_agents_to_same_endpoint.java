@@ -29,13 +29,12 @@ public class V3_66__Migrate_agents_to_same_endpoint extends BaseJavaMigration {
                 endpoint_hostname,
                 endpoint_platform,
                 endpoint_arch,
-                string_agg(asset_name, ', ') AS agg_name,
-                string_agg(asset_description, ', ') AS agg_description
+                string_agg(asset_description, '; ') AS agg_description
                 FROM assets WHERE asset_type='Endpoint'
                 GROUP BY endpoint_hostname, endpoint_platform, endpoint_arch HAVING count(asset_id) > 1;
-                -- update the assets table with the aggregated name, description for the corresponding unique endpoint
+                -- update the assets table with the aggregated description for the corresponding unique endpoint
                 UPDATE assets asset
-                SET asset_name = ta.agg_name, asset_description = ta.agg_description
+                SET asset_description = ta.agg_description
                 FROM temp_assets ta WHERE asset.asset_id = ta.uniq_asset_id;
                 -- update the agents to match with an identical endpoint if it is possible
                 UPDATE agents a SET agent_asset=ta.uniq_asset_id

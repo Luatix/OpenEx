@@ -16,7 +16,6 @@ import io.openbas.service.AgentService;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.logging.Level;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
 import org.hibernate.Hibernate;
@@ -38,8 +37,7 @@ public class ExecutionExecutorService {
 
   public void launchExecutorContext(Inject inject) {
     // First, get the agents of this injects
-    List<Agent> agents =
-        this.agentService.getAgentsByInjectId(inject.getId());
+    List<Agent> agents = this.agentService.getAgentsByInjectId(inject.getId());
 
     InjectStatus injectStatus =
         inject.getStatus().orElseThrow(() -> new IllegalArgumentException("Status should exists"));

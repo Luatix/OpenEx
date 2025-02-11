@@ -4,10 +4,12 @@ import io.openbas.database.model.Agent;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 public interface AgentRepository
@@ -55,8 +57,13 @@ public interface AgentRepository
    * @return the list of agents
    */
   @Query(
-          value =
-                  "SELECT a.* FROM agents a WHERE a.agent_parent is not null and a.agent_inject is not null;",
-          nativeQuery = true)
+      value =
+          "SELECT a.* FROM agents a WHERE a.agent_parent is not null and a.agent_inject is not null;",
+      nativeQuery = true)
   List<Agent> findForExecution();
+
+  @Modifying
+  @Query(value = "DELETE FROM agents agent where agent.agent_id = :agentId;", nativeQuery = true)
+  @Transactional
+  void deleteByAgentId(String agentId);
 }

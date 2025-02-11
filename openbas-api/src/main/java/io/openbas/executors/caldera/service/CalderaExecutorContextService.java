@@ -70,9 +70,7 @@ public class CalderaExecutorContextService {
         });
   }
 
-  public void launchExecutorSubprocess(
-      @NotNull final Inject inject,
-      @NotNull final Agent agent) {
+  public void launchExecutorSubprocess(@NotNull final Inject inject, @NotNull final Agent agent) {
     inject
         .getInjectorContract()
         .map(InjectorContract::getInjector)

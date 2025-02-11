@@ -179,7 +179,6 @@ public class InjectService {
   public Map<Asset, Boolean> resolveAllAssetsToExecute(@NotNull final Inject inject) {
     Map<Asset, Boolean> assets =
         inject.getAssets().stream().collect(Collectors.toMap(asset -> asset, asset -> false));
-    List<String> assetIds = new ArrayList<>();
     inject
         .getAssetGroups()
         .forEach(
@@ -187,13 +186,7 @@ public class InjectService {
               List<Asset> assetsFromGroup =
                   this.assetGroupService.assetsFromAssetGroup(assetGroup.getId());
               // Verify asset validity
-              assetsFromGroup.forEach(
-                  (asset) -> {
-                    if (!assetIds.contains(asset.getId())) {
-                      assets.put(asset, true);
-                      assetIds.add(asset.getId());
-                    }
-                  });
+              assetsFromGroup.forEach((asset) -> assets.put(asset, true));
             }));
     return assets;
   }

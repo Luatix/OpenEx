@@ -72,7 +72,6 @@ public class CalderaExecutorContextService {
 
   public void launchExecutorSubprocess(
       @NotNull final Inject inject,
-      @NotNull final Endpoint assetEndpoint,
       @NotNull final Agent agent) {
     inject
         .getInjectorContract()

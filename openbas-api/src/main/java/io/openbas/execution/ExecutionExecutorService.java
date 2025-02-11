@@ -92,7 +92,7 @@ public class ExecutionExecutorService {
           if (!this.calderaExecutorConfig.isEnable()) {
             throw new AgentException("Fatal error: Caldera executor is not enabled", agent);
           }
-          this.calderaExecutorContextService.launchExecutorSubprocess(inject, assetEndpoint, agent);
+          this.calderaExecutorContextService.launchExecutorSubprocess(inject, agent);
         }
         case "openbas_tanium" -> {
           if (!this.taniumExecutorConfig.isEnable()) {

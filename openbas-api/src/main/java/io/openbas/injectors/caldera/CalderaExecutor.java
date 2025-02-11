@@ -137,29 +137,24 @@ public class CalderaExecutor extends Injector {
                   .forEach(
                       entry -> {
                         Asset asset = entry.getKey();
+                        boolean isInGroup = entry.getValue();
+
                         if (!(asset instanceof Endpoint)) {
                           return;
                         }
 
-                        Endpoint endpointAgent = (Endpoint) asset;
-                        boolean isInGroup = entry.getValue();
-                        List<io.openbas.database.model.Agent> executedAgents = new ArrayList<>();
+                        if (!executedAgentByEndpoint.containsKey(asset.getId())) {
+                          Endpoint endpointAgent = (Endpoint) asset;
 
-                        endpointAgent.getAgents().stream()
-                            .filter(agent -> agent.getParent() == null && agent.getInject() == null)
-                            .filter(agent -> hasOnlyValidTraces(inject, agent))
-                            .forEach(
-                                agent -> {
-                                  try {
-                                    if (executedAgentByEndpoint
-                                        .getOrDefault(asset.getId(), Collections.emptyList())
-                                        .stream()
-                                        .noneMatch(
-                                            executed ->
-                                                executed
-                                                    .getParent()
-                                                    .getId()
-                                                    .equals(agent.getId()))) {
+                          List<io.openbas.database.model.Agent> executedAgents = new ArrayList<>();
+
+                          endpointAgent.getAgents().stream()
+                              .filter(
+                                  agent -> agent.getParent() == null && agent.getInject() == null)
+                              .filter(agent -> hasOnlyValidTraces(inject, agent))
+                              .forEach(
+                                  agent -> {
+                                    try {
                                       io.openbas.database.model.Agent executionAgent =
                                           this.findAndRegisterAgentForExecution(
                                               injection.getInjection().getInject(),
@@ -238,22 +233,22 @@ public class CalderaExecutor extends Injector {
                                                 ExecutionTraceAction.COMPLETE,
                                                 agent));
                                       }
+                                    } catch (Exception e) {
+                                      execution.addTrace(
+                                          getNewErrorTrace(
+                                              CALDERA_FAILED_TO_EXECUTE_THE_ABILITY_ON_AGENT
+                                                  + agent.getExecutedByUser()
+                                                  + " ("
+                                                  + e.getMessage()
+                                                  + ")",
+                                              ExecutionTraceAction.COMPLETE,
+                                              agent));
+                                      log.severe(Arrays.toString(e.getStackTrace()));
                                     }
-                                  } catch (Exception e) {
-                                    execution.addTrace(
-                                        getNewErrorTrace(
-                                            CALDERA_FAILED_TO_EXECUTE_THE_ABILITY_ON_AGENT
-                                                + agent.getExecutedByUser()
-                                                + " ("
-                                                + e.getMessage()
-                                                + ")",
-                                            ExecutionTraceAction.COMPLETE,
-                                            agent));
-                                    log.severe(Arrays.toString(e.getStackTrace()));
-                                  }
-                                });
+                                  });
 
-                        executedAgentByEndpoint.put(asset.getId(), executedAgents);
+                          executedAgentByEndpoint.put(asset.getId(), executedAgents);
+                        }
 
                         // Creation of Expectations
                         computeExpectationsForAssetAndAgents(

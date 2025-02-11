@@ -167,7 +167,7 @@ public class CalderaExecutor extends Injector {
                                               getNewInfoTrace(
                                                   "Request to execute the ability sent to Caldera",
                                                   ExecutionTraceAction.START,
-                                                  executionAgent,
+                                                  agent,
                                                   List.of()));
                                           ExploitResult exploitResult =
                                               this.calderaService.exploitResult(
@@ -178,7 +178,7 @@ public class CalderaExecutor extends Injector {
                                               getNewInfoTrace(
                                                   exploitResult.getCommand(),
                                                   ExecutionTraceAction.EXECUTION,
-                                                  executionAgent,
+                                                  agent,
                                                   List.of(exploitResult.getLinkId())));
                                           execution.addTrace(
                                               getNewInfoTrace(
@@ -192,7 +192,7 @@ public class CalderaExecutor extends Injector {
                                                       + exploitResult.getLinkId()
                                                       + ")",
                                                   ExecutionTraceAction.EXECUTION,
-                                                  executionAgent,
+                                                  agent,
                                                   List.of(exploitResult.getLinkId())));
                                         } else {
                                           execution.addTrace(

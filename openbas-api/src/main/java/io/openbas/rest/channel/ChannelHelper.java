@@ -39,9 +39,10 @@ public class ChannelHelper {
             .filter(
                 inject ->
                     inject
-                        .getInjectorContract()
-                        .map(contract -> contract.getId().equals(CHANNEL_PUBLISH))
-                        .orElse(false))
+                            .getInjectorContract()
+                            .map(contract -> contract.getId().equals(CHANNEL_PUBLISH))
+                            .orElse(false)
+                        && inject.getExercise() != null)
             .filter(inject -> inject.getContent() != null)
             .sorted(Comparator.comparing(Inject::getDependsDuration))
             .flatMap(inject -> convertToVirtualArticles(inject, now, mapper))

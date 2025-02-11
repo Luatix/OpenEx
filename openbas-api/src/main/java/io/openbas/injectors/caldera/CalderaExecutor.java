@@ -129,6 +129,9 @@ public class CalderaExecutor extends Injector {
                 contract = injectorContract.getId();
               }
 
+              Map<String, List<io.openbas.database.model.Agent>> executedAgentByEndpoint =
+                  new HashMap<>();
+
               assets
                   .entrySet()
                   .forEach(
@@ -148,59 +151,78 @@ public class CalderaExecutor extends Injector {
                             .forEach(
                                 agent -> {
                                   try {
-                                    io.openbas.database.model.Agent executionAgent =
-                                        this.findAndRegisterAgentForExecution(
-                                            injection.getInjection().getInject(),
-                                            endpointAgent,
-                                            agent);
-                                    if (executionAgent != null) {
-                                      if (Arrays.stream(injectorContract.getPlatforms())
-                                          .anyMatch(s -> s.equals(endpointAgent.getPlatform()))) {
-                                        String result =
-                                            this.calderaService.exploit(
-                                                obfuscator,
-                                                executionAgent.getExternalReference(),
-                                                contract,
-                                                additionalFields);
-                                        if (result.contains("complete")) {
-                                          execution.addTrace(
-                                              getNewInfoTrace(
-                                                  "Request to execute the ability sent to Caldera",
-                                                  ExecutionTraceAction.START,
-                                                  agent,
-                                                  List.of()));
-                                          ExploitResult exploitResult =
-                                              this.calderaService.exploitResult(
-                                                  executionAgent.getExternalReference(), contract);
-                                          asyncIds.add(exploitResult.getLinkId());
-                                          executedAgents.add(executionAgent);
-                                          execution.addTrace(
-                                              getNewInfoTrace(
-                                                  exploitResult.getCommand(),
-                                                  ExecutionTraceAction.EXECUTION,
-                                                  agent,
-                                                  List.of(exploitResult.getLinkId())));
-                                          execution.addTrace(
-                                              getNewInfoTrace(
-                                                  "Caldera executed the ability on agent"
-                                                      + executionAgent.getExecutedByUser()
-                                                      + " using "
-                                                      + executionAgent.getProcessName()
-                                                      + " (paw: "
-                                                      + executionAgent.getExternalReference()
-                                                      + ", linkID: "
-                                                      + exploitResult.getLinkId()
-                                                      + ")",
-                                                  ExecutionTraceAction.EXECUTION,
-                                                  agent,
-                                                  List.of(exploitResult.getLinkId())));
+                                    if (executedAgentByEndpoint.get(asset.getId()).stream()
+                                        .noneMatch(
+                                            executed ->
+                                                executed
+                                                    .getParent()
+                                                    .getId()
+                                                    .equals(agent.getId()))) {
+                                      io.openbas.database.model.Agent executionAgent =
+                                          this.findAndRegisterAgentForExecution(
+                                              injection.getInjection().getInject(),
+                                              endpointAgent,
+                                              agent);
+                                      if (executionAgent != null) {
+                                        if (Arrays.stream(injectorContract.getPlatforms())
+                                            .anyMatch(s -> s.equals(endpointAgent.getPlatform()))) {
+                                          String result =
+                                              this.calderaService.exploit(
+                                                  obfuscator,
+                                                  executionAgent.getExternalReference(),
+                                                  contract,
+                                                  additionalFields);
+                                          if (result.contains("complete")) {
+                                            execution.addTrace(
+                                                getNewInfoTrace(
+                                                    "Request to execute the ability sent to Caldera",
+                                                    ExecutionTraceAction.START,
+                                                    agent,
+                                                    List.of()));
+                                            ExploitResult exploitResult =
+                                                this.calderaService.exploitResult(
+                                                    executionAgent.getExternalReference(),
+                                                    contract);
+                                            asyncIds.add(exploitResult.getLinkId());
+                                            executedAgents.add(executionAgent);
+                                            execution.addTrace(
+                                                getNewInfoTrace(
+                                                    exploitResult.getCommand(),
+                                                    ExecutionTraceAction.EXECUTION,
+                                                    agent,
+                                                    List.of(exploitResult.getLinkId())));
+                                            execution.addTrace(
+                                                getNewInfoTrace(
+                                                    "Caldera executed the ability on agent"
+                                                        + executionAgent.getExecutedByUser()
+                                                        + " using "
+                                                        + executionAgent.getProcessName()
+                                                        + " (paw: "
+                                                        + executionAgent.getExternalReference()
+                                                        + ", linkID: "
+                                                        + exploitResult.getLinkId()
+                                                        + ")",
+                                                    ExecutionTraceAction.EXECUTION,
+                                                    agent,
+                                                    List.of(exploitResult.getLinkId())));
+                                          } else {
+                                            execution.addTrace(
+                                                getNewErrorTrace(
+                                                    CALDERA_FAILED_TO_EXECUTE_THE_ABILITY_ON_AGENT
+                                                        + agent.getExecutedByUser()
+                                                        + " ("
+                                                        + result
+                                                        + ")",
+                                                    ExecutionTraceAction.COMPLETE,
+                                                    agent));
+                                          }
                                         } else {
                                           execution.addTrace(
                                               getNewErrorTrace(
                                                   CALDERA_FAILED_TO_EXECUTE_THE_ABILITY_ON_AGENT
                                                       + agent.getExecutedByUser()
-                                                      + " ("
-                                                      + result
+                                                      + "(platform is not compatible:"
+                                                      + endpointAgent.getPlatform().name()
                                                       + ")",
                                                   ExecutionTraceAction.COMPLETE,
                                                   agent));
@@ -210,20 +232,10 @@ public class CalderaExecutor extends Injector {
                                             getNewErrorTrace(
                                                 CALDERA_FAILED_TO_EXECUTE_THE_ABILITY_ON_AGENT
                                                     + agent.getExecutedByUser()
-                                                    + "(platform is not compatible:"
-                                                    + endpointAgent.getPlatform().name()
-                                                    + ")",
+                                                    + " (temporary injector not spawned correctly)",
                                                 ExecutionTraceAction.COMPLETE,
                                                 agent));
                                       }
-                                    } else {
-                                      execution.addTrace(
-                                          getNewErrorTrace(
-                                              CALDERA_FAILED_TO_EXECUTE_THE_ABILITY_ON_AGENT
-                                                  + agent.getExecutedByUser()
-                                                  + " (temporary injector not spawned correctly)",
-                                              ExecutionTraceAction.COMPLETE,
-                                              agent));
                                     }
                                   } catch (Exception e) {
                                     execution.addTrace(
@@ -239,12 +251,15 @@ public class CalderaExecutor extends Injector {
                                   }
                                 });
 
+                        executedAgentByEndpoint.put(asset.getId(), executedAgents);
+
+                        // Creation of Expectations
                         computeExpectationsForAssetAndAgents(
                             expectations,
                             content,
                             asset,
                             isInGroup,
-                            executedAgents,
+                            executedAgentByEndpoint.get(asset.getId()),
                             injectorContract.getPayload());
                       });
             },
@@ -566,15 +581,15 @@ public class CalderaExecutor extends Injector {
       PreventionExpectation preventionExpectation) {
     return executedAgents.stream()
         .map(
-            agent ->
+            executedAgent ->
                 preventionExpectationForAgent(
                     preventionExpectation.getScore(),
                     preventionExpectation.getName(),
                     preventionExpectation.getDescription(),
-                    agent.getParent(),
+                    executedAgent.getParent(),
                     asset,
                     preventionExpectation.getExpirationTime(),
-                    computeSignatures(payload, agent.getProcessName())))
+                    computeSignatures(payload, executedAgent.getProcessName())))
         .toList();
   }
 
@@ -585,15 +600,15 @@ public class CalderaExecutor extends Injector {
       DetectionExpectation detectionExpectation) {
     return executedAgents.stream()
         .map(
-            agent ->
+            executedAgent ->
                 detectionExpectationForAgent(
                     detectionExpectation.getScore(),
                     detectionExpectation.getName(),
                     detectionExpectation.getDescription(),
-                    agent.getParent(),
+                    executedAgent.getParent(),
                     asset,
                     detectionExpectation.getExpirationTime(),
-                    computeSignatures(payload, agent.getProcessName())))
+                    computeSignatures(payload, executedAgent.getProcessName())))
         .toList();
   }
 
@@ -603,12 +618,12 @@ public class CalderaExecutor extends Injector {
       ManualExpectation manualExpectation) {
     return executedAgents.stream()
         .map(
-            agent ->
+            executedAgent ->
                 manualExpectationForAgent(
                     manualExpectation.getScore(),
                     manualExpectation.getName(),
                     manualExpectation.getDescription(),
-                    agent.getParent(),
+                    executedAgent.getParent(),
                     asset,
                     manualExpectation.getExpirationTime()))
         .toList();

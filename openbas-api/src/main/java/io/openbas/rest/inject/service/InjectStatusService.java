@@ -16,6 +16,7 @@ import jakarta.transaction.Transactional;
 import jakarta.validation.constraints.NotNull;
 import java.time.Instant;
 import java.util.*;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -87,7 +88,11 @@ public class InjectStatusService {
   private int getCompleteTrace(Inject inject) {
     return inject.getStatus().map(InjectStatus::getTraces).orElse(Collections.emptyList()).stream()
         .filter(trace -> ExecutionTraceAction.COMPLETE.equals(trace.getAction()))
-        .toList()
+        .filter(trace -> trace.getAgent() != null)
+        .collect(
+            Collectors.groupingBy(
+                trace -> trace.getAgent().getId(),
+                Collectors.collectingAndThen(Collectors.toList(), traces -> traces.get(0))))
         .size();
   }
 

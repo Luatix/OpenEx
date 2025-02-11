@@ -1,22 +1,30 @@
 import 'cronstrue/locales/fr';
 import 'cronstrue/locales/en';
-import 'cronstrue/locales/es';
 import 'cronstrue/locales/zh_CN';
 
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFnsV3';
+import { enUS as dateFnsEnUSLocale, fr as dateFnsFrLocale, zhCN as dateFnsZhCNLocale } from 'date-fns/locale';
 import moment from 'moment';
-import * as PropTypes from 'prop-types';
-import { useEffect } from 'react';
+import { FunctionComponent, ReactElement, useEffect } from 'react';
 import { IntlProvider } from 'react-intl';
 
+import { LoggedHelper } from '../actions/helper';
 import { useHelper } from '../store';
 import locale, { DEFAULT_LANG } from '../utils/BrowserLanguage';
 import enOpenBAS from '../utils/lang/en.json';
 import frOpenBAS from '../utils/lang/fr.json';
 import zhOpenBAS from '../utils/lang/zh.json';
 
-const langOpenBAS = {
+type Lang = 'en' | 'fr' | 'zh';
+
+const dateFnsLocaleMap = {
+  en: dateFnsEnUSLocale,
+  fr: dateFnsFrLocale,
+  zh: dateFnsZhCNLocale,
+};
+
+const obasLocaleMap = {
   en: enOpenBAS,
   fr: frOpenBAS,
   zh: zhOpenBAS,
@@ -25,7 +33,6 @@ const langOpenBAS = {
 const momentMap = {
   en: 'en-us',
   fr: 'fr-fr',
-  es: 'es-es',
   zh: 'zh-cn',
 };
 
@@ -33,9 +40,8 @@ const momentMap = {
 // eslint-disable-next-line import/no-mutable-exports
 export let LANG = DEFAULT_LANG;
 
-const AppIntlProvider = (props) => {
-  const { children } = props;
-  const { platformName, lang } = useHelper((helper) => {
+const AppIntlProvider: FunctionComponent<{ children: ReactElement }> = ({ children }) => {
+  const { platformName, lang }: { platformName: string; lang: string } = useHelper((helper: LoggedHelper) => {
     const me = helper.getMe();
     const settings = helper.getPlatformSettings();
     const name = settings.platform_name ?? 'OpenBAS - Crisis Drills Planning Platform';
@@ -46,11 +52,8 @@ const AppIntlProvider = (props) => {
     return { platformName: name, lang: userLang };
   });
   LANG = lang;
-  const baseMessages = langOpenBAS[lang] || langOpenBAS[DEFAULT_LANG];
-  /*
-  passser l'anglais par défaut ou le fichier approprié en fonction de la langue
-   */
-  const momentLocale = momentMap[lang];
+  const baseMessages: Record<string, string> = obasLocaleMap[lang as Lang] || obasLocaleMap[DEFAULT_LANG];
+  const momentLocale = momentMap[lang as Lang];
   moment.locale(momentLocale);
   useEffect(() => {
     document.title = platformName;
@@ -59,6 +62,7 @@ const AppIntlProvider = (props) => {
   return (
     <IntlProvider
       locale={lang}
+      defaultLocale={DEFAULT_LANG}
       key={lang}
       messages={baseMessages}
       onError={(err) => {
@@ -70,7 +74,7 @@ const AppIntlProvider = (props) => {
     >
       <LocalizationProvider
         dateAdapter={AdapterDateFns}
-        adapterLocale={langOpenBAS[lang]}
+        adapterLocale={dateFnsLocaleMap[lang as Lang]}
       >
         {children}
       </LocalizationProvider>
@@ -78,10 +82,4 @@ const AppIntlProvider = (props) => {
   );
 };
 
-AppIntlProvider.propTypes = {
-  children: PropTypes.node,
-};
-
-const ConnectedIntlProvider = AppIntlProvider;
-
-export default ConnectedIntlProvider;
+export default AppIntlProvider;

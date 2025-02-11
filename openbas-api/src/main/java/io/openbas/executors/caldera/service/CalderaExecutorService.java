@@ -141,6 +141,9 @@ public class CalderaExecutorService implements Runnable {
             if (optionalAgent.isPresent()) {
               io.openbas.database.model.Agent agentToUpdate = optionalAgent.get();
               agentToUpdate.setAsset(endpointToUpdate);
+              agentToUpdate.setLastSeen(agent.getLastSeen());
+              agentToUpdate.setExternalReference(agent.getExternalReference());
+              agentToUpdate.setProcessName(agent.getProcessName());
               clearAbilityForAgent(agentToUpdate);
               this.agentService.createOrUpdateAgent(agentToUpdate);
             } else {

@@ -122,6 +122,8 @@ public class TaniumExecutorService implements Runnable {
           if (optionalAgent.isPresent()) {
             Agent agentToUpdate = optionalAgent.get();
             agentToUpdate.setAsset(endpointToUpdate);
+            agentToUpdate.setLastSeen(agent.getLastSeen());
+            agentToUpdate.setExternalReference(agent.getExternalReference());
             this.agentService.createOrUpdateAgent(agentToUpdate);
           } else {
             // New agent to create for the endpoint

@@ -36,6 +36,7 @@ const AgentTraces = ({ agentStatus }: Props) => {
       <div
         onClick={toggleExpand}
         style={{
+          marginTop: '5px',
           cursor: 'pointer',
           display: 'flex',
         }}

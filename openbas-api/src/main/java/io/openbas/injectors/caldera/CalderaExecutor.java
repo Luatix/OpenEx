@@ -151,7 +151,9 @@ public class CalderaExecutor extends Injector {
                             .forEach(
                                 agent -> {
                                   try {
-                                    if (executedAgentByEndpoint.get(asset.getId()).stream()
+                                    if (executedAgentByEndpoint
+                                        .getOrDefault(asset.getId(), Collections.emptyList())
+                                        .stream()
                                         .noneMatch(
                                             executed ->
                                                 executed

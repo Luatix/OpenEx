@@ -129,6 +129,7 @@ public class InjectStatusService {
           convertExecutionStatus(
               computeStatus(
                   injectStatus.getTraces().stream()
+                      .filter(t -> t.getAgent() != null)
                       .filter(t -> t.getAgent().getId().equals(agentId))
                       .toList()));
       executionTraces.setStatus(traceStatus);

@@ -63,6 +63,9 @@ public class ChallengeExecutor extends Injector {
       ChallengeContent content = contentConvert(injection, ChallengeContent.class);
       List<Challenge> challenges =
           fromIterable(challengeRepository.findAllById(content.getChallenges()));
+      if (challenges.isEmpty()) {
+        throw new UnsupportedOperationException("Inject needs at least one challenge");
+      }
       String contract =
           injection
               .getInjection()

@@ -1,34 +1,17 @@
 package io.openbas.rest.helper;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Data;
+
+@Data
 public class ViolationErrorBag {
 
+  @Schema(description = "The type of error")
   private String type;
 
+  @Schema(description = "The message of the error")
   private String message;
 
+  @Schema(description = "The error")
   private String error;
-
-  public String getType() {
-    return type;
-  }
-
-  public void setType(String type) {
-    this.type = type;
-  }
-
-  public String getMessage() {
-    return message;
-  }
-
-  public void setMessage(String message) {
-    this.message = message;
-  }
-
-  public String getError() {
-    return error;
-  }
-
-  public void setError(String error) {
-    this.error = error;
-  }
 }

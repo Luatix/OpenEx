@@ -65,7 +65,9 @@ public class ChannelExecutor extends Injector {
     try {
       ChannelContent content = contentConvert(injection, ChannelContent.class);
       List<Article> articles = fromIterable(articleRepository.findAllById(content.getArticles()));
-
+      if (articles.isEmpty()) {
+        throw new UnsupportedOperationException("Inject needs at least one article");
+      }
       String contract =
           injection
               .getInjection()
@@ -81,6 +83,7 @@ public class ChannelExecutor extends Injector {
             articles.stream().map(Article::getName).collect(Collectors.joining(","));
         String publishedMessage = "Articles (" + articleNames + ") marked as published";
         execution.addTrace(getNewSuccessTrace(publishedMessage, ExecutionTraceAction.COMPLETE));
+
         Exercise exercise = injection.getInjection().getExercise();
         // Send the publication message.
         if (content.isEmailing()) {

@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.openbas.annotation.Queryable;
 import io.openbas.database.raw.RawTeam;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import java.time.Instant;
@@ -20,61 +21,80 @@ public class TeamSimple {
 
   @JsonProperty("team_id")
   @NotBlank
+  @Schema(description = "ID of the team")
   private String id;
 
   @NotBlank
   @JsonProperty("team_name")
   @Queryable(searchable = true)
+  @Schema(description = "Name of the team")
   private String name;
 
   @JsonProperty("team_description")
+  @Schema(description = "Description of the team")
   private String description;
 
   @JsonProperty("team_created_at")
+  @Schema(description = "Creation date of the team", accessMode = Schema.AccessMode.READ_ONLY)
   private Instant createdAt = now();
 
   @JsonProperty("team_updated_at")
+  @Schema(description = "Update date of the team", accessMode = Schema.AccessMode.READ_ONLY)
   private Instant updatedAt = now();
 
   @JsonProperty("team_tags")
-  private Set<String> tags = new HashSet<>();
+  @Schema(description = "List of tag IDs of the team")
+  private Set<String> tags;
 
   @JsonProperty("team_organization")
+  @Schema(description = "Organization ID of the team")
   private String organization;
 
   @JsonProperty("team_users")
-  private Set<String> users = new HashSet<>();
+  @Schema(description = "List of user IDs of the team")
+  private Set<String> users;
 
   @JsonProperty("team_exercises")
-  private Set<String> exercises = new HashSet<>();
+  @Schema(description = "List of simulation IDs of the team")
+  private Set<String> exercises;
 
   @JsonProperty("team_scenarios")
-  private Set<String> scenarios = new HashSet<>();
+  @Schema(description = "List of scenario IDs of the team")
+  private Set<String> scenarios;
 
   @JsonProperty("team_contextual")
-  private Boolean contextual = false;
+  @Schema(
+      description =
+          "True if the team is contextual (exists only in the scenario/simulation it is linked to)")
+  private Boolean contextual;
 
   @JsonProperty("team_exercises_users")
+  @Schema(description = "List of 3-tuple linking simulation IDs and user IDs to this team ID")
   private Set<ExerciseTeamUser> exerciseTeamUsers = new HashSet<>();
 
   @JsonProperty("team_users_number")
+  @Schema(description = "Number of users of the team")
   public long getUsersNumber() {
     return this.users.size();
   }
 
   // region transient
   @JsonProperty("team_exercise_injects")
-  private Set<String> exercisesInjects = new HashSet<>();
+  @Schema(description = "List of inject IDs from all simulations of the team")
+  private Set<String> exercisesInjects;
 
   @JsonProperty("team_exercise_injects_number")
+  @Schema(description = "Number of injects of all simulations of the team")
   public long getExercisesInjectsNumber() {
     return this.exercisesInjects.size();
   }
 
   @JsonProperty("team_scenario_injects")
+  @Schema(description = "List of inject IDs from all scenarios of the team")
   Set<String> scenariosInjects = new HashSet<>();
 
   @JsonProperty("team_scenario_injects_number")
+  @Schema(description = "Number of injects of all scenarios of the team")
   public long getScenariosInjectsNumber() {
     return this.scenariosInjects.size();
   }
@@ -82,6 +102,7 @@ public class TeamSimple {
   @JsonIgnore private List<InjectExpectation> injectExpectations = new ArrayList<>();
 
   @JsonProperty("team_inject_expectations")
+  @Schema(description = "List of expectation ids linked to this team")
   private Set<String> getInjectExpectationsAsStringList() {
     return getInjectExpectations().stream()
         .map(InjectExpectation::getId)
@@ -89,12 +110,14 @@ public class TeamSimple {
   }
 
   @JsonProperty("team_injects_expectations_number")
+  @Schema(description = "Number of expectations linked to this team")
   public long getInjectExceptationsNumber() {
     return getInjectExpectations().size();
   }
 
   @JsonProperty("team_injects_expectations_total_score")
   @NotNull
+  @Schema(description = "Total score of expectations linked to this team")
   public double getInjectExceptationsTotalScore() {
     return getInjectExpectations().stream()
         .filter((inject) -> inject.getScore() != null)
@@ -104,6 +127,7 @@ public class TeamSimple {
 
   @JsonProperty("team_injects_expectations_total_score_by_exercise")
   @NotNull
+  @Schema(description = "Total score of expectations by simulation linked to this team")
   public Map<String, Double> getInjectExceptationsTotalScoreByExercise() {
     return getInjectExpectations().stream()
         .filter(
@@ -118,6 +142,7 @@ public class TeamSimple {
 
   @JsonProperty("team_injects_expectations_total_expected_score")
   @NotNull
+  @Schema(description = "Total expected score of expectations linked to this team")
   public double getInjectExceptationsTotalExpectedScore() {
     return getInjectExpectations().stream()
         .filter(expectation -> Objects.nonNull(expectation.getExpectedScore()))
@@ -127,20 +152,20 @@ public class TeamSimple {
 
   @JsonProperty("team_injects_expectations_total_expected_score_by_exercise")
   @NotNull
+  @Schema(description = "Total expected score of expectations by simulation linked to this team")
   public Map<String, Double> getInjectExpectationsTotalExpectedScoreByExercise() {
-    Map<String, Double> result =
-        getInjectExpectations().stream()
-            .filter(expectation -> Objects.nonNull(expectation.getExercise()))
-            .collect(
-                Collectors.groupingBy(
-                    expectation -> expectation.getExercise().getId(),
-                    Collectors.summingDouble(InjectExpectation::getExpectedScore)));
-    return result;
+    return getInjectExpectations().stream()
+        .filter(expectation -> Objects.nonNull(expectation.getExercise()))
+        .collect(
+            Collectors.groupingBy(
+                expectation -> expectation.getExercise().getId(),
+                Collectors.summingDouble(InjectExpectation::getExpectedScore)));
   }
 
   // endregion
 
   @JsonProperty("team_communications")
+  @Schema(description = "List of communications of this team")
   List<Communication> communications = new ArrayList<>();
 
   public TeamSimple(RawTeam raw) {

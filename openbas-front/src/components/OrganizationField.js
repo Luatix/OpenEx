@@ -73,7 +73,7 @@ class OrganizationField extends Component {
       organizations,
     );
     return (
-      <div>
+      <>
         <Autocomplete
           variant="standard"
           size="small"
@@ -87,7 +87,7 @@ class OrganizationField extends Component {
           renderOption={(props, option) => (
             <Box component="li" {...props} key={option.id}>
               <div className={classes.icon}>
-                <DomainOutlined color="primary" />
+                <DomainOutlined />
               </div>
               <div className={classes.text}>{option.label}</div>
             </Box>
@@ -108,7 +108,7 @@ class OrganizationField extends Component {
             />
           </DialogContent>
         </Dialog>
-      </div>
+      </>
     );
   }
 }

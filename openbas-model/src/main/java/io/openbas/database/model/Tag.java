@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.openbas.annotation.Queryable;
 import io.openbas.database.audit.ModelBaseListener;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import java.util.Objects;
@@ -23,6 +24,7 @@ public class Tag implements Base {
   @UuidGenerator
   @JsonProperty("tag_id")
   @NotBlank
+  @Schema(description = "ID of the tag")
   private String id;
 
   @Getter
@@ -30,12 +32,14 @@ public class Tag implements Base {
   @JsonProperty("tag_name")
   @Queryable(searchable = true, sortable = true)
   @NotBlank
+  @Schema(description = "Name of the tag")
   private String name;
 
   @Getter
   @Column(name = "tag_color")
   @JsonProperty("tag_color")
   @Queryable(sortable = true)
+  @Schema(description = "Color of the tag")
   private String color;
 
   @JsonIgnore

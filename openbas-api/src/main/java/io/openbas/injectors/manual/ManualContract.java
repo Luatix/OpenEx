@@ -7,7 +7,6 @@ import static io.openbas.injector_contract.ContractCardinality.Multiple;
 import static io.openbas.injector_contract.ContractDef.contractBuilder;
 import static io.openbas.injector_contract.fields.ContractExpectations.expectationsField;
 import static io.openbas.injector_contract.fields.ContractTeam.teamField;
-import static io.openbas.injector_contract.fields.ContractTextArea.textareaField;
 
 import io.openbas.database.model.Endpoint;
 import io.openbas.helper.SupportedLanguage;
@@ -40,11 +39,7 @@ public class ManualContract extends Contractor {
     config = new ContractConfig(TYPE, label, "#009688", "#009688", "/img/manual.png", isExpose());
 
     List<ContractElement> instance =
-        contractBuilder()
-            .mandatory(textareaField("content", "Content"))
-            .mandatoryOnCondition(teams, expectations)
-            .optional(expectations)
-            .build();
+        contractBuilder().mandatoryOnCondition(teams, expectations).optional(expectations).build();
     contracts =
         List.of(
             manualContract(

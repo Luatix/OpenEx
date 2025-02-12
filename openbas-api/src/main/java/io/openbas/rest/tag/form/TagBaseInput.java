@@ -1,4 +1,4 @@
-package io.openbas.rest.settings.form;
+package io.openbas.rest.tag.form;
 
 import static io.openbas.config.AppConfig.MANDATORY_MESSAGE;
 
@@ -10,9 +10,15 @@ import lombok.Setter;
 
 @Setter
 @Getter
-public class SettingsPlatformWhitemarkUpdateInput {
+public class TagBaseInput {
+
   @NotBlank(message = MANDATORY_MESSAGE)
-  @JsonProperty("platform_whitemark")
-  @Schema(description = "The whitemark of the platform")
-  private String platformWhitemark;
+  @JsonProperty("tag_name")
+  @Schema(description = "Name of the tag")
+  private String name;
+
+  @NotBlank(message = MANDATORY_MESSAGE)
+  @JsonProperty("tag_color")
+  @Schema(description = "Color of the tag")
+  private String color;
 }

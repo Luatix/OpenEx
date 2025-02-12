@@ -134,15 +134,17 @@ public class InjectModelHelper {
     Instant standardExecutionDate = source.plusSeconds(duration);
     // Compute execution dates with previous terminated pauses
     Instant afterPausesExecutionDate = standardExecutionDate;
-    List<Pause> sortedPauses =
-        new ArrayList<>(
-            exercise.getPauses().stream()
-                .sorted(
-                    (pause0, pause1) ->
-                        pause0.getDate().equals(pause1.getDate())
-                            ? 0
-                            : pause0.getDate().isBefore(pause1.getDate()) ? -1 : 1)
-                .toList());
+    List<Pause> sortedPauses = new ArrayList<>();
+    if (exercise != null) {
+      sortedPauses.addAll(
+          exercise.getPauses().stream()
+              .sorted(
+                  (pause0, pause1) ->
+                      pause0.getDate().equals(pause1.getDate())
+                          ? 0
+                          : pause0.getDate().isBefore(pause1.getDate()) ? -1 : 1)
+              .toList());
+    }
     long previousPauseDelay = 0L;
     for (Pause pause : sortedPauses) {
       if (pause.getDate().isAfter(afterPausesExecutionDate)) {
@@ -153,14 +155,16 @@ public class InjectModelHelper {
     }
 
     // Add current pause duration in date computation if needed
-    long currentPauseDelay;
+    long currentPauseDelay = 0;
     Instant finalAfterPausesExecutionDate = afterPausesExecutionDate;
-    currentPauseDelay =
-        exercise
-            .getCurrentPause()
-            .filter(pauseTime -> pauseTime.isBefore(finalAfterPausesExecutionDate))
-            .map(pauseTime -> between(pauseTime, now()).getSeconds())
-            .orElse(0L);
+    if (exercise != null) {
+      currentPauseDelay =
+          exercise
+              .getCurrentPause()
+              .filter(pauseTime -> pauseTime.isBefore(finalAfterPausesExecutionDate))
+              .map(pauseTime -> between(pauseTime, now()).getSeconds())
+              .orElse(0L);
+    }
     long globalPauseDelay = previousPauseDelay + currentPauseDelay;
     long minuteAlignModulo = globalPauseDelay % 60;
     long alignedPauseDelay =

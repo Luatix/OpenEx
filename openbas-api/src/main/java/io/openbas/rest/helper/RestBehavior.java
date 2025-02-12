@@ -12,6 +12,10 @@ import io.openbas.database.model.Organization;
 import io.openbas.database.model.User;
 import io.openbas.database.repository.UserRepository;
 import io.openbas.rest.exception.*;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.annotation.Resource;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -94,6 +98,13 @@ public class RestBehavior {
 
   @ResponseStatus(HttpStatus.UNAUTHORIZED)
   @ExceptionHandler(AuthenticationException.class)
+  @ApiResponses(
+      value = {
+        @ApiResponse(
+            responseCode = "401",
+            description = "Unauthorized",
+            content = @Content(schema = @Schema(implementation = ValidationErrorBag.class))),
+      })
   public ValidationErrorBag handleValidationExceptions() {
     ValidationErrorBag bag =
         new ValidationErrorBag(HttpStatus.UNAUTHORIZED.value(), "AUTHENTIFICATION_FAILED");
@@ -107,17 +118,32 @@ public class RestBehavior {
 
   @ResponseStatus(HttpStatus.NOT_FOUND)
   @ExceptionHandler(AccessDeniedException.class)
-  public ValidationErrorBag handleAccessDeniedExceptions() {
+  @ApiResponses(
+      value = {
+        @ApiResponse(
+            responseCode = "404",
+            description = "Resource not found",
+            content = @Content(schema = @Schema(implementation = ResponseEntity.class))),
+      })
+  public ResponseEntity<ErrorMessage> handleAccessDeniedExceptions() {
     // When the user does not have the appropriate access rights, return 404 Not Found.
     // This response indicates that the resource does not exist, preventing any information
     // disclosure
     // about the resource and reducing the risk of brute force attacks by not confirming its
     // existence
-    return new ValidationErrorBag(HttpStatus.NOT_FOUND.value(), "NOT_FOUND");
+    return new ResponseEntity<>(
+        new ErrorMessage(HttpStatus.NOT_FOUND.getReasonPhrase()), HttpStatus.NOT_FOUND);
   }
 
   @ResponseStatus(HttpStatus.CONFLICT)
   @ExceptionHandler(DataIntegrityViolationException.class)
+  @ApiResponses(
+      value = {
+        @ApiResponse(
+            responseCode = "409",
+            description = "Conflict",
+            content = @Content(schema = @Schema(implementation = ViolationErrorBag.class))),
+      })
   public ViolationErrorBag handleIntegrityException(DataIntegrityViolationException e) {
     ViolationErrorBag errorBag = new ViolationErrorBag();
     errorBag.setType(DataIntegrityViolationException.class.getSimpleName());
@@ -133,6 +159,13 @@ public class RestBehavior {
   }
 
   @ExceptionHandler(ElementNotFoundException.class)
+  @ApiResponses(
+      value = {
+        @ApiResponse(
+            responseCode = "404",
+            description = "Resource not found",
+            content = @Content(schema = @Schema(implementation = ResponseEntity.class))),
+      })
   public ResponseEntity<ErrorMessage> handleElementNotFoundException(ElementNotFoundException ex) {
     ErrorMessage message = new ErrorMessage("Element not found: " + ex.getMessage());
     log.warning("ElementNotFoundException: " + ex.getMessage());

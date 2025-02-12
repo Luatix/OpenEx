@@ -112,6 +112,17 @@ const Documents = () => {
     sorts: initSorting('document_name'),
   });
 
+  /**
+   * Callback when a new document has been created or an previous one updated with a new version
+   * @param result the result of the call
+   */
+  const handleCreateDocuments = (result) => {
+    // If the documents was already in the list displayed, we don't add it to the list
+    if (documents.find(element => element.document_id === result.document_id) === undefined) {
+      setDocuments([result, ...documents]);
+    }
+  };
+
   // Export
   const exportProps = {
     exportType: 'tags',
@@ -287,7 +298,7 @@ const Documents = () => {
       </List>
       {userAdmin && (
         <CreateDocument
-          onCreate={result => setDocuments([result, ...documents])}
+          onCreate={handleCreateDocuments}
         />
       )}
     </>

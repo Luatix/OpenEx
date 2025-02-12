@@ -13,6 +13,7 @@ import static java.time.Instant.now;
 import static org.springframework.util.StringUtils.hasText;
 
 import io.openbas.aop.LogExecutionTime;
+import io.openbas.aop.UserRoleDescription;
 import io.openbas.config.OpenBASPrincipal;
 import io.openbas.database.model.Organization;
 import io.openbas.database.model.Team;
@@ -31,6 +32,12 @@ import io.openbas.rest.team.output.TeamOutput;
 import io.openbas.service.TeamService;
 import io.openbas.telemetry.Tracing;
 import io.openbas.utils.pagination.SearchPaginationInput;
+import io.swagger.v3.oas.annotations.ExternalDocumentation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import java.util.List;
@@ -46,6 +53,15 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @Secured(ROLE_USER)
 @RequiredArgsConstructor
+@UserRoleDescription
+@Tag(
+    name = "Teams management",
+    description = "Endpoints to manage teams",
+    externalDocs =
+        @ExternalDocumentation(
+            description = "Documentation about teams",
+            url =
+                "https://docs.openbas.io/latest/usage/teams_and_players_and_organizations/#teams"))
 public class TeamApi extends RestBehavior {
 
   public static final String TEAM_URI = "/api/teams";
@@ -62,6 +78,8 @@ public class TeamApi extends RestBehavior {
   @GetMapping(TEAM_URI)
   @PreAuthorize("isObserver()")
   @Tracing(name = "Get teams", layer = "api", operation = "GET")
+  @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "The list of teams")})
+  @Operation(summary = "List teams", description = "Return the teams")
   public Iterable<TeamSimple> getTeams() {
     List<RawTeam> teams;
     OpenBASPrincipal currentUser = currentUser();
@@ -90,6 +108,10 @@ public class TeamApi extends RestBehavior {
   @PreAuthorize("isObserver()")
   @Transactional(readOnly = true)
   @Tracing(name = "Get a page of teams", layer = "api", operation = "POST")
+  @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "The list of teams")})
+  @Operation(
+      summary = "Search teams",
+      description = "Search the teams corresponding to the criteria")
   public Page<TeamOutput> searchTeams(
       @RequestBody @Valid SearchPaginationInput searchPaginationInput) {
     final Specification<Team> teamSpecification = contextual(false);
@@ -101,25 +123,35 @@ public class TeamApi extends RestBehavior {
   @PreAuthorize("isObserver()")
   @Transactional(readOnly = true)
   @Tracing(name = "Get a list of teams", layer = "api", operation = "POST")
+  @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "The list of teams")})
+  @Operation(description = "Find a list of teams based on their ids", summary = "Find teams")
   public List<TeamOutput> findTeams(@RequestBody @Valid @NotNull final List<String> teamIds) {
     return this.teamService.find(fromIds(teamIds));
   }
 
   @GetMapping("/api/teams/{teamId}")
   @PreAuthorize("isObserver()")
-  public Team getTeam(@PathVariable String teamId) {
+  @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "The team")})
+  @Operation(description = "Get a team", summary = "Get team")
+  public Team getTeam(@PathVariable @Schema(description = "ID of the team") String teamId) {
     return teamRepository.findById(teamId).orElseThrow(ElementNotFoundException::new);
   }
 
   @GetMapping("/api/teams/{teamId}/players")
   @PreAuthorize("isObserver()")
-  public Iterable<User> getTeamPlayers(@PathVariable String teamId) {
+  @ApiResponses(
+      value = {@ApiResponse(responseCode = "200", description = "The list of players of the team")})
+  @Operation(description = "Get the list of players of a team", summary = "Get team's players")
+  public Iterable<User> getTeamPlayers(
+      @PathVariable @Schema(description = "ID of the team") String teamId) {
     return teamRepository.findById(teamId).orElseThrow(ElementNotFoundException::new).getUsers();
   }
 
   @PostMapping(TEAM_URI)
   @PreAuthorize("isPlanner()")
   @Transactional(rollbackFor = Exception.class)
+  @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "The created team")})
+  @Operation(description = "Create a new team", summary = "Create team")
   public Team createTeam(@Valid @RequestBody TeamCreateInput input) {
     isTeamAlreadyExists(input);
     Team team = new Team();
@@ -135,6 +167,9 @@ public class TeamApi extends RestBehavior {
   @PostMapping("/api/teams/upsert")
   @PreAuthorize("isPlanner()")
   @Transactional(rollbackFor = Exception.class)
+  @ApiResponses(
+      value = {@ApiResponse(responseCode = "200", description = "The created/updated team")})
+  @Operation(description = "Create a new team or update an existing team", summary = "Upsert team")
   public Team upsertTeam(@Valid @RequestBody TeamCreateInput input) {
     if (input.getContextual() && input.getExerciseIds().toArray().length > 1) {
       throw new UnsupportedOperationException(
@@ -165,13 +200,19 @@ public class TeamApi extends RestBehavior {
 
   @DeleteMapping("/api/teams/{teamId}")
   @PreAuthorize("isPlanner()")
-  public void deleteTeam(@PathVariable String teamId) {
+  @ApiResponses(value = {@ApiResponse(responseCode = "200")})
+  @Operation(description = "Delete an existing team", summary = "Delete team")
+  public void deleteTeam(@PathVariable @Schema(description = "ID of the team") String teamId) {
     teamRepository.deleteById(teamId);
   }
 
   @PutMapping("/api/teams/{teamId}")
   @PreAuthorize("isPlanner()")
-  public Team updateTeam(@PathVariable String teamId, @Valid @RequestBody TeamUpdateInput input) {
+  @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "The updated team")})
+  @Operation(description = "Update an existing team", summary = "Update team")
+  public Team updateTeam(
+      @PathVariable @Schema(description = "ID of the team") String teamId,
+      @Valid @RequestBody TeamUpdateInput input) {
     Team team = teamRepository.findById(teamId).orElseThrow(ElementNotFoundException::new);
     team.setUpdateAttributes(input);
     team.setUpdatedAt(now());
@@ -183,8 +224,13 @@ public class TeamApi extends RestBehavior {
 
   @PutMapping("/api/teams/{teamId}/players")
   @PreAuthorize("isPlanner()")
+  @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "The updated team")})
+  @Operation(
+      description = "Update the list of users of a team team",
+      summary = "Update team players")
   public Team updateTeamUsers(
-      @PathVariable String teamId, @Valid @RequestBody UpdateUsersTeamInput input) {
+      @PathVariable @Schema(description = "ID of the team") String teamId,
+      @Valid @RequestBody UpdateUsersTeamInput input) {
     Team team = teamRepository.findById(teamId).orElseThrow(ElementNotFoundException::new);
     Iterable<User> teamUsers = userRepository.findAllById(input.getUserIds());
     team.setUsers(fromIterable(teamUsers));

@@ -112,7 +112,7 @@ const EndpointPopover: React.FC<Props> = ({
   if ((assetGroupId && endpoint.type !== 'dynamic')) entries.push({ label: 'Remove from the asset group', action: () => handleRemoveFromAssetGroup() });
   if (onDelete) entries.push({ label: 'Delete', action: () => handleDelete() });
 
-  return (
+  return entries.length > 0 && (
     <>
       <ButtonPopover entries={entries} variant={inline ? 'icon' : 'toggle'} />
       {inline ? (
@@ -146,7 +146,7 @@ const EndpointPopover: React.FC<Props> = ({
         open={removalFromAssetGroup}
         handleClose={() => setRemovalFromAssetGroup(false)}
         handleSubmit={submitRemoveFromAssetGroup}
-        text={t('Do you want to remove the endpoint from the asset group ?')}
+        text={t('Do you want to remove the endpoint from the asset group?')}
       />
       <DialogDelete
         open={deletion}

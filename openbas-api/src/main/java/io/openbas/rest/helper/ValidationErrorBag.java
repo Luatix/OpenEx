@@ -1,39 +1,35 @@
 package io.openbas.rest.helper;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.List;
 import java.util.Map;
+import lombok.Data;
 
+@Data
 class ValidationContent {
+  @Schema(description = "A list of errors")
   private List<String> errors;
 
   public ValidationContent(String error) {
     this.errors = List.of(error);
   }
-
-  public List<String> getErrors() {
-    return errors;
-  }
-
-  public void setErrors(List<String> errors) {
-    this.errors = errors;
-  }
 }
 
+@Data
 class ValidationError {
+  @Schema(description = "Map of errors by input")
   private Map<String, ValidationContent> children;
-
-  public Map<String, ValidationContent> getChildren() {
-    return children;
-  }
-
-  public void setChildren(Map<String, ValidationContent> children) {
-    this.children = children;
-  }
 }
 
+@Data
 public class ValidationErrorBag {
+  @Schema(description = "Return code")
   private int code = 400;
+
+  @Schema(description = "Return message")
   private String message = "Validation Failed";
+
+  @Schema(description = "Errors raised")
   private ValidationError errors;
 
   public ValidationErrorBag() {
@@ -43,29 +39,5 @@ public class ValidationErrorBag {
   public ValidationErrorBag(int code, String message) {
     this.code = code;
     this.message = message;
-  }
-
-  public int getCode() {
-    return code;
-  }
-
-  public void setCode(int code) {
-    this.code = code;
-  }
-
-  public String getMessage() {
-    return message;
-  }
-
-  public void setMessage(String message) {
-    this.message = message;
-  }
-
-  public ValidationError getErrors() {
-    return errors;
-  }
-
-  public void setErrors(ValidationError errors) {
-    this.errors = errors;
   }
 }

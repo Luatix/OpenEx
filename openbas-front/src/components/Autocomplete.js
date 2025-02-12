@@ -37,7 +37,7 @@ const renderAutocomplete = ({
         }}
         {...inputProps}
         {...others}
-        isOptionEqualToValue={(option, value) => value === undefined || value === '' || option.id === value.id}
+        isOptionEqualToValue={(option, value) => value === undefined && value === '' && option.id === value.id}
         renderInput={params => (
           <TextField
             {...params}
@@ -56,6 +56,7 @@ const renderAutocomplete = ({
                   {
                     typeof openCreate === 'function' && (
                       <IconButton
+                        style={{ position: 'absolute', right: '35px' }}
                         onClick={() => openCreate()}
                       >
                         <AddOutlined />

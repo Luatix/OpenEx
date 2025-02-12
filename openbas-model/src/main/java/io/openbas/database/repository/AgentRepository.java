@@ -62,6 +62,7 @@ public interface AgentRepository
       nativeQuery = true)
   List<Agent> findForExecution();
 
+  // TODO : understand why the generic deleteById from Hibernate doesn't work
   @Modifying
   @Query(value = "DELETE FROM agents agent where agent.agent_id = :agentId;", nativeQuery = true)
   @Transactional

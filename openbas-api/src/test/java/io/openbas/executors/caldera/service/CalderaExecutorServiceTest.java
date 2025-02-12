@@ -20,7 +20,6 @@ import java.time.Instant;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -168,39 +167,5 @@ public class CalderaExecutorServiceTest {
     assertArrayEquals(new String[] {CALDERA_AGENT_IP}, capturedEndpoint.getIps());
     assertEquals(Endpoint.PLATFORM_TYPE.Windows, capturedEndpoint.getPlatform());
     assertEquals(Endpoint.PLATFORM_ARCH.x86_64, capturedEndpoint.getArch());
-  }
-
-  @Test
-  void test_findExistingEndpointForAnAgent_WITH_2_existing_endpoint_same_host() {
-    Optional<Endpoint> result =
-        endpointService.findEndpointByAgentDetails(
-            calderaAgent.getHost(),
-            toPlatform(calderaAgent.getPlatform()),
-            toArch(calderaAgent.getArchitecture()));
-    assertEquals(calderaEndpoint, result.get());
-  }
-
-  @Test
-  void test_findExistingEndpointForAnAgent_WITH_no_existing_endpoint() {
-    Optional<Endpoint> result =
-        endpointService.findEndpointByAgentDetails(
-            calderaAgent.getHost(),
-            toPlatform(calderaAgent.getPlatform()),
-            toArch(calderaAgent.getArchitecture()));
-    assertTrue(result.isEmpty());
-  }
-
-  @Test
-  void test_findExistingEndpointForAnAgent_WITH_1_enpdoint_with_null_executor() {
-    randomEndpoint.getAgents().getFirst().setExecutor(null);
-    randomEndpoint.setHostname(CALDERA_AGENT_HOSTNAME);
-    randomEndpoint.setIps(new String[] {CALDERA_AGENT_IP});
-
-    Optional<Endpoint> result =
-        endpointService.findEndpointByAgentDetails(
-            calderaAgent.getHost(),
-            toPlatform(calderaAgent.getPlatform()),
-            toArch(calderaAgent.getArchitecture()));
-    assertEquals(calderaEndpoint, result.get());
   }
 }

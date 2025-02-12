@@ -17,6 +17,9 @@ import io.openbas.integrations.InjectorService;
 import io.openbas.service.AgentService;
 import io.openbas.service.EndpointService;
 import io.openbas.service.PlatformSettingsService;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
@@ -28,7 +31,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
 public class CalderaExecutorServiceTest {
-  private static final String CALDERA_AGENT_HOSTNAME = "calderaHostname";
+  private static final String CALDERA_AGENT_HOSTNAME = "calderahostname";
   private static final String CALDERA_AGENT_EXTERNAL_REF = "calderaExt";
   private static final String CALDERA_AGENT_IP = "10.10.10.10";
   private static final String CALDERA_AGENT_USERNAME = "openbas_user";
@@ -36,7 +39,7 @@ public class CalderaExecutorServiceTest {
   private static final String CALDERA_EXECUTOR_TYPE = "openbas_caldera";
   private static final String CALDERA_EXECUTOR_NAME = "Caldera";
 
-  private static final String DATE = "2024-12-11T12:45:30Z";
+  private String DATE;
 
   @Mock private ExecutorService executorService;
 
@@ -60,6 +63,7 @@ public class CalderaExecutorServiceTest {
 
   private Endpoint calderaEndpoint;
   private Endpoint randomEndpoint;
+  private io.openbas.database.model.Agent agentEndpoint;
   private Agent calderaAgent;
   private Agent randomAgent;
   private Executor calderaExecutor;
@@ -67,6 +71,11 @@ public class CalderaExecutorServiceTest {
 
   @BeforeEach
   void setUp() {
+    Instant now = Instant.now();
+    DateTimeFormatter formatter =
+        DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'").withZone(ZoneId.systemDefault());
+    DATE = formatter.format(now);
+
     calderaAgent = new Agent();
     calderaAgent.setArchitecture("Arch");
     calderaAgent.setPaw(CALDERA_AGENT_EXTERNAL_REF);
@@ -88,28 +97,28 @@ public class CalderaExecutorServiceTest {
     calderaEndpoint = createEndpoint(calderaAgent, calderaExecutor);
     randomEndpoint = createEndpoint(randomAgent, randomExecutor);
 
+    agentEndpoint = new io.openbas.database.model.Agent();
+    agentEndpoint.setProcessName(calderaAgent.getExe_name());
+    agentEndpoint.setExecutor(calderaExecutor);
+    agentEndpoint.setExternalReference(calderaAgent.getPaw());
+    agentEndpoint.setPrivilege(io.openbas.database.model.Agent.PRIVILEGE.admin);
+    agentEndpoint.setDeploymentMode(io.openbas.database.model.Agent.DEPLOYMENT_MODE.session);
+    agentEndpoint.setExecutedByUser(calderaAgent.getUsername());
+    agentEndpoint.setLastSeen(calderaExecutorService.toInstant(DATE));
+    agentEndpoint.setAsset(calderaEndpoint);
+
     when(endpointService.findAssetsForInjectionByHostname(CALDERA_AGENT_HOSTNAME))
         .thenReturn(List.of(calderaEndpoint, randomEndpoint));
   }
 
   private Endpoint createEndpoint(Agent agent, Executor executor) {
     Endpoint endpoint = new Endpoint();
-    io.openbas.database.model.Agent agentEndpoint = new io.openbas.database.model.Agent();
     endpoint.setName(agent.getHost());
     endpoint.setDescription("Asset collected by Caldera executor context.");
     endpoint.setIps(agent.getHost_ip_addrs());
     endpoint.setHostname(agent.getHost());
     endpoint.setPlatform(toPlatform("windows"));
     endpoint.setArch(toArch("amd64"));
-    agentEndpoint.setProcessName(agent.getExe_name());
-    agentEndpoint.setExecutor(executor);
-    agentEndpoint.setExternalReference(agent.getPaw());
-    agentEndpoint.setPrivilege(io.openbas.database.model.Agent.PRIVILEGE.admin);
-    agentEndpoint.setDeploymentMode(io.openbas.database.model.Agent.DEPLOYMENT_MODE.session);
-    agentEndpoint.setExecutedByUser(agent.getUsername());
-    agentEndpoint.setLastSeen(calderaExecutorService.toInstant(DATE));
-    agentEndpoint.setAsset(endpoint);
-    endpoint.setAgents(List.of(agentEndpoint));
     return endpoint;
   }
 
@@ -130,7 +139,8 @@ public class CalderaExecutorServiceTest {
   void test_run_WITH_one_endpoint_one_agent() {
     when(client.agents()).thenReturn(List.of(calderaAgent));
     calderaExecutorService.run();
-    verify(endpointService).updateEndpoint(calderaEndpoint);
+    verify(endpointService).createEndpoint(calderaEndpoint);
+    verify(agentService).createOrUpdateAgent(agentEndpoint);
   }
 
   @Test

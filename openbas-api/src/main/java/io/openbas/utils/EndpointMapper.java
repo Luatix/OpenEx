@@ -24,10 +24,11 @@ public class EndpointMapper {
         .id(endpoint.getId())
         .name(endpoint.getName())
         .type(endpoint.getType())
-        .agents(toAgentOutputs(
-            endpoint.getAgents().stream()
-                .filter(agent -> agent.getParent() == null && agent.getInject() == null)
-                .collect(Collectors.toList())))
+        .agents(
+            toAgentOutputs(
+                endpoint.getAgents().stream()
+                    .filter(agent -> agent.getParent() == null && agent.getInject() == null)
+                    .collect(Collectors.toList())))
         .platform(endpoint.getPlatform())
         .arch(endpoint.getArch())
         .tags(endpoint.getTags().stream().map(Tag::getId).collect(Collectors.toSet()))

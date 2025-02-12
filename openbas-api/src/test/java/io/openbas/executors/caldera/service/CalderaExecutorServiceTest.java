@@ -181,8 +181,6 @@ public class CalderaExecutorServiceTest {
 
   @Test
   void test_findExistingEndpointForAnAgent_WITH_no_existing_endpoint() {
-    when(endpointService.findAssetsForInjectionByHostname(CALDERA_AGENT_HOSTNAME))
-        .thenReturn(List.of());
     Optional<Endpoint> result =
         endpointService.findEndpointByAgentDetails(
             calderaAgent.getHost(),
@@ -196,6 +194,7 @@ public class CalderaExecutorServiceTest {
     randomEndpoint.getAgents().getFirst().setExecutor(null);
     randomEndpoint.setHostname(CALDERA_AGENT_HOSTNAME);
     randomEndpoint.setIps(new String[] {CALDERA_AGENT_IP});
+
     Optional<Endpoint> result =
         endpointService.findEndpointByAgentDetails(
             calderaAgent.getHost(),

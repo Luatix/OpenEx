@@ -6,7 +6,7 @@ import time
 from datetime import date
 
 import requests
-from OBAS_utils.release_utils import closeRelease, check_release, download_url
+from OBAS_utils.release_utils import check_release, closeRelease, download_url
 
 logging.basicConfig(encoding="utf-8", level=logging.INFO)
 

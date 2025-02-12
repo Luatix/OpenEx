@@ -6,7 +6,7 @@ import time
 from datetime import date
 
 import requests
-from OBAS_utils.release_utils import closeRelease, download_url
+from OBAS_utils.release_utils import closeRelease, check_release, download_url
 
 logging.basicConfig(encoding="utf-8", level=logging.INFO)
 
@@ -142,7 +142,8 @@ os.system("git tag " + new_version + " && git push --tags > /dev/null 2>&1")
 logging.info(
     "[platform] Tag pushed! Waiting 30 minutes for CI/CD build before final release...."
 )
-time.sleep(1800)
+
+check_release("https://hub.docker.com/v2/repositories/openbas/platform/tags?page_size=1000", new_version)
 
 logging.info("[platform] Generating release")
 os.system("gren release > /dev/null 2>&1")

@@ -2,8 +2,7 @@ package io.openbas.executors.caldera.service;
 
 import static io.openbas.executors.caldera.service.CalderaExecutorService.toArch;
 import static io.openbas.executors.caldera.service.CalderaExecutorService.toPlatform;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -25,6 +24,7 @@ import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -106,9 +106,6 @@ public class CalderaExecutorServiceTest {
     agentEndpoint.setExecutedByUser(calderaAgent.getUsername());
     agentEndpoint.setLastSeen(calderaExecutorService.toInstant(DATE));
     agentEndpoint.setAsset(calderaEndpoint);
-
-    when(endpointService.findAssetsForInjectionByHostname(CALDERA_AGENT_HOSTNAME))
-        .thenReturn(List.of(calderaEndpoint, randomEndpoint));
   }
 
   private Endpoint createEndpoint(Agent agent, Executor executor) {
@@ -139,8 +136,21 @@ public class CalderaExecutorServiceTest {
   void test_run_WITH_one_endpoint_one_agent() {
     when(client.agents()).thenReturn(List.of(calderaAgent));
     calderaExecutorService.run();
-    verify(endpointService).createEndpoint(calderaEndpoint);
-    verify(agentService).createOrUpdateAgent(agentEndpoint);
+    ArgumentCaptor<Endpoint> endpointCaptor = ArgumentCaptor.forClass(Endpoint.class);
+    verify(endpointService).createEndpoint(endpointCaptor.capture());
+
+    Endpoint capturedEndpoint = endpointCaptor.getValue();
+    assertEquals(CALDERA_AGENT_HOSTNAME, capturedEndpoint.getHostname());
+    assertArrayEquals(new String[] {CALDERA_AGENT_IP}, capturedEndpoint.getIps());
+    assertEquals(Endpoint.PLATFORM_TYPE.Windows, capturedEndpoint.getPlatform());
+    assertEquals(Endpoint.PLATFORM_ARCH.x86_64, capturedEndpoint.getArch());
+
+    ArgumentCaptor<io.openbas.database.model.Agent> agentCaptor =
+        ArgumentCaptor.forClass(io.openbas.database.model.Agent.class);
+    verify(agentService).createOrUpdateAgent(agentCaptor.capture());
+
+    io.openbas.database.model.Agent capturedAgent = agentCaptor.getValue();
+    assertEquals(CALDERA_AGENT_EXTERNAL_REF, capturedAgent.getExternalReference());
   }
 
   @Test
@@ -149,7 +159,14 @@ public class CalderaExecutorServiceTest {
     randomEndpoint.setHostname(CALDERA_AGENT_HOSTNAME);
     randomEndpoint.setIps(new String[] {CALDERA_AGENT_IP});
     calderaExecutorService.run();
-    verify(endpointService).updateEndpoint(calderaEndpoint);
+    ArgumentCaptor<Endpoint> endpointCaptor = ArgumentCaptor.forClass(Endpoint.class);
+    verify(endpointService).createEndpoint(endpointCaptor.capture());
+
+    Endpoint capturedEndpoint = endpointCaptor.getValue();
+    assertEquals(CALDERA_AGENT_HOSTNAME, capturedEndpoint.getHostname());
+    assertArrayEquals(new String[] {CALDERA_AGENT_IP}, capturedEndpoint.getIps());
+    assertEquals(Endpoint.PLATFORM_TYPE.Windows, capturedEndpoint.getPlatform());
+    assertEquals(Endpoint.PLATFORM_ARCH.x86_64, capturedEndpoint.getArch());
   }
 
   @Test

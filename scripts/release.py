@@ -143,7 +143,10 @@ logging.info(
     "[platform] Tag pushed! Waiting 30 minutes for CI/CD build before final release...."
 )
 
-check_release("https://hub.docker.com/v2/repositories/openbas/platform/tags?page_size=1000", new_version)
+check_release(
+    "https://hub.docker.com/v2/repositories/openbas/platform/tags?page_size=1000",
+    new_version,
+)
 
 logging.info("[platform] Generating release")
 os.system("gren release > /dev/null 2>&1")

@@ -21,7 +21,9 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.logging.Level;
+import java.util.stream.Collectors;
 import lombok.extern.java.Log;
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -111,15 +113,14 @@ public class CalderaExecutorService implements Runnable {
       // This is NOT a standard behaviour, this is because we are using Caldera as an executor and
       // we should not
       // Will be replaced by the XTM agent
-      Map<Endpoint, io.openbas.database.model.Agent> endpointsAgents =
+      List<io.openbas.database.model.Agent> endpointAgentList =
           toEndpoint(
               this.client.agents().stream()
                   .filter(agent -> !agent.getExe_name().contains("implant"))
                   .toList());
-      log.info("Caldera executor provisioning based on " + endpointsAgents.size() + " assets");
-      for (var endpointAgent : endpointsAgents.entrySet()) {
-        Endpoint endpoint = endpointAgent.getKey();
-        io.openbas.database.model.Agent agent = endpointAgent.getValue();
+      log.info("Caldera executor provisioning based on " + endpointAgentList.size() + " assets");
+      for (io.openbas.database.model.Agent agent : endpointAgentList) {
+        Endpoint endpoint = (Endpoint) Hibernate.unproxy(agent.getAsset());
         Optional<Endpoint> optionalEndpoint =
             this.endpointService.findEndpointByAgentDetails(
                 endpoint.getHostname(), endpoint.getPlatform(), endpoint.getArch());
@@ -189,30 +190,31 @@ public class CalderaExecutorService implements Runnable {
 
   // -- PRIVATE --
 
-  private Map<Endpoint, io.openbas.database.model.Agent> toEndpoint(
+  private List<io.openbas.database.model.Agent> toEndpoint(
       @NotNull final List<Agent> agentsCaldera) {
-    HashMap<Endpoint, io.openbas.database.model.Agent> endpointsAgents = new HashMap<>();
-    agentsCaldera.forEach(
-        agent -> {
-          Endpoint endpoint = new Endpoint();
-          endpoint.setName(agent.getHost());
-          endpoint.setDescription("Asset collected by Caldera executor context.");
-          endpoint.setIps(agent.getHost_ip_addrs());
-          endpoint.setHostname(agent.getHost());
-          endpoint.setPlatform(toPlatform(agent.getPlatform()));
-          endpoint.setArch(toArch(agent.getArchitecture()));
-          io.openbas.database.model.Agent agentEndpoint = new io.openbas.database.model.Agent();
-          agentEndpoint.setExecutor(this.executor);
-          agentEndpoint.setExternalReference(agent.getPaw());
-          agentEndpoint.setPrivilege(io.openbas.database.model.Agent.PRIVILEGE.admin);
-          agentEndpoint.setDeploymentMode(io.openbas.database.model.Agent.DEPLOYMENT_MODE.session);
-          agentEndpoint.setExecutedByUser(agent.getUsername());
-          agentEndpoint.setLastSeen(toInstant(agent.getLast_seen()));
-          agentEndpoint.setProcessName(agent.getExe_name());
-          agentEndpoint.setAsset(endpoint);
-          endpointsAgents.put(endpoint, agentEndpoint);
-        });
-    return endpointsAgents;
+    return agentsCaldera.stream()
+        .map(
+            agent -> {
+              Endpoint endpoint = new Endpoint();
+              endpoint.setName(agent.getHost());
+              endpoint.setDescription("Asset collected by Caldera executor context.");
+              endpoint.setIps(agent.getHost_ip_addrs());
+              endpoint.setHostname(agent.getHost());
+              endpoint.setPlatform(toPlatform(agent.getPlatform()));
+              endpoint.setArch(toArch(agent.getArchitecture()));
+              io.openbas.database.model.Agent agentEndpoint = new io.openbas.database.model.Agent();
+              agentEndpoint.setExecutor(this.executor);
+              agentEndpoint.setExternalReference(agent.getPaw());
+              agentEndpoint.setPrivilege(io.openbas.database.model.Agent.PRIVILEGE.admin);
+              agentEndpoint.setDeploymentMode(
+                  io.openbas.database.model.Agent.DEPLOYMENT_MODE.session);
+              agentEndpoint.setExecutedByUser(agent.getUsername());
+              agentEndpoint.setLastSeen(toInstant(agent.getLast_seen()));
+              agentEndpoint.setProcessName(agent.getExe_name());
+              agentEndpoint.setAsset(endpoint);
+              return agentEndpoint;
+            })
+        .collect(Collectors.toList());
   }
 
   private void clearAbilityForAgent(@NotNull final io.openbas.database.model.Agent existingAgent) {

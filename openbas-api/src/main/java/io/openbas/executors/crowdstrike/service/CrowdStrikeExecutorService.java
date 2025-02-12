@@ -22,6 +22,7 @@ import java.util.*;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
 import lombok.extern.java.Log;
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Service;
@@ -97,12 +98,11 @@ public class CrowdStrikeExecutorService implements Runnable {
   public void run() {
     log.info("Running CrowdStrike executor endpoints gathering...");
     List<CrowdStrikeDevice> devices = this.client.devices().getResources().stream().toList();
-    Map<Endpoint, Agent> endpointAgentMap = toEndpoint(devices);
-    log.info("CrowdStrike executor provisioning based on " + endpointAgentMap.size() + " assets");
+    List<Agent> endpointAgentList = toEndpoint(devices);
+    log.info("CrowdStrike executor provisioning based on " + endpointAgentList.size() + " assets");
 
-    for (var endpointAgent : endpointAgentMap.entrySet()) {
-      Endpoint endpoint = endpointAgent.getKey();
-      Agent agent = endpointAgent.getValue();
+    for (Agent agent : endpointAgentList) {
+      Endpoint endpoint = (Endpoint) Hibernate.unproxy(agent.getAsset());
       Optional<Endpoint> optionalEndpoint =
           this.endpointService.findEndpointByAgentDetails(
               endpoint.getHostname(), endpoint.getPlatform(), endpoint.getArch());
@@ -161,7 +161,7 @@ public class CrowdStrikeExecutorService implements Runnable {
 
   // -- PRIVATE --
 
-  private Map<Endpoint, Agent> toEndpoint(@NotNull final List<CrowdStrikeDevice> devices) {
+  private List<Agent> toEndpoint(@NotNull final List<CrowdStrikeDevice> devices) {
     return devices.stream()
         .map(
             crowdStrikeDevice -> {
@@ -188,9 +188,9 @@ public class CrowdStrikeExecutorService implements Runnable {
               agent.setLastSeen(toInstant(crowdStrikeDevice.getLast_seen()));
               agent.setAsset(endpoint);
 
-              return Map.entry(endpoint, agent);
+              return agent;
             })
-        .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+        .collect(Collectors.toList());
   }
 
   private Instant toInstant(@NotNull final String lastSeen) {

@@ -19,7 +19,9 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.logging.Level;
+import java.util.stream.Collectors;
 import lombok.extern.java.Log;
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Service;
@@ -96,11 +98,10 @@ public class TaniumExecutorService implements Runnable {
     log.info("Running Tanium executor endpoints gathering...");
     List<NodeEndpoint> nodeEndpoints =
         this.client.endpoints().getData().getEndpoints().getEdges().stream().toList();
-    Map<Endpoint, Agent> endpointsAgents = toEndpoint(nodeEndpoints);
-    log.info("Tanium executor provisioning based on " + endpointsAgents.size() + " assets");
-    for (var endpointAgent : endpointsAgents.entrySet()) {
-      Endpoint endpoint = endpointAgent.getKey();
-      Agent agent = endpointAgent.getValue();
+    List<Agent> endpointAgentList = toEndpoint(nodeEndpoints);
+    log.info("Tanium executor provisioning based on " + endpointAgentList.size() + " assets");
+    for (Agent agent : endpointAgentList) {
+      Endpoint endpoint = (Endpoint) Hibernate.unproxy(agent.getAsset());
       Optional<Endpoint> optionalEndpoint =
           this.endpointService.findEndpointByAgentDetails(
               endpoint.getHostname(), endpoint.getPlatform(), endpoint.getArch());
@@ -163,33 +164,33 @@ public class TaniumExecutorService implements Runnable {
 
   // -- PRIVATE --
 
-  private Map<Endpoint, Agent> toEndpoint(@NotNull final List<NodeEndpoint> nodeEndpoints) {
-    HashMap<Endpoint, Agent> endpointsAgents = new HashMap<>();
-    nodeEndpoints.forEach(
-        nodeEndpoint -> {
-          TaniumEndpoint taniumEndpoint = nodeEndpoint.getNode();
-          Endpoint endpoint = new Endpoint();
-          Agent agent = new Agent();
-          agent.setExecutor(this.executor);
-          agent.setExternalReference(taniumEndpoint.getId());
-          agent.setPrivilege(io.openbas.database.model.Agent.PRIVILEGE.admin);
-          agent.setDeploymentMode(Agent.DEPLOYMENT_MODE.service);
-          endpoint.setName(taniumEndpoint.getName());
-          endpoint.setDescription("Asset collected by Tanium executor context.");
-          endpoint.setIps(taniumEndpoint.getIpAddresses());
-          endpoint.setMacAddresses(taniumEndpoint.getMacAddresses());
-          endpoint.setHostname(taniumEndpoint.getName());
-          endpoint.setPlatform(toPlatform(taniumEndpoint.getOs().getPlatform()));
-          agent.setExecutedByUser(
-              Endpoint.PLATFORM_TYPE.Windows.equals(endpoint.getPlatform())
-                  ? Agent.ADMIN_SYSTEM_WINDOWS
-                  : Agent.ADMIN_SYSTEM_UNIX);
-          endpoint.setArch(toArch(taniumEndpoint.getProcessor().getArchitecture()));
-          agent.setLastSeen(toInstant(taniumEndpoint.getEidLastSeen()));
-          agent.setAsset(endpoint);
-          endpointsAgents.put(endpoint, agent);
-        });
-    return endpointsAgents;
+  private List<Agent> toEndpoint(@NotNull final List<NodeEndpoint> nodeEndpoints) {
+    return nodeEndpoints.stream()
+        .map(
+            nodeEndpoint -> {
+              TaniumEndpoint taniumEndpoint = nodeEndpoint.getNode();
+              Endpoint endpoint = new Endpoint();
+              Agent agent = new Agent();
+              agent.setExecutor(this.executor);
+              agent.setExternalReference(taniumEndpoint.getId());
+              agent.setPrivilege(io.openbas.database.model.Agent.PRIVILEGE.admin);
+              agent.setDeploymentMode(Agent.DEPLOYMENT_MODE.service);
+              endpoint.setName(taniumEndpoint.getName());
+              endpoint.setDescription("Asset collected by Tanium executor context.");
+              endpoint.setIps(taniumEndpoint.getIpAddresses());
+              endpoint.setMacAddresses(taniumEndpoint.getMacAddresses());
+              endpoint.setHostname(taniumEndpoint.getName());
+              endpoint.setPlatform(toPlatform(taniumEndpoint.getOs().getPlatform()));
+              agent.setExecutedByUser(
+                  Endpoint.PLATFORM_TYPE.Windows.equals(endpoint.getPlatform())
+                      ? Agent.ADMIN_SYSTEM_WINDOWS
+                      : Agent.ADMIN_SYSTEM_UNIX);
+              endpoint.setArch(toArch(taniumEndpoint.getProcessor().getArchitecture()));
+              agent.setLastSeen(toInstant(taniumEndpoint.getEidLastSeen()));
+              agent.setAsset(endpoint);
+              return agent;
+            })
+        .collect(Collectors.toList());
   }
 
   private Instant toInstant(@NotNull final String lastSeen) {

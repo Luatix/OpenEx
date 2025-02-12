@@ -14,8 +14,8 @@ const EndpointTraces = ({ endpoint, tracesByAgent }: Props) => {
   const { t } = useFormatter();
 
   const sortedTraces = [...tracesByAgent].sort((a, b) => {
-    const nameA = a.agent_name ?? "";
-    const nameB = b.agent_name ?? "";
+    const nameA = a.agent_name ?? '';
+    const nameB = b.agent_name ?? '';
     return nameA.localeCompare(nameB);
   });
 

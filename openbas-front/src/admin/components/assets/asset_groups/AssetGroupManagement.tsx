@@ -121,7 +121,7 @@ const AssetGroupManagement: FunctionComponent<Props> = ({
         <div className="clearfix" />
       </div>
       <EndpointsList
-        endpointIds={sortedAsset.map(e => e.asset_id)}
+        endpoints={sortedAsset}
         actions={userAdmin
           ? (
               // @ts-expect-error: Endpoint property handle by EndpointsList

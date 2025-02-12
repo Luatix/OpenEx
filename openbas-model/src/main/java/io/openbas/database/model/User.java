@@ -163,7 +163,7 @@ public class User implements Base {
   @Schema(description = "City of the user")
   private String city;
 
-  @ArraySchema(schema = @Schema(type = "string"))
+  @ArraySchema(schema = @Schema(description = "Group IDs of the user", type = "string"))
   @Setter
   // @ManyToMany(fetch = FetchType.LAZY)
   @ManyToMany(fetch = FetchType.EAGER)
@@ -173,10 +173,9 @@ public class User implements Base {
       inverseJoinColumns = @JoinColumn(name = "group_id"))
   @JsonSerialize(using = MultiIdListDeserializer.class)
   @JsonProperty("user_groups")
-  @Schema(description = "Group IDs of the user")
   private List<Group> groups = new ArrayList<>();
 
-  @ArraySchema(schema = @Schema(type = "string"))
+  @ArraySchema(schema = @Schema(description = "Team IDs of the user", type = "string"))
   @Setter
   @ManyToMany(fetch = FetchType.LAZY)
   @JoinTable(
@@ -185,10 +184,9 @@ public class User implements Base {
       inverseJoinColumns = @JoinColumn(name = "team_id"))
   @JsonSerialize(using = MultiIdListDeserializer.class)
   @JsonProperty("user_teams")
-  @Schema(description = "Team IDs of the user")
   private List<Team> teams = new ArrayList<>();
 
-  @ArraySchema(schema = @Schema(type = "string"))
+  @ArraySchema(schema = @Schema(description = "Tag IDs of the user", type = "string"))
   @Setter
   @ManyToMany(fetch = FetchType.LAZY)
   @JoinTable(
@@ -198,10 +196,9 @@ public class User implements Base {
   @JsonSerialize(using = MultiIdSetDeserializer.class)
   @JsonProperty("user_tags")
   @Queryable(dynamicValues = true, filterable = true, sortable = true, path = "tags.id")
-  @Schema(description = "Tag IDs of the user")
   private Set<Tag> tags = new HashSet<>();
 
-  @ArraySchema(schema = @Schema(type = "string"))
+  @ArraySchema(schema = @Schema(description = "Communication IDs of the user", type = "string"))
   @Setter
   @ManyToMany(fetch = FetchType.LAZY)
   @JoinTable(
@@ -210,7 +207,6 @@ public class User implements Base {
       inverseJoinColumns = @JoinColumn(name = "communication_id"))
   @JsonSerialize(using = MultiIdListDeserializer.class)
   @JsonProperty("user_communications")
-  @Schema(description = "Communication IDs of the user")
   private List<Communication> communications = new ArrayList<>();
 
   @Setter

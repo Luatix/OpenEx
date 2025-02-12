@@ -68,7 +68,7 @@ public class Team implements Base {
   @Schema(description = "Update date of the team", accessMode = Schema.AccessMode.READ_ONLY)
   private Instant updatedAt = now();
 
-  @ArraySchema(schema = @Schema(type = "string"))
+  @ArraySchema(schema = @Schema(description = "IDs of the tags of the team", type = "string"))
   @Queryable(filterable = true, dynamicValues = true, path = "tags.id")
   @ManyToMany(fetch = FetchType.LAZY)
   @JoinTable(
@@ -77,7 +77,6 @@ public class Team implements Base {
       inverseJoinColumns = @JoinColumn(name = "tag_id"))
   @JsonSerialize(using = MultiIdSetDeserializer.class)
   @JsonProperty("team_tags")
-  @Schema(description = "IDs of the tags of the team")
   private Set<Tag> tags = new HashSet<>();
 
   @ManyToOne(fetch = FetchType.LAZY)
@@ -87,7 +86,7 @@ public class Team implements Base {
   @Schema(description = "Organization of the team", type = "string")
   private Organization organization;
 
-  @ArraySchema(schema = @Schema(type = "string"))
+  @ArraySchema(schema = @Schema(description = "IDs of the users of the team", type = "string"))
   @ManyToMany(fetch = FetchType.LAZY)
   @JoinTable(
       name = "users_teams",
@@ -95,10 +94,10 @@ public class Team implements Base {
       inverseJoinColumns = @JoinColumn(name = "user_id"))
   @JsonSerialize(using = MultiIdListDeserializer.class)
   @JsonProperty("team_users")
-  @Schema(description = "IDs of the users of the team")
   private List<User> users = new ArrayList<>();
 
-  @ArraySchema(schema = @Schema(type = "string"))
+  @ArraySchema(
+      schema = @Schema(description = "IDs of the simulations linked to the team", type = "string"))
   @ManyToMany(fetch = FetchType.LAZY)
   @JoinTable(
       name = "exercises_teams",
@@ -106,10 +105,10 @@ public class Team implements Base {
       inverseJoinColumns = @JoinColumn(name = "exercise_id"))
   @JsonSerialize(using = MultiIdListDeserializer.class)
   @JsonProperty("team_exercises")
-  @Schema(description = "IDs of the simulations linked to the team")
   private List<Exercise> exercises = new ArrayList<>();
 
-  @ArraySchema(schema = @Schema(type = "string"))
+  @ArraySchema(
+      schema = @Schema(description = "IDs of the scenarios linked to the team", type = "string"))
   @ManyToMany(fetch = FetchType.LAZY)
   @JoinTable(
       name = "scenarios_teams",
@@ -117,7 +116,6 @@ public class Team implements Base {
       inverseJoinColumns = @JoinColumn(name = "scenario_id"))
   @JsonSerialize(using = MultiIdListDeserializer.class)
   @JsonProperty("team_scenarios")
-  @Schema(description = "IDs of the scenarios linked to the team")
   private List<Scenario> scenarios = new ArrayList<>();
 
   @Column(name = "team_contextual")
@@ -127,7 +125,11 @@ public class Team implements Base {
           "True if the team is contextual (exists only in the scenario/simulation it is linked to)")
   private Boolean contextual = false;
 
-  @ArraySchema(schema = @Schema(type = "string"))
+  @ArraySchema(
+      schema =
+          @Schema(
+              description = "List of 3-tuple linking simulation IDs and user IDs to this team ID",
+              type = "string"))
   @OneToMany(
       mappedBy = "team",
       fetch = FetchType.LAZY,
@@ -135,7 +137,6 @@ public class Team implements Base {
       orphanRemoval = true)
   @JsonProperty("team_exercises_users")
   @JsonSerialize(using = MultiModelDeserializer.class)
-  @Schema(description = "List of 3-tuple linking simulation IDs and user IDs to this team ID")
   private List<ExerciseTeamUser> exerciseTeamUsers = new ArrayList<>();
 
   @JsonProperty("team_users_number")
@@ -145,10 +146,13 @@ public class Team implements Base {
   }
 
   // region transient
-  @ArraySchema(schema = @Schema(type = "string"))
+  @ArraySchema(
+      schema =
+          @Schema(
+              description = "List of inject IDs from all simulations of the team",
+              type = "string"))
   @JsonProperty("team_exercise_injects")
   @JsonSerialize(using = MultiIdListDeserializer.class)
-  @Schema(description = "List of inject IDs from all simulations of the team")
   public List<Inject> getExercisesInjects() {
     Predicate<Inject> selectedInject =
         inject -> inject.isAllTeams() || inject.getTeams().contains(this);
@@ -164,10 +168,13 @@ public class Team implements Base {
     return getExercisesInjects().size();
   }
 
-  @ArraySchema(schema = @Schema(type = "string"))
+  @ArraySchema(
+      schema =
+          @Schema(
+              description = "List of inject IDs from all scenarios of the team",
+              type = "string"))
   @JsonProperty("team_scenario_injects")
   @JsonSerialize(using = MultiIdListDeserializer.class)
-  @Schema(description = "List of inject IDs from all scenarios of the team")
   public List<Inject> getScenariosInjects() {
     Predicate<Inject> selectedInject =
         inject -> inject.isAllTeams() || inject.getTeams().contains(this);
@@ -183,11 +190,12 @@ public class Team implements Base {
     return getScenariosInjects().size();
   }
 
-  @ArraySchema(schema = @Schema(type = "string"))
+  @ArraySchema(
+      schema =
+          @Schema(description = "List of expectations id linked to this team", type = "string"))
   @OneToMany(mappedBy = "team", fetch = FetchType.LAZY)
   @JsonSerialize(using = MultiIdListDeserializer.class)
   @JsonProperty("team_inject_expectations")
-  @Schema(description = "List of expectations id linked to this team")
   private List<InjectExpectation> injectExpectations = new ArrayList<>();
 
   @JsonProperty("team_injects_expectations_number")

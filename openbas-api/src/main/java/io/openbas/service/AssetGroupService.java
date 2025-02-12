@@ -81,9 +81,19 @@ public class AssetGroupService {
   @Transactional(readOnly = true)
   public List<Asset> assetsFromAssetGroup(@NotBlank final String assetGroupId) {
     AssetGroup assetGroup = this.assetGroup(assetGroupId);
-    return Stream.concat(assetGroup.getAssets().stream(), assetGroup.getDynamicAssets().stream())
-        .distinct()
-        .collect(Collectors.toList());
+    List<Asset> assets = new ArrayList<>();
+    List<String> assetIds = new ArrayList<>();
+    Stream.concat(assetGroup.getAssets().stream(), assetGroup.getDynamicAssets().stream())
+        .forEach(
+            asset -> {
+              // We have to call getId() because some assets are returned null because of Hibernate
+              // unproxy
+              if (!assetIds.contains(asset.getId())) {
+                assets.add(asset);
+                assetIds.add(asset.getId());
+              }
+            });
+    return assets;
   }
 
   private List<AssetGroup> computeDynamicAssets(@NotNull final List<AssetGroup> assetGroups) {

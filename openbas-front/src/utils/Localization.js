@@ -871,7 +871,7 @@ const i18n = {
       'Update the asset group': 'Modifier l\'asset group',
       'Manage assets': 'Gérer les actifs',
       'Add assets in this asset group': 'Ajouter des actifs dans ce groupe d\'actifs',
-      'Remove from the asset group': 'Retirer de ce groupe d\'asset',
+      'Remove from the asset group': 'Retirer de ce groupe d\'actifs',
       'Targeted assets': 'Assets ciblés',
       'Targeted asset groups': 'Groupes d\'assets ciblés',
       'Modify target asset groups': 'Modifier des groupes d\'assets',
@@ -892,6 +892,7 @@ const i18n = {
         + 'Il peut contenir des espaces ou des tirets ( – ) ou des parenthèses.\n',
       'Instantiate a simulation': 'Créer une nouvelle simulation',
       'Do you want to delete the asset group ?': 'Voulez-vous supprimer le groupe d\'actifs ?',
+      'Do you want to remove the endpoint from the asset group?': 'Voulez-vous retirer cet endpoint du groupe d\'actifs ?',
       // -- FILTERS --
       'Add filter': 'Ajout d\'un filtre',
       'Clear filters': 'Supprimer les filtres',
@@ -2319,6 +2320,7 @@ const i18n = {
       'phone_number_tooltip': '电话号码应以加号 ( + )开头\n'
         + '它可以包含空格、连字符( - ) 或括号.\n',
       'Instantiate a simulation': '实例化模拟',
+      'Do you want to remove the endpoint from the asset group?': '您想从资产组中删除端点吗？',
       // -- FILTERS --
       'Add filter': '添加过滤器',
       'Clear filters': '清除过滤器',
@@ -2913,6 +2915,7 @@ const i18n = {
         + 'It may contain white spaces or hyphens ( – ) or parenthesis.\n',
       'Exercise': 'Simulation',
       'Scheduling_time': 'Time',
+      'Do you want to remove the endpoint from the asset group?': 'Do you want to remove the endpoint from the asset group?',
       // -- FILTERS --
       // Asset
       'asset_tags': 'Tags',

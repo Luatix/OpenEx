@@ -52,13 +52,20 @@ export interface AgentOutput {
   agent_privilege?: "admin" | "standard";
 }
 
+/** Represents the output result details of an agent execution */
 export interface AgentStatusOutput {
   agent_executor_name?: string;
   agent_executor_type?: string;
   agent_id: string;
   agent_name?: string;
+  /**
+   * Execution status of the agent
+   * @example "SUCCESS, ERROR, MAYBE_PREVENTED..."
+   */
   agent_status_name?: string;
+  /** List of agent execution traces */
   agent_traces?: ExecutionTracesOutput[];
+  /** Endpoint ID */
   asset_id: string;
   /** @format date-time */
   tracking_end_date?: string;
@@ -382,7 +389,9 @@ export interface ChallengesReader {
 }
 
 export interface ChangePasswordInput {
+  /** The new password */
   password: string;
+  /** The new password again to validate it's been typed well */
   password_validation: string;
 }
 
@@ -437,18 +446,22 @@ export interface ChannelUpdateLogoInput {
 }
 
 export interface CheckExerciseRulesInput {
+  /** List of tag that will be applied to the simulation */
   new_tags?: string[];
 }
 
 export interface CheckExerciseRulesOutput {
+  /** Are there rules that can be applied? */
   rules_found: boolean;
 }
 
 export interface CheckScenarioRulesInput {
+  /** List of tag that will be applied to the scenario */
   new_tags?: string[];
 }
 
 export interface CheckScenarioRulesOutput {
+  /** Are there rules that can be applied? */
   rules_found: boolean;
 }
 
@@ -554,6 +567,7 @@ export interface Command {
   typeEnum?: "COMMAND" | "EXECUTABLE" | "FILE_DROP" | "DNS_RESOLUTION" | "NETWORK_TRAFFIC";
 }
 
+/** List of communications of this team */
 export interface Communication {
   communication_ack?: boolean;
   communication_animation?: boolean;
@@ -582,12 +596,19 @@ export interface Condition {
 }
 
 export interface CreateUserInput {
+  /** True if the user is admin */
   user_admin?: boolean;
+  /** The email of the user */
   user_email: string;
+  /** First name of the user */
   user_firstname?: string;
+  /** Last name of the user */
   user_lastname?: string;
+  /** Organization of the user */
   user_organization?: string;
+  /** Password of the user as plain text */
   user_plain_password?: string;
+  /** Tags of the user */
   user_tags?: string[];
 }
 
@@ -849,7 +870,12 @@ export interface ExecutionTraces {
   listened?: boolean;
 }
 
+/** Represents a single execution trace detail */
 export interface ExecutionTracesOutput {
+  /**
+   * The action that created this execution trace
+   * @example "START, PREREQUISITE_CHECK, PREREQUISITE_EXECUTION, EXECUTION, CLEANUP_EXECUTION or COMPLETE"
+   */
   execution_action:
     | "START"
     | "PREREQUISITE_CHECK"
@@ -857,7 +883,12 @@ export interface ExecutionTracesOutput {
     | "EXECUTION"
     | "CLEANUP_EXECUTION"
     | "COMPLETE";
+  /** A detailed message describing the execution */
   execution_message: string;
+  /**
+   * The status of the execution trace
+   * @example "SUCCESS, ERROR, COMMAND_NOT_FOUND, WARNING, COMMAND_CANNOT_BE_EXECUTED.."
+   */
   execution_status:
     | "SUCCESS"
     | "ERROR"
@@ -2124,7 +2155,9 @@ export interface LogCreateInput {
 }
 
 export interface LoginUserInput {
+  /** The identifier of the user */
   login: string;
+  /** The password of the user */
   password: string;
 }
 
@@ -2201,6 +2234,7 @@ export interface NetworkTraffic {
   typeEnum?: "COMMAND" | "EXECUTABLE" | "FILE_DROP" | "DNS_RESOLUTION" | "NETWORK_TRAFFIC";
 }
 
+/** List of Saml2 providers */
 export interface OAuthProvider {
   provider_login?: string;
   provider_name?: string;
@@ -2802,51 +2836,103 @@ export interface PayloadsDeprecateInput {
 }
 
 export interface PlatformSettings {
+  /** True if Saml2 is enabled */
   auth_saml2_enable?: boolean;
+  /** List of Saml2 providers */
   platform_saml2_providers?: OAuthProvider[];
+  /** True if local authentication is enabled */
   auth_local_enable?: boolean;
+  /** True if OpenID is enabled */
   auth_openid_enable?: boolean;
+  /** Sender mail to use by default for injects */
   default_mailer?: string;
+  /** Reply to mail to use by default for injects */
   default_reply_to?: string;
+  /** List of enabled dev features */
   enabled_dev_features?: "_RESERVED"[];
+  /** True if the Caldera Executor is enabled */
   executor_caldera_enable?: boolean;
+  /** Url of the Caldera Executor */
   executor_caldera_public_url?: string;
+  /** True if the Tanium Executor is enabled */
   executor_tanium_enable?: boolean;
-  /** @format int64 */
+  /**
+   * Time to wait before article time has expired
+   * @format int64
+   */
   expectation_article_expiration_time: number;
-  /** @format int64 */
+  /**
+   * Time to wait before challenge time has expired
+   * @format int64
+   */
   expectation_challenge_expiration_time: number;
-  /** @format int64 */
+  /**
+   * Time to wait before detection time has expired
+   * @format int64
+   */
   expectation_detection_expiration_time: number;
-  /** @format int32 */
+  /**
+   * Default score for manuel expectation
+   * @format int32
+   */
   expectation_manual_default_score_value: number;
-  /** @format int64 */
+  /**
+   * Time to wait before manual expectation time has expired
+   * @format int64
+   */
   expectation_manual_expiration_time: number;
-  /** @format int64 */
+  /**
+   * Time to wait before prevention time has expired
+   * @format int64
+   */
   expectation_prevention_expiration_time: number;
+  /** Current version of Java */
   java_version?: string;
+  /** URL of the server containing the map tile with dark theme */
   map_tile_server_dark?: string;
+  /** URL of the server containing the map tile with light theme */
   map_tile_server_light?: string;
+  /** Agent URL of the platform */
   platform_agent_url?: string;
+  /** True if AI is enabled for the platform */
   platform_ai_enabled?: boolean;
+  /** True if we have an AI token */
   platform_ai_has_token?: boolean;
+  /** Chosen model of AI */
   platform_ai_model?: string;
+  /** Type of AI (mistralai or openai) */
   platform_ai_type?: string;
+  /** Map of the messages to display on the screen by their level (the level available are DEBUG, INFO, WARN, ERROR, FATAL) */
   platform_banner_by_level?: Record<string, string[]>;
+  /** Base URL of the platform */
   platform_base_url?: string;
+  /** Definition of the dark theme */
   platform_dark_theme?: ThemeInput;
+  /** 'true' if the platform has Enterprise Edition activated */
   platform_enterprise_edition?: string;
+  /** Language of the platform */
   platform_lang?: string;
+  /** Definition of the dark theme */
   platform_light_theme?: ThemeInput;
+  /** Name of the platform */
   platform_name?: string;
+  /** List of OpenID providers */
   platform_openid_providers?: OAuthProvider[];
+  /** Policies of the platform */
   platform_policies?: PolicyInput;
+  /** Theme of the platform */
   platform_theme?: string;
+  /** Current version of the platform */
   platform_version?: string;
+  /** 'true' if the platform has the whitemark activated */
   platform_whitemark?: string;
+  /** Current version of the PostgreSQL */
   postgre_version?: string;
+  /** Current version of RabbitMQ */
   rabbitmq_version?: string;
+  /** True if connection with OpenCTI is enabled */
   xtm_opencti_enable?: boolean;
+  /** Url of OpenCTI */
   xtm_opencti_url?: string;
 }
 
@@ -2895,9 +2981,13 @@ export interface PlayerOutput {
   user_tags?: string[];
 }
 
+/** Policies of the platform */
 export interface PolicyInput {
+  /** Consent confirmation message */
   platform_consent_confirm_text?: string;
+  /** Consent message to show at login */
   platform_consent_message?: string;
+  /** Message to show at login */
   platform_login_message?: string;
 }
 
@@ -3274,16 +3364,21 @@ export interface SecurityPlatformUpsertInput {
 }
 
 export interface SettingsEnterpriseEditionUpdateInput {
+  /** 'true' if enterprise edition is activated */
   platform_enterprise_edition: string;
 }
 
 export interface SettingsPlatformWhitemarkUpdateInput {
+  /** The whitemark of the platform */
   platform_whitemark: string;
 }
 
 export interface SettingsUpdateInput {
+  /** Language of the platform */
   platform_lang: string;
+  /** Name of the platform */
   platform_name: string;
+  /** Theme of the platform */
   platform_theme: string;
 }
 
@@ -3314,8 +3409,8 @@ export interface StatisticElement {
 
 export interface StatusPayload {
   dns_resolution_hostname?: string;
-  executable_file?: Document;
-  file_drop_file?: Document;
+  executable_file?: StatusPayloadDocument;
+  file_drop_file?: StatusPayloadDocument;
   network_traffic_ip_dst: string;
   network_traffic_ip_src: string;
   /** @format int32 */
@@ -3333,11 +3428,16 @@ export interface StatusPayload {
   payload_type?: string;
 }
 
+export interface StatusPayloadDocument {
+  document_id: string;
+  document_name: string;
+}
+
 export interface StatusPayloadOutput {
   dns_resolution_hostname?: string;
   executable_arch?: "x86_64" | "arm64" | "ALL_ARCHITECTURES";
-  executable_file?: Document;
-  file_drop_file?: Document;
+  executable_file?: StatusPayloadDocument;
+  file_drop_file?: StatusPayloadDocument;
   network_traffic_ip_dst: string;
   network_traffic_ip_src: string;
   /** @format int32 */
@@ -3363,29 +3463,41 @@ export interface StatusPayloadOutput {
 
 export interface Tag {
   listened?: boolean;
+  /** Color of the tag */
   tag_color?: string;
+  /** ID of the tag */
   tag_id: string;
+  /** Name of the tag */
   tag_name: string;
 }
 
 export interface TagCreateInput {
+  /** Color of the tag */
   tag_color: string;
+  /** Name of the tag */
   tag_name: string;
 }
 
 export interface TagRuleInput {
+  /** Asset groups of the tag rule */
   asset_groups?: string[];
+  /** Name of the tag */
   tag_name: string;
 }
 
 export interface TagRuleOutput {
+  /** Asset groups of the tag rule */
   asset_groups?: Record<string, string>;
+  /** Name of the tag associated with the tag rule */
   tag_name: string;
+  /** ID of the tag rule */
   tag_rule_id: string;
 }
 
 export interface TagUpdateInput {
+  /** Color of the tag */
   tag_color: string;
+  /** Name of the tag */
   tag_name: string;
 }
 
@@ -3397,95 +3509,162 @@ export interface TargetSimple {
 
 export interface Team {
   listened?: boolean;
+  /** List of communications of this team */
   team_communications?: Communication[];
+  /** True if the team is contextual (exists only in the scenario/simulation it is linked to) */
   team_contextual?: boolean;
-  /** @format date-time */
+  /**
+   * Creation date of the team
+   * @format date-time
+   */
   team_created_at: string;
+  /** Description of the team */
   team_description?: string;
   team_exercise_injects?: string[];
-  /** @format int64 */
+  /**
+   * Number of injects of all simulations of the team
+   * @format int64
+   */
   team_exercise_injects_number?: number;
   team_exercises?: string[];
   team_exercises_users?: string[];
+  /** ID of the team */
   team_id: string;
   team_inject_expectations?: string[];
-  /** @format int64 */
+  /**
+   * Number of expectations linked to this team
+   * @format int64
+   */
   team_injects_expectations_number?: number;
-  /** @format double */
+  /**
+   * Total expected score of expectations linked to this team
+   * @format double
+   */
   team_injects_expectations_total_expected_score: number;
+  /** Total expected score of expectations by simulation linked to this team */
   team_injects_expectations_total_expected_score_by_exercise: Record<string, number>;
-  /** @format double */
+  /**
+   * Total score of expectations linked to this team
+   * @format double
+   */
   team_injects_expectations_total_score: number;
+  /** Total score of expectations by simulation linked to this team */
   team_injects_expectations_total_score_by_exercise: Record<string, number>;
+  /** Name of the team */
   team_name: string;
+  /** Organization of the team */
   team_organization?: string;
   team_scenario_injects?: string[];
-  /** @format int64 */
+  /**
+   * Number of injects of all scenarios of the team
+   * @format int64
+   */
   team_scenario_injects_number?: number;
   team_scenarios?: string[];
   team_tags?: string[];
-  /** @format date-time */
+  /**
+   * Update date of the team
+   * @format date-time
+   */
   team_updated_at: string;
   team_users?: string[];
-  /** @format int64 */
+  /**
+   * Number of users of the team
+   * @format int64
+   */
   team_users_number?: number;
 }
 
 export interface TeamCreateInput {
+  /** True if the team is contextual (exists only in the scenario/simulation it is linked to) */
   team_contextual?: boolean;
+  /** Description of the team */
   team_description?: string;
+  /** Id of the simulations linked to the team */
   team_exercises?: string[];
+  /** Name of the team */
   team_name: string;
+  /** ID of the organization of the team */
   team_organization?: string;
+  /** Id of the scenarios linked to the team */
   team_scenarios?: string[];
+  /** IDs of the tags of the team */
   team_tags?: string[];
 }
 
 export interface TeamOutput {
+  /** True if the team is contextual (exists only in the scenario/simulation it is linked to) */
   team_contextual?: boolean;
+  /** Description of the team */
   team_description?: string;
   /**
-   * exercise ids
+   * Simulation ids linked to this team
    * @uniqueItems true
    */
   team_exercises: string[];
+  /** ID of the team */
   team_id: string;
+  /** Name of the team */
   team_name: string;
+  /** Organization of the team */
   team_organization?: string;
   /**
-   * scenario ids
+   * Scenario ids linked to this team
    * @uniqueItems true
    */
   team_scenarios: string[];
-  /** @uniqueItems true */
+  /**
+   * List of tags of the team
+   * @uniqueItems true
+   */
   team_tags?: string[];
-  /** @format date-time */
+  /**
+   * Update date of the team
+   * @format date-time
+   */
   team_updated_at: string;
   /**
-   * user ids
+   * User ids of the team
    * @uniqueItems true
    */
   team_users?: string[];
-  /** @format int64 */
+  /**
+   * Number of users of the team
+   * @format int64
+   */
   team_users_number?: number;
 }
 
 export interface TeamUpdateInput {
+  /** Description of the team */
   team_description?: string;
+  /** Name of the team */
   team_name: string;
+  /** ID of the organization of the team */
   team_organization?: string;
+  /** IDs of the tags of the team */
   team_tags?: string[];
 }
 
+/** Definition of the dark theme */
 export interface ThemeInput {
+  /** Accent color of the theme */
   accent_color?: string;
+  /** Background color of the theme */
   background_color?: string;
+  /** Url of the login logo */
   logo_login_url?: string;
+  /** Url of the logo */
   logo_url?: string;
+  /** 'true' if the logo needs to be collapsed */
   logo_url_collapsed?: string;
+  /** Navigation color of the theme */
   navigation_color?: string;
+  /** Paper color of the theme */
   paper_color?: string;
+  /** Primary color of the theme */
   primary_color?: string;
+  /** Secondary color of the theme */
   secondary_color?: string;
 }
 
@@ -3558,82 +3737,146 @@ export interface UpdateUserInfoInput {
 }
 
 export interface UpdateUserInput {
-  /** @pattern ^\+[\d\s\-.()]+$ */
+  /**
+   * Secondary phone of the user
+   * @pattern ^\+[\d\s\-.()]+$
+   */
   user_phone2?: string;
+  /** True if the user is admin */
   user_admin?: boolean;
+  /** The email of the user */
   user_email?: string;
+  /** First name of the user */
   user_firstname?: string;
+  /** Last name of the user */
   user_lastname?: string;
+  /** Organization of the user */
   user_organization?: string;
+  /** PGP key of the user */
   user_pgp_key?: string;
-  /** @pattern ^\+[\d\s\-.()]+$ */
+  /**
+   * Phone of the user
+   * @pattern ^\+[\d\s\-.()]+$
+   */
   user_phone?: string;
+  /** Tags of the user */
   user_tags?: string[];
 }
 
 export interface UpdateUsersTeamInput {
+  /** The list of users the team contains */
   team_users?: string[];
 }
 
 export interface User {
+  /** Secondary phone number of the user */
   user_phone2?: string;
   listened?: boolean;
+  /** True if the user is admin */
   user_admin?: boolean;
+  /** City of the user */
   user_city?: string;
   user_communications?: string[];
+  /** Country of the user */
   user_country?: string;
-  /** @format date-time */
+  /**
+   * Creation date of the user
+   * @format date-time
+   */
   user_created_at: string;
+  /** Email of the user */
   user_email: string;
+  /** First name of the user */
   user_firstname?: string;
+  /** Gravatar of the user */
   user_gravatar?: string;
   user_groups?: string[];
+  /** User ID */
   user_id: string;
+  /** True if the user is external */
   user_is_external?: boolean;
+  /** True if the user is manager */
   user_is_manager?: boolean;
+  /** True if the user is observer */
   user_is_observer?: boolean;
+  /** True if the user is only a player */
   user_is_only_player?: boolean;
+  /** True if the user is planner */
   user_is_planner?: boolean;
+  /** True if the user is player */
   user_is_player?: boolean;
+  /** Language of the user */
   user_lang?: string;
-  /** @format date-time */
+  /**
+   * Last communication date of the user
+   * @format date-time
+   */
   user_last_comcheck?: string;
+  /** Last name of the user */
   user_lastname?: string;
+  /** Organization ID of the user */
   user_organization?: string;
+  /** PGP key of the user */
   user_pgp_key?: string;
+  /** Phone number of the user */
   user_phone?: string;
-  /** @format int32 */
+  /**
+   * Status of the user
+   * @format int32
+   */
   user_status: number;
   user_tags?: string[];
   user_teams?: string[];
+  /** Theme of the user */
   user_theme?: string;
-  /** @format date-time */
+  /**
+   * Update date of the user
+   * @format date-time
+   */
   user_updated_at: string;
 }
 
 export interface UserOutput {
+  /** True if the user is admin */
   user_admin?: boolean;
+  /** Email of the user */
   user_email: string;
+  /** First name of the user */
   user_firstname?: string;
+  /** User ID */
   user_id: string;
+  /** Last name of the user */
   user_lastname?: string;
+  /** Organization of the user */
   user_organization_name?: string;
-  /** @uniqueItems true */
+  /**
+   * Tags of the user
+   * @uniqueItems true
+   */
   user_tags?: string[];
 }
 
+/** Map of errors by input */
 export interface ValidationContent {
+  /** A list of errors */
   errors?: string[];
 }
 
+/** Errors raised */
 export interface ValidationError {
+  /** Map of errors by input */
   children?: Record<string, ValidationContent>;
 }
 
 export interface ValidationErrorBag {
-  /** @format int32 */
+  /**
+   * Return code
+   * @format int32
+   */
   code?: number;
+  /** Errors raised */
   errors?: ValidationError;
+  /** Return message */
   message?: string;
 }
 
@@ -3661,7 +3904,10 @@ export interface VariableInput {
 }
 
 export interface ViolationErrorBag {
+  /** The error */
   error?: string;
+  /** The message of the error */
   message?: string;
+  /** The type of error */
   type?: string;
 }

@@ -34,6 +34,7 @@ public class Asset implements Base {
   @UuidGenerator
   @JsonProperty("asset_id")
   @NotBlank
+  @Queryable(filterable = true)
   private String id;
 
   @Column(name = "asset_type", insertable = false, updatable = false)

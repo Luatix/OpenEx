@@ -13,6 +13,7 @@ import io.openbas.rest.asset.endpoint.form.ExecutorOutput;
 import java.util.*;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -24,11 +25,7 @@ public class EndpointMapper {
         .id(endpoint.getId())
         .name(endpoint.getName())
         .type(endpoint.getType())
-        .agents(
-            toAgentOutputs(
-                endpoint.getAgents().stream()
-                    .filter(agent -> agent.getParent() == null && agent.getInject() == null)
-                    .collect(Collectors.toList())))
+        .agents(toAgentOutputs(getPrimaryAgents(endpoint)))
         .platform(endpoint.getPlatform())
         .arch(endpoint.getArch())
         .tags(endpoint.getTags().stream().map(Tag::getId).collect(Collectors.toSet()))
@@ -51,11 +48,7 @@ public class EndpointMapper {
             endpoint.getMacAddresses() != null
                 ? new HashSet<>(Arrays.asList(endpoint.getMacAddresses()))
                 : emptySet())
-        .agents(
-            toAgentOutputs(
-                endpoint.getAgents().stream()
-                    .filter(agent -> agent.getParent() == null && agent.getInject() == null)
-                    .collect(Collectors.toList())))
+        .agents(toAgentOutputs(getPrimaryAgents(endpoint)))
         .tags(endpoint.getTags().stream().map(Tag::getId).collect(Collectors.toSet()))
         .build();
   }
@@ -85,5 +78,12 @@ public class EndpointMapper {
               .build());
     }
     return builder.build();
+  }
+
+  @NotNull
+  private static List<Agent> getPrimaryAgents(Endpoint endpoint) {
+    return endpoint.getAgents().stream()
+        .filter(agent -> agent.getParent() == null && agent.getInject() == null)
+        .collect(Collectors.toList());
   }
 }

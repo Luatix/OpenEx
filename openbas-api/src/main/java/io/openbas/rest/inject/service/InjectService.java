@@ -564,4 +564,14 @@ public class InjectService {
           }
         });
   }
+
+  public List<Agent> getAgentsByInject(Inject inject) {
+    return this.resolveAllAssetsToExecute(inject).keySet().stream()
+        .filter(Endpoint.class::isInstance)
+        .map(Endpoint.class::cast)
+        .flatMap(
+            endpoint -> Optional.ofNullable(endpoint.getAgents()).stream().flatMap(List::stream))
+        .distinct()
+        .collect(Collectors.toList());
+  }
 }

@@ -47,9 +47,15 @@ const InjectStatus = ({ injectStatus = null, endpointsMap = new Map() }: Props) 
             {t('Traces')}
           </Typography>
           {(injectStatus.status_main_traces || []).length > 0 && <TraceMessage traces={injectStatus.status_main_traces || []} />}
-          {Array.from(orderedTracesByAsset.entries()).map(([assetId, tracesByAgent]) => (
-            <EndpointTraces key={assetId} endpoint={endpointsMap.get(assetId) as EndpointOutput} tracesByAgent={tracesByAgent || []} />
-          ))}
+          {Array.from(orderedTracesByAsset.entries())
+            .sort(([assetIdA], [assetIdB]) => assetIdA.localeCompare(assetIdB))
+            .map(([assetId, tracesByAgent]) => (
+              <EndpointTraces
+                key={assetId}
+                endpoint={endpointsMap.get(assetId) as EndpointOutput}
+                tracesByAgent={tracesByAgent || []}
+              />
+            ))}
         </Paper>
       ) : (
         <Paper variant="outlined" style={{ padding: '20px' }}>

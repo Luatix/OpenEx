@@ -12,7 +12,7 @@ import io.openbas.executors.openbas.service.OpenBASExecutorContextService;
 import io.openbas.executors.tanium.config.TaniumExecutorConfig;
 import io.openbas.executors.tanium.service.TaniumExecutorContextService;
 import io.openbas.rest.exception.AgentException;
-import io.openbas.service.AgentService;
+import io.openbas.rest.inject.service.InjectService;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.logging.Level;
@@ -33,14 +33,14 @@ public class ExecutionExecutorService {
   private final CrowdStrikeExecutorContextService crowdStrikeExecutorContextService;
   private final OpenBASExecutorContextService openBASExecutorContextService;
   private final InjectStatusRepository injectStatusRepository;
-  private final AgentService agentService;
+  private final InjectService injectService;
 
   public void launchExecutorContext(Inject inject) {
     // First, get the agents of this injects
-    List<Agent> agents = this.agentService.getAgentsByInjectId(inject.getId());
+    List<Agent> agents = this.injectService.getAgentsByInject(inject);
 
     InjectStatus injectStatus =
-        inject.getStatus().orElseThrow(() -> new IllegalArgumentException("Status should exists"));
+        inject.getStatus().orElseThrow(() -> new IllegalArgumentException("Status should exist"));
     AtomicBoolean atLeastOneExecution = new AtomicBoolean(false);
     AtomicBoolean atOneTraceAdded = new AtomicBoolean(false);
 

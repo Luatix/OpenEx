@@ -1,9 +1,6 @@
 package io.openbas.service;
 
-import io.openbas.database.model.Agent;
-import io.openbas.database.model.ExecutionTraceStatus;
-import io.openbas.database.model.Inject;
-import io.openbas.database.model.InjectStatus;
+import io.openbas.database.model.*;
 import io.openbas.database.repository.AgentRepository;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -17,10 +14,6 @@ import org.springframework.stereotype.Service;
 public class AgentService {
 
   private final AgentRepository agentRepository;
-
-  public List<Agent> getAgentsByInjectId(String injectId) {
-    return agentRepository.findByInjectId(injectId);
-  }
 
   public Optional<Agent> getAgentByAgentDetailsForAnAsset(
       String assetId,

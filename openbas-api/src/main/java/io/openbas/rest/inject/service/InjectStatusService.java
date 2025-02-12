@@ -9,7 +9,6 @@ import io.openbas.rest.exception.ElementNotFoundException;
 import io.openbas.rest.inject.form.InjectExecutionAction;
 import io.openbas.rest.inject.form.InjectExecutionInput;
 import io.openbas.rest.inject.form.InjectUpdateStatusInput;
-import io.openbas.service.AgentService;
 import io.openbas.utils.InjectUtils;
 import jakarta.annotation.Nullable;
 import jakarta.transaction.Transactional;
@@ -25,7 +24,7 @@ import org.springframework.stereotype.Service;
 public class InjectStatusService {
   private final InjectRepository injectRepository;
   private final AgentRepository agentRepository;
-  private final AgentService agentService;
+  private final InjectService injectService;
   private final InjectUtils injectUtils;
   private final InjectStatusRepository injectStatusRepository;
 
@@ -98,7 +97,7 @@ public class InjectStatusService {
 
   public boolean isAllInjectAgentsExecuted(Inject inject) {
     int totalCompleteTrace = getCompleteTrace(inject);
-    List<Agent> agents = this.agentService.getAgentsByInjectId(inject.getId());
+    List<Agent> agents = this.injectService.getAgentsByInject(inject);
     return agents.size() == totalCompleteTrace;
   }
 

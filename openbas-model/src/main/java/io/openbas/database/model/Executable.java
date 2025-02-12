@@ -6,6 +6,7 @@ import io.openbas.database.audit.ModelBaseListener;
 import io.openbas.helper.MonoIdDeserializer;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
+import java.util.Optional;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -34,16 +35,8 @@ public class Executable extends Payload {
     super(id, type, name);
   }
 
-  /*
-   * return the number of actions an executable is expected to achieve
-   * by default this is 2 here, one file drop and one execution
-   */
-  public int getNumberOfActions() {
-    return DEFAULT_NUMBER_OF_ACTIONS_FOR_EXECUTABLE;
-  }
-
   @Override
-  public String getExpectationSignatureValue() {
-    return executableFile.getName();
+  public final String getExpectationSignatureValue() {
+    return Optional.ofNullable(this.executableFile).map(Document::getName).orElse("");
   }
 }

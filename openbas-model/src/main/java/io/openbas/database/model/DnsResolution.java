@@ -35,17 +35,6 @@ public class DnsResolution extends Payload {
     super(id, type, name);
   }
 
-  /*
-   * the DNS resolution payload expects one action carried out per listed hostname
-   */
-  @Override
-  public int getNumberOfActions() {
-    return this.getHostname().split("\\r?\\n").length;
-  }
-
-  /*
-   * The DNS resolution payload expects one action carried out per listed hostname
-   */
   @Override
   public String getExpectationSignatureValue() {
     return hostname.split("\\r?\\n")[0];

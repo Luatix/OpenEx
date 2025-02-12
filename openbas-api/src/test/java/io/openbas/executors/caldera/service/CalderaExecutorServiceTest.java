@@ -31,6 +31,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
 public class CalderaExecutorServiceTest {
+
   private static final String CALDERA_AGENT_HOSTNAME = "calderahostname";
   private static final String CALDERA_AGENT_EXTERNAL_REF = "calderaExt";
   private static final String CALDERA_AGENT_IP = "10.10.10.10";
@@ -94,8 +95,8 @@ public class CalderaExecutorServiceTest {
             CALDERA_AGENT_EXTERNAL_REF,
             CALDERA_AGENT_USERNAME);
     randomAgent = createAgent("hostname", "1.1.1.1", "ref", CALDERA_AGENT_USERNAME);
-    calderaEndpoint = createEndpoint(calderaAgent, calderaExecutor);
-    randomEndpoint = createEndpoint(randomAgent, randomExecutor);
+    calderaEndpoint = createEndpoint(calderaAgent);
+    randomEndpoint = createEndpoint(randomAgent);
 
     agentEndpoint = new io.openbas.database.model.Agent();
     agentEndpoint.setProcessName(calderaAgent.getExe_name());
@@ -108,7 +109,7 @@ public class CalderaExecutorServiceTest {
     agentEndpoint.setAsset(calderaEndpoint);
   }
 
-  private Endpoint createEndpoint(Agent agent, Executor executor) {
+  private Endpoint createEndpoint(Agent agent) {
     Endpoint endpoint = new Endpoint();
     endpoint.setName(agent.getHost());
     endpoint.setDescription("Asset collected by Caldera executor context.");

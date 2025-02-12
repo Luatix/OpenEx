@@ -79,11 +79,6 @@ public class EndpointService {
   }
 
   @Transactional(readOnly = true)
-  public List<Endpoint> findAssetsForInjectionByHostname(@NotBlank final String hostname) {
-    return endpoints(EndpointSpecification.findEndpointsForInjectionByHostname(hostname));
-  }
-
-  @Transactional(readOnly = true)
   public Optional<Endpoint> findEndpointByAgentDetails(
       @NotBlank final String hostname,
       @NotNull final Endpoint.PLATFORM_TYPE platform,

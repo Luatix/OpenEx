@@ -17,11 +17,9 @@ import jakarta.validation.constraints.NotNull;
 import java.time.Instant;
 import java.util.*;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.Setter;
 import org.hibernate.annotations.UuidGenerator;
 
-@EqualsAndHashCode
 @Data
 @Entity
 @Table(name = "assets")
@@ -79,6 +77,11 @@ public class Asset implements Base {
   @JsonProperty("asset_updated_at")
   @NotNull
   private Instant updatedAt = now();
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(id);
+  }
 
   public Asset() {}
 

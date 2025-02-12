@@ -12,12 +12,11 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import java.time.Instant;
-import lombok.EqualsAndHashCode;
+import java.util.Objects;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.UuidGenerator;
 
-@EqualsAndHashCode
 @Getter
 @Setter
 @Entity
@@ -142,6 +141,11 @@ public class Agent implements Base {
   @Column(name = "agent_cleared_at")
   @JsonProperty("agent_cleared_at")
   private Instant clearedAt = now();
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(id);
+  }
 
   public Agent() {}
 }

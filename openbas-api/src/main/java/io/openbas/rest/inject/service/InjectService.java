@@ -36,7 +36,6 @@ import jakarta.validation.constraints.NotNull;
 import java.time.Instant;
 import java.util.*;
 import java.util.function.BiFunction;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
@@ -63,6 +62,10 @@ public class InjectService {
   private final MethodSecurityExpressionHandler methodSecurityExpressionHandler;
 
   @Resource protected ObjectMapper mapper;
+
+  private SecurityExpression getAmbientSecurityExpression() {
+    return ((SecurityExpressionHandler) methodSecurityExpressionHandler).getSecurityExpression();
+  }
 
   public Inject inject(@NotBlank final String injectId) {
     return this.injectRepository
@@ -356,8 +359,7 @@ public class InjectService {
     // Assert that the user is allowed to delete the injects
     // Can't use PreAuthorized as we don't have the data about involved scenarios and simulations
 
-    isPlanner(injectsToProcess, Inject::getScenario, SecurityExpression::isScenarioPlanner);
-    isPlanner(injectsToProcess, Inject::getExercise, SecurityExpression::isSimulationPlanner);
+    authoriseWithThrow(injectsToProcess, SecurityExpression::isInjectPlanner);
     return injectsToProcess;
   }
 
@@ -365,31 +367,40 @@ public class InjectService {
    * Check if the user is allowed to delete the injects from the scenario or exercise
    *
    * @param injects the injects to check
-   * @param scenarioOrExercise the function to get the scenario or exercise from the inject
-   * @param isPlannerFunction the function to check if the user is a planner for the scenario or
+   * @param authoriseFunction the function to check if the user is a planner for the scenario or
    *     exercise
    * @throws AccessDeniedException if the user is not allowed to delete the injects from the
    *     scenario or exercise
    */
-  public <T extends Base> void isPlanner(
-      List<Inject> injects,
-      Function<Inject, T> scenarioOrExercise,
-      BiFunction<SecurityExpression, String, Boolean> isPlannerFunction) {
-    Set<String> scenarioOrExerciseIds =
-        injects.stream()
-            .filter(inject -> scenarioOrExercise.apply(inject) != null)
-            .map(inject -> scenarioOrExercise.apply(inject).getId())
-            .collect(Collectors.toSet());
+  public <T extends Base> void authoriseWithThrow(
+      List<Inject> injects, BiFunction<SecurityExpression, String, Boolean> authoriseFunction) {
+    InjectAuthorisationResult result = this.authorise(injects, authoriseFunction);
+    if (!result.getUnauthorised().isEmpty()) {
+      throw new AccessDeniedException(
+          "You are not allowed to delete the injects of ids "
+              + String.join(", ", result.getUnauthorised().stream().map(Inject::getId).toList()));
+    }
+  }
 
-    for (String scenarioOrExerciseId : scenarioOrExerciseIds) {
-      if (!isPlannerFunction.apply(
-          ((SecurityExpressionHandler) methodSecurityExpressionHandler).getSecurityExpression(),
-          scenarioOrExerciseId)) {
-        throw new AccessDeniedException(
-            "You are not allowed to delete the injects from the scenario or exercise "
-                + scenarioOrExerciseId);
+  /**
+   * Check if the user is allowed to operate on the injects based on security challenge
+   *
+   * @param injects the injects to check
+   * @param authoriseFunction the function to check if the user has the relevant privilege on
+   *     injects
+   * @return List of all authorised Injects
+   */
+  public InjectAuthorisationResult authorise(
+      List<Inject> injects, BiFunction<SecurityExpression, String, Boolean> authoriseFunction) {
+    InjectAuthorisationResult result = new InjectAuthorisationResult();
+    for (Inject inject : injects) {
+      if (authoriseFunction.apply(getAmbientSecurityExpression(), inject.getId())) {
+        result.addAuthorised(inject);
+      } else {
+        result.addUnauthorised(inject);
       }
     }
+    return result;
   }
 
   /**

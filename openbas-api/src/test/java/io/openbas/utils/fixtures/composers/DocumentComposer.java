@@ -22,7 +22,7 @@ public class DocumentComposer extends ComposerBase<Document> {
 
   public class Composer extends InnerComposerBase<Document> {
     private final Document document;
-    private BaseFile companionFile = null;
+    private BaseFile<?> companionFile = null;
     private final List<TagComposer.Composer> tagComposers = new ArrayList<>();
 
     public Composer(Document document) {
@@ -42,7 +42,7 @@ public class DocumentComposer extends ComposerBase<Document> {
       return this;
     }
 
-    public Composer withInMemoryFile(BaseFile file) {
+    public Composer withInMemoryFile(BaseFile<?> file) {
       document.setTarget(file.getFileName());
       companionFile = file;
       return this;

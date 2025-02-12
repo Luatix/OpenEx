@@ -14,9 +14,4 @@ public class PlainTextFile extends BaseFile<String> {
   public byte[] getContentBytes() {
     return getContent().getBytes();
   }
-
-  @Override
-  public int getContentLength() {
-    return getContentBytes().length;
-  }
 }

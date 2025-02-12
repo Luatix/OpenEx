@@ -1,12 +1,34 @@
-package io.openbas.rest.exercise.exports;
+package io.openbas.export;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonIncludeProperties;
 
-public class ExerciseExportMixins {
+public class Mixins {
+  @JsonIncludeProperties(
+      value = {
+        "scenario_id",
+        "scenario_name",
+        "scenario_description",
+        "scenario_subtitle",
+        "scenario_category",
+        "scenario_main_focus",
+        "scenario_severity",
+        "scenario_message_header",
+        "scenario_message_footer",
+        "scenario_mail_from",
+        "scenario_tags",
+        "scenario_documents",
+      })
+  public static class Scenario {}
+
+  @JsonIgnoreProperties(value = {"scenario_users", "scenario_organizations"})
+  public static class ScenarioWithoutPlayers {}
 
   @JsonIgnoreProperties(value = {"exercise_users", "exercise_organizations"})
   public static class ExerciseFileExport {}
+
+  @JsonIgnoreProperties(value = {"inject_users", "inject_organizations"})
+  public static class InjectsFileExport {}
 
   @JsonIncludeProperties(
       value = {

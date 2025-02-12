@@ -11,7 +11,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.openbas.IntegrationTest;
 import io.openbas.database.model.*;
 import io.openbas.database.model.Tag;
-import io.openbas.rest.exercise.exports.ExerciseExportMixins;
+import io.openbas.export.Mixins;
 import io.openbas.rest.exercise.exports.ExerciseFileExport;
 import io.openbas.rest.exercise.exports.VariableMixin;
 import io.openbas.rest.exercise.exports.VariableWithValueMixin;
@@ -49,6 +49,7 @@ public class ExerciseApiExportTest extends IntegrationTest {
   @Autowired private ObjectiveComposer objectiveComposer;
   @Autowired private DocumentComposer documentComposer;
   @Autowired private TagComposer tagComposer;
+  @Autowired private InjectorContractComposer injectorContractComposer;
   @Autowired private ChallengeService challengeService;
   @Resource protected ObjectMapper mapper;
 
@@ -102,13 +103,19 @@ public class ExerciseApiExportTest extends IntegrationTest {
             injectComposer
                 .forInject(InjectFixture.getInjectWithoutContract())
                 .withTag(tagComposer.forTag(TagFixture.getTagWithText("Inject tag")))
-                .withChallenge(
-                    challengeComposer
-                        .forChallenge(ChallengeFixture.createDefaultChallenge())
-                        .withTag(tagComposer.forTag(TagFixture.getTagWithText("Challenge tag")))))
+                .withInjectorContract(
+                    injectorContractComposer
+                        .forInjectorContract(
+                            InjectorContractFixture.createDefaultInjectorContract())
+                        .withChallenge(
+                            challengeComposer
+                                .forChallenge(ChallengeFixture.createDefaultChallenge())
+                                .withTag(
+                                    tagComposer.forTag(
+                                        TagFixture.getTagWithText("Challenge tag"))))))
         .withDocument(
             documentComposer
-                .forDocument(DocumentFixture.getDocumentTxt(FileFixture.getPlainTextFileContent()))
+                .forDocument(DocumentFixture.getDocument(FileFixture.getPlainTextFileContent()))
                 .withTag(tagComposer.forTag(TagFixture.getTagWithText("Document tag")))
                 .withInMemoryFile(FileFixture.getPlainTextFileContent()))
         .withObjective(objectiveComposer.forObjective(ObjectiveFixture.getObjective()))
@@ -191,7 +198,7 @@ public class ExerciseApiExportTest extends IntegrationTest {
 
     String actualJson = getJsonExportFromZip(response, ex.getName());
 
-    objectMapper.addMixIn(Tag.class, ExerciseExportMixins.Tag.class);
+    objectMapper.addMixIn(Tag.class, Mixins.Tag.class);
     List<Tag> expectedTags =
         tagComposer.generatedItems.stream()
             .filter(
@@ -226,7 +233,7 @@ public class ExerciseApiExportTest extends IntegrationTest {
 
     String actualJson = getJsonExportFromZip(response, ex.getName());
 
-    objectMapper.addMixIn(Objective.class, ExerciseExportMixins.Objective.class);
+    objectMapper.addMixIn(Objective.class, Mixins.Objective.class);
     String objectiveJson = objectMapper.writeValueAsString(objectiveComposer.generatedItems);
 
     assertThatJson(actualJson)
@@ -252,7 +259,7 @@ public class ExerciseApiExportTest extends IntegrationTest {
 
     String actualJson = getJsonExportFromZip(response, ex.getName());
 
-    objectMapper.addMixIn(Challenge.class, ExerciseExportMixins.Challenge.class);
+    objectMapper.addMixIn(Challenge.class, Mixins.Challenge.class);
     String challengeJson = objectMapper.writeValueAsString(challengeComposer.generatedItems);
 
     assertThatJson(actualJson)
@@ -278,7 +285,7 @@ public class ExerciseApiExportTest extends IntegrationTest {
 
     String actualJson = getJsonExportFromZip(response, ex.getName());
 
-    objectMapper.addMixIn(Article.class, ExerciseExportMixins.Article.class);
+    objectMapper.addMixIn(Article.class, Mixins.Article.class);
     String articleJson = objectMapper.writeValueAsString(articleComposer.generatedItems);
 
     assertThatJson(actualJson)
@@ -304,7 +311,7 @@ public class ExerciseApiExportTest extends IntegrationTest {
 
     String actualJson = getJsonExportFromZip(response, ex.getName());
 
-    objectMapper.addMixIn(Channel.class, ExerciseExportMixins.Channel.class);
+    objectMapper.addMixIn(Channel.class, Mixins.Channel.class);
     String channelJson = objectMapper.writeValueAsString(channelComposer.generatedItems);
 
     assertThatJson(actualJson)
@@ -330,7 +337,7 @@ public class ExerciseApiExportTest extends IntegrationTest {
 
     String actualJson = getJsonExportFromZip(response, ex.getName());
 
-    objectMapper.addMixIn(Document.class, ExerciseExportMixins.Document.class);
+    objectMapper.addMixIn(Document.class, Mixins.Document.class);
     String documentJson = objectMapper.writeValueAsString(documentComposer.generatedItems);
 
     assertThatJson(actualJson)
@@ -356,7 +363,7 @@ public class ExerciseApiExportTest extends IntegrationTest {
 
     String actualJson = getJsonExportFromZip(response, ex.getName());
 
-    objectMapper.addMixIn(Exercise.class, ExerciseExportMixins.Exercise.class);
+    objectMapper.addMixIn(Exercise.class, Mixins.Exercise.class);
     String exerciseJson = objectMapper.writeValueAsString(ex);
 
     assertThatJson(actualJson)
@@ -461,7 +468,7 @@ public class ExerciseApiExportTest extends IntegrationTest {
 
     String actualJson = getJsonExportFromZip(response, ex.getName());
 
-    objectMapper.addMixIn(Team.class, ExerciseExportMixins.EmptyTeam.class);
+    objectMapper.addMixIn(Team.class, Mixins.EmptyTeam.class);
     String teamsJson = objectMapper.writeValueAsString(teamComposer.generatedItems);
 
     assertThatJson(actualJson)
@@ -512,7 +519,7 @@ public class ExerciseApiExportTest extends IntegrationTest {
 
     String actualJson = getJsonExportFromZip(response, ex.getName());
 
-    objectMapper.addMixIn(User.class, ExerciseExportMixins.User.class);
+    objectMapper.addMixIn(User.class, Mixins.User.class);
     String usersJson = objectMapper.writeValueAsString(userComposer.generatedItems);
 
     assertThatJson(actualJson)
@@ -562,7 +569,7 @@ public class ExerciseApiExportTest extends IntegrationTest {
 
     String actualJson = getJsonExportFromZip(response, ex.getName());
 
-    objectMapper.addMixIn(Organization.class, ExerciseExportMixins.Organization.class);
+    objectMapper.addMixIn(Organization.class, Mixins.Organization.class);
     String orgJson = objectMapper.writeValueAsString(organizationComposer.generatedItems);
 
     assertThatJson(actualJson)
@@ -576,7 +583,6 @@ public class ExerciseApiExportTest extends IntegrationTest {
   @WithMockAdminUser
   public void given_documents_are_provided_exported_archive_contains_the_documents()
       throws Exception {
-    ObjectMapper objectMapper = mapper.copy();
     Exercise ex = getExercise();
     byte[] response =
         mvc.perform(

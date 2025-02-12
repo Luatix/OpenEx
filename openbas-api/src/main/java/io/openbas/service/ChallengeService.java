@@ -25,6 +25,7 @@ import java.util.*;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -60,15 +61,19 @@ public class ChallengeService {
 
   public Iterable<Challenge> getExerciseChallenges(@NotBlank final String exerciseId) {
     Exercise exercise = exerciseRepository.findById(exerciseId).orElseThrow();
-    return resolveChallenges(exercise.getInjects())
+    return StreamSupport.stream(getInjectsChallenges(exercise.getInjects()).spliterator(), false)
         .map(this::enrichChallengeWithExercisesOrScenarios)
         .toList();
   }
 
   public Iterable<Challenge> getScenarioChallenges(@NotNull final Scenario scenario) {
-    return resolveChallenges(scenario.getInjects())
+    return StreamSupport.stream(getInjectsChallenges(scenario.getInjects()).spliterator(), false)
         .map(this::enrichChallengeWithExercisesOrScenarios)
         .toList();
+  }
+
+  public Iterable<Challenge> getInjectsChallenges(@NotNull final List<Inject> injects) {
+    return resolveChallenges(injects).toList();
   }
 
   public ChallengeResult tryChallenge(String challengeId, ChallengeTryInput input) {

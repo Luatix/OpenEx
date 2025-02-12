@@ -4,9 +4,11 @@ import static io.openbas.database.model.User.ROLE_ADMIN;
 
 import io.openbas.config.OpenBASPrincipal;
 import io.openbas.database.model.Exercise;
+import io.openbas.database.model.Inject;
 import io.openbas.database.model.Scenario;
 import io.openbas.database.model.User;
 import io.openbas.database.repository.ExerciseRepository;
+import io.openbas.database.repository.InjectRepository;
 import io.openbas.database.repository.ScenarioRepository;
 import io.openbas.database.repository.UserRepository;
 import jakarta.validation.constraints.NotBlank;
@@ -16,6 +18,7 @@ import org.springframework.security.access.expression.SecurityExpressionRoot;
 import org.springframework.security.access.expression.method.MethodSecurityExpressionOperations;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 public class SecurityExpression extends SecurityExpressionRoot
     implements MethodSecurityExpressionOperations {
@@ -23,6 +26,7 @@ public class SecurityExpression extends SecurityExpressionRoot
   private final UserRepository userRepository;
   private final ExerciseRepository exerciseRepository;
   private final ScenarioRepository scenarioRepository;
+  private final InjectRepository injectRepository;
 
   private Object filterObject;
   private Object returnObject;
@@ -32,15 +36,17 @@ public class SecurityExpression extends SecurityExpressionRoot
       Authentication authentication,
       final UserRepository userRepository,
       final ExerciseRepository exerciseRepository,
-      final ScenarioRepository scenarioRepository) {
+      final ScenarioRepository scenarioRepository,
+      final InjectRepository injectRepository) {
     super(authentication);
     this.exerciseRepository = exerciseRepository;
     this.userRepository = userRepository;
     this.scenarioRepository = scenarioRepository;
+    this.injectRepository = injectRepository;
   }
 
   private OpenBASPrincipal getUser() {
-    return (OpenBASPrincipal) this.getPrincipal();
+    return (OpenBASPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
   }
 
   public boolean isAdmin() {
@@ -49,9 +55,10 @@ public class SecurityExpression extends SecurityExpressionRoot
 
   private boolean isUserHasBypass() {
     OpenBASPrincipal principal = getUser();
-    return principal.getAuthorities().stream()
-        .map(GrantedAuthority::getAuthority)
-        .anyMatch(s -> s.equals(ROLE_ADMIN));
+    return principal != null
+        && principal.getAuthorities().stream()
+            .map(GrantedAuthority::getAuthority)
+            .anyMatch(s -> s.equals(ROLE_ADMIN));
   }
 
   // endregion
@@ -87,7 +94,6 @@ public class SecurityExpression extends SecurityExpressionRoot
     return planner.isPresent();
   }
 
-  @SuppressWarnings("unused")
   public boolean isExerciseObserver(String exerciseId) {
     if (isUserHasBypass()) {
       return true;
@@ -110,6 +116,44 @@ public class SecurityExpression extends SecurityExpressionRoot
     return player.isPresent();
   }
 
+  public boolean isInjectObserver(String injectId) {
+    if (isUserHasBypass()) {
+      return true;
+    }
+
+    Inject inject = injectRepository.findById(injectId).orElseThrow();
+    if (inject.isAtomicTesting()) {
+      return isUserHasBypass();
+    }
+    if (inject.getExercise() != null) {
+      return isExerciseObserver(inject.getExercise().getId());
+    }
+    if (inject.getScenario() != null) {
+      return isScenarioObserver(inject.getScenario().getId());
+    }
+
+    return false;
+  }
+
+  public boolean isInjectPlanner(String injectId) {
+    if (isUserHasBypass()) {
+      return true;
+    }
+
+    Inject inject = injectRepository.findById(injectId).orElseThrow();
+    if (inject.isAtomicTesting()) {
+      return isUserHasBypass();
+    }
+    if (inject.getExercise() != null) {
+      return isExercisePlanner(inject.getExercise().getId());
+    }
+    if (inject.getScenario() != null) {
+      return isScenarioPlanner(inject.getScenario().getId());
+    }
+
+    return false;
+  }
+
   // All read only or playable access
   public boolean isExerciseObserverOrPlayer(String exerciseId) {
     return isExerciseObserver(exerciseId) || isExercisePlayer(exerciseId);
@@ -129,7 +173,6 @@ public class SecurityExpression extends SecurityExpressionRoot
     return planner.isPresent();
   }
 
-  @SuppressWarnings("unused")
   public boolean isScenarioObserver(@NotBlank final String scenarioId) {
     if (isUserHasBypass()) {
       return true;

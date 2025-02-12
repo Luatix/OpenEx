@@ -339,7 +339,7 @@ class InjectServiceTest {
     List<Inject> injects = List.of(new Inject(), new Inject());
     //noinspection unchecked
     when(injectRepository.findAll(any(Specification.class))).thenReturn(injects);
-    when(securityExpression.isSimulationPlanner(any())).thenReturn(true);
+    when(securityExpression.isInjectPlanner(any())).thenReturn(true);
 
     // Act
     List<Inject> result = injectService.getInjectsAndCheckIsPlanner(input);
@@ -360,7 +360,7 @@ class InjectServiceTest {
 
     //noinspection unchecked
     when(injectRepository.findAll(any(Specification.class))).thenReturn(injects);
-    when(securityExpression.isSimulationPlanner(any())).thenReturn(true);
+    when(securityExpression.isInjectPlanner(any())).thenReturn(true);
 
     // Act
     List<Inject> result = injectService.getInjectsAndCheckIsPlanner(input);
@@ -382,7 +382,7 @@ class InjectServiceTest {
 
     //noinspection unchecked
     when(injectRepository.findAll(any(Specification.class))).thenReturn(injects);
-    when(securityExpression.isSimulationPlanner(any())).thenReturn(true);
+    when(securityExpression.isInjectPlanner(any())).thenReturn(true);
 
     // Act
     List<Inject> result = injectService.getInjectsAndCheckIsPlanner(input);
@@ -425,7 +425,7 @@ class InjectServiceTest {
 
     //noinspection unchecked
     when(injectRepository.findAll(any(Specification.class))).thenReturn(injects);
-    when(securityExpression.isSimulationPlanner(any())).thenReturn(false);
+    when(securityExpression.isInjectPlanner(any())).thenReturn(false);
 
     // Act & assert
     AccessDeniedException exception =
@@ -434,7 +434,8 @@ class InjectServiceTest {
 
     // Assert
     assertEquals(
-        "You are not allowed to delete the injects from the scenario or exercise " + s1.getId(),
+        "You are not allowed to delete the injects of ids "
+            + String.join(", ", injects.stream().map(Inject::getId).toList()),
         exception.getMessage());
   }
 
@@ -488,13 +489,12 @@ class InjectServiceTest {
     scenario.setId("scenario1");
     inject.setScenario(scenario);
 
-    when(securityExpression.isScenarioPlanner("scenario1")).thenReturn(true);
+    when(securityExpression.isInjectPlanner(any())).thenReturn(true);
 
     // Act & Assert
     assertDoesNotThrow(
         () ->
-            injectService.isPlanner(
-                List.of(inject), Inject::getScenario, SecurityExpression::isScenarioPlanner));
+            injectService.authoriseWithThrow(List.of(inject), SecurityExpression::isInjectPlanner));
   }
 
   @DisplayName("Test isPlanner with valid input and scenario planner KO")
@@ -506,14 +506,13 @@ class InjectServiceTest {
     scenario.setId("scenario1");
     inject.setScenario(scenario);
 
-    when(securityExpression.isScenarioPlanner("scenario1")).thenReturn(false);
+    when(securityExpression.isInjectPlanner("scenario1")).thenReturn(false);
 
     // Act & Assert
     assertThrows(
         AccessDeniedException.class,
         () ->
-            injectService.isPlanner(
-                List.of(inject), Inject::getScenario, SecurityExpression::isScenarioPlanner));
+            injectService.authoriseWithThrow(List.of(inject), SecurityExpression::isInjectPlanner));
   }
 
   @DisplayName("Test isPlanner with valid input and simulation planner OK")
@@ -525,13 +524,12 @@ class InjectServiceTest {
     exercise.setId("exercise1");
     inject.setExercise(exercise);
 
-    when(securityExpression.isSimulationPlanner("exercise1")).thenReturn(true);
+    when(securityExpression.isInjectPlanner(any())).thenReturn(true);
 
     // Act & Assert
     assertDoesNotThrow(
         () ->
-            injectService.isPlanner(
-                List.of(inject), Inject::getExercise, SecurityExpression::isSimulationPlanner));
+            injectService.authoriseWithThrow(List.of(inject), SecurityExpression::isInjectPlanner));
   }
 
   @DisplayName("Test isPlanner with valid input and simulation planner OK")
@@ -543,14 +541,13 @@ class InjectServiceTest {
     exercise.setId("exercise1");
     inject.setExercise(exercise);
 
-    when(securityExpression.isSimulationPlanner("exercise1")).thenReturn(false);
+    when(securityExpression.isInjectPlanner("exercise1")).thenReturn(false);
 
     // Act & Assert
     assertThrows(
         AccessDeniedException.class,
         () ->
-            injectService.isPlanner(
-                List.of(inject), Inject::getExercise, SecurityExpression::isSimulationPlanner));
+            injectService.authoriseWithThrow(List.of(inject), SecurityExpression::isInjectPlanner));
   }
 
   @DisplayName("Test isPlanner with no injects")
@@ -558,11 +555,10 @@ class InjectServiceTest {
   void testIsPlannerNoInjects() {
 
     // Arrange
-    when(securityExpression.isSimulationPlanner("exercise1")).thenReturn(false);
+    when(securityExpression.isInjectPlanner("exercise1")).thenReturn(false);
 
     // Act
-    injectService.isPlanner(
-        Collections.emptyList(), Inject::getExercise, SecurityExpression::isSimulationPlanner);
+    injectService.authoriseWithThrow(Collections.emptyList(), SecurityExpression::isInjectPlanner);
 
     // Assert
     verify(securityExpression, times(0)).isSimulationPlanner("exercise1");

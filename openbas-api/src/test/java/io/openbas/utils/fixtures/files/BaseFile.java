@@ -16,5 +16,7 @@ public abstract class BaseFile<T> {
 
   public abstract byte[] getContentBytes();
 
-  public abstract int getContentLength();
+  public int getContentLength() {
+    return getContentBytes().length;
+  }
 }

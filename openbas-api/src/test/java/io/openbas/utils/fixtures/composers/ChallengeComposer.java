@@ -1,6 +1,7 @@
 package io.openbas.utils.fixtures.composers;
 
 import io.openbas.database.model.Challenge;
+import io.openbas.database.model.Document;
 import io.openbas.database.model.Tag;
 import io.openbas.database.repository.ChallengeRepository;
 import java.util.ArrayList;
@@ -16,6 +17,7 @@ public class ChallengeComposer extends ComposerBase<Challenge> {
   public class Composer extends InnerComposerBase<Challenge> {
     private final Challenge challenge;
     private final List<TagComposer.Composer> tagComposers = new ArrayList<>();
+    private final List<DocumentComposer.Composer> documentComposers = new ArrayList<>();
 
     public Composer(Challenge challenge) {
       this.challenge = challenge;
@@ -29,6 +31,14 @@ public class ChallengeComposer extends ComposerBase<Challenge> {
       return this;
     }
 
+    public Composer withDocument(DocumentComposer.Composer documentComposer) {
+      documentComposers.add(documentComposer);
+      List<Document> tempDocuments = this.challenge.getDocuments();
+      tempDocuments.add(documentComposer.get());
+      this.challenge.setDocuments(tempDocuments);
+      return this;
+    }
+
     public Composer withId(String id) {
       this.challenge.setId(id);
       return this;
@@ -37,6 +47,7 @@ public class ChallengeComposer extends ComposerBase<Challenge> {
     @Override
     public Composer persist() {
       this.tagComposers.forEach(TagComposer.Composer::persist);
+      this.documentComposers.forEach(DocumentComposer.Composer::persist);
       challengeRepository.save(challenge);
       return this;
     }
@@ -44,6 +55,7 @@ public class ChallengeComposer extends ComposerBase<Challenge> {
     @Override
     public Composer delete() {
       challengeRepository.delete(challenge);
+      this.documentComposers.forEach(DocumentComposer.Composer::delete);
       this.tagComposers.forEach(TagComposer.Composer::delete);
       return null;
     }

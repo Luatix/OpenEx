@@ -1,4 +1,4 @@
-package io.openbas.rest.exercise.service;
+package io.openbas.rest.inject.service;
 
 import static io.openbas.service.ImportService.EXPORT_ENTRY_ATTACHMENT;
 import static io.openbas.service.ImportService.EXPORT_ENTRY_EXERCISE;
@@ -6,17 +6,18 @@ import static java.time.Instant.now;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.openbas.database.model.Document;
-import io.openbas.database.model.Exercise;
+import io.openbas.database.model.Inject;
 import io.openbas.database.repository.DocumentRepository;
 import io.openbas.rest.exception.ElementNotFoundException;
-import io.openbas.rest.exercise.exports.ExerciseFileExport;
 import io.openbas.rest.exercise.exports.ExportOptions;
+import io.openbas.rest.inject.exports.InjectsFileExport;
 import io.openbas.service.ChallengeService;
 import io.openbas.service.FileService;
 import jakarta.annotation.Resource;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -25,14 +26,14 @@ import java.util.zip.ZipOutputStream;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ExportService {
-  private static final Logger LOGGER = Logger.getLogger(ExportService.class.getName());
+public class InjectExportService {
+  private static final Logger LOGGER = Logger.getLogger(InjectExportService.class.getName());
   @Resource protected ObjectMapper mapper;
   @Resource private DocumentRepository documentRepository;
   @Resource private ChallengeService challengeService;
   @Resource private FileService fileService;
 
-  public String getZipFileName(Exercise exercise, int exportOptionsMask) {
+  public String getZipFileName(int exportOptionsMask) {
     String infos =
         "("
             + (ExportOptions.has(ExportOptions.WITH_TEAMS, exportOptionsMask)
@@ -47,19 +48,20 @@ public class ExportService {
                 ? "with_variable_values"
                 : "no_variable_values")
             + ")";
-    return (exercise.getName() + "_" + now().toString()) + "_" + infos + ".zip";
+    return ("injects_" + now().toString()) + "_" + infos + ".zip";
   }
 
-  public byte[] exportExerciseToZip(Exercise exercise, int exportOptionsMask) throws IOException {
+  public byte[] exportExerciseToZip(List<Inject> injects, int exportOptionsMask)
+      throws IOException {
     ObjectMapper objectMapper = mapper.copy();
 
-    ExerciseFileExport importExport =
-        ExerciseFileExport.fromExercise(exercise, objectMapper, this.challengeService)
+    InjectsFileExport importExport =
+        InjectsFileExport.fromInjects(injects, objectMapper, this.challengeService)
             .withOptions(exportOptionsMask);
 
     ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
     ZipOutputStream zipExport = new ZipOutputStream(outputStream);
-    ZipEntry zipEntry = new ZipEntry(exercise.getName() + ".json");
+    ZipEntry zipEntry = new ZipEntry("injects.json");
     zipEntry.setComment(EXPORT_ENTRY_EXERCISE);
     zipExport.putNextEntry(zipEntry);
     zipExport.write(

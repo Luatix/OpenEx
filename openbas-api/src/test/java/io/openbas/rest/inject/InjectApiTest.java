@@ -1,4 +1,4 @@
-package io.openbas.rest;
+package io.openbas.rest.inject;
 
 import static io.openbas.config.SessionHelper.currentUser;
 import static io.openbas.database.model.ExerciseStatus.RUNNING;

@@ -1,11 +1,8 @@
 package io.openbas.utils.fixtures.composers;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.openbas.database.model.*;
+import io.openbas.database.repository.InjectDocumentRepository;
 import io.openbas.database.repository.InjectRepository;
-import io.openbas.database.repository.InjectorContractRepository;
-import io.openbas.injectors.challenge.ChallengeContract;
-import io.openbas.injectors.challenge.model.ChallengeContent;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -13,31 +10,22 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-// TODO: injector contract, payloads...
 @Component
 public class InjectComposer extends ComposerBase<Inject> {
   @Autowired private InjectRepository injectRepository;
-  @Autowired private InjectorContractRepository injectorContractRepository;
-  @Autowired private ObjectMapper objectMapper;
+  @Autowired private InjectDocumentRepository injectDocumentRepository;
 
   public class Composer extends InnerComposerBase<Inject> {
     private final Inject inject;
-    private final List<ChallengeComposer.Composer> challengeComposers = new ArrayList<>();
+    private Optional<InjectorContractComposer.Composer> injectorContractComposer = Optional.empty();
     private final List<TagComposer.Composer> tagComposers = new ArrayList<>();
     private final List<EndpointComposer.Composer> endpointComposers = new ArrayList<>();
     private Optional<InjectStatusComposer.Composer> injectStatusComposers = Optional.empty();
+    private final List<DocumentComposer.Composer> documentComposers = new ArrayList<>();
+    private final List<TeamComposer.Composer> teamComposers = new ArrayList<>();
 
     public Composer(Inject inject) {
       this.inject = inject;
-    }
-
-    // note this sets the inject's injector contract to Challenge Publish
-    public Composer withChallenge(ChallengeComposer.Composer challengeComposer) {
-      challengeComposers.add(challengeComposer);
-      InjectorContract injectorContract =
-          injectorContractRepository.findById(ChallengeContract.CHALLENGE_PUBLISH).orElseThrow();
-      this.inject.setInjectorContract(injectorContract);
-      return this;
     }
 
     public Composer withTag(TagComposer.Composer tagComposer) {
@@ -45,6 +33,32 @@ public class InjectComposer extends ComposerBase<Inject> {
       Set<Tag> tempTags = this.inject.getTags();
       tempTags.add(tagComposer.get());
       this.inject.setTags(tempTags);
+      return this;
+    }
+
+    public Composer withInjectorContract(
+        InjectorContractComposer.Composer injectorContractComposer) {
+      this.injectorContractComposer = Optional.of(injectorContractComposer);
+      this.inject.setInjectorContract(injectorContractComposer.get());
+      return this;
+    }
+
+    public Composer withDocument(DocumentComposer.Composer documentComposer) {
+      this.documentComposers.add(documentComposer);
+      List<InjectDocument> tempDocs = this.inject.getDocuments();
+      InjectDocument newDoc = new InjectDocument();
+      newDoc.setDocument(documentComposer.get());
+      newDoc.setInject(this.inject);
+      tempDocs.add(newDoc);
+      this.inject.setDocuments(tempDocs);
+      return this;
+    }
+
+    public Composer withTeam(TeamComposer.Composer teamComposer) {
+      this.teamComposers.add(teamComposer);
+      List<Team> tempTeams = this.inject.getTeams();
+      tempTeams.add(teamComposer.get());
+      this.inject.setTeams(tempTeams);
       return this;
     }
 
@@ -73,23 +87,29 @@ public class InjectComposer extends ComposerBase<Inject> {
       endpointComposers.forEach(EndpointComposer.Composer::persist);
       injectStatusComposers.ifPresent(InjectStatusComposer.Composer::persist);
       tagComposers.forEach(TagComposer.Composer::persist);
-      challengeComposers.forEach(ChallengeComposer.Composer::persist);
-      // replace the inject content if applicable, after persisting the challenges
-      ChallengeContent cc = new ChallengeContent();
-      cc.setChallenges(
-          challengeComposers.stream().map(composer -> composer.get().getId()).toList());
-      this.inject.setContent(objectMapper.valueToTree(cc));
+      teamComposers.forEach(TeamComposer.Composer::persist);
+      documentComposers.forEach(DocumentComposer.Composer::persist);
+      this.injectorContractComposer.ifPresent(
+          composer -> {
+            composer.persist();
+            this.inject.setContent(composer.getInjectContent());
+          });
       injectRepository.save(inject);
+      injectDocumentRepository.saveAll(inject.getDocuments());
       return this;
     }
 
     @Override
     public Composer delete() {
+      injectDocumentRepository.deleteAll(inject.getDocuments());
       injectRepository.delete(inject);
-      challengeComposers.forEach(ChallengeComposer.Composer::delete);
+      documentComposers.forEach(DocumentComposer.Composer::delete);
       tagComposers.forEach(TagComposer.Composer::delete);
       endpointComposers.forEach(EndpointComposer.Composer::delete);
       injectStatusComposers.ifPresent(InjectStatusComposer.Composer::delete);
+      teamComposers.forEach(TeamComposer.Composer::delete);
+      injectorContractComposer.ifPresent(InjectorContractComposer.Composer::delete);
+      documentComposers.forEach(DocumentComposer.Composer::delete);
       return this;
     }
 

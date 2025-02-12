@@ -14,10 +14,10 @@ public class DocumentFixture {
     return document;
   }
 
-  public static Document getDocumentTxt(BaseFile<String> plainTextFile) {
+  public static Document getDocument(BaseFile<?> file) {
     Document document = createDocumentWithDefaultName();
-    document.setType(plainTextFile.getMimeType());
-    document.setTarget(plainTextFile.getFileName());
+    document.setType(file.getMimeType());
+    document.setTarget(file.getFileName());
     return document;
   }
 

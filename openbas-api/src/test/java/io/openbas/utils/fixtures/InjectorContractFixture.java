@@ -1,5 +1,7 @@
 package io.openbas.utils.fixtures;
 
+import static io.openbas.utils.fixtures.InjectorFixture.createDefaultInjector;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -30,6 +32,13 @@ public class InjectorContractFixture {
     injectorContract.setContent(objectMapper.writeValueAsString(content));
     injectorContract.setConvertedContent(content);
 
+    return injectorContract;
+  }
+
+  public static InjectorContract createDefaultInjectorContract() {
+    InjectorContract injectorContract = new InjectorContract();
+    injectorContract.setInjector(createDefaultInjector());
+    injectorContract.setId(UUID.randomUUID().toString());
     return injectorContract;
   }
 

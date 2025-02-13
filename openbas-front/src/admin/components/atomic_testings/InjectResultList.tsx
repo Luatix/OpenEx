@@ -209,7 +209,7 @@ const InjectResultList: FunctionComponent<Props> = ({
                     secondaryAction={showActions ? (
                       <AtomicTestingPopover
                         atomic={injectResultOutput}
-                        actions={['Duplicate', 'Delete']}
+                        actions={['Duplicate', 'Export', 'Delete']}
                         onDelete={result => setInjects(injects.filter(e => e.inject_id !== result))}
                         inList
                       />

@@ -6,12 +6,12 @@ import { deleteScenario, duplicateScenario, exportScenarioUri } from '../../../.
 import ButtonPopover from '../../../../components/common/ButtonPopover';
 import DialogDelete from '../../../../components/common/DialogDelete';
 import DialogDuplicate from '../../../../components/common/DialogDuplicate';
+import ExportOptionsDialog from '../../../../components/common/export/ExportOptionsDialog';
 import { useFormatter } from '../../../../components/i18n';
 import { useHelper } from '../../../../store';
 import { Scenario } from '../../../../utils/api-types';
 import { useAppDispatch } from '../../../../utils/hooks';
 import useScenarioPermissions from '../../../../utils/Scenario';
-import ScenarioExportDialog from './ScenarioExportDialog';
 import ScenarioUpdate from './ScenarioUpdate';
 
 type ScenarioActionType = 'Duplicate' | 'Update' | 'Delete' | 'Export';
@@ -115,10 +115,12 @@ const ScenarioPopover: FunctionComponent<Props> = ({
       )}
       {actions.includes('Export')
       && (
-        <ScenarioExportDialog
+        <ExportOptionsDialog
+          title={t('Export the scenario')}
           open={exportation}
-          handleClose={handleCloseExport}
-          handleSubmit={submitExport}
+          onCancel={handleCloseExport}
+          onClose={handleCloseExport}
+          onSubmit={submitExport}
         />
       )}
     </>

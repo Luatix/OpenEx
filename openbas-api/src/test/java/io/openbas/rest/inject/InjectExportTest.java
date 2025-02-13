@@ -78,7 +78,7 @@ public class InjectExportTest extends IntegrationTest {
     knownArticlesToExport.clear();
   }
 
-  private List<Article> knownArticlesToExport = new ArrayList<>();
+  private final List<Article> knownArticlesToExport = new ArrayList<>();
 
   private List<InjectComposer.Composer> createDefaultInjectWrappers() {
     ArticleComposer.Composer articleToExportFromExercise =

@@ -1,7 +1,14 @@
+import axios from 'axios';
 import { Dispatch } from 'redux';
 
 import { getReferential, simpleCall, simplePostCall } from '../../utils/Action';
-import type { Exercise, InjectBulkProcessingInput, Scenario, SearchPaginationInput } from '../../utils/api-types';
+import {
+  Exercise,
+  InjectBulkProcessingInput,
+  InjectExportRequestInput,
+  Scenario,
+  SearchPaginationInput,
+} from '../../utils/api-types';
 import { MESSAGING$ } from '../../utils/Environment';
 import * as schema from '../Schema';
 
@@ -14,6 +21,14 @@ export const bulkTestInjects = (data: InjectBulkProcessingInput) => {
   const uri = '/api/injects/test';
   return simplePostCall(uri, data, false).catch((error) => {
     MESSAGING$.notifyError('Can\'t be tested');
+    throw error;
+  });
+};
+
+export const exportInjects = (data: InjectExportRequestInput) => {
+  const uri = '/api/injects/export';
+  return axios.post(uri, data, { responseType: 'arraybuffer' }).catch((error) => {
+    MESSAGING$.notifyError('Could not request export of injects');
     throw error;
   });
 };

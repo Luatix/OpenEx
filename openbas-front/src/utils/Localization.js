@@ -917,6 +917,9 @@ const i18n = {
       'inject_title': 'Titre',
       'inject_type': 'Type',
       'inject_updated_at': 'Mis à jour à',
+      'inject_export_prompt': 'Exporter cet inject',
+      'inject_export_json_single': 'Exporter (JSON)',
+      'inject_export_json_selection': 'Exporter la selection (JSON)',
       // Injector Contract
       'injector_contract_kill_chain_phases': 'Phase de kill chain',
       'injector_contract_injector': 'Injector',
@@ -999,6 +1002,7 @@ const i18n = {
       'The time and start date do not match, as the time provided is either too close to the current moment or in the past': 'Il y a un décalage entre l\'heure et la date de début (l\'heure est soit trop proche de maintenant, soit dans le passé)',
       'Only weekday': 'Seulement la semaine',
       // Atomic Testing
+      'atomic_testing_export_prompt': 'Exporter ce test atomique',
       'Attack started': 'Début de l\'attaque',
       'Attack ended': 'Fin de l\'attaque',
       'Attack Detected': 'Attaque détectée',
@@ -2343,6 +2347,9 @@ const i18n = {
       'inject_title': '标题',
       'inject_type': '类型',
       'inject_updated_at': '更新于',
+      'inject_export_prompt': '导出此注释',
+      'inject_export_json_single': '导出（JSON）',
+      'inject_export_json_selection': '导出选择（JSON）',
       // Injector Contract
       'injector_contract_kill_chain_phases': '杀伤链阶段',
       'injector_contract_injector': '注入器',
@@ -2421,6 +2428,7 @@ const i18n = {
       'The time and start date do not match, as the time provided is either too close to the current moment or in the past': '时间和开始日期不匹配,因为所提供的时间要么太接近当前时刻,要么已经过去',
       'Only weekday': '仅工作日',
       // Atomic Testing
+      'atomic_testing_export_prompt': '导出原子测试',
       'Attack started': '攻击开始',
       'Attack ended': '攻击结束',
       'Attack Detected': '攻击已检测到',
@@ -2917,6 +2925,8 @@ const i18n = {
       'Scheduling_time': 'Time',
       'Do you want to remove the endpoint from the asset group?': 'Do you want to remove the endpoint from the asset group?',
       // -- FILTERS --
+      // Atomic testing
+      'atomic_testing_export_prompt': 'Export this atomic testing',
       // Asset
       'asset_tags': 'Tags',
       // Asset Group
@@ -2936,6 +2946,9 @@ const i18n = {
       'inject_title': 'Title',
       'inject_type': 'Type',
       'inject_updated_at': 'Updated at',
+      'inject_export_prompt': 'Export this inject',
+      'inject_export_json_single': 'Export（JSON）',
+      'inject_export_json_selection': 'Export selection（JSON）',
       // Injector Contract
       'injector_contract_kill_chain_phases': 'Kill chain phase',
       'injector_contract_injector': 'Injector',

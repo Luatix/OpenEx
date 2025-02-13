@@ -167,7 +167,7 @@ const AtomicTestingHeader = () => {
         {getActionButton(injectResultOverviewOutput)}
         <AtomicTestingPopover
           atomic={injectResultOverviewOutput}
-          actions={['Update', 'Duplicate', 'Delete']}
+          actions={['Export', 'Update', 'Duplicate', 'Delete']}
           onDelete={() => navigate('/admin/atomic_testings')}
         />
       </div>

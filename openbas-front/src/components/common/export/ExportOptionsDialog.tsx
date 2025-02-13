@@ -1,21 +1,36 @@
-import { Button, Checkbox, Dialog, DialogActions, DialogContent, DialogTitle, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
+import {
+  Button,
+  Checkbox,
+  Dialog, DialogActions,
+  DialogContent,
+  DialogTitle,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+} from '@mui/material';
 import { FunctionComponent, useState } from 'react';
 
-import Transition from '../../../../components/common/Transition';
-import { useFormatter } from '../../../../components/i18n';
+import { useFormatter } from '../../i18n';
+import Transition from '../Transition';
 
-interface Props {
+interface ExportOptionsProps {
+  title: string;
   open: boolean;
-  handleClose: () => void;
-  handleSubmit: (exportTeams: boolean, exportPlayers: boolean, exportVariableValues: boolean) => void;
+  onCancel: () => void;
+  onClose: () => void;
+  onSubmit: (withPlayer: boolean, withTeams: boolean, withVariableValues: boolean) => void;
 }
 
-const ScenarioExportDialog: FunctionComponent<Props> = ({
+const ExportOptionsDialog: FunctionComponent<ExportOptionsProps> = ({
+  title,
   open,
-  handleClose,
-  handleSubmit,
+  onCancel,
+  onClose,
+  onSubmit,
 }) => {
-  // Standard hooks
   const { t } = useFormatter();
 
   const [exportTeams, setExportTeams] = useState(false);
@@ -27,14 +42,18 @@ const ScenarioExportDialog: FunctionComponent<Props> = ({
   const [exportVariableValues, setExportVariableValues] = useState(false);
   const handleToggleExportVariableValues = () => setExportVariableValues(!exportVariableValues);
 
+  const doSubmit = () => {
+    onSubmit(exportPlayers, exportTeams, exportVariableValues);
+  };
+
   return (
     <Dialog
       open={open}
       TransitionComponent={Transition}
-      onClose={handleClose}
+      onClose={onClose}
       PaperProps={{ elevation: 1 }}
     >
-      <DialogTitle>{t('Export the scenario')}</DialogTitle>
+      <DialogTitle>{title}</DialogTitle>
       <DialogContent>
         <TableContainer>
           <Table aria-label="export table" size="small">
@@ -49,10 +68,10 @@ const ScenarioExportDialog: FunctionComponent<Props> = ({
             <TableBody>
               <TableRow>
                 <TableCell>
-                  {t('Scenario (including attached files)')}
+                  {t('Injects (including attached files)')}
                 </TableCell>
                 <TableCell style={{ textAlign: 'center' }}>
-                  <Checkbox checked disabled />
+                  <Checkbox checked={true} disabled={true} />
                 </TableCell>
               </TableRow>
               <TableRow>
@@ -87,12 +106,13 @@ const ScenarioExportDialog: FunctionComponent<Props> = ({
         </TableContainer>
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleClose}>{t('Cancel')}</Button>
-        <Button color="secondary" onClick={() => handleSubmit(exportTeams, exportPlayers, exportVariableValues)}>
+        <Button onClick={onCancel}>{t('Cancel')}</Button>
+        <Button color="secondary" onClick={doSubmit}>
           {t('Export')}
         </Button>
       </DialogActions>
     </Dialog>
   );
 };
-export default ScenarioExportDialog;
+
+export default ExportOptionsDialog;

@@ -13,6 +13,8 @@ export interface Agent {
   agent_active?: boolean;
   agent_asset: string;
   /** @format date-time */
+  agent_cleared_at?: string;
+  /** @format date-time */
   agent_created_at: string;
   agent_deployment_mode: "service" | "session";
   agent_executed_by_user: string;
@@ -31,7 +33,7 @@ export interface Agent {
   listened?: boolean;
 }
 
-/** List of agents */
+/** List of agents - first level */
 export interface AgentOutput {
   /** Indicates whether the endpoint is active. The endpoint is considered active if it was seen in the last 3 minutes. */
   agent_active?: boolean;
@@ -289,9 +291,8 @@ export interface AttackPatternUpsertInput {
 }
 
 interface BasePayload {
+  expectationSignatureValue?: string;
   listened?: boolean;
-  /** @format int32 */
-  numberOfActions?: number;
   payload_arguments?: PayloadArgument[];
   payload_attack_patterns?: string[];
   payload_cleanup_command?: string;
@@ -539,9 +540,8 @@ export interface ComcheckStatus {
 export interface Command {
   command_content: string;
   command_executor: string;
+  expectationSignatureValue?: string;
   listened?: boolean;
-  /** @format int32 */
-  numberOfActions?: number;
   payload_arguments?: PayloadArgument[];
   payload_attack_patterns?: string[];
   payload_cleanup_command?: string;
@@ -623,9 +623,8 @@ export interface DirectInjectInput {
 
 export interface DnsResolution {
   dns_resolution_hostname: string;
+  expectationSignatureValue?: string;
   listened?: boolean;
-  /** @format int32 */
-  numberOfActions?: number;
   payload_arguments?: PayloadArgument[];
   payload_attack_patterns?: string[];
   payload_cleanup_command?: string;
@@ -684,8 +683,6 @@ export interface DocumentUpdateInput {
 export interface Endpoint {
   asset_agents?: Agent[];
   /** @format date-time */
-  asset_cleared_at?: string;
-  /** @format date-time */
   asset_created_at: string;
   asset_description?: string;
   asset_id: string;
@@ -727,7 +724,7 @@ export interface EndpointOutput {
 
 export interface EndpointOverviewOutput {
   /**
-   * List of agents
+   * List of agents - first level
    * @uniqueItems true
    */
   asset_agents: AgentOutput[];
@@ -808,9 +805,8 @@ export interface EvaluationInput {
 
 export interface Executable {
   executable_file?: string;
+  expectationSignatureValue?: string;
   listened?: boolean;
-  /** @format int32 */
-  numberOfActions?: number;
   payload_arguments?: PayloadArgument[];
   payload_attack_patterns?: string[];
   payload_cleanup_command?: string;
@@ -858,7 +854,7 @@ export interface ExecutionTraces {
     | "WARNING"
     | "PARTIAL"
     | "MAYBE_PARTIAL_PREVENTED"
-    | "ASSET_INACTIVE"
+    | "AGENT_INACTIVE"
     | "INFO";
   /** @format date-time */
   execution_time?: string;
@@ -898,7 +894,7 @@ export interface ExecutionTracesOutput {
     | "WARNING"
     | "PARTIAL"
     | "MAYBE_PARTIAL_PREVENTED"
-    | "ASSET_INACTIVE"
+    | "AGENT_INACTIVE"
     | "INFO";
   /** @format date-time */
   execution_time: string;
@@ -1155,10 +1151,9 @@ export interface ExportMapperInput {
 }
 
 export interface FileDrop {
+  expectationSignatureValue?: string;
   file_drop_file?: string;
   listened?: boolean;
-  /** @format int32 */
-  numberOfActions?: number;
   payload_arguments?: PayloadArgument[];
   payload_attack_patterns?: string[];
   payload_cleanup_command?: string;
@@ -2199,6 +2194,7 @@ export interface MitigationUpsertInput {
 }
 
 export interface NetworkTraffic {
+  expectationSignatureValue?: string;
   listened?: boolean;
   network_traffic_ip_dst: string;
   network_traffic_ip_src: string;
@@ -2207,8 +2203,6 @@ export interface NetworkTraffic {
   /** @format int32 */
   network_traffic_port_src: number;
   network_traffic_protocol: string;
-  /** @format int32 */
-  numberOfActions?: number;
   payload_arguments?: PayloadArgument[];
   payload_attack_patterns?: string[];
   payload_cleanup_command?: string;
@@ -3326,8 +3320,6 @@ export interface SearchTerm {
 }
 
 export interface SecurityPlatform {
-  /** @format date-time */
-  asset_cleared_at?: string;
   /** @format date-time */
   asset_created_at: string;
   asset_description?: string;

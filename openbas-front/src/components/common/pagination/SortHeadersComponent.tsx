@@ -31,7 +31,7 @@ const useStyles = makeStyles()(() => ({
   },
 }));
 
-export interface Header {
+interface Header {
   field: string;
   label: string;
   isSortable: boolean;

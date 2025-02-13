@@ -11,7 +11,7 @@ import type { SecurityPlatform, SecurityPlatformInput } from '../../../../utils/
 import { useAppDispatch } from '../../../../utils/hooks';
 import SecurityPlatformForm from './SecurityPlatformForm';
 
-export type SecurityPlatformStoreWithType = SecurityPlatform & { type: string };
+type SecurityPlatformStoreWithType = SecurityPlatform & { type: string };
 
 interface Props {
   inline?: boolean;

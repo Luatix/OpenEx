@@ -3,11 +3,11 @@ import { ReactElement, useMemo } from 'react';
 
 import { truncate } from '../../utils/String';
 
-export interface SelectListIcon {
+interface SelectListIcon {
   value: () => ReactElement;
 }
 
-export interface SelectListHeader<T> {
+interface SelectListHeader<T> {
   field: string;
   value: (value: T) => ReactElement | string;
   width: number;

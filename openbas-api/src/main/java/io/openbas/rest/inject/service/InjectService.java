@@ -47,6 +47,7 @@ import java.util.stream.StreamSupport;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
 import org.jetbrains.annotations.NotNull;
+import org.hibernate.Hibernate;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.expression.method.MethodSecurityExpressionHandler;
@@ -570,8 +571,7 @@ public class InjectService {
     List<String> agentIds = new ArrayList<>();
 
     resolveAllAssetsToExecute(inject).keySet().stream()
-        .filter(Endpoint.class::isInstance)
-        .map(Endpoint.class::cast)
+        .map(asset -> (Endpoint) Hibernate.unproxy(asset))
         .flatMap(
             endpoint -> Optional.ofNullable(endpoint.getAgents()).stream().flatMap(List::stream))
         .filter(agent -> agent.getParent() == null && agent.getInject() == null)

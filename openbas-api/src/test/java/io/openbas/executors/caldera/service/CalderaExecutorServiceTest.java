@@ -2,6 +2,7 @@ package io.openbas.executors.caldera.service;
 
 import static io.openbas.executors.caldera.service.CalderaExecutorService.toArch;
 import static io.openbas.executors.caldera.service.CalderaExecutorService.toPlatform;
+import static io.openbas.utils.Time.toInstant;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -104,7 +105,7 @@ public class CalderaExecutorServiceTest {
     agentEndpoint.setPrivilege(io.openbas.database.model.Agent.PRIVILEGE.admin);
     agentEndpoint.setDeploymentMode(io.openbas.database.model.Agent.DEPLOYMENT_MODE.session);
     agentEndpoint.setExecutedByUser(calderaAgent.getUsername());
-    agentEndpoint.setLastSeen(calderaExecutorService.toInstant(DATE));
+    agentEndpoint.setLastSeen(toInstant(DATE));
     agentEndpoint.setAsset(calderaEndpoint);
   }
 

@@ -1,6 +1,5 @@
 import { Button } from '@mui/material';
-import { useEffect } from 'react';
-import * as React from 'react';
+import { FunctionComponent, useEffect } from 'react';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 
 import MarkDownFieldController from '../../../../components/fields/MarkDownFieldController';
@@ -12,7 +11,7 @@ interface Props {
   initialValues?: PolicyInput;
 }
 
-const PolicyForm: React.FC<Props> = ({
+const PolicyForm: FunctionComponent<Props> = ({
   onSubmit,
   initialValues = {
     platform_login_message: '',

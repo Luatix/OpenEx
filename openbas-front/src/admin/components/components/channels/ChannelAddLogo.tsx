@@ -1,6 +1,5 @@
 import { Button } from '@mui/material';
-import { useEffect, useState } from 'react';
-import * as React from 'react';
+import { FunctionComponent, useEffect, useState } from 'react';
 
 import { fetchDocuments } from '../../../../actions/Document';
 import FileTransferDialog from '../../../../components/fields/FileTransferDialog';
@@ -13,7 +12,7 @@ interface Props {
   handleAddLogo: (documentId: string) => void;
 }
 
-const ChannelAddLogo: React.FC<Props> = ({ handleAddLogo }) => {
+const ChannelAddLogo: FunctionComponent<Props> = ({ handleAddLogo }) => {
   const { t } = useFormatter();
   const dispatch = useAppDispatch();
 

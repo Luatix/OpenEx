@@ -1,5 +1,4 @@
-import { useState } from 'react';
-import * as React from 'react';
+import { FunctionComponent, useState } from 'react';
 import { useNavigate } from 'react-router';
 
 import { deleteLessonsTemplate, updateLessonsTemplate } from '../../../../actions/Lessons';
@@ -15,7 +14,7 @@ interface Props {
   lessonsTemplate: LessonsTemplate;
 }
 
-const LessonsTemplatePopover: React.FC<Props> = ({ lessonsTemplate }) => {
+const LessonsTemplatePopover: FunctionComponent<Props> = ({ lessonsTemplate }) => {
   // Standard hooks
   const { t } = useFormatter();
   const dispatch = useAppDispatch();

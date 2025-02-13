@@ -1,5 +1,4 @@
-import { FunctionComponent } from 'react';
-import * as React from 'react';
+import { cloneElement, FunctionComponent, ReactElement } from 'react';
 import { makeStyles } from 'tss-react/mui';
 
 import { useFormatter } from '../../../../components/i18n';
@@ -16,7 +15,7 @@ const useStyles = makeStyles()({
 });
 
 interface EEFieldProps {
-  children: React.ReactElement;
+  children: ReactElement<{ label: ReactElement }>;
 }
 
 const EEField: FunctionComponent<EEFieldProps> = ({
@@ -24,7 +23,7 @@ const EEField: FunctionComponent<EEFieldProps> = ({
 }) => {
   const { classes } = useStyles();
   const { t } = useFormatter();
-  const component = React.cloneElement(children, {
+  const component = cloneElement(children, {
     label:
       <>
         {t(children.props.label)}

@@ -1,6 +1,6 @@
 import { AttachMoneyOutlined, EmojiEventsOutlined, GroupsOutlined } from '@mui/icons-material';
 import { NewspaperVariantMultipleOutline } from 'mdi-material-ui';
-import * as React from 'react';
+import { FunctionComponent } from 'react';
 
 import RightMenu, { RightMenuEntry } from '../../../../components/common/menu/RightMenu';
 import type { Exercise, Scenario } from '../../../../utils/api-types';
@@ -18,7 +18,7 @@ interface Props {
   numbers?: Numbers;
 }
 
-const DefinitionMenu: React.FC<Props> = ({ base, id, numbers }) => {
+const DefinitionMenu: FunctionComponent<Props> = ({ base, id, numbers }) => {
   const entries: RightMenuEntry[] = [
     {
       path: `${base}/${id}/definition/teams`,

@@ -15,7 +15,7 @@ import {
   Typography,
 } from '@mui/material';
 import { FormApi } from 'final-form';
-import { ReactElement, ReactNode, useEffect, useState } from 'react';
+import { FunctionComponent, ReactElement, ReactNode, useEffect, useState } from 'react';
 import { makeStyles } from 'tss-react/mui';
 
 import type { ConditionElement, ConditionType, Content, ConvertedContentType, Dependency, InjectOutputType } from '../../../../actions/injects/Inject';
@@ -47,7 +47,7 @@ interface Props {
   injects?: InjectOutputType[];
 }
 
-const InjectForm: React.FC<Props> = ({ values, form, injects }) => {
+const InjectForm: FunctionComponent<Props> = ({ values, form, injects }) => {
   const { classes } = useStyles();
   const { t } = useFormatter();
 

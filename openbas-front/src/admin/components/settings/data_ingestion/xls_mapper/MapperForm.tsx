@@ -1,8 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Add } from '@mui/icons-material';
 import { Button, IconButton, TextField, Typography } from '@mui/material';
-import { useState } from 'react';
-import * as React from 'react';
+import { FunctionComponent, useState } from 'react';
 import { Controller, SubmitHandler, useFieldArray, useForm } from 'react-hook-form';
 import { makeStyles } from 'tss-react/mui';
 import { z } from 'zod';
@@ -32,7 +31,7 @@ interface Props {
   initialValues?: ImportMapperAddInput;
 }
 
-const MapperForm: React.FC<Props> = ({
+const MapperForm: FunctionComponent<Props> = ({
   onSubmit,
   editing,
   initialValues = {

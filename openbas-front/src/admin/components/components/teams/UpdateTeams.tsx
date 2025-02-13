@@ -1,7 +1,6 @@
 import { Add, GroupsOutlined } from '@mui/icons-material';
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton } from '@mui/material';
-import { useContext, useEffect, useMemo, useState } from 'react';
-import * as React from 'react';
+import { FunctionComponent, useContext, useEffect, useMemo, useState } from 'react';
 import { makeStyles } from 'tss-react/mui';
 
 import { findTeams } from '../../../../actions/teams/team-actions';
@@ -27,7 +26,7 @@ interface Props {
   addedTeamIds: Team['team_id'][];
 }
 
-const UpdateTeams: React.FC<Props> = ({
+const UpdateTeams: FunctionComponent<Props> = ({
   addedTeamIds,
 }) => {
   // Standard hooks

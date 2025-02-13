@@ -1,14 +1,13 @@
-import { useEffect } from 'react';
-import * as React from 'react';
+import { FunctionComponent, ReactElement, useEffect } from 'react';
 import { useNavigate } from 'react-router';
 
 import { MESSAGING$ } from '../utils/Environment';
 
 interface Props {
-  children: React.ReactElement;
+  children: ReactElement;
 }
 
-const RedirectManager: React.FC<Props> = ({ children }) => {
+const RedirectManager: FunctionComponent<Props> = ({ children }) => {
   const navigate = useNavigate();
 
   useEffect(() => {

@@ -1,6 +1,6 @@
 import { ExpandLessOutlined, ExpandMoreOutlined } from '@mui/icons-material';
 import { ListItemIcon, ListItemText, MenuItem } from '@mui/material';
-import React from 'react';
+import { FunctionComponent } from 'react';
 import { useLocation } from 'react-router';
 
 import useDimensions from '../../../../utils/hooks/useDimensions';
@@ -15,7 +15,7 @@ interface Props {
   helpers: LeftMenuHelpers;
 }
 
-const MenuItemGroup: React.FC<Props> = ({ item, state, helpers }) => {
+const MenuItemGroup: FunctionComponent<Props> = ({ item, state, helpers }) => {
   // Standard hooks
   const { t } = useFormatter();
   const location = useLocation();

@@ -1,8 +1,7 @@
 import { ArrowDropDownOutlined, ArrowDropUpOutlined, CloseRounded, EmailOutlined, KeyOutlined, PersonOutlined, SmartphoneOutlined } from '@mui/icons-material';
 import { IconButton, List, ListItem, ListItemIcon, ListItemSecondaryAction, ListItemText, Typography } from '@mui/material';
 import * as R from 'ramda';
-import { CSSProperties, useContext, useState } from 'react';
-import * as React from 'react';
+import { CSSProperties, FunctionComponent, useContext, useState } from 'react';
 import { makeStyles } from 'tss-react/mui';
 
 import type { OrganizationHelper, UserHelper } from '../../../../actions/helper';
@@ -161,7 +160,7 @@ type UserStoreExtended = UserStore & {
   user_enabled: boolean;
 };
 
-const TeamPlayers: React.FC<Props> = ({ teamId, handleClose }) => {
+const TeamPlayers: FunctionComponent<Props> = ({ teamId, handleClose }) => {
   // Standard hooks
   const { classes } = useStyles();
   const { t } = useFormatter();

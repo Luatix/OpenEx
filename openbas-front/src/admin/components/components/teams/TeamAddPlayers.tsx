@@ -16,8 +16,7 @@ import {
   ListItemText,
 } from '@mui/material';
 import * as R from 'ramda';
-import { useContext, useState } from 'react';
-import * as React from 'react';
+import { FunctionComponent, useContext, useState } from 'react';
 import { makeStyles } from 'tss-react/mui';
 
 import type { OrganizationHelper, UserHelper } from '../../../../actions/helper';
@@ -64,7 +63,7 @@ type UserStoreExtended = UserStore & {
   organization_description: Organization['organization_description'];
 };
 
-const TeamAddPlayers: React.FC<Props> = ({ addedUsersIds, teamId }) => {
+const TeamAddPlayers: FunctionComponent<Props> = ({ addedUsersIds, teamId }) => {
   const dispatch = useAppDispatch();
   const { t } = useFormatter();
   const { classes } = useStyles();

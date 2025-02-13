@@ -1,7 +1,7 @@
 import { HelpOutlined } from '@mui/icons-material';
 import { Avatar, Button, Card, CardContent, CardHeader } from '@mui/material';
 import arrayMutators from 'final-form-arrays';
-import * as React from 'react';
+import { FunctionComponent } from 'react';
 import { Form } from 'react-final-form';
 import { makeStyles } from 'tss-react/mui';
 
@@ -36,7 +36,7 @@ interface Props {
   injects?: InjectOutputType[];
 }
 
-const UpdateInjectLogicalChains: React.FC<Props> = ({ inject, handleClose, onUpdateInject, injects }) => {
+const UpdateInjectLogicalChains: FunctionComponent<Props> = ({ inject, handleClose, onUpdateInject, injects }) => {
   const { t, tPick } = useFormatter();
   const { classes } = useStyles();
 

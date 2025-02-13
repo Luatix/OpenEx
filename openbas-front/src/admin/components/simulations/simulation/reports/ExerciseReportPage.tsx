@@ -1,6 +1,5 @@
 import { Alert, Button, Paper, ToggleButtonGroup, Typography } from '@mui/material';
-import { useEffect, useState } from 'react';
-import * as React from 'react';
+import { FunctionComponent, useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router';
 
 import { updateReportForExercise, updateReportInjectCommentForExercise } from '../../../../../actions/reports/report-actions';
@@ -24,7 +23,7 @@ import InjectReportResult from './InjectReportResult';
 import ReportInformationType from './ReportInformationType';
 import useExerciseReportData from './useExerciseReportData';
 
-const ExerciseReportPage: React.FC = () => {
+const ExerciseReportPage: FunctionComponent = () => {
   // Standard hooks
   const dispatch = useAppDispatch();
   const { t, tPick, fldt } = useFormatter();

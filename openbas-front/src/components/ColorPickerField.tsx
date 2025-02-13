@@ -1,6 +1,6 @@
 import { ColorLensOutlined } from '@mui/icons-material';
 import { IconButton, InputAdornment, Popover, TextField as MuiTextField, TextFieldProps } from '@mui/material';
-import * as React from 'react';
+import { FunctionComponent, MouseEvent as ReactMouseEvent, useState } from 'react';
 // @ts-expect-error react-color does not have types
 import { SketchPicker } from 'react-color';
 import { Control, useController } from 'react-hook-form';
@@ -14,8 +14,8 @@ interface Color {
   hex: string;
 }
 
-const ColorPickerField: React.FC<Props> = (props) => {
-  const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null);
+const ColorPickerField: FunctionComponent<Props> = (props) => {
+  const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
 
   const { field } = useController({ name: props.name, control: props.control });
 
@@ -27,7 +27,7 @@ const ColorPickerField: React.FC<Props> = (props) => {
             <InputAdornment position="end">
               <IconButton
                 aria-label="open"
-                onClick={(event: React.MouseEvent<HTMLElement>) => setAnchorEl(event.currentTarget)}
+                onClick={(event: ReactMouseEvent<HTMLElement>) => setAnchorEl(event.currentTarget)}
                 disabled={props.disabled}
               >
                 <ColorLensOutlined />

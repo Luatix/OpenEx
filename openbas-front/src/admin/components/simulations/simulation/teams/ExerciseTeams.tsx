@@ -1,6 +1,5 @@
 import { Paper, Typography } from '@mui/material';
-import * as React from 'react';
-import { useContext } from 'react';
+import { FunctionComponent, useContext } from 'react';
 import { useParams } from 'react-router';
 
 import { fetchExerciseTeams } from '../../../../../actions/Exercise';
@@ -19,7 +18,7 @@ interface Props {
   exerciseTeamsUsers: Exercise['exercise_teams_users'];
 }
 
-const ExerciseTeams: React.FC<Props> = ({ exerciseTeamsUsers }) => {
+const ExerciseTeams: FunctionComponent<Props> = ({ exerciseTeamsUsers }) => {
   // Standard hooks
   const { t } = useFormatter();
   const dispatch = useAppDispatch();

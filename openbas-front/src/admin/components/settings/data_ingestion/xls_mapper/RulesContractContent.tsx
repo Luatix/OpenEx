@@ -17,8 +17,7 @@ import {
   Typography,
 } from '@mui/material';
 import { CogOutline, InformationOutline } from 'mdi-material-ui';
-import { useEffect, useState } from 'react';
-import * as React from 'react';
+import { FunctionComponent, useEffect, useState } from 'react';
 import { Controller, FieldArrayWithId, useFieldArray, UseFieldArrayRemove, UseFormReturn } from 'react-hook-form';
 import { makeStyles } from 'tss-react/mui';
 
@@ -58,7 +57,7 @@ interface Props {
   remove: UseFieldArrayRemove;
 }
 
-const RulesContractContent: React.FC<Props> = ({
+const RulesContractContent: FunctionComponent<Props> = ({
   field,
   methods,
   index,
@@ -161,7 +160,7 @@ const RulesContractContent: React.FC<Props> = ({
     setCurrentRuleIndex(null);
   };
 
-  const [openAlertDelete, setOpenAlertDelete] = React.useState(false);
+  const [openAlertDelete, setOpenAlertDelete] = useState(false);
 
   const handleClickOpenAlertDelete = () => {
     setOpenAlertDelete(true);

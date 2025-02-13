@@ -1,6 +1,5 @@
 import { Paper, Typography } from '@mui/material';
-import { useContext } from 'react';
-import * as React from 'react';
+import { FunctionComponent, useContext } from 'react';
 import { useParams } from 'react-router';
 
 import {
@@ -21,7 +20,7 @@ interface Props {
   scenarioTeamsUsers: Scenario['scenario_teams_users'];
 }
 
-const ScenarioTeams: React.FC<Props> = ({ scenarioTeamsUsers }) => {
+const ScenarioTeams: FunctionComponent<Props> = ({ scenarioTeamsUsers }) => {
   // Standard hooks
   const { t } = useFormatter();
   const dispatch = useAppDispatch();

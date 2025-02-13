@@ -1,7 +1,6 @@
 import { MoreVert } from '@mui/icons-material';
 import { Button, Dialog as DialogMUI, DialogActions, DialogContent, DialogContentText, IconButton, Menu, MenuItem } from '@mui/material';
-import { FunctionComponent, useContext, useState } from 'react';
-import * as React from 'react';
+import { FunctionComponent, MouseEvent as ReactMouseEvent, useContext, useState } from 'react';
 
 import type { LoggedHelper } from '../../../../../actions/helper';
 import Dialog from '../../../../../components/common/Dialog';
@@ -55,7 +54,7 @@ const ExpectationPopover: FunctionComponent<ExpectationPopoverProps> = ({
   };
 
   // Popover
-  const handlePopoverOpen = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const handlePopoverOpen = (event: ReactMouseEvent<HTMLButtonElement>) => {
     event.stopPropagation();
     setAnchorEl(event.currentTarget);
   };

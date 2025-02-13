@@ -1,6 +1,5 @@
 import { Box, Button, Chip } from '@mui/material';
-import * as React from 'react';
-import { useEffect, useState } from 'react';
+import { cloneElement, ReactElement, useEffect, useState } from 'react';
 import { makeStyles } from 'tss-react/mui';
 
 import InjectorContractSwitchFilter from '../../../../admin/components/common/filters/InjectorContractSwitchFilter';
@@ -46,7 +45,7 @@ interface Props<T> {
   entityPrefix?: string;
   availableFilterNames?: string[];
   queryableHelpers: QueryableHelpers;
-  topBarButtons?: React.ReactElement | null;
+  topBarButtons?: ReactElement | null;
   attackPatterns?: AttackPattern[];
   reloadContentCount?: number;
 }
@@ -100,7 +99,7 @@ const PaginationComponentV2 = <T extends object>({
 
   // Filters
   const [pristine, setPristine] = useState(true);
-  const [openMitreFilter, setOpenMitreFilter] = React.useState(false);
+  const [openMitreFilter, setOpenMitreFilter] = useState(false);
 
   const computeAttackPatternNameForFilter = () => {
     return searchPaginationInput.filterGroup?.filters?.filter(
@@ -115,7 +114,7 @@ const PaginationComponentV2 = <T extends object>({
   // TopBarChildren
   let topBarButtonComponent;
   if (topBarButtons) {
-    topBarButtonComponent = React.cloneElement(topBarButtons as React.ReactElement);
+    topBarButtonComponent = cloneElement(topBarButtons as ReactElement);
   }
 
   return (

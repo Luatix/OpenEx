@@ -1,6 +1,5 @@
 import { Autocomplete, SelectChangeEvent, TextField } from '@mui/material';
-import { FunctionComponent, useEffect, useState } from 'react';
-import * as React from 'react';
+import { FunctionComponent, SyntheticEvent, useEffect, useState } from 'react';
 import { FieldError } from 'react-hook-form';
 import { makeStyles } from 'tss-react/mui';
 
@@ -42,7 +41,7 @@ const InjectContractComponent: FunctionComponent<Props> = ({
 
   // Pagination
   const [contracts, setContracts] = useState<InjectorContract[]>([]);
-  const searchContract = (event: React.SyntheticEvent) => {
+  const searchContract = (event: SyntheticEvent) => {
     const selectChangeEvent = event as SelectChangeEvent;
     const val = selectChangeEvent?.target.value ?? '';
     return contracts.filter(
@@ -80,7 +79,7 @@ const InjectContractComponent: FunctionComponent<Props> = ({
     });
   }, []);
 
-  const [value, setValue] = React.useState<string | null | undefined>(fieldValue ?? '');
+  const [value, setValue] = useState<string | null | undefined>(fieldValue ?? '');
 
   return (
     <Autocomplete

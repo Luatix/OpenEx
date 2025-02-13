@@ -1,8 +1,7 @@
 import { CopyAllOutlined } from '@mui/icons-material';
 import { TabContext, TabList, TabPanel } from '@mui/lab';
 import { Alert, Button, Dialog, DialogActions, DialogContent, List, ListItem, ListItemButton, ListItemText, Tab } from '@mui/material';
-import { FunctionComponent, useState } from 'react';
-import * as React from 'react';
+import { FunctionComponent, SyntheticEvent, useState } from 'react';
 import { Link } from 'react-router';
 import { makeStyles } from 'tss-react/mui';
 
@@ -87,7 +86,7 @@ const AvailableVariablesDialog: FunctionComponent<
   const { t } = useFormatter();
   const [tab, setTab] = useState('1');
 
-  const handleChange = (_event: React.SyntheticEvent, newTab: string) => {
+  const handleChange = (_event: SyntheticEvent, newTab: string) => {
     setTab(newTab);
   };
 

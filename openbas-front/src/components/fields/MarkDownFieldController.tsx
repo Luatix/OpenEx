@@ -1,5 +1,5 @@
 import { Box, FormHelperText, InputLabel } from '@mui/material';
-import * as React from 'react';
+import { CSSProperties, FunctionComponent } from 'react';
 import { useController, useFormContext } from 'react-hook-form';
 
 import TextFieldAskAI from '../../admin/components/common/form/TextFieldAskAI';
@@ -8,14 +8,14 @@ import MarkDownField from './MarkDownField';
 interface Props {
   name: string;
   label: string;
-  style: React.CSSProperties;
+  style: CSSProperties;
   disabled?: boolean;
   askAi?: boolean;
   inInject: boolean;
   inArticle?: boolean;
 }
 
-const MarkDownFieldController: React.FC<Props> = ({
+const MarkDownFieldController: FunctionComponent<Props> = ({
   name,
   label,
   style,

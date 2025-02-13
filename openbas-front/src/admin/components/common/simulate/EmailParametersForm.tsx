@@ -1,7 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Alert, AlertTitle, Autocomplete, Button, Chip, TextField as MuiTextField, TextField } from '@mui/material';
-import { useState } from 'react';
-import * as React from 'react';
+import { FunctionComponent, useState } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { makeStyles } from 'tss-react/mui';
 import { z } from 'zod';
@@ -36,7 +35,7 @@ interface Props {
   disabled?: boolean;
 }
 
-const EmailParametersForm: React.FC<Props> = ({
+const EmailParametersForm: FunctionComponent<Props> = ({
   onSubmit,
   initialValues = {
     setting_mail_from: '',

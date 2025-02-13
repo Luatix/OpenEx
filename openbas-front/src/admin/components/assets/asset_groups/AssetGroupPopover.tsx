@@ -23,7 +23,7 @@ const useStyles = makeStyles()(() => ({
   },
 }));
 
-interface Props {
+export interface AssetGroupPopoverProps {
   inline?: boolean;
   assetGroup: AssetGroup | AssetGroupOutput;
   onRemoveAssetGroupFromList?: (assetGroupId: string) => void;
@@ -34,7 +34,7 @@ interface Props {
   onDelete?: (result: string) => void;
 }
 
-const AssetGroupPopover: FunctionComponent<Props> = ({
+const AssetGroupPopover: FunctionComponent<AssetGroupPopoverProps> = ({
   inline,
   assetGroup,
   onRemoveAssetGroupFromList,

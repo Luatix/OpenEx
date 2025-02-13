@@ -1,7 +1,6 @@
 import { Close } from '@mui/icons-material';
 import { Breakpoint, Dialog as DialogMUI, DialogContent, DialogTitle, IconButton } from '@mui/material';
-import { FunctionComponent } from 'react';
-import * as React from 'react';
+import { cloneElement, FunctionComponent, ReactElement } from 'react';
 import { makeStyles } from 'tss-react/mui';
 
 import Transition from './Transition';
@@ -19,7 +18,7 @@ interface DialogProps {
   open: boolean;
   handleClose: () => void;
   title: string;
-  children: (() => React.ReactElement) | React.ReactElement | null;
+  children: (() => ReactElement) | ReactElement | null;
   maxWidth?: Breakpoint;
 }
 
@@ -35,7 +34,7 @@ const DialogWithCross: FunctionComponent<DialogProps> = ({
     if (typeof children === 'function') {
       component = children();
     } else {
-      component = React.cloneElement(children as React.ReactElement);
+      component = cloneElement(children as ReactElement);
     }
   }
   const { classes } = useStyles();
@@ -66,7 +65,7 @@ const DialogWithCross: FunctionComponent<DialogProps> = ({
     )
 
   /*
-                    <React.Fragment>
+                    <Fragment>
                       <Button variant="outlined" onClick={handleClickOpen}>
                             Open dialog
                           </Button>
@@ -112,7 +111,7 @@ const DialogWithCross: FunctionComponent<DialogProps> = ({
                               </Button>
                             </DialogActions>
                           </BootstrapDialog>
-                        </React.Fragment> */
+                        </Fragment> */
   );
 };
 

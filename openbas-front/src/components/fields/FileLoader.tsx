@@ -1,7 +1,6 @@
 import { AttachmentOutlined, ControlPointOutlined } from '@mui/icons-material';
 import { List, ListItem, ListItemIcon, ListItemSecondaryAction, ListItemText, Typography } from '@mui/material';
-import { CSSProperties, useEffect, useState } from 'react';
-import * as React from 'react';
+import { CSSProperties, FunctionComponent, useEffect, useState } from 'react';
 import { makeStyles } from 'tss-react/mui';
 
 import { fetchDocuments } from '../../actions/Document';
@@ -89,7 +88,7 @@ interface Props {
   error?: boolean;
 }
 
-const FileLoader: React.FC<Props> = ({
+const FileLoader: FunctionComponent<Props> = ({
   initialValue,
   extensions = [],
   label,

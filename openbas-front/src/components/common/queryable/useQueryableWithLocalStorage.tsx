@@ -1,5 +1,5 @@
 import * as R from 'ramda';
-import { useEffect, useState } from 'react';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router';
 import { useLocalStorage } from 'usehooks-ts';
 
@@ -16,7 +16,7 @@ const buildUseQueryable = (
   localStorageKey: string | null,
   initSearchPaginationInput: Partial<SearchPaginationInput>,
   searchPaginationInput: SearchPaginationInput,
-  setSearchPaginationInput: React.Dispatch<React.SetStateAction<SearchPaginationInput>>,
+  setSearchPaginationInput: Dispatch<SetStateAction<SearchPaginationInput>>,
 ) => {
   // Text Search
   const textSearchHelpers = useTextSearchState(searchPaginationInput.textSearch, (textSearch: string, page: number) => setSearchPaginationInput({

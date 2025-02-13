@@ -1,7 +1,6 @@
 import { Add } from '@mui/icons-material';
 import { Fab } from '@mui/material';
-import { useState } from 'react';
-import * as React from 'react';
+import { FunctionComponent, useState } from 'react';
 import { makeStyles } from 'tss-react/mui';
 
 import { createMapper } from '../../../../../actions/mapper/mapper-actions';
@@ -22,7 +21,7 @@ interface Props {
   onCreate?: (result: RawPaginationImportMapper) => void;
 }
 
-const XlsMapperCreation: React.FC<Props> = ({ onCreate }) => {
+const XlsMapperCreation: FunctionComponent<Props> = ({ onCreate }) => {
   const { classes } = useStyles();
   const { t } = useFormatter();
 

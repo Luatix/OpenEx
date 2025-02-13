@@ -1,5 +1,5 @@
 import { ListItemIcon, ListItemText, MenuItem } from '@mui/material';
-import React from 'react';
+import { FunctionComponent } from 'react';
 import { Link, useLocation } from 'react-router';
 
 import { useFormatter } from '../../../i18n';
@@ -11,7 +11,7 @@ interface Props {
   item: LeftMenuItem;
 }
 
-const MenuItemSingle: React.FC<Props> = ({ navOpen, item }) => {
+const MenuItemSingle: FunctionComponent<Props> = ({ navOpen, item }) => {
   // Standard hooks
   const { t } = useFormatter();
   const location = useLocation();

@@ -1,7 +1,6 @@
 import { Edit } from '@mui/icons-material';
 import { Button, IconButton, Paper } from '@mui/material';
-import { useState } from 'react';
-import * as React from 'react';
+import { FunctionComponent, useState } from 'react';
 
 import Dialog from '../../../../components/common/Dialog';
 import ExpandableMarkdown from '../../../../components/ExpandableMarkdown';
@@ -14,7 +13,7 @@ interface Props {
   canEditComment?: boolean;
 }
 
-const ReportComment: React.FC<Props> = ({ initialComment, saveComment, canEditComment = false }) => {
+const ReportComment: FunctionComponent<Props> = ({ initialComment, saveComment, canEditComment = false }) => {
   const { t } = useFormatter();
   const [comment, setComment] = useState<string>(initialComment);
   const [openEdit, setOpenEdit] = useState<boolean>(false);

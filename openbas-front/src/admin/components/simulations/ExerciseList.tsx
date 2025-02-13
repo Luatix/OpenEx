@@ -1,7 +1,6 @@
 import { HubOutlined } from '@mui/icons-material';
 import { List, ListItem, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
-import * as React from 'react';
-import { CSSProperties, FunctionComponent, useEffect, useState } from 'react';
+import { CSSProperties, FunctionComponent, ReactNode, useEffect, useState } from 'react';
 import { Link } from 'react-router';
 import { makeStyles } from 'tss-react/mui';
 
@@ -89,7 +88,7 @@ interface Props {
   queryableHelpers?: QueryableHelpers;
   hasHeader?: boolean;
   variant?: string;
-  secondaryAction?: (exercise: ExerciseSimple) => React.ReactNode;
+  secondaryAction?: (exercise: ExerciseSimple) => ReactNode;
   loading: boolean;
   isGlobalScoreAsync?: boolean;
 }

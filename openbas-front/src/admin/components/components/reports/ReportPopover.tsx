@@ -1,5 +1,4 @@
-import { useContext, useState } from 'react';
-import * as React from 'react';
+import { FunctionComponent, useContext, useState } from 'react';
 
 import ButtonPopover, { VariantButtonPopover } from '../../../../components/common/ButtonPopover';
 import Dialog from '../../../../components/common/Dialog';
@@ -16,7 +15,7 @@ interface Props {
   variant?: VariantButtonPopover;
 }
 
-const ReportPopover: React.FC<Props> = ({
+const ReportPopover: FunctionComponent<Props> = ({
   report,
   actions,
   variant = 'icon',

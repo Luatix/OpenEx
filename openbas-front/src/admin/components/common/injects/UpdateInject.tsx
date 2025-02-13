@@ -1,6 +1,5 @@
 import { Tab, Tabs } from '@mui/material';
-import * as React from 'react';
-import { useEffect, useRef, useState } from 'react';
+import { FunctionComponent, SyntheticEvent, useEffect, useRef, useState } from 'react';
 
 import { fetchInject } from '../../../../actions/Inject';
 import type { InjectOutputType } from '../../../../actions/injects/Inject';
@@ -42,7 +41,7 @@ const UpdateInject: React.FC<Props> = ({ open, handleClose, onUpdateInject, mass
   });
 
   // Selection
-  const handleTabChange = (_: React.SyntheticEvent, newValue: string) => {
+  const handleTabChange = (_: SyntheticEvent, newValue: string) => {
     setActiveTab(newValue);
   };
 

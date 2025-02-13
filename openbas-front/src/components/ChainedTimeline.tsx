@@ -19,8 +19,7 @@ import {
   XYPosition,
 } from '@xyflow/react';
 import moment from 'moment-timezone';
-import { FunctionComponent, useEffect, useState } from 'react';
-import * as React from 'react';
+import { FunctionComponent, MouseEvent as ReactMouseEvent, useEffect, useState } from 'react';
 import { makeStyles } from 'tss-react/mui';
 
 import type { AssetGroupsHelper } from '../actions/asset_groups/assetgroup-helper';
@@ -360,7 +359,7 @@ const ChainedTimelineFlow: FunctionComponent<Props> = ({
    * @param _event the mouse event (unused for now)
    * @param node the node to update
    */
-  const nodeDragStop = (_event: React.MouseEvent, node: NodeInject) => {
+  const nodeDragStop = (_event: ReactMouseEvent, node: NodeInject) => {
     const injectFromMap = injectsMap[node.id];
     if (injectFromMap !== undefined) {
       const inject = {
@@ -439,7 +438,7 @@ const ChainedTimelineFlow: FunctionComponent<Props> = ({
    * @param _event the mouse event
    * @param node the node that is being dragged
    */
-  const nodeDrag = (_event: React.MouseEvent, node: NodeInject) => {
+  const nodeDrag = (_event: ReactMouseEvent, node: NodeInject) => {
     setDraggingOnGoing(true);
     const { position } = node;
     const { data } = node;
@@ -469,7 +468,7 @@ const ChainedTimelineFlow: FunctionComponent<Props> = ({
    * Actions when clicking the new node 'button'
    * @param event
    */
-  const onNewNodeClick = (event: React.MouseEvent) => {
+  const onNewNodeClick = (event: ReactMouseEvent) => {
     if (newNodeCursorClickable) {
       const position = reactFlow.screenToFlowPosition({ x: event.clientX - (newNodeSize / 2), y: event.clientY });
 
@@ -488,7 +487,7 @@ const ChainedTimelineFlow: FunctionComponent<Props> = ({
    * Actions to do when the mouse move
    * @param eventMove the mouse event
    */
-  const onMouseMove = (eventMove: React.MouseEvent) => {
+  const onMouseMove = (eventMove: ReactMouseEvent) => {
     if (!draggingOnGoing) {
       const position = reactFlow.screenToFlowPosition({
         x: eventMove.clientX,
@@ -544,7 +543,7 @@ const ChainedTimelineFlow: FunctionComponent<Props> = ({
     setDraggingOnGoing(false);
   };
 
-  const onReconnectEnd = (event: React.MouseEvent, edge: Edge, handleType: 'source' | 'target', connectionState: Omit<ConnectionState, 'inProgress'>) => {
+  const onReconnectEnd = (event: ReactMouseEvent, edge: Edge, handleType: 'source' | 'target', connectionState: Omit<ConnectionState, 'inProgress'>) => {
     if (!connectionState.isValid) {
       const inject = injects.find(currentInject => currentInject.inject_id === edge.target);
       if (inject !== undefined) {

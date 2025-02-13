@@ -1,7 +1,6 @@
 import { Button, ListItemText, Menu, MenuItem, Typography } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
-import * as React from 'react';
-import { FunctionComponent, useState } from 'react';
+import { FunctionComponent, MouseEvent as ReactMouseEvent, useState } from 'react';
 import { Link } from 'react-router';
 import { makeStyles } from 'tss-react/mui';
 
@@ -76,7 +75,7 @@ const AttackPatternBox: FunctionComponent<AttackPatternBoxProps> = ({
       </div>
     );
   }
-  const handleOpen = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+  const handleOpen = (event: ReactMouseEvent<HTMLButtonElement, MouseEvent>) => {
     event.stopPropagation();
     setOpen(true);
     setAnchorEl(event.currentTarget);

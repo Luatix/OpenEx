@@ -1,7 +1,6 @@
 import { MoreVert } from '@mui/icons-material';
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton, Menu, MenuItem } from '@mui/material';
-import { useState } from 'react';
-import * as React from 'react';
+import { FunctionComponent, useState } from 'react';
 
 import Transition from '../../../../components/common/Transition';
 import { useFormatter } from '../../../../components/i18n';
@@ -15,7 +14,7 @@ interface Props {
   onDelete: (variable: Variable) => void;
 }
 
-const VariablePopover: React.FC<Props> = ({
+const VariablePopover: FunctionComponent<Props> = ({
   variable,
   disabled,
   onEdit,

@@ -18,8 +18,7 @@ import {
   Typography,
   useTheme,
 } from '@mui/material';
-import { useContext, useState } from 'react';
-import * as React from 'react';
+import { ChangeEvent, FunctionComponent, useContext, useState } from 'react';
 import { makeStyles } from 'tss-react/mui';
 
 import Transition from '../../../../components/common/Transition';
@@ -74,7 +73,7 @@ interface Props {
   usersMap: Record<string, User>;
 }
 
-const Lessons: React.FC<Props> = ({
+const Lessons: FunctionComponent<Props> = ({
   source,
   objectives,
   teams,
@@ -93,7 +92,7 @@ const Lessons: React.FC<Props> = ({
   const [openEmptyLessons, setOpenEmptyLessons] = useState<boolean>(false);
   const [openAnonymize, setOpenAnonymize] = useState<boolean>(false);
   const [templateValue, setTemplateValue] = useState<string | null>(null);
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setTemplateValue(event.target.value);
   };
 

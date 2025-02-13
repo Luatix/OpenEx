@@ -15,8 +15,9 @@ import { useAppDispatch } from '../../../../utils/hooks';
 import useDataLoader from '../../../../utils/hooks/useDataLoader';
 import useSearchAnFilter from '../../../../utils/SortingFiltering';
 import TagsFilter from '../../common/filters/TagsFilter';
+import { EndpointStoreWithType } from '../endpoints/endpoint';
 import EndpointPopover from '../endpoints/EndpointPopover';
-import EndpointsList, { EndpointStoreWithType } from '../endpoints/EndpointsList';
+import EndpointsList from '../endpoints/EndpointsList';
 import AssetGroupAddEndpoints from './AssetGroupAddEndpoints';
 
 const useStyles = makeStyles()(theme => ({

@@ -1,6 +1,5 @@
 import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material';
-import { CSSProperties } from 'react';
-import * as React from 'react';
+import { CSSProperties, FunctionComponent } from 'react';
 import { SubmitHandler } from 'react-hook-form';
 
 import { useFormatter } from '../../../../../components/i18n';
@@ -18,7 +17,7 @@ interface Props {
   onCommentSubmit?: SubmitHandler<ReportInjectComment>;
 }
 
-const InjectReportResult: React.FC<Props> = ({
+const InjectReportResult: FunctionComponent<Props> = ({
   style,
   injects,
   injectsComments = [],

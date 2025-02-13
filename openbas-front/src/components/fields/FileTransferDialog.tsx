@@ -1,7 +1,6 @@
 import { DescriptionOutlined } from '@mui/icons-material';
 import { Box, Button, Chip, Dialog, DialogActions, DialogContent, DialogTitle, Grid, List, ListItem, ListItemIcon, ListItemText } from '@mui/material';
-import { useEffect, useState } from 'react';
-import * as React from 'react';
+import { FunctionComponent, useEffect, useState } from 'react';
 import { makeStyles } from 'tss-react/mui';
 
 import type { DocumentHelper, UserHelper } from '../../actions/helper';
@@ -47,7 +46,7 @@ interface Props {
   onSubmitAddDocuments?: (documents: RawDocument[]) => void;
 }
 
-const FileTransferDialog: React.FC<Props> = ({
+const FileTransferDialog: FunctionComponent<Props> = ({
   label,
   open,
   setOpen,

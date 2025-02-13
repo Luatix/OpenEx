@@ -23,8 +23,7 @@ import {
 } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import { Edge, MarkerType, ReactFlow, ReactFlowProvider, useEdgesState, useNodesState, useReactFlow } from '@xyflow/react';
-import { FunctionComponent, useContext, useEffect, useState } from 'react';
-import * as React from 'react';
+import { FunctionComponent, SyntheticEvent, useContext, useEffect, useState } from 'react';
 import { makeStyles } from 'tss-react/mui';
 
 import { fetchInjectResultOverviewOutput, fetchTargetResult } from '../../../../actions/atomic_testings/atomic-testing-actions';
@@ -426,7 +425,7 @@ const TargetResultsDetailFlow: FunctionComponent<Props> = ({
   sortedKeys.forEach((key) => {
     sortedGroupedResults[key] = groupedResults[key];
   });
-  const handleTabChange = (_event: React.SyntheticEvent, newValue: number) => {
+  const handleTabChange = (_event: SyntheticEvent, newValue: number) => {
     setActiveTab(newValue);
   };
   const proOptions = { account: 'paid-pro', hideAttribution: true };

@@ -1,7 +1,6 @@
 import { MoreVert } from '@mui/icons-material';
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, IconButton, Menu, MenuItem } from '@mui/material';
-import { FunctionComponent, useContext, useState } from 'react';
-import * as React from 'react';
+import { FunctionComponent, MouseEvent as ReactMouseEvent, useContext, useState } from 'react';
 import { Link } from 'react-router';
 
 import type { ExercisesHelper } from '../../../../actions/exercises/exercise-helper';
@@ -77,7 +76,7 @@ const InjectPopover: FunctionComponent<Props> = ({
 
   const isExercise = useHelper((helper: ExercisesHelper) => helper.getExercisesMap()[exerciseOrScenarioId!] !== undefined);
 
-  const handlePopoverOpen = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const handlePopoverOpen = (event: ReactMouseEvent<HTMLButtonElement>) => {
     event.stopPropagation();
     setAnchorEl(event.currentTarget);
   };

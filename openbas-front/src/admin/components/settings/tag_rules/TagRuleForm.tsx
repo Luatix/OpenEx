@@ -1,8 +1,7 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Button, Typography } from '@mui/material';
-import { SyntheticEvent, useState } from 'react';
-import * as React from 'react';
+import { FunctionComponent, SyntheticEvent, useState } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
 
@@ -23,7 +22,7 @@ interface Props {
   initialValues?: TagRuleOutput;
 }
 
-const TagRuleForm: React.FC<Props> = ({
+const TagRuleForm: FunctionComponent<Props> = ({
   onSubmit,
   editing,
   initialValues = {

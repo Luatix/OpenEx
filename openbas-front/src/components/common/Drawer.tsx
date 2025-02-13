@@ -1,7 +1,6 @@
 import { Close } from '@mui/icons-material';
 import { Drawer as DrawerMUI, IconButton, type PaperProps, Typography } from '@mui/material';
-import { CSSProperties, FunctionComponent } from 'react';
-import * as React from 'react';
+import { cloneElement, CSSProperties, FunctionComponent, ReactElement } from 'react';
 import { makeStyles } from 'tss-react/mui';
 
 import { computeBannerSettings } from '../../public/components/systembanners/utils';
@@ -49,8 +48,8 @@ interface DrawerProps {
   handleClose: () => void;
   title: string;
   children:
-  (() => React.ReactElement)
-  | React.ReactElement
+  (() => ReactElement)
+  | ReactElement
   | null;
   variant?: 'full' | 'half';
   PaperProps?: PaperProps;
@@ -77,7 +76,7 @@ const Drawer: FunctionComponent<DrawerProps> = ({
     if (typeof children === 'function') {
       component = children();
     } else {
-      component = React.cloneElement(children as React.ReactElement);
+      component = cloneElement(children as ReactElement);
     }
   }
   return (

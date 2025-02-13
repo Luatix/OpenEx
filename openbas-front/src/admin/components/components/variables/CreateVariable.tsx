@@ -8,8 +8,7 @@ import {
   ListItemIcon,
   ListItemText,
 } from '@mui/material';
-import { useContext, useState } from 'react';
-import * as React from 'react';
+import { FunctionComponent, useContext, useState } from 'react';
 import { makeStyles } from 'tss-react/mui';
 
 import Transition from '../../../../components/common/Transition';
@@ -34,7 +33,7 @@ interface Props {
   inline?: boolean;
 }
 
-const CreateVariable: React.FC<Props> = ({
+const CreateVariable: FunctionComponent<Props> = ({
   inline,
 }) => {
   // Standard hooks

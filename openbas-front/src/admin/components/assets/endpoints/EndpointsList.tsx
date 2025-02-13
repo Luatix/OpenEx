@@ -1,12 +1,12 @@
 import { DevicesOtherOutlined } from '@mui/icons-material';
 import { Chip, List, ListItem, ListItemIcon, ListItemText, Tooltip } from '@mui/material';
-import * as React from 'react';
-import { CSSProperties, FunctionComponent } from 'react';
+import { cloneElement, CSSProperties, FunctionComponent, ReactElement } from 'react';
 import { makeStyles } from 'tss-react/mui';
 
 import ItemTags from '../../../../components/ItemTags';
 import PlatformIcon from '../../../../components/PlatformIcon';
-import { EndpointOutput, EndpointOverviewOutput } from '../../../../utils/api-types';
+import { EndpointStoreWithType } from './endpoint';
+import { EndpointPopoverProps } from './EndpointPopover';
 
 const useStyles = makeStyles()(() => ({
   item: {
@@ -45,11 +45,9 @@ const inlineStyles: Record<string, CSSProperties> = {
   },
 };
 
-export type EndpointStoreWithType = EndpointOutput & EndpointOverviewOutput & { type: string };
-
 interface Props {
   endpoints: EndpointStoreWithType[];
-  actions: React.ReactElement;
+  actions: ReactElement<EndpointPopoverProps>;
 }
 
 const EndpointsList: FunctionComponent<Props> = ({
@@ -60,7 +58,7 @@ const EndpointsList: FunctionComponent<Props> = ({
   const { classes } = useStyles();
 
   const component = (endpoint: EndpointStoreWithType) => {
-    return React.cloneElement(actions as React.ReactElement, { endpoint });
+    return cloneElement(actions, { endpoint });
   };
 
   return (

@@ -1,7 +1,6 @@
 import { MoreVert } from '@mui/icons-material';
 import { IconButton, Menu, MenuItem } from '@mui/material';
-import { FunctionComponent, useContext, useState } from 'react';
-import * as React from 'react';
+import { FunctionComponent, MouseEvent as ReactMouseEvent, useContext, useState } from 'react';
 
 import { deleteInjectTest } from '../../../actions/inject_test/inject-test-actions';
 import { testInject } from '../../../actions/injects/inject-action';
@@ -31,7 +30,7 @@ const InjectTestPopover: FunctionComponent<Props> = ({
   const [openDelete, setOpenDelete] = useState(false);
   const [openTest, setOpenTest] = useState(false);
 
-  const handlePopoverOpen = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const handlePopoverOpen = (event: ReactMouseEvent<HTMLButtonElement>) => {
     event.stopPropagation();
     setAnchorEl(event.currentTarget);
   };

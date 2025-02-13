@@ -1,7 +1,6 @@
 import { MoreVert } from '@mui/icons-material';
 import { IconButton, Menu, MenuItem } from '@mui/material';
-import { useState } from 'react';
-import * as React from 'react';
+import { FunctionComponent, useState } from 'react';
 
 import { deleteSecurityPlatform, updateSecurityPlatform } from '../../../../actions/assets/securityPlatform-actions';
 import Dialog from '../../../../components/common/Dialog';
@@ -27,7 +26,7 @@ interface Props {
   disabled?: boolean;
 }
 
-const SecurityPlatformPopover: React.FC<Props> = ({
+const SecurityPlatformPopover: FunctionComponent<Props> = ({
   inline,
   securityPlatform,
   openEditOnInit = false,

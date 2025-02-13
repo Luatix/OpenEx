@@ -1,5 +1,4 @@
-import * as React from 'react';
-import { useState } from 'react';
+import { FunctionComponent, useState } from 'react';
 
 import { updateAssetsOnAssetGroup } from '../../../../actions/asset_groups/assetgroup-action';
 import { deleteEndpoint, updateEndpoint } from '../../../../actions/assets/endpoint-actions';
@@ -10,10 +9,10 @@ import Drawer from '../../../../components/common/Drawer';
 import { useFormatter } from '../../../../components/i18n';
 import type { EndpointOverviewOutput, EndpointUpdateInput } from '../../../../utils/api-types';
 import { useAppDispatch } from '../../../../utils/hooks';
+import { EndpointStoreWithType } from './endpoint';
 import EndpointForm from './EndpointForm';
-import { EndpointStoreWithType } from './EndpointsList';
 
-interface Props {
+export interface EndpointPopoverProps {
   inline?: boolean;
   endpoint: EndpointStoreWithType;
   assetGroupId?: string;
@@ -25,7 +24,7 @@ interface Props {
   onDelete?: (result: string) => void;
 }
 
-const EndpointPopover: React.FC<Props> = ({
+const EndpointPopover: FunctionComponent<EndpointPopoverProps> = ({
   inline,
   endpoint,
   assetGroupId,

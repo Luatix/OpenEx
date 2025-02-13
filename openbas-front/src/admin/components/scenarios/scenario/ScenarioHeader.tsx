@@ -1,8 +1,7 @@
 import { PlayArrowOutlined, Stop } from '@mui/icons-material';
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, Tooltip, Typography } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
-import { useEffect } from 'react';
-import * as React from 'react';
+import { Dispatch, SetStateAction, useEffect } from 'react';
 import { Link, useNavigate, useParams } from 'react-router';
 import { makeStyles } from 'tss-react/mui';
 
@@ -49,12 +48,12 @@ const useStyles = makeStyles()(() => ({
 }));
 
 interface ScenarioHeaderProps {
-  setCronExpression: React.Dispatch<React.SetStateAction<string | null>>;
-  setParsedCronExpression: React.Dispatch<React.SetStateAction<ParsedCron | null>>;
-  setSelectRecurring: React.Dispatch<React.SetStateAction<string>>;
+  setCronExpression: Dispatch<SetStateAction<string | null>>;
+  setParsedCronExpression: Dispatch<SetStateAction<ParsedCron | null>>;
+  setSelectRecurring: Dispatch<SetStateAction<string>>;
   selectRecurring: string;
-  setOpenScenarioRecurringFormDialog: React.Dispatch<React.SetStateAction<boolean>>;
-  setOpenInstantiateSimulationAndStart: React.Dispatch<React.SetStateAction<boolean>>;
+  setOpenScenarioRecurringFormDialog: Dispatch<SetStateAction<boolean>>;
+  setOpenInstantiateSimulationAndStart: Dispatch<SetStateAction<boolean>>;
   openScenarioRecurringFormDialog: boolean;
   openInstantiateSimulationAndStart: boolean;
   noRepeat: boolean;

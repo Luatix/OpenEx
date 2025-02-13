@@ -1,5 +1,5 @@
 import { TablePagination, ToggleButtonGroup } from '@mui/material';
-import * as React from 'react';
+import { ChangeEvent, cloneElement, MouseEvent as ReactMouseEvent, ReactElement } from 'react';
 import { makeStyles } from 'tss-react/mui';
 
 import ExportButton, { ExportProps } from '../../ExportButton';
@@ -18,7 +18,7 @@ interface Props<T> {
   size: number;
   paginationHelpers: PaginationHelpers;
   exportProps?: ExportProps<T>;
-  children?: React.ReactElement | null;
+  children?: ReactElement | null;
 }
 
 const TablePaginationComponent = <T extends object>({
@@ -32,18 +32,18 @@ const TablePaginationComponent = <T extends object>({
   const { classes } = useStyles();
 
   const handleChangePage = (
-    _event: React.MouseEvent<HTMLButtonElement> | null,
+    _event: ReactMouseEvent<HTMLButtonElement> | null,
     newPage: number,
   ) => paginationHelpers.handleChangePage(newPage);
 
   const handleChangeRowsPerPage = (
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => paginationHelpers.handleChangeRowsPerPage(parseInt(event.target.value, 10));
 
   // Children
   let component;
   if (children) {
-    component = React.cloneElement(children as React.ReactElement);
+    component = cloneElement(children as ReactElement);
   }
 
   return (

@@ -1,7 +1,7 @@
 import { RouteOutlined, StyleOutlined } from '@mui/icons-material';
 import { Drawer, ListItemIcon, ListItemText, MenuItem, MenuList } from '@mui/material';
 import { LockPattern } from 'mdi-material-ui';
-import * as React from 'react';
+import { FunctionComponent } from 'react';
 import { Link, useLocation } from 'react-router';
 import { CSSObject } from 'tss-react';
 import { makeStyles } from 'tss-react/mui';
@@ -24,7 +24,7 @@ const useStyles = makeStyles()(theme => ({
   },
 }));
 
-const DefinitionMenu: React.FC = () => {
+const DefinitionMenu: FunctionComponent = () => {
   const location = useLocation();
   const { classes } = useStyles();
   const { t } = useFormatter();

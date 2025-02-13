@@ -1,7 +1,6 @@
 import { enUS, esES, frFR, Localization, zhCN } from '@mui/material/locale';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { ReactNode, useEffect, useState } from 'react';
-import * as React from 'react';
+import { FunctionComponent, ReactNode, useEffect, useState } from 'react';
 
 import type { LoggedHelper } from '../actions/helper';
 import { useHelper } from '../store';
@@ -21,7 +20,7 @@ const localeMap = {
   zh: zhCN,
 };
 
-const AppThemeProvider: React.FC<Props> = ({
+const AppThemeProvider: FunctionComponent<Props> = ({
   children,
 }) => {
   const [muiLocale, setMuiLocale] = useState<Localization>(enUS);

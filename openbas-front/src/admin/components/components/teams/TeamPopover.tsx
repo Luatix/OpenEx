@@ -1,7 +1,6 @@
 import { MoreVert } from '@mui/icons-material';
 import { Button, Dialog as MuiDialog, DialogActions, DialogContent, DialogContentText, IconButton, Menu, MenuItem } from '@mui/material';
-import { FunctionComponent, useContext, useState } from 'react';
-import * as React from 'react';
+import { FunctionComponent, MouseEvent as ReactMouseEvent, useContext, useState } from 'react';
 
 import type { ExercisesHelper } from '../../../../actions/exercises/exercise-helper';
 import type { OrganizationHelper, TagHelper } from '../../../../actions/helper';
@@ -59,7 +58,7 @@ const TeamPopover: FunctionComponent<TeamPopoverProps> = ({
   const [anchorEl, setAnchorEl] = useState<Element | null>(null);
 
   // Popover
-  const handlePopoverOpen = (event: React.MouseEvent) => {
+  const handlePopoverOpen = (event: ReactMouseEvent) => {
     event.stopPropagation();
     setAnchorEl(event.currentTarget);
   };

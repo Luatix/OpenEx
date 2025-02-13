@@ -1,6 +1,6 @@
 import { FactCheckOutlined, MailOutlined, NoteAltOutlined, TheatersOutlined } from '@mui/icons-material';
 import { Drawer, ListItemIcon, ListItemText, MenuItem, MenuList } from '@mui/material';
-import * as React from 'react';
+import { FunctionComponent } from 'react';
 import { Link, useLocation } from 'react-router';
 import { CSSObject } from 'tss-react';
 import { makeStyles } from 'tss-react/mui';
@@ -27,7 +27,7 @@ interface Props {
   exerciseId: Exercise['exercise_id'];
 }
 
-const AnimationMenu: React.FC<Props> = ({ exerciseId }) => {
+const AnimationMenu: FunctionComponent<Props> = ({ exerciseId }) => {
   const location = useLocation();
   const { classes } = useStyles();
   const { t } = useFormatter();

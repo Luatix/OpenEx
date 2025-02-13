@@ -1,7 +1,6 @@
 import { Add } from '@mui/icons-material';
 import { Fab } from '@mui/material';
-import { useContext, useState } from 'react';
-import * as React from 'react';
+import { FunctionComponent, useContext, useState } from 'react';
 import { useNavigate } from 'react-router';
 
 import { addReportForExercise, deleteReportForExercise, fetchReportsForExercise, updateReportForExercise } from '../../../../../actions/reports/report-actions';
@@ -21,7 +20,7 @@ interface ReportListProps {
   exerciseName: string;
 }
 
-const ExerciseReports: React.FC<ReportListProps> = ({ exerciseId, exerciseName }) => {
+const ExerciseReports: FunctionComponent<ReportListProps> = ({ exerciseId, exerciseName }) => {
   // Standard hooks
   const { t } = useFormatter();
   const dispatch = useAppDispatch();

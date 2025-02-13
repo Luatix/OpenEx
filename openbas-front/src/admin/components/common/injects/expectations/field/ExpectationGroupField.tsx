@@ -1,7 +1,6 @@
 import { InfoOutlined } from '@mui/icons-material';
 import { FormControlLabel, FormLabel, Radio, RadioGroup, Tooltip } from '@mui/material';
-import * as React from 'react';
-import { FunctionComponent } from 'react';
+import { ChangeEvent, FunctionComponent } from 'react';
 import { Control, Controller } from 'react-hook-form';
 import { makeStyles } from 'tss-react/mui';
 
@@ -53,7 +52,7 @@ const ExpectationGroupField: FunctionComponent<Props> = ({
           </FormLabel>
           <RadioGroup
             value={value}
-            onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+            onChange={(event: ChangeEvent<HTMLInputElement>) => {
               onChange(event.target.value === 'true');
             }}
           >

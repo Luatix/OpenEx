@@ -1,6 +1,6 @@
 import { Chip, Grid, Link as MUILink, Paper, Typography } from '@mui/material';
 import * as R from 'ramda';
-import * as React from 'react';
+import { FunctionComponent } from 'react';
 import { Link } from 'react-router';
 
 import type { ScenariosHelper } from '../../../../actions/scenarios/scenario-helper';
@@ -19,7 +19,7 @@ interface Props {
   exercise: Exercise;
 }
 
-const ExerciseMainInformation: React.FC<Props> = ({ exercise }) => {
+const ExerciseMainInformation: FunctionComponent<Props> = ({ exercise }) => {
   const { t } = useFormatter();
   const sortByOrder = R.sortWith([R.ascend(R.prop('phase_order'))]);
   const scenarioBaseUri = '/admin/scenarios';

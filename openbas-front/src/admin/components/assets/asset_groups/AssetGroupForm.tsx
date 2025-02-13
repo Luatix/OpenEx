@@ -1,7 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Button, TextField } from '@mui/material';
-import { SyntheticEvent } from 'react';
-import * as React from 'react';
+import { FunctionComponent, SyntheticEvent } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
 
@@ -19,7 +18,7 @@ interface Props {
   initialValues?: AssetGroupInput;
 }
 
-const AssetGroupForm: React.FC<Props> = ({
+const AssetGroupForm: FunctionComponent<Props> = ({
   onSubmit,
   handleClose,
   editing,

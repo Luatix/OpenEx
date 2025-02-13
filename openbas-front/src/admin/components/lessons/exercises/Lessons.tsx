@@ -27,8 +27,7 @@ import {
   useTheme,
 } from '@mui/material';
 import * as R from 'ramda';
-import { useContext, useState } from 'react';
-import * as React from 'react';
+import { ChangeEvent, FunctionComponent, useContext, useState } from 'react';
 import { makeStyles } from 'tss-react/mui';
 
 import Transition from '../../../../components/common/Transition';
@@ -109,7 +108,7 @@ interface Props {
   usersMap: Record<string, User>;
 }
 
-const Lessons: React.FC<Props> = ({
+const Lessons: FunctionComponent<Props> = ({
   source,
   objectives,
   injects,
@@ -134,7 +133,7 @@ const Lessons: React.FC<Props> = ({
   const [openAnonymize, setOpenAnonymize] = useState<boolean>(false);
   const [selectedQuestion, setSelectedQuestion] = useState<LessonsQuestion | null>(null);
   const [templateValue, setTemplateValue] = useState<string | null>(null);
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setTemplateValue(event.target.value);
   };
 

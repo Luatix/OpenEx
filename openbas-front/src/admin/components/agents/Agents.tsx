@@ -3,8 +3,7 @@ import { Alert, Button, Card, CardActionArea, CardContent, Dialog, DialogContent
 import { useTheme } from '@mui/material/styles';
 import { Bash, DownloadCircleOutline, Powershell } from 'mdi-material-ui';
 import * as R from 'ramda';
-import * as React from 'react';
-import { useState } from 'react';
+import { SyntheticEvent, useState } from 'react';
 import { makeStyles } from 'tss-react/mui';
 
 import { fetchExecutors } from '../../../actions/Executor';
@@ -78,7 +77,7 @@ const Executors = () => {
   const macOsExecutors = sortedExecutors.filter((executor: Executor) => executor.executor_platforms?.includes('MacOS'));
 
   // Selection
-  const handleTabChange = (_: React.SyntheticEvent, newValue: string) => {
+  const handleTabChange = (_: SyntheticEvent, newValue: string) => {
     setActiveTab(newValue);
   };
   const openInstall = (selectedPlatform: string, openExecutors: Executor[]) => {

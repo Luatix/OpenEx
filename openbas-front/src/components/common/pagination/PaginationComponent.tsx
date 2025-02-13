@@ -1,6 +1,5 @@
 import { Button, Chip, TablePagination, ToggleButtonGroup } from '@mui/material';
-import { useEffect, useState } from 'react';
-import * as React from 'react';
+import { ChangeEvent, cloneElement, MouseEvent as ReactMouseEvent, ReactElement, useEffect, useState } from 'react';
 import { makeStyles } from 'tss-react/mui';
 
 import MitreFilter, { MITRE_FILTER_KEY } from '../../../admin/components/common/filters/MitreFilter';
@@ -50,7 +49,7 @@ interface Props<T> {
   entityPrefix?: string;
   availableFilters?: string[];
   helpers?: FilterHelpers;
-  children?: React.ReactElement | null;
+  children?: ReactElement | null;
   attackPatterns?: AttackPattern[];
 }
 
@@ -74,33 +73,33 @@ const PaginationComponent = <T extends object>({
   const { t } = useFormatter();
 
   // Pagination
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(searchPaginationInput.size ?? ROWS_PER_PAGE_OPTIONS[0]);
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(searchPaginationInput.size ?? ROWS_PER_PAGE_OPTIONS[0]);
   const [totalElements, setTotalElements] = useState(0);
 
   const handleChangePage = (
-    _event: React.MouseEvent<HTMLButtonElement> | null,
+    _event: ReactMouseEvent<HTMLButtonElement> | null,
     newPage: number,
   ) => {
     setPage(newPage);
   };
 
   const handleChangeRowsPerPage = (
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
 
   // Text Search
-  const [textSearch, setTextSearch] = React.useState(searchPaginationInput.textSearch ?? '');
+  const [textSearch, setTextSearch] = useState(searchPaginationInput.textSearch ?? '');
   const handleTextSearch = (value?: string) => {
     setPage(0);
     setTextSearch(value ?? '');
   };
 
   // Filters
-  const [openMitreFilter, setOpenMitreFilter] = React.useState(false);
+  const [openMitreFilter, setOpenMitreFilter] = useState(false);
 
   useEffect(() => {
     const finalSearchPaginationInput = {
@@ -131,7 +130,7 @@ const PaginationComponent = <T extends object>({
   // Children
   let component;
   if (children) {
-    component = React.cloneElement(children as React.ReactElement);
+    component = cloneElement(children as ReactElement);
   }
 
   return (

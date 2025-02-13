@@ -1,7 +1,6 @@
 import { UpdateOutlined } from '@mui/icons-material';
 import { Dialog, DialogContent, DialogTitle, IconButton, Tooltip } from '@mui/material';
-import { useState } from 'react';
-import * as React from 'react';
+import { FunctionComponent, useState } from 'react';
 
 import { updateExerciseStartDate } from '../../../../actions/Exercise';
 import Transition from '../../../../components/common/Transition';
@@ -14,7 +13,7 @@ interface Props {
   exercise: Exercise;
 }
 
-const ExerciseDatePopover: React.FC<Props> = ({ exercise }) => {
+const ExerciseDatePopover: FunctionComponent<Props> = ({ exercise }) => {
   const [openEdit, setOpenEdit] = useState(false);
   const { t } = useFormatter();
   const dispatch = useAppDispatch();

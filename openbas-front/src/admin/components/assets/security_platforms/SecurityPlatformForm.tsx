@@ -1,7 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Button, MenuItem, TextField } from '@mui/material';
-import { SyntheticEvent } from 'react';
-import * as React from 'react';
+import { FunctionComponent, SyntheticEvent } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
 
@@ -18,7 +17,7 @@ interface Props {
   initialValues?: SecurityPlatformInput;
 }
 
-const SecurityPlatformForm: React.FC<Props> = ({
+const SecurityPlatformForm: FunctionComponent<Props> = ({
   onSubmit,
   handleClose,
   editing,

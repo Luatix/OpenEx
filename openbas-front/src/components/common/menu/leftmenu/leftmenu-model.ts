@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { ReactElement } from 'react';
 
 export interface LeftMenuEntries {
   items: LeftMenuItem[];
@@ -7,7 +7,7 @@ export interface LeftMenuEntries {
 
 export interface LeftMenuItem {
   path: string;
-  icon: () => React.ReactElement;
+  icon: () => ReactElement;
   label: string;
   href?: string;
   subItems?: LeftMenuSubItem[];
@@ -25,5 +25,5 @@ export interface LeftMenuSubItem {
   exact?: boolean;
   link: string;
   label: string;
-  icon?: () => React.ReactElement;
+  icon?: () => ReactElement;
 }

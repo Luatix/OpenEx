@@ -1,10 +1,10 @@
 import { Alert, AlertTitle } from '@mui/material';
 import * as PropTypes from 'prop-types';
-import * as React from 'react';
+import { Component } from 'react';
 
 import { useFormatter } from './i18n';
 
-class ErrorBoundaryComponent extends React.Component {
+class ErrorBoundaryComponent extends Component {
   constructor(props) {
     super(props);
     this.state = { error: null, stack: null };

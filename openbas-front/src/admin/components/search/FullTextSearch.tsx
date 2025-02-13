@@ -1,8 +1,7 @@
 import { KeyboardArrowRight } from '@mui/icons-material';
 import { TabPanelProps } from '@mui/lab';
 import { Box, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Tab, Tabs } from '@mui/material';
-import { CSSProperties, useEffect, useState } from 'react';
-import * as React from 'react';
+import { CSSProperties, SyntheticEvent, useEffect, useState } from 'react';
 import { Link, useSearchParams } from 'react-router';
 import { makeStyles } from 'tss-react/mui';
 
@@ -175,9 +174,9 @@ const FullTextSearch = () => {
   }, [search]);
 
   // Tabs
-  const [value, setValue] = React.useState(0);
+  const [value, setValue] = useState(0);
 
-  const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
+  const handleChange = (_event: SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
 

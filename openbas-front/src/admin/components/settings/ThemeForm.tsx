@@ -1,6 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Button, TextField as MuiTextField } from '@mui/material';
-import * as React from 'react';
+import { FunctionComponent, useEffect } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { makeStyles } from 'tss-react/mui';
 import { z } from 'zod';
@@ -21,7 +21,7 @@ const useStyles = makeStyles()(() => ({
   },
 }));
 
-const ThemeForm: React.FC<Props> = ({
+const ThemeForm: FunctionComponent<Props> = ({
   onSubmit,
   initialValues = {
     accent_color: '',
@@ -63,7 +63,7 @@ const ThemeForm: React.FC<Props> = ({
     defaultValues: initialValues,
   });
 
-  React.useEffect(() => {
+  useEffect(() => {
     reset(initialValues);
   }, [initialValues, reset]);
 

@@ -1,7 +1,6 @@
 import { MoreVert } from '@mui/icons-material';
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton, Menu, MenuItem, PopoverProps } from '@mui/material';
-import { useState } from 'react';
-import * as React from 'react';
+import { FunctionComponent, MouseEvent as ReactMouseEvent, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { makeStyles } from 'tss-react/mui';
 
@@ -23,7 +22,7 @@ interface Props {
   channel: Channel;
 }
 
-const ChannelPopover: React.FC<Props> = ({ channel }) => {
+const ChannelPopover: FunctionComponent<Props> = ({ channel }) => {
   const [anchorEl, setAnchorEl] = useState<PopoverProps['anchorEl']>(null);
   const [openDelete, setOpenDelete] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
@@ -32,7 +31,7 @@ const ChannelPopover: React.FC<Props> = ({ channel }) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const handlePopoverOpen = (event: React.MouseEvent) => {
+  const handlePopoverOpen = (event: ReactMouseEvent) => {
     event.stopPropagation();
     setAnchorEl(event.currentTarget);
   };

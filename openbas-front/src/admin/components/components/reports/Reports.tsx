@@ -1,7 +1,6 @@
 import { ContentPasteOutlined } from '@mui/icons-material';
 import { List, ListItem, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
-import { useContext } from 'react';
-import * as React from 'react';
+import { FunctionComponent, useContext } from 'react';
 
 import { useFormatter } from '../../../../components/i18n';
 import type { Report } from '../../../../utils/api-types';
@@ -13,7 +12,7 @@ interface Props {
   navigateToReportPage: (id: string) => void;
 }
 
-const Reports: React.FC<Props> = ({ reports, navigateToReportPage }) => {
+const Reports: FunctionComponent<Props> = ({ reports, navigateToReportPage }) => {
   const { t } = useFormatter();
   const { permissions } = useContext(PermissionsContext);
 

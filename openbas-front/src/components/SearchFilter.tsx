@@ -1,6 +1,6 @@
 import { Search } from '@mui/icons-material';
 import { InputAdornment, TextField } from '@mui/material';
-import * as React from 'react';
+import { ChangeEvent, FunctionComponent, KeyboardEvent, useCallback } from 'react';
 import { makeStyles } from 'tss-react/mui';
 
 import { debounce } from '../utils/utils';
@@ -70,7 +70,7 @@ interface Props {
   debounceMs?: number;
 }
 
-const SearchInput: React.FC<Props> = ({
+const SearchInput: FunctionComponent<Props> = ({
   onChange,
   onSubmit,
   variant,
@@ -97,12 +97,12 @@ const SearchInput: React.FC<Props> = ({
     classRoot = classes.searchRootThin;
   }
 
-  const debouncedChangeHandler = React.useCallback(
+  const debouncedChangeHandler = useCallback(
     debounce(onChange!, debounceMs),
     [],
   );
 
-  const handleChange = ({ target }: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = ({ target }: ChangeEvent<HTMLInputElement>) => {
     if (typeof onChange === 'function') {
       debouncedChangeHandler(target.value);
     }
@@ -117,7 +117,7 @@ const SearchInput: React.FC<Props> = ({
       size="small"
       placeholder={placeholder || `${t('Search these results')}...`}
       onChange={handleChange}
-      onKeyPress={(event: React.KeyboardEvent<HTMLInputElement>) => {
+      onKeyPress={(event: KeyboardEvent<HTMLInputElement>) => {
         if (typeof onSubmit === 'function' && event.key === 'Enter') {
           onSubmit((event.target as HTMLInputElement).value);
         }

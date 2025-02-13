@@ -1,6 +1,5 @@
 import { Autocomplete, Box, TextField } from '@mui/material';
-import { useEffect } from 'react';
-import * as React from 'react';
+import { FunctionComponent, useEffect } from 'react';
 import { makeStyles } from 'tss-react/mui';
 
 import { fetchChannels } from '../../../../actions/channels/channel-action';
@@ -37,7 +36,7 @@ interface ChannelTransformed {
   type: string;
 }
 
-const ChannelsFilter: React.FC<Props> = (props) => {
+const ChannelsFilter: FunctionComponent<Props> = (props) => {
   const { classes } = useStyles();
   const { t } = useFormatter();
   const dispatch = useAppDispatch();

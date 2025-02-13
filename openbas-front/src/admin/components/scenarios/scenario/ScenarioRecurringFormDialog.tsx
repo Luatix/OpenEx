@@ -1,8 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, FormControl, FormControlLabel, InputLabel, MenuItem, Select, Stack, Switch } from '@mui/material';
 import { DateTimePicker, TimePicker } from '@mui/x-date-pickers';
-import { useEffect } from 'react';
-import * as React from 'react';
+import { FunctionComponent, useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { z } from 'zod';
 
@@ -40,7 +39,7 @@ const defaultFormValues = () => ({
   weekOfMonth: 1 as Recurrence['weekOfMonth'],
 });
 
-const ScenarioRecurringFormDialog: React.FC<Props> = ({ onSubmit, selectRecurring, onSelectRecurring, initialValues, open, setOpen }) => {
+const ScenarioRecurringFormDialog: FunctionComponent<Props> = ({ onSubmit, selectRecurring, onSelectRecurring, initialValues, open, setOpen }) => {
   const { t } = useFormatter();
   const submit = (data: Recurrence) => {
     const { time } = data as Omit<Recurrence, 'time'> & { time: string };

@@ -15,8 +15,7 @@ import {
   Typography,
 } from '@mui/material';
 import * as R from 'ramda';
-import { FunctionComponent, useState } from 'react';
-import * as React from 'react';
+import { FunctionComponent, SyntheticEvent, useState } from 'react';
 import { makeStyles } from 'tss-react/mui';
 
 import type { UserHelper } from '../../../../../../actions/helper';
@@ -111,7 +110,7 @@ const ManualExpectations: FunctionComponent<Props> = ({
     setCurrentExpectations(null);
   };
 
-  const handleChange = (panel: string) => (_event: React.SyntheticEvent, isExpanded: boolean) => {
+  const handleChange = (panel: string) => (_event: SyntheticEvent, isExpanded: boolean) => {
     setExpanded(isExpanded ? panel : false);
   };
 

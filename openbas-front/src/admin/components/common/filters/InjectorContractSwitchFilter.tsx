@@ -1,6 +1,5 @@
 import { Switch } from '@mui/material';
-import { FunctionComponent, useEffect, useState } from 'react';
-import * as React from 'react';
+import { ChangeEvent, FunctionComponent, useEffect, useState } from 'react';
 
 import { FilterHelpers } from '../../../../components/common/queryable/filter/FilterHelpers';
 import { buildEmptyFilter } from '../../../../components/common/queryable/filter/FilterUtils';
@@ -34,7 +33,7 @@ const InjectorContractSwitchFilter: FunctionComponent<Props> = ({
 
   const [enablePlayerFilter, setEnablePlayerFilter] = useState(isChecked);
 
-  const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const onChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { checked } = event.target;
     setEnablePlayerFilter(checked);
     if (checked) {

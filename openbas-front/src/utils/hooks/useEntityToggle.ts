@@ -1,6 +1,5 @@
 import * as R from 'ramda';
-import * as React from 'react';
-import { useState } from 'react';
+import { SyntheticEvent, useState } from 'react';
 
 export interface UseEntityToggle<T> {
   selectedElements: Record<string, T>;
@@ -9,7 +8,7 @@ export interface UseEntityToggle<T> {
   numberOfSelectedElements: number;
   onToggleEntity: (
     entity: T,
-    _?: React.SyntheticEvent,
+    _?: SyntheticEvent,
     forceRemove?: T[]
   ) => void;
   handleClearSelectedElements: () => void;
@@ -34,7 +33,7 @@ const useEntityToggle = <T extends Record<string, any>>(
   const [selectAll, setSelectAll] = useState(false);
   const onToggleEntity = (
     entity: T,
-    event?: React.SyntheticEvent,
+    event?: SyntheticEvent,
     forceRemove: T[] = [],
   ) => {
     if (event) {

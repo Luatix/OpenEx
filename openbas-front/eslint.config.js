@@ -98,7 +98,6 @@ export default [
       // @stylistic rules
       '@stylistic/brace-style': ['error', '1tbs'],
       '@stylistic/multiline-ternary': ['error', 'always-multiline', { ignoreJSX: true }],
-      // '@stylistic/object-curly-newline': ['error'],
 
       // eslint-plugin-import rules
       'import/no-named-as-default-member': 'off',
@@ -145,7 +144,6 @@ export default [
             {
               group: [
                 '@mui/material/*', '!@mui/material/locale', '!@mui/material/styles', '!@mui/material/colors', '!@mui/material/transitions',
-                '@mui/styles/*',
                 '@mui/x-date-pickers/*', '!@mui/x-date-pickers/AdapterDateFnsV3',
                 '@mui/icons-material/*',
                 '@mui/lab/*',

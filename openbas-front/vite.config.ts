@@ -29,9 +29,7 @@ export default ({ mode }: { mode: string }) => {
       minify: false,
     },
 
-    resolve: {
-      extensions: ['.js', '.tsx', '.ts', '.jsx', '.json'],
-    },
+    resolve: { extensions: ['.js', '.tsx', '.ts', '.jsx', '.json'] },
 
     optimizeDeps: {
       entries: [
@@ -47,14 +45,12 @@ export default ({ mode }: { mode: string }) => {
         '@mui/material/colors',
         '@mui/material/styles',
         '@mui/material/transitions',
-        '@mui/styles',
         '@uiw/react-md-editor/nohighlight',
         'ckeditor5',
         'ckeditor5/translations/en.js',
         'ckeditor5/translations/fr.js',
         'ckeditor5/translations/zh.js',
         'classcat',
-        'classnames',
         'cronstrue',
         'd3-hierarchy',
         'date-fns',
@@ -67,11 +63,9 @@ export default ({ mode }: { mode: string }) => {
         'react-apexcharts',
         'react-color',
         'react-csv',
-        'react-dropzone',
         'react-final-form',
         'react-final-form-arrays',
         'react-hook-form',
-        'react-leaflet',
         'react-markdown',
         'remark-flexible-markers',
         '@xyflow/react',

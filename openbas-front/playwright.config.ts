@@ -1,3 +1,7 @@
+// imports to not let tools report them as unused
+import 'monocart-reporter';
+import 'monocart-coverage-reports';
+
 import { defineConfig, devices } from '@playwright/test';
 
 /**

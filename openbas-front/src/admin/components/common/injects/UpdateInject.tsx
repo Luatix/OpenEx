@@ -1,5 +1,5 @@
 import { Tab, Tabs } from '@mui/material';
-import { type FunctionComponent, type SyntheticEvent, useEffect, useRef, useState } from 'react';
+import { type SyntheticEvent, useEffect, useRef, useState } from 'react';
 
 import { fetchInject } from '../../../../actions/Inject';
 import { type InjectOutputType } from '../../../../actions/injects/Inject';

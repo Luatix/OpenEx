@@ -291,7 +291,6 @@ export interface AttackPatternUpsertInput {
 }
 
 interface BasePayload {
-  expectationSignatureValue?: string;
   listened?: boolean;
   payload_arguments?: PayloadArgument[];
   payload_attack_patterns?: string[];
@@ -540,7 +539,6 @@ export interface ComcheckStatus {
 export interface Command {
   command_content: string;
   command_executor: string;
-  expectationSignatureValue?: string;
   listened?: boolean;
   payload_arguments?: PayloadArgument[];
   payload_attack_patterns?: string[];
@@ -623,7 +621,6 @@ export interface DirectInjectInput {
 
 export interface DnsResolution {
   dns_resolution_hostname: string;
-  expectationSignatureValue?: string;
   listened?: boolean;
   payload_arguments?: PayloadArgument[];
   payload_attack_patterns?: string[];
@@ -805,7 +802,6 @@ export interface EvaluationInput {
 
 export interface Executable {
   executable_file?: string;
-  expectationSignatureValue?: string;
   listened?: boolean;
   payload_arguments?: PayloadArgument[];
   payload_attack_patterns?: string[];
@@ -1151,7 +1147,6 @@ export interface ExportMapperInput {
 }
 
 export interface FileDrop {
-  expectationSignatureValue?: string;
   file_drop_file?: string;
   listened?: boolean;
   payload_arguments?: PayloadArgument[];
@@ -2194,7 +2189,6 @@ export interface MitigationUpsertInput {
 }
 
 export interface NetworkTraffic {
-  expectationSignatureValue?: string;
   listened?: boolean;
   network_traffic_ip_dst: string;
   network_traffic_ip_src: string;

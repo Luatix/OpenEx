@@ -640,8 +640,7 @@ public class CalderaExecutor extends Injector {
                   .value(expectationSignatureValue)
                   .build());
           break;
-        case EXECUTABLE:
-        case FILE_DROP:
+        case EXECUTABLE, FILE_DROP:
           injectExpectationSignatures.add(
               builder()
                   .type(EXPECTATION_SIGNATURE_TYPE_FILE_NAME)

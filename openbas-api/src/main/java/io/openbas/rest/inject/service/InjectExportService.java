@@ -51,7 +51,7 @@ public class InjectExportService {
     return ("injects_" + now().toString()) + "_" + infos + ".zip";
   }
 
-  public byte[] exportExerciseToZip(List<Inject> injects, int exportOptionsMask)
+  public byte[] exportInjectsToZip(List<Inject> injects, int exportOptionsMask)
       throws IOException {
     ObjectMapper objectMapper = mapper.copy();
 

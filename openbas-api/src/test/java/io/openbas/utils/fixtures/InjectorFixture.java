@@ -1,10 +1,16 @@
 package io.openbas.utils.fixtures;
 
 import io.openbas.database.model.Injector;
+import io.openbas.database.repository.InjectorRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import java.time.Instant;
 import java.util.UUID;
 
+@Component
 public class InjectorFixture {
+  @Autowired InjectorRepository injectorRepository;
 
   public static Injector createDefaultInjector() {
     return createInjector(
@@ -20,5 +26,9 @@ public class InjectorFixture {
     injector.setCreatedAt(Instant.now());
     injector.setUpdatedAt(Instant.now());
     return injector;
+  }
+
+  public Injector getWellKnownObasImplantInjector() {
+    return injectorRepository.findByType("openbas_implant").orElseThrow();
   }
 }

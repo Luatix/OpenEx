@@ -1,5 +1,6 @@
 package io.openbas.utils.fixtures;
 
+import static io.openbas.database.model.InjectorContract.CONTACT_CONTENT_FIELDS;
 import static io.openbas.utils.fixtures.InjectorFixture.createDefaultInjector;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -10,13 +11,21 @@ import io.openbas.database.model.InjectorContract;
 import io.openbas.database.model.Payload;
 import io.openbas.injector_contract.ContractCardinality;
 import io.openbas.injector_contract.fields.ContractSelect;
+import lombok.SneakyThrows;
+
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
 public class InjectorContractFixture {
 
+  private static ObjectNode createDefaultContent(ObjectMapper objectMapper) {
+    ObjectNode node = objectMapper.createObjectNode();
+    node.set(CONTACT_CONTENT_FIELDS, objectMapper.valueToTree(new ArrayList<>()));
+    return node;
+  }
   private static InjectorContract createPayloadInjectorContractInternal(
       Injector injector, Payload payloadCommand, List<ContractSelect> customContent)
       throws JsonProcessingException {
@@ -26,8 +35,8 @@ public class InjectorContractFixture {
     injectorContract.setId(UUID.randomUUID().toString());
 
     ObjectMapper objectMapper = new ObjectMapper();
-    ObjectNode content = objectMapper.createObjectNode();
-    content.set("fields", objectMapper.valueToTree(customContent));
+    ObjectNode content = createDefaultContent(objectMapper);
+    content.set(CONTACT_CONTENT_FIELDS, objectMapper.valueToTree(customContent));
 
     injectorContract.setContent(objectMapper.writeValueAsString(content));
     injectorContract.setConvertedContent(content);
@@ -35,10 +44,16 @@ public class InjectorContractFixture {
     return injectorContract;
   }
 
+  @SneakyThrows
   public static InjectorContract createDefaultInjectorContract() {
     InjectorContract injectorContract = new InjectorContract();
     injectorContract.setInjector(createDefaultInjector());
     injectorContract.setId(UUID.randomUUID().toString());
+
+    ObjectMapper objectMapper = new ObjectMapper();
+    ObjectNode content = createDefaultContent(objectMapper);
+    injectorContract.setContent(objectMapper.writeValueAsString(content));
+    injectorContract.setConvertedContent(content);
     return injectorContract;
   }
 

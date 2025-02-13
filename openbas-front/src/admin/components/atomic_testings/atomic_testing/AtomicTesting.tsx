@@ -3,7 +3,7 @@ import { useContext, useEffect, useState } from 'react';
 import { makeStyles } from 'tss-react/mui';
 
 import { fetchDocuments } from '../../../../actions/Document';
-import { DocumentHelper } from '../../../../actions/helper';
+import { type DocumentHelper } from '../../../../actions/helper';
 import Empty from '../../../../components/Empty';
 import ExpandableMarkdown from '../../../../components/ExpandableMarkdown';
 import { useFormatter } from '../../../../components/i18n';
@@ -12,14 +12,14 @@ import Loader from '../../../../components/Loader';
 import PlatformIcon from '../../../../components/PlatformIcon';
 import SearchFilter from '../../../../components/SearchFilter';
 import { useHelper } from '../../../../store';
-import { AttackPatternSimple, InjectTargetWithResult, KillChainPhaseSimple } from '../../../../utils/api-types';
+import { type AttackPatternSimple, type InjectTargetWithResult, type KillChainPhaseSimple } from '../../../../utils/api-types';
 import { useAppDispatch } from '../../../../utils/hooks';
 import useDataLoader from '../../../../utils/hooks/useDataLoader';
 import useSearchAnFilter from '../../../../utils/SortingFiltering';
 import { isNotEmptyField } from '../../../../utils/utils';
 import InjectIcon from '../../common/injects/InjectIcon';
 import ResponsePie from '../../common/injects/ResponsePie';
-import { InjectResultOverviewOutputContext, InjectResultOverviewOutputContextType } from '../InjectResultOverviewOutputContext';
+import { InjectResultOverviewOutputContext, type InjectResultOverviewOutputContextType } from '../InjectResultOverviewOutputContext';
 import TargetListItem from './TargetListItem';
 import TargetResultsDetail from './TargetResultsDetail';
 

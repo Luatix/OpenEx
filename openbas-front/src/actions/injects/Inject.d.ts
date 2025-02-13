@@ -1,4 +1,4 @@
-import type { Inject, InjectOutput } from '../../utils/api-types';
+import { type Inject, type InjectOutput } from '../../utils/api-types';
 
 export type InjectStore = Omit<Inject, 'inject_content' | 'inject_injector_contract'> & {
   inject_content: { expectationScore: number; challenges: string[] | undefined };

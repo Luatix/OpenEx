@@ -16,26 +16,25 @@ import {
   ListItemText,
 } from '@mui/material';
 import * as R from 'ramda';
-import { useContext, useState } from 'react';
-import * as React from 'react';
+import { type FunctionComponent, useContext, useState } from 'react';
 import { makeStyles } from 'tss-react/mui';
 
-import type { OrganizationHelper, UserHelper } from '../../../../actions/helper';
+import { type OrganizationHelper, type UserHelper } from '../../../../actions/helper';
 import { fetchPlayers } from '../../../../actions/User';
 import Transition from '../../../../components/common/Transition';
 import { useFormatter } from '../../../../components/i18n';
 import ItemTags from '../../../../components/ItemTags';
 import SearchFilter from '../../../../components/SearchFilter';
 import { useHelper } from '../../../../store';
-import type { Organization, Team } from '../../../../utils/api-types';
+import { type Organization, type Team } from '../../../../utils/api-types';
 import { useAppDispatch } from '../../../../utils/hooks';
 import useDataLoader from '../../../../utils/hooks/useDataLoader';
-import type { Option } from '../../../../utils/Option';
+import { type Option } from '../../../../utils/Option';
 import { resolveUserName, truncate } from '../../../../utils/String';
 import { TeamContext } from '../../common/Context';
 import TagsFilter from '../../common/filters/TagsFilter';
 import CreatePlayer from '../../teams/players/CreatePlayer';
-import type { UserStore } from '../../teams/players/Player';
+import { type UserStore } from '../../teams/players/Player';
 
 const useStyles = makeStyles()(() => ({
   createButton: {
@@ -64,7 +63,7 @@ type UserStoreExtended = UserStore & {
   organization_description: Organization['organization_description'];
 };
 
-const TeamAddPlayers: React.FC<Props> = ({ addedUsersIds, teamId }) => {
+const TeamAddPlayers: FunctionComponent<Props> = ({ addedUsersIds, teamId }) => {
   const dispatch = useAppDispatch();
   const { t } = useFormatter();
   const { classes } = useStyles();

@@ -6,15 +6,15 @@ import { useNavigate, useParams } from 'react-router';
 import { makeStyles } from 'tss-react/mui';
 
 import { updateExerciseStatus } from '../../../../actions/Exercise';
-import type { ExercisesHelper } from '../../../../actions/exercises/exercise-helper';
+import { type ExercisesHelper } from '../../../../actions/exercises/exercise-helper';
 import Transition from '../../../../components/common/Transition';
 import { useFormatter } from '../../../../components/i18n';
 import { useHelper } from '../../../../store';
-import type { Exercise, Exercise as ExerciseType } from '../../../../utils/api-types';
+import { type Exercise, type Exercise as ExerciseType } from '../../../../utils/api-types';
 import { usePermissions } from '../../../../utils/Exercise';
 import { useAppDispatch } from '../../../../utils/hooks';
 import { truncate } from '../../../../utils/String';
-import ExercisePopover, { ExerciseActionPopover } from './ExercisePopover';
+import ExercisePopover, { type ExerciseActionPopover } from './ExercisePopover';
 import ExerciseStatus from './ExerciseStatus';
 
 const useStyles = makeStyles()(() => ({

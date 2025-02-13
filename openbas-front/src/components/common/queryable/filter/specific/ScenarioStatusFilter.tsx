@@ -1,11 +1,11 @@
 import { Autocomplete, MenuItem, Select, TextField } from '@mui/material';
-import { FunctionComponent } from 'react';
+import { type FunctionComponent } from 'react';
 
 import { SCENARIO_NOT_SCHEDULED_STATUS, SCENARIO_SCHEDULED_STATUS } from '../../../../../admin/components/scenarios/scenario/ScenarioStatus';
-import type { PropertySchemaDTO } from '../../../../../utils/api-types';
-import { Option } from '../../../../../utils/Option';
+import { type PropertySchemaDTO } from '../../../../../utils/api-types';
+import { type Option } from '../../../../../utils/Option';
 import { useFormatter } from '../../../../i18n';
-import { FilterHelpers } from '../FilterHelpers';
+import { type FilterHelpers } from '../FilterHelpers';
 import { OperatorKeyValues } from '../FilterUtils';
 
 const ScenarioStatusFilter: FunctionComponent<{ propertySchema: PropertySchemaDTO; helpers: FilterHelpers }> = ({

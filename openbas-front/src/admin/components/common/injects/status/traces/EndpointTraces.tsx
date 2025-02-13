@@ -2,7 +2,7 @@ import { Typography } from '@mui/material';
 
 import { useFormatter } from '../../../../../../components/i18n';
 import PlatformIcon from '../../../../../../components/PlatformIcon';
-import { AgentStatusOutput, EndpointOutput } from '../../../../../../utils/api-types';
+import { type AgentStatusOutput, type EndpointOutput } from '../../../../../../utils/api-types';
 import AgentTraces from './AgentTraces';
 
 interface Props {

@@ -1,11 +1,11 @@
 import { Collapse, ListItemIcon, ListItemText, MenuItem, MenuList, Popover } from '@mui/material';
-import { FunctionComponent } from 'react';
+import { type FunctionComponent } from 'react';
 import { Link, useLocation } from 'react-router';
 
 import { useFormatter } from '../../../i18n';
-import { LeftMenuSubItem } from './leftmenu-model';
+import { type LeftMenuSubItem } from './leftmenu-model';
 import StyledTooltip from './StyledTooltip';
-import { LeftMenuHelpers, LeftMenuState } from './useLeftMenu';
+import { type LeftMenuHelpers, type LeftMenuState } from './useLeftMenu';
 
 interface Props {
   menu: string;

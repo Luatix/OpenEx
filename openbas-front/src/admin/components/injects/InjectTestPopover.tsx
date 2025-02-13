@@ -1,14 +1,13 @@
 import { MoreVert } from '@mui/icons-material';
 import { IconButton, Menu, MenuItem } from '@mui/material';
-import { FunctionComponent, useContext, useState } from 'react';
-import * as React from 'react';
+import { type FunctionComponent, type MouseEvent as ReactMouseEvent, useContext, useState } from 'react';
 
 import { deleteInjectTest } from '../../../actions/inject_test/inject-test-actions';
 import { testInject } from '../../../actions/injects/inject-action';
 import DialogDelete from '../../../components/common/DialogDelete';
 import DialogTest from '../../../components/common/DialogTest';
 import { useFormatter } from '../../../components/i18n';
-import type { InjectTestStatusOutput } from '../../../utils/api-types';
+import { type InjectTestStatusOutput } from '../../../utils/api-types';
 import { MESSAGING$ } from '../../../utils/Environment';
 import { PermissionsContext } from '../common/Context';
 
@@ -31,7 +30,7 @@ const InjectTestPopover: FunctionComponent<Props> = ({
   const [openDelete, setOpenDelete] = useState(false);
   const [openTest, setOpenTest] = useState(false);
 
-  const handlePopoverOpen = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const handlePopoverOpen = (event: ReactMouseEvent<HTMLButtonElement>) => {
     event.stopPropagation();
     setAnchorEl(event.currentTarget);
   };

@@ -2,14 +2,13 @@ import { PlayArrowOutlined } from '@mui/icons-material';
 import { Avatar, Button, Chip, Grid, Paper, Typography } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import * as R from 'ramda';
-import * as React from 'react';
-import { useState } from 'react';
+import { type Dispatch, type SetStateAction, useState } from 'react';
 import { Link, useParams } from 'react-router';
 import { makeStyles } from 'tss-react/mui';
 
-import type { ExercisesHelper } from '../../../../actions/exercises/exercise-helper';
+import { type ExercisesHelper } from '../../../../actions/exercises/exercise-helper';
 import { searchScenarioExercises } from '../../../../actions/scenarios/scenario-actions';
-import type { ScenariosHelper } from '../../../../actions/scenarios/scenario-helper';
+import { type ScenariosHelper } from '../../../../actions/scenarios/scenario-helper';
 import { initSorting } from '../../../../components/common/queryable/Page';
 import PaginationComponentV2 from '../../../../components/common/queryable/pagination/PaginationComponentV2';
 import { buildSearchPagination } from '../../../../components/common/queryable/QueryableUtils';
@@ -24,7 +23,7 @@ import PlatformIcon from '../../../../components/PlatformIcon';
 import octiDark from '../../../../static/images/xtm/octi_dark.png';
 import octiLight from '../../../../static/images/xtm/octi_light.png';
 import { useHelper } from '../../../../store';
-import type { ExerciseSimple, KillChainPhase, Scenario as ScenarioType, SearchPaginationInput } from '../../../../utils/api-types';
+import { type ExerciseSimple, type KillChainPhase, type Scenario as ScenarioType, type SearchPaginationInput } from '../../../../utils/api-types';
 import { isEmptyField } from '../../../../utils/utils';
 import ExerciseList from '../../simulations/ExerciseList';
 import ExercisePopover from '../../simulations/simulation/ExercisePopover';
@@ -53,7 +52,7 @@ const useStyles = makeStyles()(() => ({
   },
 }));
 
-const Scenario = ({ setOpenInstantiateSimulationAndStart }: { setOpenInstantiateSimulationAndStart: React.Dispatch<React.SetStateAction<boolean>> }) => {
+const Scenario = ({ setOpenInstantiateSimulationAndStart }: { setOpenInstantiateSimulationAndStart: Dispatch<SetStateAction<boolean>> }) => {
   // Standard hooks
   const { classes } = useStyles();
   const theme = useTheme();

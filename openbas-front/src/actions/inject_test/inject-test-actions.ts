@@ -1,5 +1,5 @@
 import { simpleCall, simpleDelCall, simplePostCall } from '../../utils/Action';
-import type { SearchPaginationInput } from '../../utils/api-types';
+import { type SearchPaginationInput } from '../../utils/api-types';
 
 export const searchExerciseInjectTests = (exerciseId: string, searchPaginationInput: SearchPaginationInput) => {
   const uri = `/api/exercise/${exerciseId}/injects/test`;

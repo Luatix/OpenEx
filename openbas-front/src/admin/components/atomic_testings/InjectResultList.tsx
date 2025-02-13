@@ -1,20 +1,20 @@
 import { HelpOutlineOutlined } from '@mui/icons-material';
 import { List, ListItem, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
-import { CSSProperties, FunctionComponent, useMemo, useState } from 'react';
+import { type CSSProperties, type FunctionComponent, useMemo, useState } from 'react';
 import { Link } from 'react-router';
 import { makeStyles } from 'tss-react/mui';
 
 import { type Page } from '../../../components/common/queryable/Page';
 import PaginationComponentV2 from '../../../components/common/queryable/pagination/PaginationComponentV2';
-import { QueryableHelpers } from '../../../components/common/queryable/QueryableHelpers';
+import { type QueryableHelpers } from '../../../components/common/queryable/QueryableHelpers';
 import SortHeadersComponentV2 from '../../../components/common/queryable/sort/SortHeadersComponentV2';
-import { Header } from '../../../components/common/SortHeadersList';
+import { type Header } from '../../../components/common/SortHeadersList';
 import Empty from '../../../components/Empty';
 import { useFormatter } from '../../../components/i18n';
 import ItemStatus from '../../../components/ItemStatus';
 import ItemTargets from '../../../components/ItemTargets';
 import PaginatedListLoader from '../../../components/PaginatedListLoader';
-import type { InjectResultOutput, SearchPaginationInput } from '../../../utils/api-types';
+import { type InjectResultOutput, type SearchPaginationInput } from '../../../utils/api-types';
 import { isNotEmptyField } from '../../../utils/utils';
 import InjectIcon from '../common/injects/InjectIcon';
 import InjectorContract from '../common/injects/InjectorContract';

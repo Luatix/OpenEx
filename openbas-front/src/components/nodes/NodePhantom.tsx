@@ -1,5 +1,5 @@
 import { AddCircleOutline } from '@mui/icons-material';
-import { FunctionComponent, memo } from 'react';
+import { type FunctionComponent, memo } from 'react';
 import { makeStyles } from 'tss-react/mui';
 
 const useStyles = makeStyles()(() => ({

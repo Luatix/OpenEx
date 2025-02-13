@@ -1,13 +1,12 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Button, TextField } from '@mui/material';
-import * as React from 'react';
-import { SyntheticEvent } from 'react';
-import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import { type FunctionComponent, type SyntheticEvent } from 'react';
+import { Controller, type SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
 
 import TagField from '../../../../components/fields/TagField';
 import { useFormatter } from '../../../../components/i18n';
-import type { EndpointUpdateInput } from '../../../../utils/api-types';
+import { type EndpointUpdateInput } from '../../../../utils/api-types';
 import { zodImplement } from '../../../../utils/Zod';
 
 interface Props {
@@ -17,7 +16,7 @@ interface Props {
   initialValues?: EndpointUpdateInput;
 }
 
-const EndpointForm: React.FC<Props> = ({
+const EndpointForm: FunctionComponent<Props> = ({
   onSubmit,
   handleClose,
   editing,

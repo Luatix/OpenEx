@@ -1,6 +1,6 @@
 import { ListItemIcon, MenuItem, Tooltip } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
-import React from 'react';
+import { type FunctionComponent } from 'react';
 
 import logoFiligranDark from '../../../../static/images/logo_filigran_dark.png';
 import logoFiligranLight from '../../../../static/images/logo_filigran_light.png';
@@ -13,7 +13,7 @@ interface Props {
   onClick: () => void;
 }
 
-const MenuItemLogo: React.FC<Props> = ({
+const MenuItemLogo: FunctionComponent<Props> = ({
   navOpen,
   onClick,
 }) => {

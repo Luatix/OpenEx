@@ -1,6 +1,6 @@
 import { InfoOutlined } from '@mui/icons-material';
 import { Button, InputAdornment, Tooltip } from '@mui/material';
-import { FunctionComponent } from 'react';
+import { type FunctionComponent } from 'react';
 import { Form } from 'react-final-form';
 import { z } from 'zod';
 
@@ -10,7 +10,7 @@ import { useFormatter } from '../../../../components/i18n';
 import OrganizationField from '../../../../components/OrganizationField';
 import TagField from '../../../../components/TagField';
 import { schemaValidator } from '../../../../utils/Zod';
-import type { PlayerInputForm } from './Player';
+import { type PlayerInputForm } from './Player';
 
 interface PlayerFormProps {
   initialValues: Partial<PlayerInputForm>;

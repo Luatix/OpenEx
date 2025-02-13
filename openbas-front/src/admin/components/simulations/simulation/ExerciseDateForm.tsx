@@ -1,13 +1,12 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Button, FormControlLabel, Stack, Switch } from '@mui/material';
 import { DatePicker, TimePicker } from '@mui/x-date-pickers';
-import { useState } from 'react';
-import * as React from 'react';
-import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import { type ChangeEvent, type FunctionComponent, useState } from 'react';
+import { Controller, type SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
 
 import { useFormatter } from '../../../../components/i18n';
-import type { ExerciseUpdateStartDateInput } from '../../../../utils/api-types';
+import { type ExerciseUpdateStartDateInput } from '../../../../utils/api-types';
 import { minutesInFuture } from '../../../../utils/Time';
 import { zodImplement } from '../../../../utils/Zod';
 
@@ -25,7 +24,7 @@ interface ExerciseStartDateAndTime {
 // eslint-disable-next-line no-underscore-dangle
 const _MS_DELAY_TOO_CLOSE = 1000 * 60 * 2;
 
-const ExerciseDateForm: React.FC<Props> = ({
+const ExerciseDateForm: FunctionComponent<Props> = ({
   onSubmit,
   handleClose,
   initialValues,
@@ -47,7 +46,7 @@ const ExerciseDateForm: React.FC<Props> = ({
   };
 
   const [checked, setChecked] = useState(!initialValues?.exercise_start_date);
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setChecked(event.target.checked);
   };
 

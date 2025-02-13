@@ -1,9 +1,9 @@
 import { GroupsOutlined, LocalPoliceOutlined, PermIdentityOutlined } from '@mui/icons-material';
-import * as React from 'react';
+import { type FunctionComponent } from 'react';
 
-import RightMenu, { RightMenuEntry } from '../../../components/common/menu/RightMenu';
+import RightMenu, { type RightMenuEntry } from '../../../components/common/menu/RightMenu';
 
-const SecurityMenu: React.FC = () => {
+const SecurityMenu: FunctionComponent = () => {
   const entries: RightMenuEntry[] = [
     {
       path: '/admin/settings/security/groups',

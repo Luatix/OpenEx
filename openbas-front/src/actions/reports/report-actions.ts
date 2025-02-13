@@ -1,7 +1,7 @@
-import { Dispatch } from 'redux';
+import { type Dispatch } from 'redux';
 
 import { delReferential, getReferential, postReferential, putReferential } from '../../utils/Action';
-import type { Exercise, Report, ReportInjectComment, ReportInput } from '../../utils/api-types';
+import { type Exercise, type Report, type ReportInjectComment, type ReportInput } from '../../utils/api-types';
 import * as schema from '../Schema';
 
 export const fetchReportsForExercise = (exerciseId: Exercise['exercise_id']) => (dispatch: Dispatch) => {

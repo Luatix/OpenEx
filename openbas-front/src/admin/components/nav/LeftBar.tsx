@@ -1,7 +1,7 @@
 import { DashboardOutlined, DescriptionOutlined, DevicesOtherOutlined, DnsOutlined, DomainOutlined, Groups3Outlined, GroupsOutlined, HubOutlined, MovieFilterOutlined, OnlinePredictionOutlined, PersonOutlined, RowingOutlined, SchoolOutlined, SettingsOutlined, SmartButtonOutlined, SubscriptionsOutlined, TerminalOutlined } from '@mui/icons-material';
 import { NewspaperVariantMultipleOutline, PostOutline, SecurityNetwork, SelectGroup, Target } from 'mdi-material-ui';
 
-import type { UserHelper } from '../../../actions/helper';
+import { type UserHelper } from '../../../actions/helper';
 import LeftMenu from '../../../components/common/menu/leftmenu/LeftMenu';
 import { useHelper } from '../../../store';
 

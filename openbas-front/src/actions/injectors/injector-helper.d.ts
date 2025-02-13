@@ -1,4 +1,4 @@
-import type { Injector } from '../../utils/api-types';
+import { type Injector } from '../../utils/api-types';
 
 export interface InjectorHelper {
   getInjector: (injectorId: string) => Injector;

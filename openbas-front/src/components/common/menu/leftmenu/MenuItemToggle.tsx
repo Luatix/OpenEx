@@ -1,6 +1,6 @@
 import { ChevronLeft, ChevronRight } from '@mui/icons-material';
 import { ListItemIcon, ListItemText, MenuItem } from '@mui/material';
-import React from 'react';
+import { type FunctionComponent } from 'react';
 
 import { useFormatter } from '../../../i18n';
 
@@ -9,7 +9,7 @@ interface Props {
   onClick: () => void;
 }
 
-const MenuItemToggle: React.FC<Props> = ({ navOpen, onClick }) => {
+const MenuItemToggle: FunctionComponent<Props> = ({ navOpen, onClick }) => {
   // Standard hooks
   const { t } = useFormatter();
 

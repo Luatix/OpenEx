@@ -1,8 +1,8 @@
 import { EmojiEventsOutlined } from '@mui/icons-material';
-import { FunctionComponent } from 'react';
+import { type FunctionComponent } from 'react';
 
-import type { Challenge } from '../../../../../../utils/api-types';
-import type { InjectExpectationsStore } from '../../../../common/injects/expectations/Expectation';
+import { type Challenge } from '../../../../../../utils/api-types';
+import { type InjectExpectationsStore } from '../../../../common/injects/expectations/Expectation';
 import ExpectationLine from './ExpectationLine';
 
 interface Props {

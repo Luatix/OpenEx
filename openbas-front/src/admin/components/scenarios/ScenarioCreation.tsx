@@ -1,13 +1,13 @@
-import { FunctionComponent, useState } from 'react';
+import { type FunctionComponent, useState } from 'react';
 import { useNavigate } from 'react-router';
 
-import { LoggedHelper } from '../../../actions/helper';
+import { type LoggedHelper } from '../../../actions/helper';
 import { addScenario } from '../../../actions/scenarios/scenario-actions';
 import ButtonCreate from '../../../components/common/ButtonCreate';
 import Drawer from '../../../components/common/Drawer';
 import { useFormatter } from '../../../components/i18n';
 import { useHelper } from '../../../store';
-import type { PlatformSettings, Scenario, ScenarioInput } from '../../../utils/api-types';
+import { type PlatformSettings, type Scenario, type ScenarioInput } from '../../../utils/api-types';
 import { useAppDispatch } from '../../../utils/hooks';
 import ScenarioForm from './ScenarioForm';
 

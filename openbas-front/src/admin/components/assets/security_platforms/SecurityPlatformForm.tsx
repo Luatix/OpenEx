@@ -1,14 +1,13 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Button, MenuItem, TextField } from '@mui/material';
-import { SyntheticEvent } from 'react';
-import * as React from 'react';
-import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import { type FunctionComponent, type SyntheticEvent } from 'react';
+import { Controller, type SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
 
 import FileLoader from '../../../../components/fields/FileLoader';
 import TagField from '../../../../components/fields/TagField';
 import { useFormatter } from '../../../../components/i18n';
-import type { SecurityPlatformInput } from '../../../../utils/api-types';
+import { type SecurityPlatformInput } from '../../../../utils/api-types';
 import { zodImplement } from '../../../../utils/Zod';
 
 interface Props {
@@ -18,7 +17,7 @@ interface Props {
   initialValues?: SecurityPlatformInput;
 }
 
-const SecurityPlatformForm: React.FC<Props> = ({
+const SecurityPlatformForm: FunctionComponent<Props> = ({
   onSubmit,
   handleClose,
   editing,

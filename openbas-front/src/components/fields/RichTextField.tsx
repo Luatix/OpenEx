@@ -1,6 +1,6 @@
 import { FormHelperText, InputLabel } from '@mui/material';
-import { CSSProperties } from 'react';
-import { Control, Controller } from 'react-hook-form';
+import { type CSSProperties } from 'react';
+import { type Control, Controller } from 'react-hook-form';
 
 import TextFieldAskAI from '../../admin/components/common/form/TextFieldAskAI';
 import CKEditor from '../CKEditor';

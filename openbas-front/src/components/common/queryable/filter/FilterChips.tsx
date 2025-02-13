@@ -1,10 +1,10 @@
 import { Box } from '@mui/material';
-import { Fragment, FunctionComponent, useCallback } from 'react';
+import { Fragment, type FunctionComponent, useCallback } from 'react';
 
-import type { Filter, FilterGroup, PropertySchemaDTO } from '../../../../utils/api-types';
+import { type Filter, type FilterGroup, type PropertySchemaDTO } from '../../../../utils/api-types';
 import ClickableModeChip from '../../chips/ClickableModeChip';
 import FilterChip from './FilterChip';
-import { FilterHelpers } from './FilterHelpers';
+import { type FilterHelpers } from './FilterHelpers';
 
 interface Props {
   propertySchemas: PropertySchemaDTO[];

@@ -1,13 +1,13 @@
 import { Autocomplete as MuiAutocomplete, Box, TextField } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
-import { CSSProperties, FunctionComponent } from 'react';
-import { FieldErrors } from 'react-hook-form';
+import { type CSSProperties, type FunctionComponent } from 'react';
+import { type FieldErrors } from 'react-hook-form';
 import { makeStyles } from 'tss-react/mui';
 
-import type { SecurityPlatformHelper } from '../../actions/assets/asset-helper';
+import { type SecurityPlatformHelper } from '../../actions/assets/asset-helper';
 import { fetchSecurityPlatforms } from '../../actions/assets/securityPlatform-actions';
 import { useHelper } from '../../store';
-import type { SecurityPlatform } from '../../utils/api-types';
+import { type SecurityPlatform } from '../../utils/api-types';
 import { useAppDispatch } from '../../utils/hooks';
 import useDataLoader from '../../utils/hooks/useDataLoader';
 

@@ -1,12 +1,12 @@
 import { CastForEducationOutlined, CastOutlined } from '@mui/icons-material';
 import { useTheme } from '@mui/material/styles';
 import * as R from 'ramda';
-import { Fragment, FunctionComponent } from 'react';
+import { Fragment, type FunctionComponent } from 'react';
 import { makeStyles } from 'tss-react/mui';
 
-import type { InjectStore } from '../actions/injects/Inject';
+import { type InjectStore } from '../actions/injects/Inject';
 import InjectIcon from '../admin/components/common/injects/InjectIcon';
-import type { Inject, Team } from '../utils/api-types';
+import { type Inject, type Team } from '../utils/api-types';
 import useSearchAnFilter from '../utils/SortingFiltering';
 import { truncate } from '../utils/String';
 import { splitDuration } from '../utils/Time';

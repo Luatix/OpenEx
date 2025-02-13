@@ -1,17 +1,17 @@
 import { ControlPointOutlined, GroupsOutlined } from '@mui/icons-material';
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
-import { FunctionComponent, useContext, useEffect, useMemo, useState } from 'react';
+import { type FunctionComponent, useContext, useEffect, useMemo, useState } from 'react';
 import { makeStyles } from 'tss-react/mui';
 
 import { findTeams } from '../../../../actions/teams/team-actions';
 import PaginationComponentV2 from '../../../../components/common/queryable/pagination/PaginationComponentV2';
 import { buildSearchPagination } from '../../../../components/common/queryable/QueryableUtils';
 import { useQueryable } from '../../../../components/common/queryable/useQueryableWithLocalStorage';
-import SelectList, { SelectListElements } from '../../../../components/common/SelectList';
+import SelectList, { type SelectListElements } from '../../../../components/common/SelectList';
 import Transition from '../../../../components/common/Transition';
 import { useFormatter } from '../../../../components/i18n';
 import ItemTags from '../../../../components/ItemTags';
-import type { TeamOutput } from '../../../../utils/api-types';
+import { type TeamOutput } from '../../../../utils/api-types';
 import CreateTeam from '../../components/teams/CreateTeam';
 import { PermissionsContext, TeamContext } from '../Context';
 

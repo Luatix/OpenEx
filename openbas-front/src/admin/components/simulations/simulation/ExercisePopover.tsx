@@ -1,10 +1,10 @@
 import { Button, Checkbox, Dialog, DialogActions, DialogContent, DialogTitle, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
-import { FunctionComponent, useState } from 'react';
+import { type FunctionComponent, useState } from 'react';
 import { useNavigate } from 'react-router';
 
 import { deleteExercise, duplicateExercise, updateExercise } from '../../../../actions/Exercise';
 import { checkExerciseTagRules } from '../../../../actions/exercises/exercise-action';
-import type { TagHelper, UserHelper } from '../../../../actions/helper';
+import { type TagHelper, type UserHelper } from '../../../../actions/helper';
 import ButtonPopover from '../../../../components/common/ButtonPopover';
 import DialogApplyTagRule from '../../../../components/common/DialogApplyTagRule';
 import DialogDelete from '../../../../components/common/DialogDelete';
@@ -13,10 +13,10 @@ import Drawer from '../../../../components/common/Drawer';
 import Transition from '../../../../components/common/Transition';
 import { useFormatter } from '../../../../components/i18n';
 import { useHelper } from '../../../../store';
-import type {
-  CheckScenarioRulesOutput,
-  Exercise,
-  UpdateExerciseInput,
+import {
+  type CheckScenarioRulesOutput,
+  type Exercise,
+  type UpdateExerciseInput,
 } from '../../../../utils/api-types';
 import { usePermissions } from '../../../../utils/Exercise';
 import { useAppDispatch } from '../../../../utils/hooks';

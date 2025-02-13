@@ -1,4 +1,4 @@
-import type { Filter, FilterGroup } from '../../../../utils/api-types';
+import { type Filter, type FilterGroup } from '../../../../utils/api-types';
 import { isExistFilter } from './FilterUtils';
 
 const updateFilters = (filters: FilterGroup, updateFn: (filter: Filter) => Filter): FilterGroup => {

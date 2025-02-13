@@ -1,8 +1,8 @@
 import { ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
-import { FunctionComponent, ReactElement } from 'react';
+import { type FunctionComponent, type ReactElement } from 'react';
 import { makeStyles } from 'tss-react/mui';
 
-import type { InjectExpectationsStore } from '../../../../common/injects/expectations/Expectation';
+import { type InjectExpectationsStore } from '../../../../common/injects/expectations/Expectation';
 import ResultChip from './ResultChip';
 
 const useStyles = makeStyles()(theme => ({

@@ -1,6 +1,6 @@
 import { Box, Button, InputLabel } from '@mui/material';
-import { FormEvent, FunctionComponent, useEffect, useState } from 'react';
-import { FieldError, FieldErrors, FieldErrorsImpl, Merge } from 'react-hook-form';
+import { type FormEvent, type FunctionComponent, useEffect, useState } from 'react';
+import { type FieldError, type FieldErrors, type FieldErrorsImpl, type Merge } from 'react-hook-form';
 import { makeStyles } from 'tss-react/mui';
 
 import { truncate } from '../../utils/String';

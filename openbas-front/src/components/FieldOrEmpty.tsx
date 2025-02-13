@@ -1,10 +1,10 @@
-import * as React from 'react';
+import { type ReactNode } from 'react';
 
 import { isNotEmptyField } from '../utils/utils';
 
 interface FieldOrEmptyProps<T> {
   source: T;
-  children: React.ReactNode;
+  children: ReactNode;
 }
 
 const FieldOrEmpty = <T = never>({ source, children }: FieldOrEmptyProps<T>) => {

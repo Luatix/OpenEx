@@ -1,22 +1,23 @@
 import { CloseRounded } from '@mui/icons-material';
 import { IconButton, Typography } from '@mui/material';
-import { FunctionComponent } from 'react';
+import { type FunctionComponent } from 'react';
 import { makeStyles } from 'tss-react/mui';
 
 import { fetchAssetGroup } from '../../../../actions/asset_groups/assetgroup-action';
-import type { AssetGroupsHelper } from '../../../../actions/asset_groups/assetgroup-helper';
-import type { EndpointHelper } from '../../../../actions/assets/asset-helper';
+import { type AssetGroupsHelper } from '../../../../actions/asset_groups/assetgroup-helper';
+import { type EndpointHelper } from '../../../../actions/assets/asset-helper';
 import { fetchEndpoints } from '../../../../actions/assets/endpoint-actions';
-import type { UserHelper } from '../../../../actions/helper';
+import { type UserHelper } from '../../../../actions/helper';
 import SearchFilter from '../../../../components/SearchFilter';
 import { useHelper } from '../../../../store';
-import type { AssetGroup, Endpoint } from '../../../../utils/api-types';
+import { type AssetGroup, type Endpoint } from '../../../../utils/api-types';
 import { useAppDispatch } from '../../../../utils/hooks';
 import useDataLoader from '../../../../utils/hooks/useDataLoader';
 import useSearchAnFilter from '../../../../utils/SortingFiltering';
 import TagsFilter from '../../common/filters/TagsFilter';
+import { type EndpointStoreWithType } from '../endpoints/endpoint';
 import EndpointPopover from '../endpoints/EndpointPopover';
-import EndpointsList, { EndpointStoreWithType } from '../endpoints/EndpointsList';
+import EndpointsList from '../endpoints/EndpointsList';
 import AssetGroupAddEndpoints from './AssetGroupAddEndpoints';
 
 const useStyles = makeStyles()(theme => ({

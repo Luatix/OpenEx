@@ -1,12 +1,11 @@
 import { InfoOutlined } from '@mui/icons-material';
 import { FormControlLabel, FormLabel, Radio, RadioGroup, Tooltip } from '@mui/material';
-import * as React from 'react';
-import { FunctionComponent } from 'react';
-import { Control, Controller } from 'react-hook-form';
+import { type ChangeEvent, type FunctionComponent } from 'react';
+import { type Control, Controller } from 'react-hook-form';
 import { makeStyles } from 'tss-react/mui';
 
 import { useFormatter } from '../../../../../../components/i18n';
-import { ExpectationInputForm } from '../Expectation';
+import { type ExpectationInputForm } from '../Expectation';
 
 const useStyles = makeStyles()(theme => ({
   marginTop_2: {
@@ -53,7 +52,7 @@ const ExpectationGroupField: FunctionComponent<Props> = ({
           </FormLabel>
           <RadioGroup
             value={value}
-            onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+            onChange={(event: ChangeEvent<HTMLInputElement>) => {
               onChange(event.target.value === 'true');
             }}
           >

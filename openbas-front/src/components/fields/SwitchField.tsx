@@ -1,6 +1,6 @@
 import { FormControlLabel, Switch } from '@mui/material';
-import { CSSProperties } from 'react';
-import { Control, Controller } from 'react-hook-form';
+import { type CSSProperties } from 'react';
+import { type Control, Controller } from 'react-hook-form';
 
 interface Props {
   label: string;

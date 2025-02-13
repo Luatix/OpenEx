@@ -1,8 +1,8 @@
 import { ArrowDropDownOutlined, ArrowDropUpOutlined } from '@mui/icons-material';
-import { CSSProperties, FunctionComponent, useState } from 'react';
+import { type CSSProperties, type FunctionComponent, useState } from 'react';
 import { makeStyles } from 'tss-react/mui';
 
-import type { SearchPaginationInput } from '../../../utils/api-types';
+import { type SearchPaginationInput } from '../../../utils/api-types';
 import { useFormatter } from '../../i18n';
 
 const useStyles = makeStyles()(() => ({
@@ -31,7 +31,7 @@ const useStyles = makeStyles()(() => ({
   },
 }));
 
-export interface Header {
+interface Header {
   field: string;
   label: string;
   isSortable: boolean;

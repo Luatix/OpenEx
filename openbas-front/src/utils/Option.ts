@@ -1,7 +1,7 @@
 import * as R from 'ramda';
 
 import countriesJson from '../static/geo/countries.json';
-import type { AttackPattern, Document, Exercise, KillChainPhase, Organization, Scenario, Tag } from './api-types';
+import { type AttackPattern, type Document, type Exercise, type KillChainPhase, type Organization, type Scenario, type Tag } from './api-types';
 
 interface Countries {
   features: [{

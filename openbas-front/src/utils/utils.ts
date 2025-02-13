@@ -1,6 +1,6 @@
 import * as R from 'ramda';
 
-import type { LoggedHelper } from '../actions/helper';
+import { type LoggedHelper } from '../actions/helper';
 import { useHelper } from '../store';
 import { MESSAGING$ } from './Environment';
 

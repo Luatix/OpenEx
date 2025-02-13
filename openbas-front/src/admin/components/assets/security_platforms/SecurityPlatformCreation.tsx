@@ -1,6 +1,6 @@
 import { ControlPointOutlined } from '@mui/icons-material';
 import { ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
-import { FunctionComponent, useState } from 'react';
+import { type FunctionComponent, useState } from 'react';
 import { makeStyles } from 'tss-react/mui';
 
 import { addSecurityPlatform } from '../../../../actions/assets/securityPlatform-actions';
@@ -8,7 +8,7 @@ import ButtonCreate from '../../../../components/common/ButtonCreate';
 import Dialog from '../../../../components/common/Dialog';
 import Drawer from '../../../../components/common/Drawer';
 import { useFormatter } from '../../../../components/i18n';
-import type { SecurityPlatform, SecurityPlatformInput } from '../../../../utils/api-types';
+import { type SecurityPlatform, type SecurityPlatformInput } from '../../../../utils/api-types';
 import { useAppDispatch } from '../../../../utils/hooks';
 import SecurityPlatformForm from './SecurityPlatformForm';
 

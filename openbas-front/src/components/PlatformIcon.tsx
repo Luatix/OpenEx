@@ -1,6 +1,6 @@
-import { PaletteMode, Tooltip } from '@mui/material';
+import { type PaletteMode, Tooltip } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
-import { FunctionComponent } from 'react';
+import { type FunctionComponent } from 'react';
 
 import browserDark from '../static/images/platforms/browser-dark.png';
 import browserLight from '../static/images/platforms/browser-light.png';

@@ -1,4 +1,4 @@
-import type { Exercise, Scenario, Team, User } from '../../utils/api-types';
+import { type Exercise, type Scenario, type Team, type User } from '../../utils/api-types';
 
 export interface TeamsHelper {
   getExerciseTeams: (exerciseId: Exercise['exercise_id']) => Team[];

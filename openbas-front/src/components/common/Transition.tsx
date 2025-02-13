@@ -1,20 +1,19 @@
 import { Slide } from '@mui/material';
-import type { TransitionProps } from '@mui/material/transitions';
-import { JSXElementConstructor } from 'react';
-import * as React from 'react';
+import { type TransitionProps } from '@mui/material/transitions';
+import { forwardRef, type JSXElementConstructor, type ReactElement, type Ref } from 'react';
 
-const Transition = React.forwardRef(
+const Transition = forwardRef(
   (
     {
       children,
       ...props
     }: TransitionProps & {
-      children: React.ReactElement<
+      children: ReactElement<
         unknown,
       string | JSXElementConstructor<unknown>
       >;
     },
-    ref: React.Ref<unknown>,
+    ref: Ref<unknown>,
   ) => {
     return (
       <Slide direction="up" ref={ref} {...props}>

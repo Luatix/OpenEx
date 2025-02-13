@@ -1,6 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Button } from '@mui/material';
-import { FunctionComponent, SyntheticEvent, useState } from 'react';
+import { type FunctionComponent, type SyntheticEvent, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { makeStyles } from 'tss-react/mui';
 import { z } from 'zod';

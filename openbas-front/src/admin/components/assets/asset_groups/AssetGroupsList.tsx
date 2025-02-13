@@ -1,14 +1,14 @@
 import { List, ListItem, ListItemIcon, ListItemSecondaryAction, ListItemText } from '@mui/material';
 import { SelectGroup } from 'mdi-material-ui';
-import * as React from 'react';
-import { CSSProperties, FunctionComponent, useEffect, useMemo, useState } from 'react';
+import { cloneElement, type CSSProperties, type FunctionComponent, type ReactElement, useEffect, useMemo, useState } from 'react';
 import { makeStyles } from 'tss-react/mui';
 
 import { findAssetGroups } from '../../../../actions/asset_groups/assetgroup-action';
 import ListLoader from '../../../../components/common/loader/ListLoader';
-import { Header } from '../../../../components/common/SortHeadersList';
+import { type Header } from '../../../../components/common/SortHeadersList';
 import ItemTags from '../../../../components/ItemTags';
-import type { AssetGroupOutput } from '../../../../utils/api-types';
+import { type AssetGroupOutput } from '../../../../utils/api-types';
+import { type AssetGroupPopoverProps } from './AssetGroupPopover';
 
 const useStyles = makeStyles()(() => ({
   item: {
@@ -35,7 +35,7 @@ const inlineStyles: Record<string, CSSProperties> = {
 
 interface Props {
   assetGroupIds: string[];
-  actions: React.ReactElement;
+  actions: ReactElement<AssetGroupPopoverProps>;
 }
 
 const AssetGroupsList: FunctionComponent<Props> = ({
@@ -46,7 +46,7 @@ const AssetGroupsList: FunctionComponent<Props> = ({
   const { classes } = useStyles();
 
   const component = (assetGroup: AssetGroupOutput) => {
-    return React.cloneElement(actions as React.ReactElement, { assetGroup });
+    return cloneElement(actions, { assetGroup });
   };
 
   const [loading, setLoading] = useState<boolean>(true);

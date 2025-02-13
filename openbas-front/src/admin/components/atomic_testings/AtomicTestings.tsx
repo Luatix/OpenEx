@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router';
 
 import { createAtomicTesting, searchAtomicTestings } from '../../../actions/atomic_testings/atomic-testing-actions';
-import type { UserHelper } from '../../../actions/helper';
+import { type UserHelper } from '../../../actions/helper';
 import Breadcrumbs from '../../../components/Breadcrumbs';
 import ButtonCreate from '../../../components/common/ButtonCreate';
 import { buildEmptyFilter } from '../../../components/common/queryable/filter/FilterUtils';
@@ -12,7 +12,7 @@ import { buildSearchPagination } from '../../../components/common/queryable/Quer
 import { useQueryableWithLocalStorage } from '../../../components/common/queryable/useQueryableWithLocalStorage';
 import { useFormatter } from '../../../components/i18n';
 import { useHelper } from '../../../store';
-import type { FilterGroup, Inject, InjectResultOverviewOutput } from '../../../utils/api-types';
+import { type FilterGroup, type Inject, type InjectResultOverviewOutput } from '../../../utils/api-types';
 import { TeamContext } from '../common/Context';
 import CreateInject from '../common/injects/CreateInject';
 import teamContextForAtomicTesting from './atomic_testing/context/TeamContextForAtomicTesting';

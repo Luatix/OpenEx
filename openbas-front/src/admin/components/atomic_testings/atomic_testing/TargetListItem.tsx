@@ -1,11 +1,11 @@
 import { DevicesOtherOutlined, Groups3Outlined, PersonOutlined } from '@mui/icons-material';
 import { Divider, ListItemButton, ListItemIcon, ListItemText, Paper } from '@mui/material';
 import { SelectGroup } from 'mdi-material-ui';
-import * as React from 'react';
+import { type FunctionComponent } from 'react';
 import { makeStyles } from 'tss-react/mui';
 
 import PlatformIcon from '../../../../components/PlatformIcon';
-import type { InjectTargetWithResult } from '../../../../utils/api-types';
+import { type InjectTargetWithResult } from '../../../../utils/api-types';
 import AtomicTestingResult from './AtomicTestingResult';
 
 const useStyles = makeStyles()(() => ({
@@ -33,7 +33,7 @@ interface Props {
   target: InjectTargetWithResult;
 }
 
-const TargetListItem: React.FC<Props> = ({ isChild, onClick, target, selected }) => {
+const TargetListItem: FunctionComponent<Props> = ({ isChild, onClick, target, selected }) => {
   const { classes } = useStyles();
   const style = isChild ? { marginBottom: 10, marginLeft: 50 } : { marginBottom: 10 };
   const handleItemClick = () => {

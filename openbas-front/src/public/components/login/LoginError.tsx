@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react';
+import { type FunctionComponent } from 'react';
 import { useLocation } from 'react-router';
 
 import Message from '../../../components/Message';

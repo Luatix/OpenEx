@@ -1,10 +1,10 @@
 import * as R from 'ramda';
-import { FunctionComponent, useContext } from 'react';
+import { type FunctionComponent, useContext } from 'react';
 
 import { updateAtomicTesting } from '../../../../actions/atomic_testings/atomic-testing-actions';
-import type { Inject, InjectResultOutput, InjectResultOverviewOutput } from '../../../../utils/api-types';
+import { type Inject, type InjectResultOutput, type InjectResultOverviewOutput } from '../../../../utils/api-types';
 import UpdateInject from '../../common/injects/UpdateInject';
-import { InjectResultOverviewOutputContext, InjectResultOverviewOutputContextType } from '../InjectResultOverviewOutputContext';
+import { InjectResultOverviewOutputContext, type InjectResultOverviewOutputContextType } from '../InjectResultOverviewOutputContext';
 
 interface Props {
   atomic: InjectResultOutput | InjectResultOverviewOutput;

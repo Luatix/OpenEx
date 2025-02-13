@@ -1,6 +1,6 @@
 import { Autocomplete, TextField } from '@mui/material';
-import * as React from 'react';
-import { FieldError } from 'react-hook-form';
+import { type FunctionComponent, useState } from 'react';
+import { type FieldError } from 'react-hook-form';
 
 import alphabet from '../admin/components/settings/data_ingestion/AttributeUtils';
 import { useFormatter } from './i18n';
@@ -13,7 +13,7 @@ interface Props {
   error: FieldError | undefined;
 }
 
-const RegexComponent: React.FC<Props> = ({
+const RegexComponent: FunctionComponent<Props> = ({
   label,
   fieldValue,
   onChange,
@@ -24,7 +24,7 @@ const RegexComponent: React.FC<Props> = ({
   const { t } = useFormatter();
 
   const regexOptions = alphabet(26);
-  const [value, setValue] = React.useState<string | null | undefined>(fieldValue ?? '');
+  const [value, setValue] = useState<string | null | undefined>(fieldValue ?? '');
 
   const inputLabelProps = required ? { required: true } : {};
 

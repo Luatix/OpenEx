@@ -5,7 +5,7 @@ import { useContext, useState } from 'react';
 import { storeXlsFile } from '../../../../actions/mapper/mapper-actions';
 import Dialog from '../../../../components/common/Dialog';
 import { useFormatter } from '../../../../components/i18n';
-import type { ImportMessage, ImportPostSummary, ImportTestSummary, InjectsImportInput } from '../../../../utils/api-types';
+import { type ImportMessage, type ImportPostSummary, type ImportTestSummary, type InjectsImportInput } from '../../../../utils/api-types';
 import { MESSAGING$ } from '../../../../utils/Environment';
 import { InjectContext } from '../Context';
 import ImportUploaderInjectFromXlsFile from './ImportUploaderInjectFromXlsFile';

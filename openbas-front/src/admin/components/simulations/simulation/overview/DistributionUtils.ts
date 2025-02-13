@@ -1,7 +1,7 @@
-import { Theme } from '@mui/material';
+import { type Theme } from '@mui/material';
 import * as R from 'ramda';
 
-import type { Organization, Team } from '../../../../../utils/api-types';
+import { type Organization, type Team } from '../../../../../utils/api-types';
 import { colors } from '../../../../../utils/Charts';
 
 const mapIndexed = R.addIndex(R.map);

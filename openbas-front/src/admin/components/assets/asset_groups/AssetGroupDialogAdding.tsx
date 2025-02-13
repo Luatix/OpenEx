@@ -1,15 +1,15 @@
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
 import { SelectGroup } from 'mdi-material-ui';
-import { FunctionComponent, useEffect, useMemo, useState } from 'react';
+import { type FunctionComponent, useEffect, useMemo, useState } from 'react';
 
 import { findAssetGroups, searchAssetGroups } from '../../../../actions/asset_groups/assetgroup-action';
 import PaginationComponentV2 from '../../../../components/common/queryable/pagination/PaginationComponentV2';
 import { buildSearchPagination } from '../../../../components/common/queryable/QueryableUtils';
 import { useQueryable } from '../../../../components/common/queryable/useQueryableWithLocalStorage';
-import SelectList, { SelectListElements } from '../../../../components/common/SelectList';
+import SelectList, { type SelectListElements } from '../../../../components/common/SelectList';
 import Transition from '../../../../components/common/Transition';
 import { useFormatter } from '../../../../components/i18n';
-import type { AssetGroupOutput } from '../../../../utils/api-types';
+import { type AssetGroupOutput } from '../../../../utils/api-types';
 
 interface Props {
   initialState: string[];

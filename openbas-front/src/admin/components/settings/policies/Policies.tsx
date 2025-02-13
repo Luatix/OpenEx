@@ -1,13 +1,13 @@
 import { Grid, Paper, Typography } from '@mui/material';
-import { FunctionComponent } from 'react';
+import { type FunctionComponent } from 'react';
 import { makeStyles } from 'tss-react/mui';
 
 import { fetchPlatformParameters, updatePlatformPolicies } from '../../../../actions/Application';
-import type { LoggedHelper } from '../../../../actions/helper';
+import { type LoggedHelper } from '../../../../actions/helper';
 import Breadcrumbs from '../../../../components/Breadcrumbs';
 import { useFormatter } from '../../../../components/i18n';
 import { useHelper } from '../../../../store';
-import type { PlatformSettings, PolicyInput } from '../../../../utils/api-types';
+import { type PlatformSettings, type PolicyInput } from '../../../../utils/api-types';
 import { useAppDispatch } from '../../../../utils/hooks';
 import useDataLoader from '../../../../utils/hooks/useDataLoader';
 import SecurityMenu from '../SecurityMenu';

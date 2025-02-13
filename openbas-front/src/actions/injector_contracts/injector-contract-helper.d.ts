@@ -1,4 +1,4 @@
-import type { InjectorContract } from '../../utils/api-types';
+import { type InjectorContract } from '../../utils/api-types';
 
 export interface InjectorContractHelper {
   getInjectorContract: (injectorContractId: string) => InjectorContract;

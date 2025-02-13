@@ -10,7 +10,7 @@ import { errorWrapper } from '../../../../components/Error';
 import { useFormatter } from '../../../../components/i18n';
 import Loader from '../../../../components/Loader';
 import NotFound from '../../../../components/NotFound';
-import type { InjectResultOverviewOutput } from '../../../../utils/api-types';
+import { type InjectResultOverviewOutput } from '../../../../utils/api-types';
 import isInjectWithPayloadInfo from '../../../../utils/inject/injectUtils';
 import { FIVE_SECONDS } from '../../../../utils/Time';
 import { TeamContext } from '../../common/Context';

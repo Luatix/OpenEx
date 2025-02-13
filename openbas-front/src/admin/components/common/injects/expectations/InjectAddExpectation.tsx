@@ -1,12 +1,12 @@
 import { ControlPointOutlined } from '@mui/icons-material';
 import { ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
-import { FunctionComponent, useContext, useState } from 'react';
+import { type FunctionComponent, useContext, useState } from 'react';
 import { makeStyles } from 'tss-react/mui';
 
 import Dialog from '../../../../../components/common/Dialog';
 import { useFormatter } from '../../../../../components/i18n';
 import { PermissionsContext } from '../../Context';
-import type { ExpectationInput, ExpectationInputForm } from './Expectation';
+import { type ExpectationInput, type ExpectationInputForm } from './Expectation';
 import ExpectationFormCreate from './ExpectationFormCreate';
 
 const useStyles = makeStyles()(theme => ({

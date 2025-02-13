@@ -1,11 +1,11 @@
-import { FunctionComponent, useState } from 'react';
+import { type FunctionComponent, useState } from 'react';
 
 import { updateAssetsOnAssetGroup } from '../../../../actions/asset_groups/assetgroup-action';
 import ButtonCreate from '../../../../components/common/ButtonCreate';
 import { useFormatter } from '../../../../components/i18n';
-import type { AssetGroup } from '../../../../utils/api-types';
+import { type AssetGroup } from '../../../../utils/api-types';
 import { useAppDispatch } from '../../../../utils/hooks';
-import type { UserStore } from '../../teams/players/Player';
+import { type UserStore } from '../../teams/players/Player';
 import EndpointsDialogAdding from '../endpoints/EndpointsDialogAdding';
 
 interface Props {

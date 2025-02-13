@@ -1,20 +1,19 @@
 import { MoreVert } from '@mui/icons-material';
 import { Button, Dialog as MuiDialog, DialogActions, DialogContent, DialogContentText, IconButton, Menu, MenuItem } from '@mui/material';
-import { FunctionComponent, useContext, useState } from 'react';
-import * as React from 'react';
+import { type FunctionComponent, type MouseEvent as ReactMouseEvent, useContext, useState } from 'react';
 
-import type { ExercisesHelper } from '../../../../actions/exercises/exercise-helper';
-import type { OrganizationHelper, TagHelper } from '../../../../actions/helper';
-import { TeamInputForm } from '../../../../actions/teams/Team';
+import { type ExercisesHelper } from '../../../../actions/exercises/exercise-helper';
+import { type OrganizationHelper, type TagHelper } from '../../../../actions/helper';
+import { type TeamInputForm } from '../../../../actions/teams/Team';
 import { deleteTeam, updateTeam } from '../../../../actions/teams/team-actions';
-import type { TeamsHelper } from '../../../../actions/teams/team-helper';
+import { type TeamsHelper } from '../../../../actions/teams/team-helper';
 import Dialog from '../../../../components/common/Dialog';
 import Transition from '../../../../components/common/Transition';
 import { useFormatter } from '../../../../components/i18n';
 import { useHelper } from '../../../../store';
-import type { Team, TeamOutput, TeamUpdateInput } from '../../../../utils/api-types';
+import { type Team, type TeamOutput, type TeamUpdateInput } from '../../../../utils/api-types';
 import { useAppDispatch } from '../../../../utils/hooks';
-import { Option, organizationOption, tagOptions } from '../../../../utils/Option';
+import { type Option, organizationOption, tagOptions } from '../../../../utils/Option';
 import { TeamContext } from '../../common/Context';
 import TeamForm from './TeamForm';
 
@@ -59,7 +58,7 @@ const TeamPopover: FunctionComponent<TeamPopoverProps> = ({
   const [anchorEl, setAnchorEl] = useState<Element | null>(null);
 
   // Popover
-  const handlePopoverOpen = (event: React.MouseEvent) => {
+  const handlePopoverOpen = (event: ReactMouseEvent) => {
     event.stopPropagation();
     setAnchorEl(event.currentTarget);
   };

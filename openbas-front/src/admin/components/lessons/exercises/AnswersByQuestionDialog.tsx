@@ -1,9 +1,9 @@
 import { Button, LinearProgress, Typography, useTheme } from '@mui/material';
-import * as React from 'react';
+import { type FunctionComponent } from 'react';
 
 import Dialog from '../../../../components/common/Dialog';
 import { useFormatter } from '../../../../components/i18n';
-import type { LessonsAnswer, User } from '../../../../utils/api-types';
+import { type LessonsAnswer, type User } from '../../../../utils/api-types';
 import { resolveUserName } from '../../../../utils/String';
 
 interface Props {
@@ -15,7 +15,7 @@ interface Props {
   usersMap: Record<string, User>;
 }
 
-const AnswersByQuestionDialog: React.FC<Props> = ({ open, onClose, question, answers, anonymized, usersMap }) => {
+const AnswersByQuestionDialog: FunctionComponent<Props> = ({ open, onClose, question, answers, anonymized, usersMap }) => {
   const { t } = useFormatter();
   const theme = useTheme();
 

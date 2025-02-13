@@ -1,4 +1,4 @@
-import type { Article, Exercise, Scenario } from '../../utils/api-types';
+import { type Article, type Exercise, type Scenario } from '../../utils/api-types';
 
 export interface ArticlesHelper {
   getArticlesMap: () => Record<string, Article>;

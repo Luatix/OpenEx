@@ -1,6 +1,6 @@
 import { AccountBalanceOutlined, FireTruckOutlined, ImportantDevicesOutlined, KeyboardVoiceOutlined, QuizOutlined } from '@mui/icons-material';
 import { BookOpenBlankVariantOutline, FilterMultipleOutline } from 'mdi-material-ui';
-import { FunctionComponent } from 'react';
+import { type FunctionComponent } from 'react';
 
 interface ItemMainFocusProps {
   mainFocus: string;

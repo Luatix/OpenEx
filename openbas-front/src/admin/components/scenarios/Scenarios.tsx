@@ -1,11 +1,11 @@
 import { MovieFilterOutlined } from '@mui/icons-material';
 import { List, ListItem, ListItemButton, ListItemIcon, ListItemText, ToggleButtonGroup } from '@mui/material';
-import { CSSProperties, useMemo, useState } from 'react';
+import { type CSSProperties, useMemo, useState } from 'react';
 import { Link } from 'react-router';
 import { makeStyles } from 'tss-react/mui';
 
 import { fetchStatistics } from '../../../actions/Application';
-import type { TagHelper, UserHelper } from '../../../actions/helper';
+import { type TagHelper, type UserHelper } from '../../../actions/helper';
 import { searchScenarios } from '../../../actions/scenarios/scenario-actions';
 import Breadcrumbs from '../../../components/Breadcrumbs';
 import ExportButton from '../../../components/common/ExportButton';
@@ -22,7 +22,7 @@ import ItemTags from '../../../components/ItemTags';
 import PaginatedListLoader from '../../../components/PaginatedListLoader';
 import PlatformIcon from '../../../components/PlatformIcon';
 import { useHelper } from '../../../store';
-import type { FilterGroup, Scenario, SearchPaginationInput } from '../../../utils/api-types';
+import { type FilterGroup, type Scenario, type SearchPaginationInput } from '../../../utils/api-types';
 import ImportUploaderScenario from './ImportUploaderScenario';
 import ScenarioPopover from './scenario/ScenarioPopover';
 import ScenarioStatus from './scenario/ScenarioStatus';

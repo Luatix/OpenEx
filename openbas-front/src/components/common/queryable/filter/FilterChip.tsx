@@ -1,11 +1,11 @@
 import { Chip, Tooltip } from '@mui/material';
 import * as R from 'ramda';
-import { FunctionComponent, useRef, useState } from 'react';
+import { type FunctionComponent, useRef, useState } from 'react';
 
-import type { Filter, PropertySchemaDTO } from '../../../../utils/api-types';
+import { type Filter, type PropertySchemaDTO } from '../../../../utils/api-types';
 import FilterChipPopover from './FilterChipPopover';
 import FilterChipValues from './FilterChipValues';
-import { FilterHelpers } from './FilterHelpers';
+import { type FilterHelpers } from './FilterHelpers';
 
 interface Props {
   filter: Filter;

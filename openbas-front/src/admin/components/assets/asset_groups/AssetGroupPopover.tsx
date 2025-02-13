@@ -1,6 +1,6 @@
 import { MoreVert } from '@mui/icons-material';
 import { Drawer as MuiDrawer, IconButton, Menu, MenuItem } from '@mui/material';
-import { FunctionComponent, useState } from 'react';
+import { type FunctionComponent, useState } from 'react';
 import { makeStyles } from 'tss-react/mui';
 
 import { deleteAssetGroup, updateAssetGroup, updateAssetsOnAssetGroup } from '../../../../actions/asset_groups/assetgroup-action';
@@ -9,7 +9,7 @@ import DialogDelete from '../../../../components/common/DialogDelete';
 import Drawer from '../../../../components/common/Drawer';
 import { emptyFilterGroup } from '../../../../components/common/queryable/filter/FilterUtils';
 import { useFormatter } from '../../../../components/i18n';
-import type { AssetGroup, AssetGroupInput, AssetGroupOutput } from '../../../../utils/api-types';
+import { type AssetGroup, type AssetGroupInput, type AssetGroupOutput } from '../../../../utils/api-types';
 import { useAppDispatch } from '../../../../utils/hooks';
 import EndpointsDialogAdding from '../endpoints/EndpointsDialogAdding';
 import AssetGroupForm from './AssetGroupForm';
@@ -23,7 +23,7 @@ const useStyles = makeStyles()(() => ({
   },
 }));
 
-interface Props {
+export interface AssetGroupPopoverProps {
   inline?: boolean;
   assetGroup: AssetGroup | AssetGroupOutput;
   onRemoveAssetGroupFromList?: (assetGroupId: string) => void;
@@ -34,7 +34,7 @@ interface Props {
   onDelete?: (result: string) => void;
 }
 
-const AssetGroupPopover: FunctionComponent<Props> = ({
+const AssetGroupPopover: FunctionComponent<AssetGroupPopoverProps> = ({
   inline,
   assetGroup,
   onRemoveAssetGroupFromList,

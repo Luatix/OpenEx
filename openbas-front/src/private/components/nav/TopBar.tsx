@@ -1,8 +1,7 @@
 import { AccountCircleOutlined } from '@mui/icons-material';
-import { AppBar, IconButton, Menu, MenuItem, MenuProps, Toolbar } from '@mui/material';
+import { AppBar, IconButton, Menu, MenuItem, type MenuProps, Toolbar } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
-import { useState } from 'react';
-import * as React from 'react';
+import { type FunctionComponent, type MouseEvent as ReactMouseEvent, useState } from 'react';
 import { Link, useNavigate } from 'react-router';
 import { makeStyles } from 'tss-react/mui';
 
@@ -34,7 +33,7 @@ const useStyles = makeStyles()(theme => ({
   },
 }));
 
-const TopBar: React.FC = () => {
+const TopBar: FunctionComponent = () => {
   const theme = useTheme();
   const { classes } = useStyles();
   const { t } = useFormatter();
@@ -42,7 +41,7 @@ const TopBar: React.FC = () => {
   const [open, setOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState<MenuProps['anchorEl']>(null);
   const dispatch = useAppDispatch();
-  const handleOpen = (event: React.MouseEvent) => {
+  const handleOpen = (event: ReactMouseEvent) => {
     setOpen(true);
     setAnchorEl(event.currentTarget);
   };

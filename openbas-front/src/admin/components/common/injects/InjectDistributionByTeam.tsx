@@ -1,14 +1,14 @@
 import { useTheme } from '@mui/material/styles';
 import * as R from 'ramda';
-import { FunctionComponent } from 'react';
+import { type FunctionComponent } from 'react';
 import Chart from 'react-apexcharts';
 
 import { fetchExerciseTeams } from '../../../../actions/Exercise';
-import type { TeamsHelper } from '../../../../actions/teams/team-helper';
+import { type TeamsHelper } from '../../../../actions/teams/team-helper';
 import Empty from '../../../../components/Empty';
 import { useFormatter } from '../../../../components/i18n';
 import { useHelper } from '../../../../store';
-import type { Exercise, Team } from '../../../../utils/api-types';
+import { type Exercise, type Team } from '../../../../utils/api-types';
 import { horizontalBarsChartOptions } from '../../../../utils/Charts';
 import { useAppDispatch } from '../../../../utils/hooks';
 import useDataLoader from '../../../../utils/hooks/useDataLoader';

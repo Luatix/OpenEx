@@ -1,12 +1,11 @@
 import { Tooltip } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
-import { Handle, Node, NodeProps, OnConnect, Position, XYPosition } from '@xyflow/react';
+import { Handle, type Node, type NodeProps, type OnConnect, Position, type XYPosition } from '@xyflow/react';
 import moment from 'moment';
-import { memo } from 'react';
-import * as React from 'react';
+import { memo, type MouseEvent } from 'react';
 import { makeStyles } from 'tss-react/mui';
 
-import type { InjectOutputType, InjectStore } from '../../actions/injects/Inject';
+import { type InjectOutputType, type InjectStore } from '../../actions/injects/Inject';
 import InjectIcon from '../../admin/components/common/injects/InjectIcon';
 import InjectPopover from '../../admin/components/common/injects/InjectPopover';
 import { isNotEmptyField } from '../../utils/utils';
@@ -145,7 +144,7 @@ const NodeInjectComponent = ({ data }: NodeProps<NodeInject>) => {
    * Prevent click to avoid double actions to be raised
    * @param event the event to prevent
    */
-  const preventClick = (event: React.MouseEvent) => {
+  const preventClick = (event: MouseEvent) => {
     event.stopPropagation();
   };
 

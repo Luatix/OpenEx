@@ -1,5 +1,5 @@
 import { styled } from '@mui/material/styles';
-import { ReactElement } from 'react';
+import { type ReactElement } from 'react';
 
 import EEChip from './EEChip';
 

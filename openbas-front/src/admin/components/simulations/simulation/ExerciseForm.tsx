@@ -1,15 +1,15 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Alert, AlertTitle, Autocomplete, Button, Chip, Grid, MenuItem, TextField as MuiTextField, Typography } from '@mui/material';
 import { DateTimePicker as MuiDateTimePicker } from '@mui/x-date-pickers';
-import { FunctionComponent, useState } from 'react';
-import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import { type FunctionComponent, useState } from 'react';
+import { Controller, type SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
 
 import SelectField from '../../../../components/fields/SelectField';
 import TagField from '../../../../components/fields/TagField';
 import TextField from '../../../../components/fields/TextField';
 import { useFormatter } from '../../../../components/i18n';
-import type { ExerciseInput } from '../../../../utils/api-types';
+import { type ExerciseInput } from '../../../../utils/api-types';
 import { zodImplement } from '../../../../utils/Zod';
 import { scenarioCategories } from '../../scenarios/constants';
 

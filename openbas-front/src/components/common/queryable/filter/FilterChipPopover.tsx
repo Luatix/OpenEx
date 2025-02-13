@@ -1,10 +1,10 @@
-import { MenuItem, Popover, Select, SelectChangeEvent } from '@mui/material';
-import { FunctionComponent } from 'react';
+import { MenuItem, Popover, Select, type SelectChangeEvent } from '@mui/material';
+import { type FunctionComponent } from 'react';
 
-import type { Filter, PropertySchemaDTO } from '../../../../utils/api-types';
+import { type Filter, type PropertySchemaDTO } from '../../../../utils/api-types';
 import { useFormatter } from '../../../i18n';
 import { FilterChipPopoverInput } from './FilterChipPopoverInput';
-import { FilterHelpers } from './FilterHelpers';
+import { type FilterHelpers } from './FilterHelpers';
 import { availableOperators, OperatorKeyValues } from './FilterUtils';
 import ScenarioStatusFilter from './specific/ScenarioStatusFilter';
 

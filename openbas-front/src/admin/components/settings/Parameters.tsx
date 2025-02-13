@@ -9,12 +9,12 @@ import {
   updatePlatformParameters,
   updatePlatformWhitemarkParameters,
 } from '../../../actions/Application';
-import type { LoggedHelper } from '../../../actions/helper';
+import { type LoggedHelper } from '../../../actions/helper';
 import Breadcrumbs from '../../../components/Breadcrumbs';
 import { useFormatter } from '../../../components/i18n';
 import ItemBoolean from '../../../components/ItemBoolean';
 import { useHelper } from '../../../store';
-import type { PlatformSettings, SettingsEnterpriseEditionUpdateInput, SettingsPlatformWhitemarkUpdateInput, SettingsUpdateInput, ThemeInput } from '../../../utils/api-types';
+import { type PlatformSettings, type SettingsEnterpriseEditionUpdateInput, type SettingsPlatformWhitemarkUpdateInput, type SettingsUpdateInput, type ThemeInput } from '../../../utils/api-types';
 import { useAppDispatch } from '../../../utils/hooks';
 import useDataLoader from '../../../utils/hooks/useDataLoader';
 import EnterpriseEditionButton from '../common/entreprise_edition/EnterpriseEditionButton';

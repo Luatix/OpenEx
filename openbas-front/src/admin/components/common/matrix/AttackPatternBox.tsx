@@ -1,11 +1,10 @@
 import { Button, ListItemText, Menu, MenuItem, Typography } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
-import * as React from 'react';
-import { FunctionComponent, useState } from 'react';
+import { type FunctionComponent, type MouseEvent as ReactMouseEvent, useState } from 'react';
 import { Link } from 'react-router';
 import { makeStyles } from 'tss-react/mui';
 
-import type { AttackPattern, ExpectationResultsByType, InjectExpectationResultsByAttackPattern, InjectExpectationResultsByType } from '../../../../utils/api-types';
+import { type AttackPattern, type ExpectationResultsByType, type InjectExpectationResultsByAttackPattern, type InjectExpectationResultsByType } from '../../../../utils/api-types';
 import { hexToRGB } from '../../../../utils/Colors';
 import AtomicTestingResult from '../../atomic_testings/atomic_testing/AtomicTestingResult';
 
@@ -76,7 +75,7 @@ const AttackPatternBox: FunctionComponent<AttackPatternBoxProps> = ({
       </div>
     );
   }
-  const handleOpen = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+  const handleOpen = (event: ReactMouseEvent<HTMLButtonElement, MouseEvent>) => {
     event.stopPropagation();
     setOpen(true);
     setAnchorEl(event.currentTarget);

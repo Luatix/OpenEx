@@ -1,18 +1,18 @@
-import { Dispatch } from 'redux';
+import { type Dispatch } from 'redux';
 
 import { delReferential, getReferential, postReferential, putReferential, simpleCall, simplePostCall } from '../../utils/Action';
-import type {
-  Exercise,
-  ExercisesGlobalScoresInput,
-  InjectsImportInput,
-  LessonsAnswerCreateInput,
-  LessonsCategoryCreateInput,
-  LessonsCategoryTeamsInput,
-  LessonsCategoryUpdateInput,
-  LessonsQuestionCreateInput,
-  LessonsQuestionUpdateInput,
-  LessonsSendInput,
-  SearchPaginationInput,
+import {
+  type Exercise,
+  type ExercisesGlobalScoresInput,
+  type InjectsImportInput,
+  type LessonsAnswerCreateInput,
+  type LessonsCategoryCreateInput,
+  type LessonsCategoryTeamsInput,
+  type LessonsCategoryUpdateInput,
+  type LessonsQuestionCreateInput,
+  type LessonsQuestionUpdateInput,
+  type LessonsSendInput,
+  type SearchPaginationInput,
 } from '../../utils/api-types';
 import { MESSAGING$ } from '../../utils/Environment';
 import * as schema from '../Schema';

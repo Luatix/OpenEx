@@ -1,14 +1,14 @@
-import { FunctionComponent, useState } from 'react';
+import { type FunctionComponent, useState } from 'react';
 import { useNavigate } from 'react-router';
 
-import type { TagHelper, UserHelper } from '../../../../actions/helper';
+import { type TagHelper, type UserHelper } from '../../../../actions/helper';
 import { deleteScenario, duplicateScenario, exportScenarioUri } from '../../../../actions/scenarios/scenario-actions';
 import ButtonPopover from '../../../../components/common/ButtonPopover';
 import DialogDelete from '../../../../components/common/DialogDelete';
 import DialogDuplicate from '../../../../components/common/DialogDuplicate';
 import { useFormatter } from '../../../../components/i18n';
 import { useHelper } from '../../../../store';
-import { Scenario } from '../../../../utils/api-types';
+import { type Scenario } from '../../../../utils/api-types';
 import { useAppDispatch } from '../../../../utils/hooks';
 import useScenarioPermissions from '../../../../utils/Scenario';
 import ScenarioExportDialog from './ScenarioExportDialog';

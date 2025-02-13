@@ -1,11 +1,10 @@
 import { Checkbox, Chip, List, ListItem, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
 import * as R from 'ramda';
-import { CSSProperties, FunctionComponent, useContext, useMemo, useState } from 'react';
-import * as React from 'react';
+import { type CSSProperties, type FunctionComponent, type SyntheticEvent, useContext, useMemo, useState } from 'react';
 import { Link } from 'react-router';
 import { makeStyles } from 'tss-react/mui';
 
-import type { InjectorContractConvertedContent, InjectOutputType, InjectStore } from '../../../../actions/injects/Inject';
+import { type InjectorContractConvertedContent, type InjectOutputType, type InjectStore } from '../../../../actions/injects/Inject';
 import ChainedTimeline from '../../../../components/ChainedTimeline';
 import ButtonCreate from '../../../../components/common/ButtonCreate';
 import { buildEmptyFilter } from '../../../../components/common/queryable/filter/FilterUtils';
@@ -19,14 +18,14 @@ import ItemBoolean from '../../../../components/ItemBoolean';
 import ItemTags from '../../../../components/ItemTags';
 import Loader from '../../../../components/Loader';
 import PlatformIcon from '../../../../components/PlatformIcon';
-import type {
-  Article,
-  FilterGroup,
-  Inject,
-  InjectBulkUpdateOperation,
-  InjectTestStatusOutput,
-  Team,
-  Variable,
+import {
+  type Article,
+  type FilterGroup,
+  type Inject,
+  type InjectBulkUpdateOperation,
+  type InjectTestStatusOutput,
+  type Team,
+  type Variable,
 } from '../../../../utils/api-types';
 import { MESSAGING$ } from '../../../../utils/Environment';
 import useEntityToggle from '../../../../utils/hooks/useEntityToggle';
@@ -349,7 +348,7 @@ const Injects: FunctionComponent<Props> = ({
     onToggleEntity,
     numberOfSelectedElements,
   } = useEntityToggle<InjectOutputType>('inject', injects, queryableHelpers.paginationHelpers.getTotalElements());
-  const onRowShiftClick = (currentIndex: number, currentEntity: { inject_id: string }, event: React.SyntheticEvent | null = null) => {
+  const onRowShiftClick = (currentIndex: number, currentEntity: { inject_id: string }, event: SyntheticEvent | null = null) => {
     if (event) {
       event.stopPropagation();
       event.preventDefault();

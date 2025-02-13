@@ -1,19 +1,19 @@
 import { BarChartOutlined, ReorderOutlined, ViewTimelineOutlined } from '@mui/icons-material';
 import { Grid, Paper, ToggleButton, ToggleButtonGroup, Tooltip, Typography } from '@mui/material';
-import { FunctionComponent, useState } from 'react';
+import { type FunctionComponent, useState } from 'react';
 import { useParams } from 'react-router';
 import { makeStyles } from 'tss-react/mui';
 
 import { fetchExerciseArticles } from '../../../../../actions/channels/article-action';
-import type { ArticlesHelper } from '../../../../../actions/channels/article-helper';
+import { type ArticlesHelper } from '../../../../../actions/channels/article-helper';
 import { fetchExerciseInjectExpectations, fetchExerciseTeams } from '../../../../../actions/Exercise';
-import type { ExercisesHelper } from '../../../../../actions/exercises/exercise-helper';
-import type { ChallengeHelper } from '../../../../../actions/helper';
+import { type ExercisesHelper } from '../../../../../actions/exercises/exercise-helper';
+import { type ChallengeHelper } from '../../../../../actions/helper';
 import { fetchVariablesForExercise } from '../../../../../actions/variables/variable-actions';
-import type { VariablesHelper } from '../../../../../actions/variables/variable-helper';
+import { type VariablesHelper } from '../../../../../actions/variables/variable-helper';
 import { useFormatter } from '../../../../../components/i18n';
 import { useHelper } from '../../../../../store';
-import type { Exercise } from '../../../../../utils/api-types';
+import { type Exercise } from '../../../../../utils/api-types';
 import { useAppDispatch } from '../../../../../utils/hooks';
 import useDataLoader from '../../../../../utils/hooks/useDataLoader';
 import { ArticleContext, TeamContext, ViewModeContext } from '../../../common/Context';

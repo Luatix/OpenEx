@@ -1,11 +1,11 @@
 import * as R from 'ramda';
-import { FunctionComponent } from 'react';
+import { type FunctionComponent } from 'react';
 import { makeStyles } from 'tss-react/mui';
 
-import type { AttackPatternHelper } from '../../../../actions/attack_patterns/attackpattern-helper';
-import type { KillChainPhaseHelper } from '../../../../actions/kill_chain_phases/killchainphase-helper';
+import { type AttackPatternHelper } from '../../../../actions/attack_patterns/attackpattern-helper';
+import { type KillChainPhaseHelper } from '../../../../actions/kill_chain_phases/killchainphase-helper';
 import { useHelper } from '../../../../store';
-import type { AttackPattern, KillChainPhase } from '../../../../utils/api-types';
+import { type AttackPattern, type KillChainPhase } from '../../../../utils/api-types';
 import { random } from '../../../../utils/Number';
 import KillChainPhaseColumn from './KillChainPhaseColumn';
 

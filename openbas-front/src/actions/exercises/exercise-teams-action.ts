@@ -1,7 +1,7 @@
-import { Dispatch } from 'redux';
+import { type Dispatch } from 'redux';
 
 import { putReferential, simplePostCall } from '../../utils/Action';
-import type { ExerciseUpdateTeamsInput, Scenario, SearchPaginationInput } from '../../utils/api-types';
+import { type ExerciseUpdateTeamsInput, type Scenario, type SearchPaginationInput } from '../../utils/api-types';
 import * as schema from '../Schema';
 import { EXERCISE_URI } from './exercise-action';
 

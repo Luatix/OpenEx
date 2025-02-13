@@ -3,7 +3,7 @@ import { Button } from '@mui/material';
 import { useState } from 'react';
 import { makeStyles } from 'tss-react/mui';
 
-import type { UserHelper } from '../../../../actions/helper';
+import { type UserHelper } from '../../../../actions/helper';
 import { useFormatter } from '../../../../components/i18n';
 import { useHelper } from '../../../../store';
 import EnterpriseEditionAgreement from './EnterpriseEditionAgreement';

@@ -6,11 +6,11 @@ import {
   ListItemIcon,
   ListItemText,
   Skeleton,
-  SvgIconProps,
+  type SvgIconProps,
 } from '@mui/material';
-import { ComponentType, CSSProperties, FunctionComponent } from 'react';
+import { type ComponentType, type CSSProperties, type FunctionComponent } from 'react';
 
-import { Header } from './common/SortHeadersList';
+import { type Header } from './common/SortHeadersList';
 
 interface Props {
   headers: Header[];

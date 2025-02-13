@@ -1,6 +1,6 @@
 import { FlagOutlined, HelpOutlined, ModeStandbyOutlined, ScoreOutlined } from '@mui/icons-material';
 import { Tooltip } from '@mui/material';
-import { Handle, Node, NodeProps, Position } from '@xyflow/react';
+import { Handle, type Node, type NodeProps, Position } from '@xyflow/react';
 import { memo } from 'react';
 import { makeStyles } from 'tss-react/mui';
 

@@ -1,18 +1,18 @@
 import { AddOutlined, RouteOutlined } from '@mui/icons-material';
 import { Autocomplete, Box, Dialog, DialogContent, DialogTitle, IconButton, TextField } from '@mui/material';
 import * as R from 'ramda';
-import { FunctionComponent, useState } from 'react';
+import { type FunctionComponent, useState } from 'react';
 import { makeStyles } from 'tss-react/mui';
 
-import type { AttackPatternHelper } from '../actions/attack_patterns/attackpattern-helper';
+import { type AttackPatternHelper } from '../actions/attack_patterns/attackpattern-helper';
 import { addAttackPattern } from '../actions/AttackPattern';
-import type { UserHelper } from '../actions/helper';
-import type { KillChainPhaseHelper } from '../actions/kill_chain_phases/killchainphase-helper';
+import { type UserHelper } from '../actions/helper';
+import { type KillChainPhaseHelper } from '../actions/kill_chain_phases/killchainphase-helper';
 import AttackPatternForm from '../admin/components/settings/attack_patterns/AttackPatternForm';
 import { useHelper } from '../store';
-import type { AttackPattern, AttackPatternCreateInput } from '../utils/api-types';
+import { type AttackPattern, type AttackPatternCreateInput } from '../utils/api-types';
 import { useAppDispatch } from '../utils/hooks';
-import { Option } from '../utils/Option';
+import { type Option } from '../utils/Option';
 import { useFormatter } from './i18n';
 
 const useStyles = makeStyles()(() => ({

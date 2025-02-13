@@ -1,11 +1,11 @@
 import { Chip } from '@mui/material';
 import * as R from 'ramda';
-import { FunctionComponent } from 'react';
+import { type FunctionComponent } from 'react';
 import { makeStyles } from 'tss-react/mui';
 
 import colorStyles from '../../../../../../components/Color';
 import { useFormatter } from '../../../../../../components/i18n';
-import type { InjectExpectationsStore } from '../../../../common/injects/expectations/Expectation';
+import { type InjectExpectationsStore } from '../../../../common/injects/expectations/Expectation';
 
 const useStyles = makeStyles()(() => ({
   chipInList: {

@@ -1,4 +1,4 @@
-import { Endpoint, EndpointOverviewOutput, SecurityPlatform } from '../../utils/api-types';
+import { type Endpoint, type EndpointOverviewOutput, type SecurityPlatform } from '../../utils/api-types';
 
 export interface EndpointHelper {
   getEndpoint: (endpointId: EndpointOverviewOutput['asset_id']) => EndpointOverviewOutput;

@@ -1,13 +1,13 @@
-import { FunctionComponent, useState } from 'react';
+import { type FunctionComponent, useState } from 'react';
 
 import { checkScenarioTagRules, updateScenario } from '../../../../actions/scenarios/scenario-actions';
 import DialogApplyTagRule from '../../../../components/common/DialogApplyTagRule';
 import Drawer from '../../../../components/common/Drawer';
 import { useFormatter } from '../../../../components/i18n';
-import type {
-  CheckScenarioRulesOutput,
-  Scenario,
-  UpdateScenarioInput,
+import {
+  type CheckScenarioRulesOutput,
+  type Scenario,
+  type UpdateScenarioInput,
 } from '../../../../utils/api-types';
 import { useAppDispatch } from '../../../../utils/hooks';
 import useScenarioPermissions from '../../../../utils/Scenario';

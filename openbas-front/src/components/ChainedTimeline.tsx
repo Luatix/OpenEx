@@ -2,12 +2,12 @@ import { CropFree, UnfoldLess, UnfoldMore } from '@mui/icons-material';
 import { Tooltip } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import {
-  Connection,
+  type Connection,
   ConnectionLineType,
-  ConnectionState,
+  type ConnectionState,
   ControlButton,
   Controls,
-  Edge,
+  type Edge,
   MarkerType,
   MiniMap,
   ReactFlow,
@@ -15,30 +15,29 @@ import {
   useEdgesState,
   useNodesState,
   useReactFlow,
-  Viewport,
-  XYPosition,
+  type Viewport,
+  type XYPosition,
 } from '@xyflow/react';
 import moment from 'moment-timezone';
-import { FunctionComponent, useEffect, useState } from 'react';
-import * as React from 'react';
+import { type FunctionComponent, type MouseEvent as ReactMouseEvent, useEffect, useState } from 'react';
 import { makeStyles } from 'tss-react/mui';
 
-import type { AssetGroupsHelper } from '../actions/asset_groups/assetgroup-helper';
-import type { EndpointHelper } from '../actions/assets/asset-helper';
-import type { ExercisesHelper } from '../actions/exercises/exercise-helper';
-import type { InjectOutputType, InjectStore } from '../actions/injects/Inject';
-import type { InjectHelper } from '../actions/injects/inject-helper';
-import type { ScenariosHelper } from '../actions/scenarios/scenario-helper';
-import type { TeamsHelper } from '../actions/teams/team-helper';
+import { type AssetGroupsHelper } from '../actions/asset_groups/assetgroup-helper';
+import { type EndpointHelper } from '../actions/assets/asset-helper';
+import { type ExercisesHelper } from '../actions/exercises/exercise-helper';
+import { type InjectOutputType, type InjectStore } from '../actions/injects/Inject';
+import { type InjectHelper } from '../actions/injects/inject-helper';
+import { type ScenariosHelper } from '../actions/scenarios/scenario-helper';
+import { type TeamsHelper } from '../actions/teams/team-helper';
 import { useHelper } from '../store';
-import type { Inject, InjectDependency } from '../utils/api-types';
+import { type Inject, type InjectDependency } from '../utils/api-types';
 import { parseCron } from '../utils/Cron';
 import ChainingUtils from './common/chaining/ChainingUtils';
 import CustomTimelineBackground from './CustomTimelineBackground';
 import CustomTimelinePanel from './CustomTimelinePanel';
 import { useFormatter } from './i18n';
 import nodeTypes from './nodes';
-import { NodeInject } from './nodes/NodeInject';
+import { type NodeInject } from './nodes/NodeInject';
 import NodePhantom from './nodes/NodePhantom';
 
 const useStyles = makeStyles()(() => ({
@@ -80,7 +79,8 @@ const ChainedTimelineFlow: FunctionComponent<Props> = ({
   onUpdateInject,
   onCreate,
   onUpdate,
-  onDelete }) => {
+  onDelete,
+}) => {
   // Standard hooks
   const { classes } = useStyles();
   const theme = useTheme();
@@ -112,8 +112,7 @@ const ChainedTimelineFlow: FunctionComponent<Props> = ({
     type: ConnectionLineType.Bezier,
     markerEnd: { type: MarkerType.ArrowClosed,
       width: 30,
-      height: 30,
-    },
+      height: 30 },
   };
 
   const minutesPerGapAllowed = [
@@ -360,7 +359,7 @@ const ChainedTimelineFlow: FunctionComponent<Props> = ({
    * @param _event the mouse event (unused for now)
    * @param node the node to update
    */
-  const nodeDragStop = (_event: React.MouseEvent, node: NodeInject) => {
+  const nodeDragStop = (_event: ReactMouseEvent, node: NodeInject) => {
     const injectFromMap = injectsMap[node.id];
     if (injectFromMap !== undefined) {
       const inject = {
@@ -439,7 +438,7 @@ const ChainedTimelineFlow: FunctionComponent<Props> = ({
    * @param _event the mouse event
    * @param node the node that is being dragged
    */
-  const nodeDrag = (_event: React.MouseEvent, node: NodeInject) => {
+  const nodeDrag = (_event: ReactMouseEvent, node: NodeInject) => {
     setDraggingOnGoing(true);
     const { position } = node;
     const { data } = node;
@@ -469,7 +468,7 @@ const ChainedTimelineFlow: FunctionComponent<Props> = ({
    * Actions when clicking the new node 'button'
    * @param event
    */
-  const onNewNodeClick = (event: React.MouseEvent) => {
+  const onNewNodeClick = (event: ReactMouseEvent) => {
     if (newNodeCursorClickable) {
       const position = reactFlow.screenToFlowPosition({ x: event.clientX - (newNodeSize / 2), y: event.clientY });
 
@@ -488,7 +487,7 @@ const ChainedTimelineFlow: FunctionComponent<Props> = ({
    * Actions to do when the mouse move
    * @param eventMove the mouse event
    */
-  const onMouseMove = (eventMove: React.MouseEvent) => {
+  const onMouseMove = (eventMove: ReactMouseEvent) => {
     if (!draggingOnGoing) {
       const position = reactFlow.screenToFlowPosition({
         x: eventMove.clientX,
@@ -544,7 +543,7 @@ const ChainedTimelineFlow: FunctionComponent<Props> = ({
     setDraggingOnGoing(false);
   };
 
-  const onReconnectEnd = (event: React.MouseEvent, edge: Edge, handleType: 'source' | 'target', connectionState: Omit<ConnectionState, 'inProgress'>) => {
+  const onReconnectEnd = (event: ReactMouseEvent, edge: Edge, handleType: 'source' | 'target', connectionState: Omit<ConnectionState, 'inProgress'>) => {
     if (!connectionState.isValid) {
       const inject = injects.find(currentInject => currentInject.inject_id === edge.target);
       if (inject !== undefined) {

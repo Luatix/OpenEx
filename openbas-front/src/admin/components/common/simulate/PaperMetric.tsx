@@ -1,6 +1,5 @@
-import { Paper } from '@mui/material';
-import { FunctionComponent } from 'react';
-import * as React from 'react';
+import { Paper, type SvgIconProps } from '@mui/material';
+import { cloneElement, type FunctionComponent, type ReactElement } from 'react';
 import { makeStyles } from 'tss-react/mui';
 
 import { useFormatter } from '../../../../components/i18n';
@@ -34,7 +33,7 @@ const useStyles = makeStyles()(theme => ({
 interface Props {
   title: string;
   subTitle: string;
-  icon: React.ReactElement;
+  icon: ReactElement<SvgIconProps>;
   number?: number;
   progression?: number;
 }
@@ -49,7 +48,7 @@ const PaperMetric: FunctionComponent<Props> = ({
   // Standard hooks
   const { t } = useFormatter();
   const { classes } = useStyles();
-  const component = React.cloneElement(icon as React.ReactElement, { color: 'primary', style: { fontSize: 35, marginTop: 15 } });
+  const component = cloneElement(icon as ReactElement<SvgIconProps>, { color: 'primary', style: { fontSize: 35, marginTop: 15 } });
   return (
     <Paper variant="outlined" className={classes.container}>
       <div>

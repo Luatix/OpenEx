@@ -1,11 +1,10 @@
 import { Divider, Drawer, MenuList, Toolbar } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
-import * as React from 'react';
-import { FunctionComponent } from 'react';
+import { Fragment, type FunctionComponent } from 'react';
 
 import { computeBannerSettings } from '../../../../public/components/systembanners/utils';
 import useAuth from '../../../../utils/hooks/useAuth';
-import { hasHref, LeftMenuEntries } from './leftmenu-model';
+import { hasHref, type LeftMenuEntries } from './leftmenu-model';
 import MenuItemGroup from './MenuItemGroup';
 import MenuItemLogo from './MenuItemLogo';
 import MenuItemSingle from './MenuItemSingle';
@@ -42,7 +41,7 @@ const LeftMenu: FunctionComponent<{ entries: LeftMenuEntries[] }> = ({
       <Toolbar />
       {entries.map((entry, idxList) => {
         return (
-          <React.Fragment key={idxList}>
+          <Fragment key={idxList}>
             {idxList !== 0 && <Divider />}
             <MenuList component="nav" sx={{ marginTop: bannerHeightNumber }}>
               {(entry.userRight ?? true)
@@ -62,7 +61,7 @@ const LeftMenu: FunctionComponent<{ entries: LeftMenuEntries[] }> = ({
                 );
               })}
             </MenuList>
-          </React.Fragment>
+          </Fragment>
         );
       })}
       <div style={{ marginTop: 'auto' }}>

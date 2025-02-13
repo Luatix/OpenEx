@@ -1,10 +1,10 @@
 import { addScenarioTeamPlayers, disableScenarioTeamPlayers, enableScenarioTeamPlayers, removeScenarioTeamPlayers } from '../../../../../actions/scenarios/scenario-actions';
 import { removeScenarioTeams, replaceScenarioTeams, searchScenarioTeams } from '../../../../../actions/scenarios/scenario-teams-action';
 import { addTeam, fetchTeams } from '../../../../../actions/teams/team-actions';
-import type { Page } from '../../../../../components/common/queryable/Page';
-import { Scenario, ScenarioTeamUser, SearchPaginationInput, Team, TeamCreateInput, TeamOutput } from '../../../../../utils/api-types';
+import { type Page } from '../../../../../components/common/queryable/Page';
+import { type Scenario, type ScenarioTeamUser, type SearchPaginationInput, type Team, type TeamCreateInput, type TeamOutput } from '../../../../../utils/api-types';
 import { useAppDispatch } from '../../../../../utils/hooks';
-import type { UserStore } from '../../../teams/players/Player';
+import { type UserStore } from '../../../teams/players/Player';
 
 const teamContextForScenario = (scenarioId: Scenario['scenario_id'], scenarioTeamsUsers: Scenario['scenario_teams_users']) => {
   const dispatch = useAppDispatch();

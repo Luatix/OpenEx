@@ -1,9 +1,9 @@
 import { Chip, Grid, Link as MUILink, Paper, Typography } from '@mui/material';
 import * as R from 'ramda';
-import * as React from 'react';
+import { type FunctionComponent } from 'react';
 import { Link } from 'react-router';
 
-import type { ScenariosHelper } from '../../../../actions/scenarios/scenario-helper';
+import { type ScenariosHelper } from '../../../../actions/scenarios/scenario-helper';
 import ExpandableMarkdown from '../../../../components/ExpandableMarkdown';
 import { useFormatter } from '../../../../components/i18n';
 import ItemCategory from '../../../../components/ItemCategory';
@@ -12,14 +12,14 @@ import ItemSeverity from '../../../../components/ItemSeverity';
 import ItemTags from '../../../../components/ItemTags';
 import PlatformIcon from '../../../../components/PlatformIcon';
 import { useHelper } from '../../../../store';
-import type { Exercise, KillChainPhase } from '../../../../utils/api-types';
+import { type Exercise, type KillChainPhase } from '../../../../utils/api-types';
 import { truncate } from '../../../../utils/String';
 
 interface Props {
   exercise: Exercise;
 }
 
-const ExerciseMainInformation: React.FC<Props> = ({ exercise }) => {
+const ExerciseMainInformation: FunctionComponent<Props> = ({ exercise }) => {
   const { t } = useFormatter();
   const sortByOrder = R.sortWith([R.ascend(R.prop('phase_order'))]);
   const scenarioBaseUri = '/admin/scenarios';

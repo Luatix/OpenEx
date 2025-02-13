@@ -1,9 +1,9 @@
 import { AttachMoneyOutlined } from '@mui/icons-material';
 import { List, ListItem, ListItemIcon, ListItemSecondaryAction, ListItemText } from '@mui/material';
-import { CSSProperties, FunctionComponent, useContext } from 'react';
+import { type CSSProperties, type FunctionComponent, useContext } from 'react';
 import { makeStyles } from 'tss-react/mui';
 
-import type { Variable } from '../../../../utils/api-types';
+import { type Variable } from '../../../../utils/api-types';
 import useSearchAnFilter from '../../../../utils/SortingFiltering';
 import { PermissionsContext, VariableContext } from '../../common/Context';
 import VariablePopover from './VariablePopover';

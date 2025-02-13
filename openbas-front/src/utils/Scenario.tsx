@@ -1,7 +1,7 @@
 import * as R from 'ramda';
 
-import type { LoggedHelper, UserHelper } from '../actions/helper';
-import type { ScenariosHelper } from '../actions/scenarios/scenario-helper';
+import { type LoggedHelper, type UserHelper } from '../actions/helper';
+import { type ScenariosHelper } from '../actions/scenarios/scenario-helper';
 import { useHelper } from '../store';
 
 const useScenarioPermissions = (scenarioId: string, fullScenario = null) => {

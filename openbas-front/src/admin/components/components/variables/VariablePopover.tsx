@@ -1,11 +1,10 @@
 import { MoreVert } from '@mui/icons-material';
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton, Menu, MenuItem } from '@mui/material';
-import { useState } from 'react';
-import * as React from 'react';
+import { type FunctionComponent, useState } from 'react';
 
 import Transition from '../../../../components/common/Transition';
 import { useFormatter } from '../../../../components/i18n';
-import type { Variable, VariableInput } from '../../../../utils/api-types';
+import { type Variable, type VariableInput } from '../../../../utils/api-types';
 import VariableForm from './VariableForm';
 
 interface Props {
@@ -15,7 +14,7 @@ interface Props {
   onDelete: (variable: Variable) => void;
 }
 
-const VariablePopover: React.FC<Props> = ({
+const VariablePopover: FunctionComponent<Props> = ({
   variable,
   disabled,
   onEdit,

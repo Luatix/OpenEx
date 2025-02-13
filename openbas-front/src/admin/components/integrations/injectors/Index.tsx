@@ -3,14 +3,14 @@ import { Route, Routes, useParams } from 'react-router';
 import { makeStyles } from 'tss-react/mui';
 
 import { fetchInjector } from '../../../../actions/Injectors';
-import type { InjectorHelper } from '../../../../actions/injectors/injector-helper';
+import { type InjectorHelper } from '../../../../actions/injectors/injector-helper';
 import Breadcrumbs from '../../../../components/Breadcrumbs';
 import { errorWrapper } from '../../../../components/Error';
 import { useFormatter } from '../../../../components/i18n';
 import Loader from '../../../../components/Loader';
 import NotFound from '../../../../components/NotFound';
 import { useHelper } from '../../../../store';
-import type { Injector as InjectorType } from '../../../../utils/api-types';
+import { type Injector as InjectorType } from '../../../../utils/api-types';
 import { useAppDispatch } from '../../../../utils/hooks';
 import useDataLoader from '../../../../utils/hooks/useDataLoader';
 import InjectorHeader from './InjectorHeader';

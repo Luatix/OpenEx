@@ -11,20 +11,21 @@ import {
   List,
   ListItemButton,
   ListItemIcon,
-  ListItemText } from '@mui/material';
+  ListItemText,
+} from '@mui/material';
 import * as R from 'ramda';
-import { FunctionComponent, useContext, useState } from 'react';
+import { type FunctionComponent, useContext, useState } from 'react';
 import { makeStyles } from 'tss-react/mui';
 
-import type { FullArticleStore } from '../../../../actions/channels/Article';
-import type { ArticlesHelper } from '../../../../actions/channels/article-helper';
+import { type FullArticleStore } from '../../../../actions/channels/Article';
+import { type ArticlesHelper } from '../../../../actions/channels/article-helper';
 import { fetchChannels } from '../../../../actions/channels/channel-action';
-import type { ChannelsHelper } from '../../../../actions/channels/channel-helper';
+import { type ChannelsHelper } from '../../../../actions/channels/channel-helper';
 import Transition from '../../../../components/common/Transition';
 import { useFormatter } from '../../../../components/i18n';
 import SearchFilter from '../../../../components/SearchFilter';
 import { useHelper } from '../../../../store';
-import { Article } from '../../../../utils/api-types';
+import { type Article } from '../../../../utils/api-types';
 import { useAppDispatch } from '../../../../utils/hooks';
 import useDataLoader from '../../../../utils/hooks/useDataLoader';
 import { truncate } from '../../../../utils/String';

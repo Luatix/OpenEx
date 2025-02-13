@@ -15,11 +15,10 @@ import {
   Typography,
 } from '@mui/material';
 import * as R from 'ramda';
-import { FunctionComponent, useState } from 'react';
-import * as React from 'react';
+import { type FunctionComponent, type SyntheticEvent, useState } from 'react';
 import { makeStyles } from 'tss-react/mui';
 
-import type { UserHelper } from '../../../../../../actions/helper';
+import { type UserHelper } from '../../../../../../actions/helper';
 import { fetchUsers } from '../../../../../../actions/User';
 import colorStyles from '../../../../../../components/Color';
 import Drawer from '../../../../../../components/common/Drawer';
@@ -27,11 +26,11 @@ import ExpandableText from '../../../../../../components/common/ExpendableText';
 import Paper from '../../../../../../components/common/Paper';
 import { useFormatter } from '../../../../../../components/i18n';
 import { useHelper } from '../../../../../../store';
-import type { Inject, User } from '../../../../../../utils/api-types';
+import { type Inject, type User } from '../../../../../../utils/api-types';
 import { useAppDispatch } from '../../../../../../utils/hooks';
 import useDataLoader from '../../../../../../utils/hooks/useDataLoader';
 import { computeColorStyle, computeLabel, resolveUserName, truncate } from '../../../../../../utils/String';
-import type { InjectExpectationsStore } from '../../../../common/injects/expectations/Expectation';
+import { type InjectExpectationsStore } from '../../../../common/injects/expectations/Expectation';
 import ManualExpectationsValidationForm from './ManualExpectationsValidationForm';
 
 const useStyles = makeStyles()(theme => ({
@@ -111,7 +110,7 @@ const ManualExpectations: FunctionComponent<Props> = ({
     setCurrentExpectations(null);
   };
 
-  const handleChange = (panel: string) => (_event: React.SyntheticEvent, isExpanded: boolean) => {
+  const handleChange = (panel: string) => (_event: SyntheticEvent, isExpanded: boolean) => {
     setExpanded(isExpanded ? panel : false);
   };
 

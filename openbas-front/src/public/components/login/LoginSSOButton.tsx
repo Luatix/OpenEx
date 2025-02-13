@@ -1,6 +1,6 @@
 import { VpnKeyOutlined } from '@mui/icons-material';
 import { Button } from '@mui/material';
-import { FunctionComponent } from 'react';
+import { type FunctionComponent } from 'react';
 
 import { useFormatter } from '../../../components/i18n';
 

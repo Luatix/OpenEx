@@ -1,4 +1,4 @@
-import type { InjectDependency } from '../../../utils/api-types';
+import { type InjectDependency } from '../../../utils/api-types';
 
 const fromInjectDependencyToLabel = (dependency: InjectDependency) => {
   let label = '';

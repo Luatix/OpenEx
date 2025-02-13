@@ -1,8 +1,8 @@
 import { useTheme } from '@mui/material/styles';
-import { FunctionComponent } from 'react';
+import { type FunctionComponent } from 'react';
 import { makeStyles } from 'tss-react/mui';
 
-import type { AttackPattern, InjectExpectationResultsByAttackPattern, KillChainPhase } from '../../../../utils/api-types';
+import { type AttackPattern, type InjectExpectationResultsByAttackPattern, type KillChainPhase } from '../../../../utils/api-types';
 import AttackPatternBox from './AttackPatternBox';
 
 const useStyles = makeStyles()(() => ({

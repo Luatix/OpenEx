@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { type Dispatch, type SetStateAction, useEffect, useState } from 'react';
 
 import { fetchExercise, fetchExerciseTeams } from '../../../../../actions/Exercise';
 import {
@@ -9,24 +9,24 @@ import {
   fetchLessonsQuestions,
   fetchPlayersByExercise,
 } from '../../../../../actions/exercises/exercise-action';
-import type { ExercisesHelper } from '../../../../../actions/exercises/exercise-helper';
-import type { UserHelper } from '../../../../../actions/helper';
-import type { InjectHelper } from '../../../../../actions/injects/inject-helper';
+import { type ExercisesHelper } from '../../../../../actions/exercises/exercise-helper';
+import { type UserHelper } from '../../../../../actions/helper';
+import { type InjectHelper } from '../../../../../actions/injects/inject-helper';
 import { fetchReport } from '../../../../../actions/reports/report-actions';
-import type { ReportsHelper } from '../../../../../actions/reports/report-helper';
-import type { TeamsHelper } from '../../../../../actions/teams/team-helper';
+import { type ReportsHelper } from '../../../../../actions/reports/report-helper';
+import { type TeamsHelper } from '../../../../../actions/teams/team-helper';
 import { useHelper } from '../../../../../store';
-import type {
-  Exercise,
-  ExpectationResultsByType,
-  InjectResultOutput,
-  LessonsAnswer,
-  LessonsCategory,
-  LessonsQuestion,
-  Report,
-  ReportInformation,
-  Team,
-  User,
+import {
+  type Exercise,
+  type ExpectationResultsByType,
+  type InjectResultOutput,
+  type LessonsAnswer,
+  type LessonsCategory,
+  type LessonsQuestion,
+  type Report,
+  type ReportInformation,
+  type Team,
+  type User,
 } from '../../../../../utils/api-types';
 import { useAppDispatch } from '../../../../../utils/hooks';
 import useDataLoader from '../../../../../utils/hooks/useDataLoader';

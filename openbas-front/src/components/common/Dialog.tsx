@@ -1,6 +1,5 @@
-import { Breakpoint, Dialog as DialogMUI, DialogContent, DialogTitle } from '@mui/material';
-import { FunctionComponent } from 'react';
-import * as React from 'react';
+import { type Breakpoint, Dialog as DialogMUI, DialogContent, DialogTitle } from '@mui/material';
+import { cloneElement, type FunctionComponent, type ReactElement } from 'react';
 
 import Transition from './Transition';
 
@@ -8,7 +7,7 @@ interface DialogProps {
   open: boolean;
   handleClose: () => void;
   title: string;
-  children: (() => React.ReactElement) | React.ReactElement | null;
+  children: (() => ReactElement) | ReactElement | null;
   maxWidth?: Breakpoint;
 }
 
@@ -24,7 +23,7 @@ const Dialog: FunctionComponent<DialogProps> = ({
     if (typeof children === 'function') {
       component = children();
     } else {
-      component = React.cloneElement(children as React.ReactElement);
+      component = cloneElement(children as ReactElement);
     }
   }
 

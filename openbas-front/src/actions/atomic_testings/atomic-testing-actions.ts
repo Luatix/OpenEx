@@ -1,5 +1,5 @@
 import { simpleCall, simpleDelCall, simplePostCall, simplePutCall } from '../../utils/Action';
-import type { AtomicTestingInput, SearchPaginationInput } from '../../utils/api-types';
+import { type AtomicTestingInput, type SearchPaginationInput } from '../../utils/api-types';
 
 const ATOMIC_TESTING_URI = '/api/atomic-testings';
 

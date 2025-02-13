@@ -11,7 +11,8 @@ import {
   List,
   ListItemButton,
   ListItemIcon,
-  ListItemText } from '@mui/material';
+  ListItemText,
+} from '@mui/material';
 import * as R from 'ramda';
 import { useContext, useState } from 'react';
 import { makeStyles } from 'tss-react/mui';

@@ -1,13 +1,12 @@
 import { MoreVert } from '@mui/icons-material';
-import { IconButton, Menu, MenuItem, ToggleButton, ToggleButtonProps } from '@mui/material';
-import { FunctionComponent, useState } from 'react';
-import * as React from 'react';
+import { IconButton, Menu, MenuItem, ToggleButton, type ToggleButtonProps } from '@mui/material';
+import { type Dispatch, type FunctionComponent, type SetStateAction, useState } from 'react';
 
 import { useFormatter } from '../i18n';
 
 export interface PopoverEntry {
   label: string;
-  action: () => void | React.Dispatch<React.SetStateAction<boolean>>;
+  action: () => void | Dispatch<SetStateAction<boolean>>;
   disabled?: boolean;
 }
 

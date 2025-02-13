@@ -1,8 +1,7 @@
 import { TablePagination } from '@mui/material';
-import * as React from 'react';
-import { FunctionComponent } from 'react';
+import { type ChangeEvent, type FunctionComponent, type MouseEvent } from 'react';
 
-import { PaginationHelpers } from './PaginationHelpers';
+import { type PaginationHelpers } from './PaginationHelpers';
 import { ROWS_PER_PAGE_OPTIONS } from './usPaginationState';
 
 interface Props {
@@ -17,12 +16,12 @@ const TablePaginationComponentV2: FunctionComponent<Props> = ({
   paginationHelpers,
 }) => {
   const handleChangePage = (
-    _event: React.MouseEvent<HTMLButtonElement> | null,
+    _event: MouseEvent<HTMLButtonElement> | null,
     newPage: number,
   ) => paginationHelpers.handleChangePage(newPage);
 
   const handleChangeRowsPerPage = (
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => paginationHelpers.handleChangeRowsPerPage(parseInt(event.target.value, 10));
 
   return (

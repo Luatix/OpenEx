@@ -1,20 +1,19 @@
 import { HubOutlined } from '@mui/icons-material';
 import { List, ListItem, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
-import * as React from 'react';
-import { CSSProperties, FunctionComponent, useEffect, useState } from 'react';
+import { type CSSProperties, type FunctionComponent, type ReactNode, useEffect, useState } from 'react';
 import { Link } from 'react-router';
 import { makeStyles } from 'tss-react/mui';
 
 import { fetchExercisesGlobalScores } from '../../../actions/exercises/exercise-action';
-import { QueryableHelpers } from '../../../components/common/queryable/QueryableHelpers';
+import { type QueryableHelpers } from '../../../components/common/queryable/QueryableHelpers';
 import SortHeadersComponentV2 from '../../../components/common/queryable/sort/SortHeadersComponentV2';
-import { Header } from '../../../components/common/SortHeadersList';
+import { type Header } from '../../../components/common/SortHeadersList';
 import { useFormatter } from '../../../components/i18n';
 import ItemTags from '../../../components/ItemTags';
 import ItemTargets from '../../../components/ItemTargets';
 import Loader from '../../../components/Loader';
 import PaginatedListLoader from '../../../components/PaginatedListLoader';
-import type { ExercisesGlobalScoresOutput, ExerciseSimple, ExpectationResultsByType } from '../../../utils/api-types';
+import { type ExercisesGlobalScoresOutput, type ExerciseSimple, type ExpectationResultsByType } from '../../../utils/api-types';
 import AtomicTestingResult from '../atomic_testings/atomic_testing/AtomicTestingResult';
 import ExerciseStatus from './simulation/ExerciseStatus';
 
@@ -89,7 +88,7 @@ interface Props {
   queryableHelpers?: QueryableHelpers;
   hasHeader?: boolean;
   variant?: string;
-  secondaryAction?: (exercise: ExerciseSimple) => React.ReactNode;
+  secondaryAction?: (exercise: ExerciseSimple) => ReactNode;
   loading: boolean;
   isGlobalScoreAsync?: boolean;
 }

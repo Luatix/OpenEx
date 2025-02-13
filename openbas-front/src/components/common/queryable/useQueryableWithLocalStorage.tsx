@@ -1,12 +1,12 @@
 import * as R from 'ramda';
-import { useEffect, useState } from 'react';
+import { type Dispatch, type SetStateAction, useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router';
 import { useLocalStorage } from 'usehooks-ts';
 
-import type { FilterGroup, SearchPaginationInput, SortField } from '../../../utils/api-types';
+import { type FilterGroup, type SearchPaginationInput, type SortField } from '../../../utils/api-types';
 import useFiltersState from './filter/useFiltersState';
 import usPaginationState from './pagination/usPaginationState';
-import { QueryableHelpers } from './QueryableHelpers';
+import { type QueryableHelpers } from './QueryableHelpers';
 import { buildSearchPagination } from './QueryableUtils';
 import useSortState from './sort/useSortState';
 import useTextSearchState from './textSearch/useTextSearchState';
@@ -16,7 +16,7 @@ const buildUseQueryable = (
   localStorageKey: string | null,
   initSearchPaginationInput: Partial<SearchPaginationInput>,
   searchPaginationInput: SearchPaginationInput,
-  setSearchPaginationInput: React.Dispatch<React.SetStateAction<SearchPaginationInput>>,
+  setSearchPaginationInput: Dispatch<SetStateAction<SearchPaginationInput>>,
 ) => {
   // Text Search
   const textSearchHelpers = useTextSearchState(searchPaginationInput.textSearch, (textSearch: string, page: number) => setSearchPaginationInput({

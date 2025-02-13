@@ -1,5 +1,5 @@
 import { Chip } from '@mui/material';
-import * as React from 'react';
+import { type FunctionComponent } from 'react';
 import { makeStyles } from 'tss-react/mui';
 
 import { useFormatter } from '../../../../components/i18n';
@@ -36,7 +36,7 @@ interface Props {
   privilege: string;
 }
 
-const AgentPrivilege: React.FC<Props> = ({ variant, privilege }) => {
+const AgentPrivilege: FunctionComponent<Props> = ({ variant, privilege }) => {
   const { t } = useFormatter();
   const { classes } = useStyles();
   const style = variant === 'list' ? classes.chipInList : classes.chip;

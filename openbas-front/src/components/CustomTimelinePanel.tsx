@@ -1,7 +1,7 @@
 import { useTheme } from '@mui/material/styles';
-import { type BackgroundProps, Panel, type ReactFlowState, useStore, Viewport } from '@xyflow/react';
+import { type BackgroundProps, Panel, type ReactFlowState, useStore, type Viewport } from '@xyflow/react';
 import moment from 'moment-timezone';
-import { CSSProperties, memo, useEffect, useState } from 'react';
+import { type CSSProperties, memo, useEffect, useState } from 'react';
 import { makeStyles } from 'tss-react/mui';
 import { shallow } from 'zustand/shallow';
 

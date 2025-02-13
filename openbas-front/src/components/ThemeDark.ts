@@ -1,4 +1,4 @@
-import { ThemeOptions } from '@mui/material';
+import { type ThemeOptions } from '@mui/material';
 
 import LogoCollapsed from '../static/images/logo_dark.png';
 import LogoText from '../static/images/logo_text_dark.png';

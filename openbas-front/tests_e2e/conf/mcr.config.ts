@@ -1,4 +1,4 @@
-import { CoverageReportOptions } from 'monocart-coverage-reports';
+import { type CoverageReportOptions } from 'monocart-coverage-reports';
 
 // https://github.com/cenfun/monocart-coverage-reports
 const coverageOptions: CoverageReportOptions = {

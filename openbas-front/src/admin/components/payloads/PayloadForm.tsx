@@ -1,8 +1,8 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ControlPointOutlined, DeleteOutlined } from '@mui/icons-material';
 import { Button, IconButton, InputLabel, List, ListItem, ListItemText, MenuItem, TextField } from '@mui/material';
-import { FormEvent, FunctionComponent } from 'react';
-import { Controller, SubmitHandler, useFieldArray, useForm } from 'react-hook-form';
+import { type FormEvent, type FunctionComponent } from 'react';
+import { Controller, type SubmitHandler, useFieldArray, useForm } from 'react-hook-form';
 import { makeStyles } from 'tss-react/mui';
 import { z } from 'zod';
 
@@ -12,8 +12,8 @@ import SelectField from '../../../components/fields/SelectField';
 import TagField from '../../../components/fields/TagField';
 import { useFormatter } from '../../../components/i18n';
 import PlatformField from '../../../components/PlatformField';
-import type { PayloadCreateInput } from '../../../utils/api-types';
-import type { Option } from '../../../utils/Option';
+import { type PayloadCreateInput } from '../../../utils/api-types';
+import { type Option } from '../../../utils/Option';
 
 const useStyles = makeStyles()(() => ({
   errorColor: {

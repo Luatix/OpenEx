@@ -1,5 +1,4 @@
-import { useState } from 'react';
-import * as React from 'react';
+import { type FunctionComponent, useState } from 'react';
 import { useNavigate } from 'react-router';
 
 import { deleteLessonsTemplate, updateLessonsTemplate } from '../../../../actions/Lessons';
@@ -7,7 +6,7 @@ import ButtonPopover from '../../../../components/common/ButtonPopover';
 import DialogDelete from '../../../../components/common/DialogDelete';
 import Drawer from '../../../../components/common/Drawer';
 import { useFormatter } from '../../../../components/i18n';
-import type { LessonsTemplate, LessonsTemplateInput } from '../../../../utils/api-types';
+import { type LessonsTemplate, type LessonsTemplateInput } from '../../../../utils/api-types';
 import { useAppDispatch } from '../../../../utils/hooks';
 import LessonsTemplateForm from './LessonsTemplateForm';
 
@@ -15,7 +14,7 @@ interface Props {
   lessonsTemplate: LessonsTemplate;
 }
 
-const LessonsTemplatePopover: React.FC<Props> = ({ lessonsTemplate }) => {
+const LessonsTemplatePopover: FunctionComponent<Props> = ({ lessonsTemplate }) => {
   // Standard hooks
   const { t } = useFormatter();
   const dispatch = useAppDispatch();

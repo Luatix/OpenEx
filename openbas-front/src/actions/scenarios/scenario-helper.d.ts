@@ -1,4 +1,4 @@
-import type { LessonsCategory, LessonsQuestion, Objective, Scenario, Team } from '../../utils/api-types';
+import { type LessonsCategory, type LessonsQuestion, type Objective, type Scenario, type Team } from '../../utils/api-types';
 
 export interface ScenariosHelper {
   getScenario: (scenarioId: string) => Scenario;

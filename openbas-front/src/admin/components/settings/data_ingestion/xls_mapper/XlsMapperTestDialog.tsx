@@ -1,9 +1,9 @@
-import { FunctionComponent, useState } from 'react';
+import { type FunctionComponent, useState } from 'react';
 
 import { storeXlsFile } from '../../../../../actions/mapper/mapper-actions';
 import Dialog from '../../../../../components/common/Dialog';
 import { useFormatter } from '../../../../../components/i18n';
-import type { ImportMapperAddInput, ImportPostSummary } from '../../../../../utils/api-types';
+import { type ImportMapperAddInput, type ImportPostSummary } from '../../../../../utils/api-types';
 import ImportUploaderInjectFromInjectsTest from '../../../common/injects/ImportUploaderInjectFromInjectsTest';
 import ImportUploaderInjectFromXlsFile from '../../../common/injects/ImportUploaderInjectFromXlsFile';
 

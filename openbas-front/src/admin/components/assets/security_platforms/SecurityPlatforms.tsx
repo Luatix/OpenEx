@@ -1,11 +1,11 @@
 import { List, ListItem, ListItemIcon, ListItemSecondaryAction, ListItemText } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
-import { CSSProperties, useState } from 'react';
+import { type CSSProperties, useState } from 'react';
 import { useSearchParams } from 'react-router';
 import { makeStyles } from 'tss-react/mui';
 
 import { searchSecurityPlatforms } from '../../../../actions/assets/securityPlatform-actions';
-import type { UserHelper } from '../../../../actions/helper';
+import { type UserHelper } from '../../../../actions/helper';
 import Breadcrumbs from '../../../../components/Breadcrumbs';
 import PaginationComponent from '../../../../components/common/pagination/PaginationComponent';
 import SortHeadersComponent from '../../../../components/common/pagination/SortHeadersComponent';
@@ -14,7 +14,7 @@ import { buildSearchPagination } from '../../../../components/common/queryable/Q
 import { useFormatter } from '../../../../components/i18n';
 import ItemTags from '../../../../components/ItemTags';
 import { useHelper } from '../../../../store';
-import type { SearchPaginationInput, SecurityPlatform } from '../../../../utils/api-types';
+import { type SearchPaginationInput, type SecurityPlatform } from '../../../../utils/api-types';
 import { isNotEmptyField } from '../../../../utils/utils';
 import SecurityPlatformCreation from './SecurityPlatformCreation';
 import SecurityPlatformPopover from './SecurityPlatformPopover';

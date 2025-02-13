@@ -2,10 +2,10 @@ import { Tooltip, Typography } from '@mui/material';
 import { useNavigate, useParams } from 'react-router';
 import { makeStyles } from 'tss-react/mui';
 
-import { EndpointHelper } from '../../../../../actions/assets/asset-helper';
-import type { UserHelper } from '../../../../../actions/helper';
+import { type EndpointHelper } from '../../../../../actions/assets/asset-helper';
+import { type UserHelper } from '../../../../../actions/helper';
 import { useHelper } from '../../../../../store';
-import type { EndpointOverviewOutput as EndpointType } from '../../../../../utils/api-types';
+import { type EndpointOverviewOutput as EndpointType } from '../../../../../utils/api-types';
 import { truncate } from '../../../../../utils/String';
 import EndpointPopover from '../EndpointPopover';
 

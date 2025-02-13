@@ -1,8 +1,7 @@
 import { AccountCircleOutlined, AppsOutlined, ImportantDevicesOutlined } from '@mui/icons-material';
 import { AppBar, Badge, Box, Grid, IconButton, Menu, MenuItem, Popover, Toolbar, Tooltip } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
-import * as React from 'react';
-import { useEffect, useState } from 'react';
+import { type FunctionComponent, type MouseEvent as ReactMouseEvent, useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate, useSearchParams } from 'react-router';
 import { makeStyles } from 'tss-react/mui';
 
@@ -93,7 +92,7 @@ const useStyles = makeStyles()(theme => ({
   },
 }));
 
-const TopBar: React.FC = () => {
+const TopBar: FunctionComponent = () => {
   // Standard hooks
   const theme = useTheme();
   const location = useLocation();
@@ -112,7 +111,7 @@ const TopBar: React.FC = () => {
     anchorEl: HTMLButtonElement | null;
   }>({ open: false, anchorEl: null });
   const handleOpenMenu = (
-    event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    event: ReactMouseEvent<HTMLButtonElement, MouseEvent>,
   ) => {
     event.preventDefault();
     setMenuOpen({ open: true, anchorEl: event.currentTarget });
@@ -121,7 +120,7 @@ const TopBar: React.FC = () => {
     setMenuOpen({ open: false, anchorEl: null });
   };
   const handleOpenXtm = (
-    event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    event: ReactMouseEvent<HTMLButtonElement, MouseEvent>,
   ) => {
     event.preventDefault();
     setXtmOpen({ open: true, anchorEl: event.currentTarget });

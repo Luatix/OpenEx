@@ -1,10 +1,11 @@
-import { Control, FieldValues, useFieldArray, UseFieldArrayAppend, UseFieldArrayRemove } from 'react-hook-form';
+import { type ReactElement } from 'react';
+import { type Control, type FieldValues, useFieldArray, type UseFieldArrayAppend, type UseFieldArrayRemove } from 'react-hook-form';
 
 interface Props {
   control: Control;
-  renderField: (field: Record<'id', string>, index: number, remove: UseFieldArrayRemove) => JSX.Element;
+  renderField: (field: Record<'id', string>, index: number, remove: UseFieldArrayRemove) => ReactElement;
   name: string;
-  renderLabel: (append: UseFieldArrayAppend<FieldValues>) => JSX.Element;
+  renderLabel: (append: UseFieldArrayAppend<FieldValues>) => ReactElement;
 }
 
 const FieldArray = ({ control, name, renderField, renderLabel }: Props) => {

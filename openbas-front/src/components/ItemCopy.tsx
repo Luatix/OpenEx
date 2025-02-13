@@ -1,5 +1,5 @@
 import { ContentCopyOutlined } from '@mui/icons-material';
-import { FunctionComponent } from 'react';
+import { type FunctionComponent } from 'react';
 import { makeStyles } from 'tss-react/mui';
 
 import { truncate } from '../utils/String';

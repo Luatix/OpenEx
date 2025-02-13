@@ -1,5 +1,5 @@
 import { Chip } from '@mui/material';
-import * as React from 'react';
+import { type FunctionComponent } from 'react';
 import { makeStyles } from 'tss-react/mui';
 
 import { useFormatter } from '../../../../components/i18n';
@@ -36,7 +36,7 @@ interface Props {
   mode: string;
 }
 
-const AgentDeploymentMode: React.FC<Props> = ({ variant, mode }) => {
+const AgentDeploymentMode: FunctionComponent<Props> = ({ variant, mode }) => {
   const { t } = useFormatter();
   const { classes } = useStyles();
   const style = variant === 'list' ? classes.chipInList : classes.chip;

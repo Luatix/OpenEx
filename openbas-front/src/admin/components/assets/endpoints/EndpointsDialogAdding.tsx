@@ -1,18 +1,18 @@
 import { DevicesOtherOutlined } from '@mui/icons-material';
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
-import { FunctionComponent, useEffect, useMemo, useState } from 'react';
+import { type FunctionComponent, useEffect, useMemo, useState } from 'react';
 
 import { findEndpoints, searchEndpoints } from '../../../../actions/assets/endpoint-actions';
 import { buildFilter } from '../../../../components/common/queryable/filter/FilterUtils';
 import PaginationComponentV2 from '../../../../components/common/queryable/pagination/PaginationComponentV2';
 import { buildSearchPagination } from '../../../../components/common/queryable/QueryableUtils';
 import { useQueryable } from '../../../../components/common/queryable/useQueryableWithLocalStorage';
-import SelectList, { SelectListElements } from '../../../../components/common/SelectList';
+import SelectList, { type SelectListElements } from '../../../../components/common/SelectList';
 import Transition from '../../../../components/common/Transition';
 import { useFormatter } from '../../../../components/i18n';
 import ItemTags from '../../../../components/ItemTags';
 import PlatformIcon from '../../../../components/PlatformIcon';
-import type { Endpoint, FilterGroup } from '../../../../utils/api-types';
+import { type Endpoint, type FilterGroup } from '../../../../utils/api-types';
 
 interface Props {
   initialState: string[];

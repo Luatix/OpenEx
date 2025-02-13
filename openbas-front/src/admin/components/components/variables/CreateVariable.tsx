@@ -8,13 +8,12 @@ import {
   ListItemIcon,
   ListItemText,
 } from '@mui/material';
-import { useContext, useState } from 'react';
-import * as React from 'react';
+import { type FunctionComponent, useContext, useState } from 'react';
 import { makeStyles } from 'tss-react/mui';
 
 import Transition from '../../../../components/common/Transition';
 import { useFormatter } from '../../../../components/i18n';
-import type { VariableInput } from '../../../../utils/api-types';
+import { type VariableInput } from '../../../../utils/api-types';
 import { VariableContext } from '../../common/Context';
 import VariableForm from './VariableForm';
 
@@ -34,7 +33,7 @@ interface Props {
   inline?: boolean;
 }
 
-const CreateVariable: React.FC<Props> = ({
+const CreateVariable: FunctionComponent<Props> = ({
   inline,
 }) => {
   // Standard hooks

@@ -1,13 +1,13 @@
-import { FunctionComponent, useState } from 'react';
+import { type FunctionComponent, useState } from 'react';
 
 import { deleteLessonsTemplateCategory, updateLessonsTemplateCategory } from '../../../../../actions/Lessons';
 import ButtonPopover from '../../../../../components/common/ButtonPopover';
 import DialogDelete from '../../../../../components/common/DialogDelete';
 import Drawer from '../../../../../components/common/Drawer';
 import { useFormatter } from '../../../../../components/i18n';
-import type { LessonsTemplateCategory } from '../../../../../utils/api-types';
+import { type LessonsTemplateCategory } from '../../../../../utils/api-types';
 import { useAppDispatch } from '../../../../../utils/hooks';
-import LessonsTemplateCategoryForm, { LessonsTemplateCategoryInputForm } from './LessonsTemplateCategoryForm';
+import LessonsTemplateCategoryForm, { type LessonsTemplateCategoryInputForm } from './LessonsTemplateCategoryForm';
 
 interface Props {
   lessonsTemplateId: string;

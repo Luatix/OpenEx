@@ -1,6 +1,6 @@
-import { Theme } from '@mui/material';
+import { type Theme } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
-import { FunctionComponent, SyntheticEvent, useState } from 'react';
+import { type FunctionComponent, type SyntheticEvent, useState } from 'react';
 import Markdown from 'react-markdown';
 import type { PluggableList } from 'react-markdown/lib';
 import remarkFlexibleMarkers from 'remark-flexible-markers';

@@ -1,19 +1,18 @@
 import { MoreVert } from '@mui/icons-material';
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, IconButton, Menu, MenuItem } from '@mui/material';
-import { FunctionComponent, useContext, useState } from 'react';
-import * as React from 'react';
+import { type FunctionComponent, type MouseEvent as ReactMouseEvent, useContext, useState } from 'react';
 import { Link } from 'react-router';
 
-import type { ExercisesHelper } from '../../../../actions/exercises/exercise-helper';
+import { type ExercisesHelper } from '../../../../actions/exercises/exercise-helper';
 import { duplicateInjectForExercise, duplicateInjectForScenario } from '../../../../actions/Inject';
-import type { InjectStore } from '../../../../actions/injects/Inject';
+import { type InjectStore } from '../../../../actions/injects/Inject';
 import { testInject } from '../../../../actions/injects/inject-action';
 import DialogDuplicate from '../../../../components/common/DialogDuplicate';
 import DialogTest from '../../../../components/common/DialogTest';
 import Transition from '../../../../components/common/Transition';
 import { useFormatter } from '../../../../components/i18n';
 import { useHelper } from '../../../../store';
-import type { Inject, InjectStatus, InjectTestStatusOutput } from '../../../../utils/api-types';
+import { type Inject, type InjectStatus, type InjectTestStatusOutput } from '../../../../utils/api-types';
 import { MESSAGING$ } from '../../../../utils/Environment';
 import { useAppDispatch } from '../../../../utils/hooks';
 import { InjectContext, PermissionsContext } from '../Context';
@@ -77,7 +76,7 @@ const InjectPopover: FunctionComponent<Props> = ({
 
   const isExercise = useHelper((helper: ExercisesHelper) => helper.getExercisesMap()[exerciseOrScenarioId!] !== undefined);
 
-  const handlePopoverOpen = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const handlePopoverOpen = (event: ReactMouseEvent<HTMLButtonElement>) => {
     event.stopPropagation();
     setAnchorEl(event.currentTarget);
   };

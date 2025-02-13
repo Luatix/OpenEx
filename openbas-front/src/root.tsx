@@ -5,7 +5,7 @@ import { lazy, Suspense, useEffect } from 'react';
 import { Navigate, Route, Routes } from 'react-router';
 
 import { fetchMe, fetchPlatformParameters } from './actions/Application';
-import type { LoggedHelper } from './actions/helper';
+import { type LoggedHelper } from './actions/helper';
 import ConnectedIntlProvider from './components/AppIntlProvider';
 import ConnectedThemeProvider from './components/AppThemeProvider';
 import { errorWrapper } from './components/Error';

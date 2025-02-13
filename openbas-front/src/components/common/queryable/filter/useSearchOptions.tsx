@@ -6,7 +6,7 @@ import { searchKillChainPhasesByNameAsOption } from '../../../../actions/kill_ch
 import { searchOrganizationsByNameAsOption } from '../../../../actions/organizations/organization-actions';
 import { searchScenarioAsOption, searchScenarioCategoryAsOption } from '../../../../actions/scenarios/scenario-actions';
 import { searchTagAsOption } from '../../../../actions/tags/tag-action';
-import { Option } from '../../../../utils/Option';
+import { type Option } from '../../../../utils/Option';
 import { useFormatter } from '../../../i18n';
 
 const useSearchOptions = () => {

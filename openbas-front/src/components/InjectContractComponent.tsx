@@ -1,14 +1,13 @@
-import { Autocomplete, SelectChangeEvent, TextField } from '@mui/material';
-import { FunctionComponent, useEffect, useState } from 'react';
-import * as React from 'react';
-import { FieldError } from 'react-hook-form';
+import { Autocomplete, type SelectChangeEvent, TextField } from '@mui/material';
+import { type FunctionComponent, type SyntheticEvent, useEffect, useState } from 'react';
+import { type FieldError } from 'react-hook-form';
 import { makeStyles } from 'tss-react/mui';
 
 import { searchInjectorContracts } from '../actions/InjectorContracts';
 import InjectIcon from '../admin/components/common/injects/InjectIcon';
-import type { FilterGroup, InjectorContract } from '../utils/api-types';
+import { type FilterGroup, type InjectorContract } from '../utils/api-types';
 import { isNotEmptyField } from '../utils/utils';
-import { initSorting, Page } from './common/queryable/Page';
+import { initSorting, type Page } from './common/queryable/Page';
 import { useFormatter } from './i18n';
 
 const useStyles = makeStyles()(() => ({
@@ -42,7 +41,7 @@ const InjectContractComponent: FunctionComponent<Props> = ({
 
   // Pagination
   const [contracts, setContracts] = useState<InjectorContract[]>([]);
-  const searchContract = (event: React.SyntheticEvent) => {
+  const searchContract = (event: SyntheticEvent) => {
     const selectChangeEvent = event as SelectChangeEvent;
     const val = selectChangeEvent?.target.value ?? '';
     return contracts.filter(
@@ -80,7 +79,7 @@ const InjectContractComponent: FunctionComponent<Props> = ({
     });
   }, []);
 
-  const [value, setValue] = React.useState<string | null | undefined>(fieldValue ?? '');
+  const [value, setValue] = useState<string | null | undefined>(fieldValue ?? '');
 
   return (
     <Autocomplete

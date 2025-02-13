@@ -1,16 +1,16 @@
-import { FunctionComponent, useState } from 'react';
+import { type FunctionComponent, useState } from 'react';
 import { useParams } from 'react-router';
 
-import type { ArticlesHelper } from '../../../../../actions/channels/article-helper';
-import type { ChallengeHelper } from '../../../../../actions/helper';
+import { type ArticlesHelper } from '../../../../../actions/channels/article-helper';
+import { type ChallengeHelper } from '../../../../../actions/helper';
 import { fetchScenarioInjectsSimple } from '../../../../../actions/injects/inject-action';
-import type { InjectHelper } from '../../../../../actions/injects/inject-helper';
+import { type InjectHelper } from '../../../../../actions/injects/inject-helper';
 import { fetchScenarioTeams } from '../../../../../actions/scenarios/scenario-actions';
-import type { ScenariosHelper } from '../../../../../actions/scenarios/scenario-helper';
+import { type ScenariosHelper } from '../../../../../actions/scenarios/scenario-helper';
 import { fetchVariablesForScenario } from '../../../../../actions/variables/variable-actions';
-import type { VariablesHelper } from '../../../../../actions/variables/variable-helper';
+import { type VariablesHelper } from '../../../../../actions/variables/variable-helper';
 import { useHelper } from '../../../../../store';
-import type { Scenario } from '../../../../../utils/api-types';
+import { type Scenario } from '../../../../../utils/api-types';
 import { useAppDispatch } from '../../../../../utils/hooks';
 import useDataLoader from '../../../../../utils/hooks/useDataLoader';
 import { ArticleContext, TeamContext, ViewModeContext } from '../../../common/Context';

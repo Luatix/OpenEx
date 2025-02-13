@@ -1,14 +1,14 @@
 import { FormHelperText, InputLabel, useTheme } from '@mui/material';
 import MDEditor, { commands } from '@uiw/react-md-editor/nohighlight';
-import * as React from 'react';
-import { Field, FieldInputProps, FieldMetaState } from 'react-final-form';
+import { type CSSProperties, type FunctionComponent } from 'react';
+import { Field, type FieldInputProps, type FieldMetaState } from 'react-final-form';
 
 import TextFieldAskAI from '../../admin/components/common/form/TextFieldAskAI';
 import { useFormatter } from '../i18n';
 
 interface Props {
   label: string;
-  style: React.CSSProperties;
+  style: CSSProperties;
   disabled?: boolean;
   input: FieldInputProps<string, HTMLElement>;
   meta: FieldMetaState<string>;
@@ -17,7 +17,7 @@ interface Props {
   inArticle?: boolean;
 }
 
-const MarkDownFieldBase: React.FC<Props> = ({
+const MarkDownFieldBase: FunctionComponent<Props> = ({
   label,
   style,
   disabled,

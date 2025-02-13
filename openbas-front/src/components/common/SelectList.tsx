@@ -1,16 +1,15 @@
 import { Box, Chip, Grid, List, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
-import { useMemo } from 'react';
-import * as React from 'react';
+import { type ReactElement, useMemo } from 'react';
 
 import { truncate } from '../../utils/String';
 
-export interface SelectListIcon {
-  value: () => React.ReactElement;
+interface SelectListIcon {
+  value: () => ReactElement;
 }
 
-export interface SelectListHeader<T> {
+interface SelectListHeader<T> {
   field: string;
-  value: (value: T) => React.ReactElement | string;
+  value: (value: T) => ReactElement | string;
   width: number;
 }
 
@@ -26,8 +25,8 @@ interface Props<T> {
   prefix: string;
   onSelect: (id: string, value: T) => void;
   onDelete: (id: string) => void;
-  paginationComponent: React.ReactElement;
-  buttonComponent?: React.ReactElement;
+  paginationComponent: ReactElement;
+  buttonComponent?: ReactElement;
   getName?: (element: T) => string;
 }
 

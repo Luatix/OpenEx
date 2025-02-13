@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { makeStyles } from 'tss-react/mui';
 
-import type { UserHelper } from '../../../../actions/helper';
+import { type UserHelper } from '../../../../actions/helper';
 import { useHelper } from '../../../../store';
 import useEnterpriseEdition from '../../../../utils/hooks/useEnterpriseEdition';
 import EnterpriseEditionAgreement from './EnterpriseEditionAgreement';

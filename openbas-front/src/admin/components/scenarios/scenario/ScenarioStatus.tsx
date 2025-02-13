@@ -1,9 +1,9 @@
 import { Chip } from '@mui/material';
-import { FunctionComponent } from 'react';
+import { type FunctionComponent } from 'react';
 import { makeStyles } from 'tss-react/mui';
 
 import { useFormatter } from '../../../../components/i18n';
-import type { Scenario } from '../../../../utils/api-types';
+import { type Scenario } from '../../../../utils/api-types';
 import { inlineStylesColors } from '../../../../utils/Colors';
 
 const useStyles = makeStyles()(() => ({

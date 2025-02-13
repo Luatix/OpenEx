@@ -1,41 +1,41 @@
-import { createContext, ReactElement } from 'react';
+import { createContext, type ReactElement } from 'react';
 
-import type { FullArticleStore } from '../../../actions/channels/Article';
-import type { InjectOutputType, InjectStore } from '../../../actions/injects/Inject';
-import { Page } from '../../../components/common/queryable/Page';
-import type {
-  Article,
-  ArticleCreateInput,
-  ArticleUpdateInput,
-  Evaluation,
-  EvaluationInput,
-  ImportTestSummary,
-  Inject,
-  InjectBulkProcessingInput,
-  InjectBulkUpdateInputs,
-  InjectsImportInput, InjectTestStatusOutput,
-  LessonsAnswer,
-  LessonsAnswerCreateInput,
-  LessonsCategory,
-  LessonsCategoryCreateInput,
-  LessonsCategoryTeamsInput,
-  LessonsCategoryUpdateInput,
-  LessonsQuestion,
-  LessonsQuestionCreateInput,
-  LessonsQuestionUpdateInput,
-  LessonsSendInput,
-  Objective,
-  ObjectiveInput,
-  Report,
-  ReportInput,
-  SearchPaginationInput,
-  Team,
-  TeamCreateInput,
-  TeamOutput,
-  Variable,
-  VariableInput,
+import { type FullArticleStore } from '../../../actions/channels/Article';
+import { type InjectOutputType, type InjectStore } from '../../../actions/injects/Inject';
+import { type Page } from '../../../components/common/queryable/Page';
+import {
+  type Article,
+  type ArticleCreateInput,
+  type ArticleUpdateInput,
+  type Evaluation,
+  type EvaluationInput,
+  type ImportTestSummary,
+  type Inject,
+  type InjectBulkProcessingInput,
+  type InjectBulkUpdateInputs,
+  type InjectsImportInput, type InjectTestStatusOutput,
+  type LessonsAnswer,
+  type LessonsAnswerCreateInput,
+  type LessonsCategory,
+  type LessonsCategoryCreateInput,
+  type LessonsCategoryTeamsInput,
+  type LessonsCategoryUpdateInput,
+  type LessonsQuestion,
+  type LessonsQuestionCreateInput,
+  type LessonsQuestionUpdateInput,
+  type LessonsSendInput,
+  type Objective,
+  type ObjectiveInput,
+  type Report,
+  type ReportInput,
+  type SearchPaginationInput,
+  type Team,
+  type TeamCreateInput,
+  type TeamOutput,
+  type Variable,
+  type VariableInput,
 } from '../../../utils/api-types';
-import type { UserStore } from '../teams/players/Player';
+import { type UserStore } from '../teams/players/Player';
 
 export type PermissionsContextType = {
   permissions: { readOnly: boolean; canWrite: boolean; isRunning: boolean };

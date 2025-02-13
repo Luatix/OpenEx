@@ -1,8 +1,7 @@
 import { Typography } from '@mui/material';
-import { ICommand } from '@uiw/react-md-editor';
+import { type ICommand } from '@uiw/react-md-editor';
 import MDEditor, { commands } from '@uiw/react-md-editor/nohighlight';
-import { useState } from 'react';
-import * as React from 'react';
+import { type FunctionComponent, useState } from 'react';
 
 import { useFormatter } from '../i18n';
 
@@ -13,7 +12,7 @@ interface Props {
   initialValue: string;
 }
 
-const MarkDownField: React.FC<Props> = ({
+const MarkDownField: FunctionComponent<Props> = ({
   disabled = false,
   onChange,
   onBlur = () => {},

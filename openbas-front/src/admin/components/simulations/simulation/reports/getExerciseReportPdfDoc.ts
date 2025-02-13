@@ -2,11 +2,11 @@ import { toPng } from 'html-to-image';
 import type { Content, ContentTable, TDocumentDefinitions } from 'pdfmake/interfaces';
 
 import LogoText from '../../../../../static/images/logo_text_light.png';
-import type { InjectResultOutput, LessonsAnswer, Report } from '../../../../../utils/api-types';
+import { type InjectResultOutput, type LessonsAnswer, type Report } from '../../../../../utils/api-types';
 import { resolveUserName } from '../../../../../utils/String';
 import convertMarkdownToPdfMake from './convertMarkdownToPdfMake';
 import ReportInformationType from './ReportInformationType';
-import { ExerciseReportData } from './useExerciseReportData';
+import { type ExerciseReportData } from './useExerciseReportData';
 
 const getBase64ImageFromURL = (url: string) => {
   return new Promise((resolve, reject) => {

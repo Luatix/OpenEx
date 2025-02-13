@@ -15,8 +15,7 @@ import {
   TextField,
   Tooltip,
 } from '@mui/material';
-import { FunctionComponent, useState } from 'react';
-import * as React from 'react';
+import { type FunctionComponent, type MouseEvent as ReactMouseEvent, useState } from 'react';
 
 import { aiChangeTone, aiExplain, aiFixSpelling, aiGenMedia, aiGenMessage, aiGenSubject, aiMakeLonger, aiMakeShorter, aiSummarize } from '../../../../actions/AskAI';
 // eslint-disable-next-line import/no-cycle
@@ -72,7 +71,7 @@ const TextFieldAskAI: FunctionComponent<TextFieldAskAiProps> = ({
     anchorEl: null,
   });
   const [displayAskAI, setDisplayAskAI] = useState(false);
-  const handleOpenMenu = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+  const handleOpenMenu = (event: ReactMouseEvent<HTMLButtonElement, MouseEvent>) => {
     if (isEnterpriseEdition) {
       event.preventDefault();
       setMenuOpen({ open: true, anchorEl: event.currentTarget });

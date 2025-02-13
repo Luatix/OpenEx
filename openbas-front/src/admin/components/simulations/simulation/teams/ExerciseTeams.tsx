@@ -1,13 +1,12 @@
 import { Paper, Typography } from '@mui/material';
-import * as React from 'react';
-import { useContext } from 'react';
+import { type FunctionComponent, useContext } from 'react';
 import { useParams } from 'react-router';
 
 import { fetchExerciseTeams } from '../../../../../actions/Exercise';
-import type { ExercisesHelper } from '../../../../../actions/exercises/exercise-helper';
+import { type ExercisesHelper } from '../../../../../actions/exercises/exercise-helper';
 import { useFormatter } from '../../../../../components/i18n';
 import { useHelper } from '../../../../../store';
-import type { Exercise, Team } from '../../../../../utils/api-types';
+import { type Exercise, type Team } from '../../../../../utils/api-types';
 import { useAppDispatch } from '../../../../../utils/hooks';
 import useDataLoader from '../../../../../utils/hooks/useDataLoader';
 import { PermissionsContext, TeamContext } from '../../../common/Context';
@@ -19,7 +18,7 @@ interface Props {
   exerciseTeamsUsers: Exercise['exercise_teams_users'];
 }
 
-const ExerciseTeams: React.FC<Props> = ({ exerciseTeamsUsers }) => {
+const ExerciseTeams: FunctionComponent<Props> = ({ exerciseTeamsUsers }) => {
   // Standard hooks
   const { t } = useFormatter();
   const dispatch = useAppDispatch();

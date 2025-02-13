@@ -58,8 +58,8 @@ export const fetchAssetGroup = (assetGroupId: AssetGroup['asset_group_id']) => (
   return getReferential(assetGroup, uri)(dispatch);
 };
 
-export const searchAssetGroupAsOption = (searchText: string = '') => {
-  const params = { searchText };
+export const searchAssetGroupAsOption = (searchText: string = '', simulationOrScenarioId: string = '') => {
+  const params = { searchText, simulationOrScenarioId };
   return simpleCall(`${ASSET_GROUP_URI}/options`, params);
 };
 

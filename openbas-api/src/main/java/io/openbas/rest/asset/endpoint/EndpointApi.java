@@ -2,7 +2,6 @@ package io.openbas.rest.asset.endpoint;
 
 import static io.openbas.database.model.User.ROLE_ADMIN;
 import static io.openbas.database.model.User.ROLE_USER;
-import static io.openbas.database.specification.EndpointSpecification.byName;
 import static io.openbas.database.specification.EndpointSpecification.fromIds;
 import static io.openbas.helper.StreamHelper.fromIterable;
 
@@ -30,9 +29,9 @@ import jakarta.validation.constraints.NotNull;
 import java.io.IOException;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Sort;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
@@ -157,10 +156,11 @@ public class EndpointApi extends RestBehavior {
 
   @GetMapping(ENDPOINT_URI + "/options")
   public List<FilterUtilsJpa.Option> optionsByName(
-      @RequestParam(required = false) final String searchText) {
-    return fromIterable(
-            this.endpointRepository.findAll(
-                byName(searchText), Sort.by(Sort.Direction.ASC, "name")))
+      @RequestParam(required = false) final String searchText,
+      @RequestParam(required = false) final String simulationOrScenarioId) {
+    return endpointRepository
+        .findAllBySimulationOrScenarioIdAndName(
+            StringUtils.trimToNull(simulationOrScenarioId), StringUtils.trimToNull(searchText))
         .stream()
         .map(i -> new FilterUtilsJpa.Option(i.getId(), i.getName()))
         .toList();

@@ -11,6 +11,7 @@ import wordsToExcludeFromTranslation from './WordsToExcludeFromTranslation';
 interface Props {
   filter: Filter;
   helpers: FilterHelpers;
+  contextId?: string; // used to give contextual information to the searchOptions function
 }
 
 export const BasicTextInput: FunctionComponent<Props> = ({
@@ -50,6 +51,7 @@ export const BasicSelectInput: FunctionComponent<Props & { propertySchema: Prope
   filter,
   helpers,
   propertySchema,
+  contextId,
 }) => {
   // Standard hooks
   const { t } = useFormatter();
@@ -61,7 +63,7 @@ export const BasicSelectInput: FunctionComponent<Props & { propertySchema: Prope
         return ({ id: value, label });
       }));
     } else {
-      searchOptions(filter.key);
+      searchOptions(filter.key, '', contextId);
     }
   }, []);
 
@@ -82,7 +84,7 @@ export const BasicSelectInput: FunctionComponent<Props & { propertySchema: Prope
       noOptionsText={t('No available options')}
       options={options}
       getOptionLabel={option => option.label ?? ''}
-      onInputChange={(_, search) => searchOptions(filter.key, search)}
+      onInputChange={(_, search) => searchOptions(filter.key, search, contextId)}
       renderInput={paramsInput => (
         <TextField
           {...paramsInput}
@@ -152,11 +154,12 @@ export const FilterChipPopoverInput: FunctionComponent<Props & { propertySchema:
   propertySchema,
   filter,
   helpers,
+  contextId,
 }) => {
   const choice = () => {
     // Date field
     if (propertySchema.schema_property_type.includes('instant')) {
-      return (<BasicFilterDate filter={filter} helpers={helpers} />);
+      return (<BasicFilterDate filter={filter} helpers={helpers} contextId={contextId} />);
     }
     // Emptiness
     if (filter?.operator && ['empty', 'not_empty'].includes(filter.operator)) {
@@ -164,10 +167,10 @@ export const FilterChipPopoverInput: FunctionComponent<Props & { propertySchema:
     }
     // Select field
     if (propertySchema.schema_property_values || propertySchema.schema_property_has_dynamic_value) {
-      return (<BasicSelectInput propertySchema={propertySchema} filter={filter} helpers={helpers} />);
+      return (<BasicSelectInput propertySchema={propertySchema} filter={filter} helpers={helpers} contextId={contextId} />);
     }
     // Simple text field
-    return (<BasicTextInput filter={filter} helpers={helpers} />);
+    return (<BasicTextInput filter={filter} helpers={helpers} contextId={contextId} />);
   };
   return (choice());
 };

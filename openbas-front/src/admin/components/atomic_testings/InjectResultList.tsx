@@ -72,6 +72,7 @@ interface Props {
   queryableHelpers: QueryableHelpers;
   searchPaginationInput: SearchPaginationInput;
   availableFilterNames?: string[];
+  contextId?: string;
 }
 
 const InjectResultList: FunctionComponent<Props> = ({
@@ -80,6 +81,7 @@ const InjectResultList: FunctionComponent<Props> = ({
   goTo,
   queryableHelpers,
   searchPaginationInput,
+  contextId,
 }) => {
   // Standard hooks
   const { classes } = useStyles();
@@ -181,6 +183,7 @@ const InjectResultList: FunctionComponent<Props> = ({
         entityPrefix="inject"
         availableFilterNames={availableFilterNames}
         queryableHelpers={queryableHelpers}
+        contextId={contextId}
       />
       <List>
         <ListItem

@@ -49,6 +49,7 @@ interface Props<T> {
   topBarButtons?: React.ReactElement | null;
   attackPatterns?: AttackPattern[];
   reloadContentCount?: number;
+  contextId?: string;
 }
 
 const PaginationComponentV2 = <T extends object>({
@@ -63,6 +64,7 @@ const PaginationComponentV2 = <T extends object>({
   attackPatterns,
   topBarButtons,
   reloadContentCount = 0,
+  contextId,
 }: Props<T>) => {
   // Standard hooks
   const { classes } = useStyles();
@@ -77,7 +79,8 @@ const PaginationComponentV2 = <T extends object>({
         const newOptions = propertySchemas.filter(property => property.schema_property_name !== MITRE_FILTER_KEY)
           .map(property => (
             { id: property.schema_property_name, label: t(property.schema_property_name), operator: availableOperators(property)[0] } as OptionPropertySchema
-          ));
+          ))
+          .sort((a, b) => a.label.localeCompare(b.label));
         setOptions(newOptions);
         setProperties(propertySchemas);
       });
@@ -210,6 +213,7 @@ const PaginationComponentV2 = <T extends object>({
         availableFilterNames={availableFilterNames?.filter(n => n !== MITRE_FILTER_KEY)}
         helpers={queryableHelpers.filterHelpers}
         pristine={pristine}
+        contextId={contextId}
       />
     </>
   );

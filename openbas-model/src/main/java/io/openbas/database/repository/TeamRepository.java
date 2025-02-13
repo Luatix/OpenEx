@@ -127,4 +127,14 @@ public interface TeamRepository
               + "WHERE it.inject_id in :injectIds",
       nativeQuery = true)
   List<Object[]> teamsByInjectIds(Set<String> injectIds);
+
+  @Query(
+      "SELECT t FROM Inject i"
+          + " JOIN i.teams t"
+          + " WHERE ("
+          + "   :simulationOrScenarioId is NULL AND i.exercise.id is NULL AND i.scenario.id IS NULL"
+          + "   OR (i.exercise.id = :simulationOrScenarioId"
+          + "   OR i.scenario.id = :simulationOrScenarioId)"
+          + " ) AND (:name IS NULL OR t.name iLIKE %:name%)")
+  List<Team> findAllBySimulationOrScenarioIdAndName(String simulationOrScenarioId, String name);
 }

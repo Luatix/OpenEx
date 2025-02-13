@@ -18,7 +18,7 @@ const useSearchOptions = () => {
 
   const [options, setOptions] = useState<Option[]>([]);
 
-  const searchOptions = (filterKey: string, search: string = '') => {
+  const searchOptions = (filterKey: string, search: string = '', contextId: string = '') => {
     switch (filterKey) {
       case 'injector_contract_injector':
       case 'inject_injector_contract':
@@ -52,17 +52,17 @@ const useSearchOptions = () => {
         });
         break;
       case 'inject_asset_groups':
-        searchAssetGroupAsOption(search).then((response) => {
+        searchAssetGroupAsOption(search, contextId).then((response) => {
           setOptions(response.data);
         });
         break;
       case 'inject_assets':
-        searchEndpointAsOption(search).then((response) => {
+        searchEndpointAsOption(search, contextId).then((response) => {
           setOptions(response.data);
         });
         break;
       case 'inject_teams':
-        searchTeamsAsOption(search).then((response) => {
+        searchTeamsAsOption(search, contextId).then((response) => {
           setOptions(response.data);
         });
         break;

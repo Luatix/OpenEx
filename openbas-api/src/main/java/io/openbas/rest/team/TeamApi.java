@@ -43,8 +43,8 @@ import jakarta.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -241,9 +241,11 @@ public class TeamApi extends RestBehavior {
   // -- OPTION --
   @GetMapping(TEAM_URI + "/options")
   public List<FilterUtilsJpa.Option> optionsByName(
-      @RequestParam(required = false) final String searchText) {
-    return fromIterable(
-            this.teamRepository.findAll(byName(searchText), Sort.by(Sort.Direction.ASC, "name")))
+      @RequestParam(required = false) final String searchText,
+      @RequestParam(required = false) final String simulationOrScenarioId) {
+    return teamRepository
+        .findAllBySimulationOrScenarioIdAndName(
+            StringUtils.trimToNull(simulationOrScenarioId), StringUtils.trimToNull(searchText))
         .stream()
         .map(i -> new FilterUtilsJpa.Option(i.getId(), i.getName()))
         .toList();

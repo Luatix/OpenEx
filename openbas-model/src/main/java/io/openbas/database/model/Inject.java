@@ -198,10 +198,7 @@ public class Inject implements Base, Injection {
       inverseJoinColumns = @JoinColumn(name = "asset_id"))
   @JsonSerialize(using = MultiIdListDeserializer.class)
   @JsonProperty("inject_assets")
-  @Queryable(
-      filterable = true,
-      dynamicValues = true,
-      paths = {"assets.id", "assetGroups.assets.id"})
+  @Queryable(filterable = true, dynamicValues = true, path = "assets.id")
   private List<Asset> assets = new ArrayList<>();
 
   @ArraySchema(schema = @Schema(type = "string"))

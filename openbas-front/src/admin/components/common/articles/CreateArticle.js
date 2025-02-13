@@ -81,7 +81,8 @@ const CreateArticle = (props) => {
             handleClose={handleCloseCreate}
             initialValues={{
               article_name: '',
-              article_channel: '' }}
+              article_channel: '',
+            }}
           />
         </DialogContent>
       </Dialog>

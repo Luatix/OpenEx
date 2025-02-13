@@ -14,9 +14,11 @@ const ExecutionTime = ({ startDate, endDate, style = {} }: Props) => {
   const executionTimeInfo: { label: string; value: string | null }[] = [
     { label: 'Start date', value: startDate },
     { label: 'End date', value: endDate },
-    { label: 'Execution Time', value: startDate && endDate
-      ? `${(new Date(endDate).getTime() - new Date(startDate).getTime()) / 1000} s`
-      : '',
+    {
+      label: 'Execution Time',
+      value: startDate && endDate
+        ? `${(new Date(endDate).getTime() - new Date(startDate).getTime()) / 1000} s`
+        : '',
     },
   ];
 

@@ -79,7 +79,8 @@ const ChainedTimelineFlow: FunctionComponent<Props> = ({
   onUpdateInject,
   onCreate,
   onUpdate,
-  onDelete }) => {
+  onDelete,
+}) => {
   // Standard hooks
   const { classes } = useStyles();
   const theme = useTheme();
@@ -111,8 +112,7 @@ const ChainedTimelineFlow: FunctionComponent<Props> = ({
     type: ConnectionLineType.Bezier,
     markerEnd: { type: MarkerType.ArrowClosed,
       width: 30,
-      height: 30,
-    },
+      height: 30 },
   };
 
   const minutesPerGapAllowed = [

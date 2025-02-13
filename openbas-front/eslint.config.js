@@ -98,6 +98,8 @@ export default [
       // @stylistic rules
       '@stylistic/brace-style': ['error', '1tbs'],
       '@stylistic/multiline-ternary': ['error', 'always-multiline', { ignoreJSX: true }],
+      '@stylistic/object-curly-newline': ['error'],
+      '@stylistic/object-property-newline': ['error', { allowAllPropertiesOnSameLine: true }],
 
       // eslint-plugin-import rules
       'import/no-named-as-default-member': 'off',

@@ -265,7 +265,8 @@ export const areaChartOptions = (
 export interface CustomTooltipOptions {
   _: unknown[];
   seriesIndex: number;
-  dataPointIndex: number; w: {
+  dataPointIndex: number;
+  w: {
     globals: {
       initialSeries: Array<{ data: object[] }>;
     };

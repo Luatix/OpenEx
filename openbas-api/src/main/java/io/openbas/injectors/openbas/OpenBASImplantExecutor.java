@@ -6,6 +6,7 @@ import static io.openbas.model.expectation.DetectionExpectation.*;
 import static io.openbas.model.expectation.ManualExpectation.*;
 import static io.openbas.model.expectation.PreventionExpectation.*;
 import static io.openbas.service.AgentService.hasOnlyValidTraces;
+import static io.openbas.service.AgentService.isPrimaryAgent;
 
 import io.openbas.database.model.*;
 import io.openbas.execution.ExecutableInject;
@@ -222,8 +223,7 @@ public class OpenBASImplantExecutor extends Injector {
   private List<Agent> getActiveAgents(Asset asset, Inject inject) {
     return ((Endpoint) asset)
         .getAgents().stream()
-            .filter(agent -> agent.getParent() == null && agent.getInject() == null)
-            .filter(agent -> hasOnlyValidTraces(inject, agent))
+            .filter(agent -> isPrimaryAgent(agent) && hasOnlyValidTraces(inject, agent))
             .filter(Agent::isActive)
             .toList();
   }

@@ -8,6 +8,7 @@ import static io.openbas.model.expectation.DetectionExpectation.*;
 import static io.openbas.model.expectation.ManualExpectation.*;
 import static io.openbas.model.expectation.PreventionExpectation.*;
 import static io.openbas.service.AgentService.hasOnlyValidTraces;
+import static io.openbas.service.AgentService.isPrimaryAgent;
 import static java.time.Instant.now;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -153,8 +154,8 @@ public class CalderaExecutor extends Injector {
                           // Loop for every validated agent in this endpoint
                           endpointAgent.getAgents().stream()
                               .filter(
-                                  agent -> agent.getParent() == null && agent.getInject() == null)
-                              .filter(agent -> hasOnlyValidTraces(inject, agent))
+                                  agent ->
+                                      isPrimaryAgent(agent) && hasOnlyValidTraces(inject, agent))
                               .forEach(
                                   agent -> {
                                     try {

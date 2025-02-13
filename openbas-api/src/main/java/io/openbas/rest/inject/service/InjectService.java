@@ -3,6 +3,7 @@ package io.openbas.rest.inject.service;
 import static io.openbas.helper.StreamHelper.fromIterable;
 import static io.openbas.helper.StreamHelper.iterableToSet;
 import static io.openbas.utils.FilterUtilsJpa.computeFilterGroupJpa;
+import static io.openbas.service.AgentService.isPrimaryAgent;
 import static io.openbas.utils.StringUtils.duplicateString;
 import static io.openbas.utils.pagination.SearchUtilsJpa.computeSearchJpa;
 
@@ -574,7 +575,7 @@ public class InjectService {
         .map(asset -> (Endpoint) Hibernate.unproxy(asset))
         .flatMap(
             endpoint -> Optional.ofNullable(endpoint.getAgents()).stream().flatMap(List::stream))
-        .filter(agent -> agent.getParent() == null && agent.getInject() == null)
+        .filter(agent -> isPrimaryAgent(agent))
         .forEach(
             agent -> {
               if (!agentIds.contains(agent.getId())) {

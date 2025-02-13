@@ -41,7 +41,7 @@ public class AgentService {
     return agentRepository.findByExternalReference(externalReference);
   }
 
-  public static boolean hasOnlyValidTraces(Inject inject, io.openbas.database.model.Agent agent) {
+  public static boolean hasOnlyValidTraces(Inject inject, Agent agent) {
     return inject
         .getStatus()
         .map(InjectStatus::getTraces)
@@ -58,5 +58,9 @@ public class AgentService {
                                             trace.getStatus())))))
         .orElse(Boolean.TRUE)
         .booleanValue(); // If there are no traces, return true by default
+  }
+
+  public static boolean isPrimaryAgent(Agent agent) {
+    return agent.getParent() == null && agent.getInject() == null;
   }
 }

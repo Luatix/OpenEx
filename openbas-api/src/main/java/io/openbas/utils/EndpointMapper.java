@@ -1,5 +1,6 @@
 package io.openbas.utils;
 
+import static io.openbas.service.AgentService.isPrimaryAgent;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.emptySet;
 
@@ -83,7 +84,7 @@ public class EndpointMapper {
   @NotNull
   private static List<Agent> getPrimaryAgents(Endpoint endpoint) {
     return endpoint.getAgents().stream()
-        .filter(agent -> agent.getParent() == null && agent.getInject() == null)
+        .filter(agent -> isPrimaryAgent(agent))
         .collect(Collectors.toList());
   }
 }

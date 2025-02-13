@@ -1,5 +1,6 @@
 package io.openbas.database.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import io.openbas.database.audit.ModelBaseListener;
@@ -36,6 +37,7 @@ public class Executable extends Payload {
   }
 
   @Override
+  @JsonIgnore
   public final String getExpectationSignatureValue() {
     return Optional.ofNullable(this.executableFile).map(Document::getName).orElse("");
   }

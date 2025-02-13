@@ -132,6 +132,7 @@ public class CalderaExecutor extends Injector {
               Map<String, List<io.openbas.database.model.Agent>> executedAgentByEndpoint =
                   new HashMap<>();
 
+              // Loop for every asset in this inject
               assets
                   .entrySet()
                   .forEach(
@@ -143,11 +144,13 @@ public class CalderaExecutor extends Injector {
                           return;
                         }
 
+                        // We execute just one time the inject in every agent
                         if (!executedAgentByEndpoint.containsKey(asset.getId())) {
                           Endpoint endpointAgent = (Endpoint) asset;
 
                           List<io.openbas.database.model.Agent> executedAgents = new ArrayList<>();
 
+                          // Loop for every validated agent in this endpoint
                           endpointAgent.getAgents().stream()
                               .filter(
                                   agent -> agent.getParent() == null && agent.getInject() == null)

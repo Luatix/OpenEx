@@ -94,7 +94,7 @@ public class TaniumExecutorService implements Runnable {
     log.info("Running Tanium executor endpoints gathering...");
     List<NodeEndpoint> nodeEndpoints =
         this.client.endpoints().getData().getEndpoints().getEdges().stream().toList();
-    List<Agent> endpointAgentList = toEndpoint(nodeEndpoints);
+    List<Agent> endpointAgentList = toAgentEndpoint(nodeEndpoints);
     log.info("Tanium executor provisioning based on " + endpointAgentList.size() + " assets");
     for (Agent agent : endpointAgentList) {
       Endpoint endpoint = (Endpoint) Hibernate.unproxy(agent.getAsset());
@@ -160,7 +160,7 @@ public class TaniumExecutorService implements Runnable {
 
   // -- PRIVATE --
 
-  private List<Agent> toEndpoint(@NotNull final List<NodeEndpoint> nodeEndpoints) {
+  private List<Agent> toAgentEndpoint(@NotNull final List<NodeEndpoint> nodeEndpoints) {
     return nodeEndpoints.stream()
         .map(
             nodeEndpoint -> {

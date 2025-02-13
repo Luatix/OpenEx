@@ -223,8 +223,9 @@ public class OpenBASImplantExecutor extends Injector {
   private List<Agent> getActiveAgents(Asset asset, Inject inject) {
     return ((Endpoint) asset)
         .getAgents().stream()
-            .filter(agent -> isPrimaryAgent(agent) && hasOnlyValidTraces(inject, agent))
-            .filter(Agent::isActive)
+            .filter(
+                agent ->
+                    isPrimaryAgent(agent) && hasOnlyValidTraces(inject, agent) && agent.isActive())
             .toList();
   }
 

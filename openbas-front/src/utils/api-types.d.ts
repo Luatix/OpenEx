@@ -33,7 +33,7 @@ export interface Agent {
   listened?: boolean;
 }
 
-/** List of agents - first level */
+/** List of primary agents */
 export interface AgentOutput {
   /** Indicates whether the endpoint is active. The endpoint is considered active if it was seen in the last 3 minutes. */
   agent_active?: boolean;
@@ -721,7 +721,7 @@ export interface EndpointOutput {
 
 export interface EndpointOverviewOutput {
   /**
-   * List of agents - first level
+   * List of primary agents
    * @uniqueItems true
    */
   asset_agents: AgentOutput[];

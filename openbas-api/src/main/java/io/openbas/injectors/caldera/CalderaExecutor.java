@@ -155,7 +155,9 @@ public class CalderaExecutor extends Injector {
                           endpointAgent.getAgents().stream()
                               .filter(
                                   agent ->
-                                      isPrimaryAgent(agent) && hasOnlyValidTraces(inject, agent))
+                                      isPrimaryAgent(agent)
+                                          && hasOnlyValidTraces(inject, agent)
+                                          && agent.isActive())
                               .forEach(
                                   agent -> {
                                     try {

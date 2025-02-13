@@ -2,12 +2,10 @@ package io.openbas.injectors.caldera.service;
 
 import static java.time.Instant.now;
 
-import io.openbas.database.model.Endpoint;
 import io.openbas.injectors.caldera.client.CalderaInjectorClient;
 import io.openbas.injectors.caldera.client.model.Agent;
 import io.openbas.service.AgentService;
 import io.openbas.utils.Time;
-import jakarta.validation.constraints.NotBlank;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.extern.java.Log;
@@ -22,15 +20,6 @@ public class CalderaGarbageCollectorService implements Runnable {
 
   private final CalderaInjectorClient client;
   private final AgentService agentService;
-
-  public static Endpoint.PLATFORM_TYPE toPlatform(@NotBlank final String platform) {
-    return switch (platform) {
-      case "linux" -> Endpoint.PLATFORM_TYPE.Linux;
-      case "windows" -> Endpoint.PLATFORM_TYPE.Windows;
-      case "darwin" -> Endpoint.PLATFORM_TYPE.MacOS;
-      default -> throw new IllegalArgumentException("This platform is not supported : " + platform);
-    };
-  }
 
   @Autowired
   public CalderaGarbageCollectorService(CalderaInjectorClient client, AgentService agentService) {

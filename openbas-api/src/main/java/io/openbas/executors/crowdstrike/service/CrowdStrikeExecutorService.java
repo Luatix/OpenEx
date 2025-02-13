@@ -94,7 +94,7 @@ public class CrowdStrikeExecutorService implements Runnable {
   public void run() {
     log.info("Running CrowdStrike executor endpoints gathering...");
     List<CrowdStrikeDevice> devices = this.client.devices().getResources().stream().toList();
-    List<Agent> endpointAgentList = toEndpoint(devices);
+    List<Agent> endpointAgentList = toAgentEndpoint(devices);
     log.info("CrowdStrike executor provisioning based on " + endpointAgentList.size() + " assets");
 
     for (Agent agent : endpointAgentList) {
@@ -161,7 +161,7 @@ public class CrowdStrikeExecutorService implements Runnable {
 
   // -- PRIVATE --
 
-  private List<Agent> toEndpoint(@NotNull final List<CrowdStrikeDevice> devices) {
+  private List<Agent> toAgentEndpoint(@NotNull final List<CrowdStrikeDevice> devices) {
     return devices.stream()
         .map(
             crowdStrikeDevice -> {

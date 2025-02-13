@@ -110,7 +110,7 @@ public class CalderaExecutorService implements Runnable {
       // we should not
       // Will be replaced by the XTM agent
       List<io.openbas.database.model.Agent> endpointAgentList =
-          toEndpoint(
+          toAgentEndpoint(
               this.client.agents().stream()
                   .filter(agent -> !agent.getExe_name().contains("implant"))
                   .toList());
@@ -186,7 +186,7 @@ public class CalderaExecutorService implements Runnable {
 
   // -- PRIVATE --
 
-  private List<io.openbas.database.model.Agent> toEndpoint(
+  private List<io.openbas.database.model.Agent> toAgentEndpoint(
       @NotNull final List<Agent> agentsCaldera) {
     return agentsCaldera.stream()
         .map(

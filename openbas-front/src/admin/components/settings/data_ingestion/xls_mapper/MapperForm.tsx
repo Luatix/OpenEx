@@ -1,14 +1,14 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Add } from '@mui/icons-material';
 import { Button, IconButton, TextField, Typography } from '@mui/material';
-import { FunctionComponent, useState } from 'react';
-import { Controller, SubmitHandler, useFieldArray, useForm } from 'react-hook-form';
+import { type FunctionComponent, useState } from 'react';
+import { Controller, type SubmitHandler, useFieldArray, useForm } from 'react-hook-form';
 import { makeStyles } from 'tss-react/mui';
 import { z } from 'zod';
 
 import { useFormatter } from '../../../../../components/i18n';
 import RegexComponent from '../../../../../components/RegexComponent';
-import type { ImportMapperAddInput } from '../../../../../utils/api-types';
+import { type ImportMapperAddInput } from '../../../../../utils/api-types';
 import { zodImplement } from '../../../../../utils/Zod';
 import RulesContractContent from './RulesContractContent';
 import XlsMapperTestDialog from './XlsMapperTestDialog';

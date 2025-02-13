@@ -1,13 +1,13 @@
-import { Props } from 'html-react-parser/lib/attributes-to-props';
-import { FunctionComponent, useContext, useEffect, useState } from 'react';
+import { type Props } from 'html-react-parser/lib/attributes-to-props';
+import { type FunctionComponent, useContext, useEffect, useState } from 'react';
 
 import { searchEndpoints } from '../../../../actions/assets/endpoint-actions';
 import { buildFilter } from '../../../../components/common/queryable/filter/FilterUtils';
 import { buildSearchPagination } from '../../../../components/common/queryable/QueryableUtils';
 import Loader from '../../../../components/Loader';
-import { EndpointOutput, type InjectResultOverviewOutput } from '../../../../utils/api-types';
+import { type EndpointOutput, type InjectResultOverviewOutput } from '../../../../utils/api-types';
 import InjectStatus from '../../common/injects/status/InjectStatus';
-import { InjectResultOverviewOutputContext, InjectResultOverviewOutputContextType } from '../InjectResultOverviewOutputContext';
+import { InjectResultOverviewOutputContext, type InjectResultOverviewOutputContextType } from '../InjectResultOverviewOutputContext';
 
 const AtomicTestingDetail: FunctionComponent<Props> = () => {
   // Fetching data

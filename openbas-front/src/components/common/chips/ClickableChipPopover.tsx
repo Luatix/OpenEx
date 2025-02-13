@@ -1,5 +1,5 @@
-import { MenuItem, Popover, Select, SelectChangeEvent } from '@mui/material';
-import { FunctionComponent } from 'react';
+import { MenuItem, Popover, Select, type SelectChangeEvent } from '@mui/material';
+import { type FunctionComponent } from 'react';
 
 interface Props {
   handleChangeValue: (event: SelectChangeEvent) => void;

@@ -1,21 +1,21 @@
-import { Dispatch } from 'redux';
+import { type Dispatch } from 'redux';
 
 import { delReferential, getReferential, postReferential, putReferential, simpleCall, simplePostCall } from '../../utils/Action';
 import {
-  InjectsImportInput,
-  LessonsCategoryCreateInput,
-  LessonsCategoryTeamsInput,
-  LessonsCategoryUpdateInput,
-  LessonsInput,
-  LessonsQuestionCreateInput,
-  LessonsQuestionUpdateInput,
-  Scenario,
-  ScenarioInput,
-  ScenarioRecurrenceInput,
-  ScenarioTeamPlayersEnableInput,
-  SearchPaginationInput,
-  Team,
-  UpdateScenarioInput,
+  type InjectsImportInput,
+  type LessonsCategoryCreateInput,
+  type LessonsCategoryTeamsInput,
+  type LessonsCategoryUpdateInput,
+  type LessonsInput,
+  type LessonsQuestionCreateInput,
+  type LessonsQuestionUpdateInput,
+  type Scenario,
+  type ScenarioInput,
+  type ScenarioRecurrenceInput,
+  type ScenarioTeamPlayersEnableInput,
+  type SearchPaginationInput,
+  type Team,
+  type UpdateScenarioInput,
 } from '../../utils/api-types';
 import { MESSAGING$ } from '../../utils/Environment';
 import * as schema from '../Schema';

@@ -1,7 +1,7 @@
 import { AccountCircleOutlined, AppsOutlined, ImportantDevicesOutlined } from '@mui/icons-material';
 import { AppBar, Badge, Box, Grid, IconButton, Menu, MenuItem, Popover, Toolbar, Tooltip } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
-import { FunctionComponent, MouseEvent as ReactMouseEvent, useEffect, useState } from 'react';
+import { type FunctionComponent, type MouseEvent as ReactMouseEvent, useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate, useSearchParams } from 'react-router';
 import { makeStyles } from 'tss-react/mui';
 

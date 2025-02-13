@@ -1,4 +1,4 @@
-import type { Challenge, Document, Exercise, Organization, PlatformSettings, Scenario, Tag, Token, User } from '../utils/api-types';
+import { type Challenge, type Document, type Exercise, type Organization, type PlatformSettings, type Scenario, type Tag, type Token, type User } from '../utils/api-types';
 
 export interface UserHelper {
   getMe: () => User;

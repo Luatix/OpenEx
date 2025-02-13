@@ -2,11 +2,11 @@ import { Box } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import { lazy, Suspense, useEffect } from 'react';
 import { Navigate, Route, Routes, useNavigate } from 'react-router';
-import { CSSObject } from 'tss-react';
+import { type CSSObject } from 'tss-react';
 import { makeStyles } from 'tss-react/mui';
 
 import { fetchAttackPatterns } from '../actions/AttackPattern';
-import type { LoggedHelper } from '../actions/helper';
+import { type LoggedHelper } from '../actions/helper';
 import { fetchKillChainPhases } from '../actions/KillChainPhase';
 import { fetchTags } from '../actions/Tag';
 import { errorWrapper } from '../components/Error';

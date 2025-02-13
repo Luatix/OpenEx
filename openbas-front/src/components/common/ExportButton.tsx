@@ -2,7 +2,7 @@ import { FileDownloadOutlined } from '@mui/icons-material';
 import { ToggleButton, Tooltip } from '@mui/material';
 import { CSVLink } from 'react-csv';
 
-import type { TagHelper } from '../../actions/helper';
+import { type TagHelper } from '../../actions/helper';
 import { useHelper } from '../../store';
 import { exportData } from '../../utils/Environment';
 import { useFormatter } from '../i18n';

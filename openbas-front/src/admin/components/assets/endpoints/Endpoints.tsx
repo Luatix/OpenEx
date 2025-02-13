@@ -1,13 +1,13 @@
 import { DevicesOtherOutlined } from '@mui/icons-material';
 import { Alert, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Tooltip } from '@mui/material';
-import { CSSProperties, useState } from 'react';
+import { type CSSProperties, useState } from 'react';
 import { Link, useSearchParams } from 'react-router';
 import { makeStyles } from 'tss-react/mui';
 
 import { searchEndpoints } from '../../../../actions/assets/endpoint-actions';
 import { fetchExecutors } from '../../../../actions/Executor';
-import type { ExecutorHelper } from '../../../../actions/executors/executor-helper';
-import type { UserHelper } from '../../../../actions/helper';
+import { type ExecutorHelper } from '../../../../actions/executors/executor-helper';
+import { type UserHelper } from '../../../../actions/helper';
 import { fetchTags } from '../../../../actions/Tag';
 import Breadcrumbs from '../../../../components/Breadcrumbs';
 import ExportButton from '../../../../components/common/ExportButton';
@@ -20,7 +20,7 @@ import { useFormatter } from '../../../../components/i18n';
 import ItemTags from '../../../../components/ItemTags';
 import PlatformIcon from '../../../../components/PlatformIcon';
 import { useHelper } from '../../../../store';
-import type { EndpointOutput, ExecutorOutput } from '../../../../utils/api-types';
+import { type EndpointOutput, type ExecutorOutput } from '../../../../utils/api-types';
 import { useAppDispatch } from '../../../../utils/hooks';
 import useAuth from '../../../../utils/hooks/useAuth';
 import useDataLoader from '../../../../utils/hooks/useDataLoader';

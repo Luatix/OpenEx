@@ -6,7 +6,7 @@ import { searchKillChainPhasesByIdAsOption } from '../../../../actions/kill_chai
 import { searchOrganizationByIdAsOptions } from '../../../../actions/organizations/organization-actions';
 import { searchScenarioByIdAsOption } from '../../../../actions/scenarios/scenario-actions';
 import { searchTagByIdAsOption } from '../../../../actions/tags/tag-action';
-import { Option } from '../../../../utils/Option';
+import { type Option } from '../../../../utils/Option';
 
 const useRetrieveOptions = () => {
   const [options, setOptions] = useState<Option[]>([]);

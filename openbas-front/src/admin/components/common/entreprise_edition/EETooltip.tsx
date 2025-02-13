@@ -1,7 +1,7 @@
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Tooltip } from '@mui/material';
-import { ReactElement, useState } from 'react';
+import { type ReactElement, useState } from 'react';
 
-import type { UserHelper } from '../../../../actions/helper';
+import { type UserHelper } from '../../../../actions/helper';
 import { useFormatter } from '../../../../components/i18n';
 import { useHelper } from '../../../../store';
 import useAI from '../../../../utils/hooks/useAI';

@@ -1,5 +1,5 @@
 import { Breadcrumbs as MUIBreadcrumbs, Typography } from '@mui/material';
-import { FunctionComponent } from 'react';
+import { type FunctionComponent } from 'react';
 import { Link } from 'react-router';
 import { makeStyles } from 'tss-react/mui';
 

@@ -2,14 +2,14 @@ import { Grid, List, Paper, Typography } from '@mui/material';
 import { useParams } from 'react-router';
 import { makeStyles } from 'tss-react/mui';
 
-import { EndpointHelper } from '../../../../../actions/assets/asset-helper';
+import { type EndpointHelper } from '../../../../../actions/assets/asset-helper';
 import Empty from '../../../../../components/Empty';
 import ExpandableMarkdown from '../../../../../components/ExpandableMarkdown';
 import { useFormatter } from '../../../../../components/i18n';
 import ItemTags from '../../../../../components/ItemTags';
 import PlatformIcon from '../../../../../components/PlatformIcon';
 import { useHelper } from '../../../../../store';
-import type { EndpointOverviewOutput as EndpointType } from '../../../../../utils/api-types';
+import { type EndpointOverviewOutput as EndpointType } from '../../../../../utils/api-types';
 import AgentList from './AgentList';
 
 const useStyles = makeStyles()(() => ({

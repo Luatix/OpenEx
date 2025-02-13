@@ -1,11 +1,11 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Button, TextField as MuiTextField } from '@mui/material';
-import { FunctionComponent } from 'react';
-import { SubmitHandler, useForm } from 'react-hook-form';
+import { type FunctionComponent } from 'react';
+import { type SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
 
 import { useFormatter } from '../../../../components/i18n';
-import type { VariableInput } from '../../../../utils/api-types';
+import { type VariableInput } from '../../../../utils/api-types';
 import { zodImplement } from '../../../../utils/Zod';
 
 interface Props {

@@ -1,5 +1,5 @@
 import { Box, Chip, Grid, List, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
-import { ReactElement, useMemo } from 'react';
+import { type ReactElement, useMemo } from 'react';
 
 import { truncate } from '../../utils/String';
 

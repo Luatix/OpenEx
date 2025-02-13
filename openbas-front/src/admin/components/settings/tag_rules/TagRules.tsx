@@ -1,9 +1,9 @@
 import { List, ListItem, ListItemIcon, ListItemText } from '@mui/material';
 import { SelectGroup } from 'mdi-material-ui';
-import { CSSProperties, useMemo, useState } from 'react';
+import { type CSSProperties, useMemo, useState } from 'react';
 import { makeStyles } from 'tss-react/mui';
 
-import type { TagHelper, UserHelper } from '../../../../actions/helper';
+import { type TagHelper, type UserHelper } from '../../../../actions/helper';
 import { searchTagRules } from '../../../../actions/tag_rules/tagrule-actions';
 import Breadcrumbs from '../../../../components/Breadcrumbs';
 import PaginationComponentV2 from '../../../../components/common/queryable/pagination/PaginationComponentV2';
@@ -12,11 +12,11 @@ import SortHeadersComponentV2 from '../../../../components/common/queryable/sort
 import {
   useQueryableWithLocalStorage,
 } from '../../../../components/common/queryable/useQueryableWithLocalStorage';
-import { Header } from '../../../../components/common/SortHeadersList';
+import { type Header } from '../../../../components/common/SortHeadersList';
 import { useFormatter } from '../../../../components/i18n';
 import ItemTargets from '../../../../components/ItemTargets';
 import { useHelper } from '../../../../store';
-import { TagRuleOutput } from '../../../../utils/api-types';
+import { type TagRuleOutput } from '../../../../utils/api-types';
 import TagRuleCreate from './TagRuleCreate';
 import TagRulePopover from './TagRulePopover';
 

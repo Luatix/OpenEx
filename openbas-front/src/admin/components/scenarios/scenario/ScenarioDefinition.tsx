@@ -2,10 +2,10 @@ import { Grid, Typography } from '@mui/material';
 import { useParams } from 'react-router';
 import { makeStyles } from 'tss-react/mui';
 
-import type { ScenariosHelper } from '../../../../actions/scenarios/scenario-helper';
+import { type ScenariosHelper } from '../../../../actions/scenarios/scenario-helper';
 import { useFormatter } from '../../../../components/i18n';
 import { useHelper } from '../../../../store';
-import { Scenario } from '../../../../utils/api-types';
+import { type Scenario } from '../../../../utils/api-types';
 import ScenarioArticles from './articles/ScenarioArticles';
 import ScenarioChallenges from './challenges/ScenarioChallenges';
 import ScenarioTeams from './teams/ScenarioTeams';

@@ -1,7 +1,7 @@
-import { Dispatch } from 'redux';
+import { type Dispatch } from 'redux';
 
 import { getReferential, simpleCall, simplePostCall } from '../../utils/Action';
-import type { Exercise, InjectBulkProcessingInput, Scenario, SearchPaginationInput } from '../../utils/api-types';
+import { type Exercise, type InjectBulkProcessingInput, type Scenario, type SearchPaginationInput } from '../../utils/api-types';
 import { MESSAGING$ } from '../../utils/Environment';
 import * as schema from '../Schema';
 

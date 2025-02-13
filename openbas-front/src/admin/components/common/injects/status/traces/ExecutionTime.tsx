@@ -1,5 +1,5 @@
 import { Typography } from '@mui/material';
-import { CSSProperties } from 'react';
+import { type CSSProperties } from 'react';
 
 import { useFormatter } from '../../../../../../components/i18n';
 

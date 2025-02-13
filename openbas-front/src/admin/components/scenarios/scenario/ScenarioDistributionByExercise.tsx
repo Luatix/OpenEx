@@ -1,13 +1,13 @@
 import { useTheme } from '@mui/material/styles';
-import { FunctionComponent, useEffect, useState } from 'react';
+import { type FunctionComponent, useEffect, useState } from 'react';
 import Chart from 'react-apexcharts';
 
 import { fetchScenarioStatistic } from '../../../../actions/scenarios/scenario-actions';
 import Empty from '../../../../components/Empty';
 import { useFormatter } from '../../../../components/i18n';
 import Loader from '../../../../components/Loader';
-import { GlobalScoreBySimulationEndDate, ScenarioStatistic } from '../../../../utils/api-types';
-import { CustomTooltipFunction, CustomTooltipOptions, verticalBarsChartOptions } from '../../../../utils/Charts';
+import { type GlobalScoreBySimulationEndDate, type ScenarioStatistic } from '../../../../utils/api-types';
+import { type CustomTooltipFunction, type CustomTooltipOptions, verticalBarsChartOptions } from '../../../../utils/Charts';
 
 interface Props {
   scenarioId: string;

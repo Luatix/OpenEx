@@ -1,11 +1,11 @@
 import { ForwardToInbox } from '@mui/icons-material';
 import { IconButton, Tooltip } from '@mui/material';
-import { FunctionComponent, useState } from 'react';
+import { type FunctionComponent, useState } from 'react';
 
 import { bulkTestInjects } from '../../../actions/injects/inject-action';
 import DialogTest from '../../../components/common/DialogTest';
 import { useFormatter } from '../../../components/i18n';
-import type { InjectTestStatusOutput, SearchPaginationInput } from '../../../utils/api-types';
+import { type InjectTestStatusOutput, type SearchPaginationInput } from '../../../utils/api-types';
 import { MESSAGING$ } from '../../../utils/Environment';
 
 interface Props {

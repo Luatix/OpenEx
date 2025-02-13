@@ -1,8 +1,8 @@
 import { MoreVert } from '@mui/icons-material';
-import { IconButton, ListItem, ListItemIcon, ListItemText, Skeleton, SvgIconProps } from '@mui/material';
-import { ComponentType, CSSProperties, FunctionComponent } from 'react';
+import { IconButton, ListItem, ListItemIcon, ListItemText, Skeleton, type SvgIconProps } from '@mui/material';
+import { type ComponentType, type CSSProperties, type FunctionComponent } from 'react';
 
-import { Header } from '../SortHeadersList';
+import { type Header } from '../SortHeadersList';
 
 interface Props {
   headers: Header[];

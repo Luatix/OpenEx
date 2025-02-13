@@ -1,14 +1,14 @@
 import { Chip, Grid, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Tooltip, Typography } from '@mui/material';
-import { FunctionComponent } from 'react';
+import { type FunctionComponent } from 'react';
 import { makeStyles } from 'tss-react/mui';
 
-import { AttackPatternHelper } from '../../../actions/attack_patterns/attackpattern-helper';
+import { type AttackPatternHelper } from '../../../actions/attack_patterns/attackpattern-helper';
 import { useFormatter } from '../../../components/i18n';
 import ItemCopy from '../../../components/ItemCopy';
 import ItemTags from '../../../components/ItemTags';
 import PlatformIcon from '../../../components/PlatformIcon';
 import { useHelper } from '../../../store';
-import { AttackPattern, Command, DnsResolution, Executable, FileDrop, Payload as PayloadType, PayloadArgument, PayloadPrerequisite } from '../../../utils/api-types';
+import { type AttackPattern, type Command, type DnsResolution, type Executable, type FileDrop, type Payload as PayloadType, type PayloadArgument, type PayloadPrerequisite } from '../../../utils/api-types';
 import { emptyFilled } from '../../../utils/String';
 
 const useStyles = makeStyles()(() => ({

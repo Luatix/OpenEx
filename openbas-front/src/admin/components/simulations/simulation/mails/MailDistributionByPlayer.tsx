@@ -1,16 +1,16 @@
 import { useTheme } from '@mui/material/styles';
 import * as R from 'ramda';
-import { FunctionComponent } from 'react';
+import { type FunctionComponent } from 'react';
 import Chart from 'react-apexcharts';
 
 import { fetchExerciseCommunications } from '../../../../../actions/Communication';
-import type { CommunicationHelper } from '../../../../../actions/communications/communication-helper';
-import type { UserHelper } from '../../../../../actions/helper';
+import { type CommunicationHelper } from '../../../../../actions/communications/communication-helper';
+import { type UserHelper } from '../../../../../actions/helper';
 import { fetchPlayers } from '../../../../../actions/User';
 import Empty from '../../../../../components/Empty';
 import { useFormatter } from '../../../../../components/i18n';
 import { useHelper } from '../../../../../store';
-import type { Communication, Exercise, User } from '../../../../../utils/api-types';
+import { type Communication, type Exercise, type User } from '../../../../../utils/api-types';
 import { horizontalBarsChartOptions } from '../../../../../utils/Charts';
 import { useAppDispatch } from '../../../../../utils/hooks';
 import useDataLoader from '../../../../../utils/hooks/useDataLoader';

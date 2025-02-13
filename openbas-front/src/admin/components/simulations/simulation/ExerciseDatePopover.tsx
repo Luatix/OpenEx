@@ -1,11 +1,11 @@
 import { UpdateOutlined } from '@mui/icons-material';
 import { Dialog, DialogContent, DialogTitle, IconButton, Tooltip } from '@mui/material';
-import { FunctionComponent, useState } from 'react';
+import { type FunctionComponent, useState } from 'react';
 
 import { updateExerciseStartDate } from '../../../../actions/Exercise';
 import Transition from '../../../../components/common/Transition';
 import { useFormatter } from '../../../../components/i18n';
-import type { Exercise } from '../../../../utils/api-types';
+import { type Exercise } from '../../../../utils/api-types';
 import { useAppDispatch } from '../../../../utils/hooks';
 import ExerciseDateForm from './ExerciseDateForm';
 

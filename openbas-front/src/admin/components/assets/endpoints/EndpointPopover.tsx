@@ -1,4 +1,4 @@
-import { FunctionComponent, useState } from 'react';
+import { type FunctionComponent, useState } from 'react';
 
 import { updateAssetsOnAssetGroup } from '../../../../actions/asset_groups/assetgroup-action';
 import { deleteEndpoint, updateEndpoint } from '../../../../actions/assets/endpoint-actions';
@@ -7,9 +7,9 @@ import Dialog from '../../../../components/common/Dialog';
 import DialogDelete from '../../../../components/common/DialogDelete';
 import Drawer from '../../../../components/common/Drawer';
 import { useFormatter } from '../../../../components/i18n';
-import type { EndpointOverviewOutput, EndpointUpdateInput } from '../../../../utils/api-types';
+import { type EndpointOverviewOutput, type EndpointUpdateInput } from '../../../../utils/api-types';
 import { useAppDispatch } from '../../../../utils/hooks';
-import { EndpointStoreWithType } from './endpoint';
+import { type EndpointStoreWithType } from './endpoint';
 import EndpointForm from './EndpointForm';
 
 export interface EndpointPopoverProps {

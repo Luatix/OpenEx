@@ -1,10 +1,10 @@
 import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material';
-import { CSSProperties, FunctionComponent } from 'react';
-import { SubmitHandler } from 'react-hook-form';
+import { type CSSProperties, type FunctionComponent } from 'react';
+import { type SubmitHandler } from 'react-hook-form';
 
 import { useFormatter } from '../../../../../components/i18n';
 import ItemTargets from '../../../../../components/ItemTargets';
-import type { InjectResultOutput, ReportInjectComment } from '../../../../../utils/api-types';
+import { type InjectResultOutput, type ReportInjectComment } from '../../../../../utils/api-types';
 import AtomicTestingResult from '../../../atomic_testings/atomic_testing/AtomicTestingResult';
 import InjectorContract from '../../../common/injects/InjectorContract';
 import ReportComment from '../../../components/reports/ReportComment';

@@ -1,10 +1,10 @@
 import { Button } from '@mui/material';
-import { FunctionComponent, useEffect } from 'react';
-import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
+import { type FunctionComponent, useEffect } from 'react';
+import { FormProvider, type SubmitHandler, useForm } from 'react-hook-form';
 
 import MarkDownFieldController from '../../../../components/fields/MarkDownFieldController';
 import { useFormatter } from '../../../../components/i18n';
-import type { PolicyInput } from '../../../../utils/api-types';
+import { type PolicyInput } from '../../../../utils/api-types';
 
 interface Props {
   onSubmit: SubmitHandler<PolicyInput>;

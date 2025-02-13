@@ -1,11 +1,11 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Button, Checkbox, FormControlLabel, TextField, Typography } from '@mui/material';
-import { FunctionComponent } from 'react';
-import { SubmitHandler, useForm } from 'react-hook-form';
-import { z, ZodBoolean } from 'zod';
+import { type FunctionComponent } from 'react';
+import { type SubmitHandler, useForm } from 'react-hook-form';
+import { z, type ZodBoolean } from 'zod';
 
 import { useFormatter } from '../../../../../components/i18n';
-import type { Report, ReportInformationInput, ReportInput } from '../../../../../utils/api-types';
+import { type Report, type ReportInformationInput, type ReportInput } from '../../../../../utils/api-types';
 import ReportInformationType from './ReportInformationType';
 
 interface ExerciseReportFormInput {

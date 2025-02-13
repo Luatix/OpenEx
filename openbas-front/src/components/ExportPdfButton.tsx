@@ -3,10 +3,10 @@ import { FilePdfBox } from 'mdi-material-ui';
 import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
 import type { TDocumentDefinitions } from 'pdfmake/interfaces';
-import { FunctionComponent, useState } from 'react';
+import { type FunctionComponent, useState } from 'react';
 import { useDispatch } from 'react-redux';
 
-import type { UserHelper } from '../actions/helper';
+import { type UserHelper } from '../actions/helper';
 import { useHelper } from '../store';
 import { MESSAGING$ } from '../utils/Environment';
 import { useFormatter } from './i18n';

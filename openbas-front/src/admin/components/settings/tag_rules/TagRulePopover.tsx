@@ -1,12 +1,12 @@
-import { FunctionComponent, useState } from 'react';
+import { type FunctionComponent, useState } from 'react';
 
 import { deleteTagRule } from '../../../../actions/tag_rules/tagrule-actions';
-import { PopoverEntry } from '../../../../components/common/ButtonPopover';
+import { type PopoverEntry } from '../../../../components/common/ButtonPopover';
 import DialogDelete from '../../../../components/common/DialogDelete';
 import Drawer from '../../../../components/common/Drawer';
 import IconPopover from '../../../../components/common/IconPopover';
 import { useFormatter } from '../../../../components/i18n';
-import type { TagRuleOutput } from '../../../../utils/api-types';
+import { type TagRuleOutput } from '../../../../utils/api-types';
 import OPEN_CTI_TAG_NAME from './TagRuleConstants';
 import TagRuleUpdate from './TagRuleUpdate';
 

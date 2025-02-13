@@ -1,6 +1,6 @@
 import { Position } from '@xyflow/react';
 
-import { Direction } from './algorithms';
+import { type Direction } from './algorithms';
 
 // eslint-disable-next-line consistent-return
 export function getSourceHandlePosition(direction: Direction) {

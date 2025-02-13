@@ -1,4 +1,4 @@
-import { expect, Page } from '@playwright/test';
+import { expect, type Page } from '@playwright/test';
 
 import LoginPage from '../model/login.page';
 import TopBarPage from '../model/topBar.page';

@@ -1,11 +1,11 @@
 import { CheckCircleOutlined, GroupsOutlined } from '@mui/icons-material';
 import { Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
-import { CSSProperties, FunctionComponent, useContext, useState } from 'react';
+import { type CSSProperties, type FunctionComponent, useContext, useState } from 'react';
 import { useSearchParams } from 'react-router';
 import { makeStyles } from 'tss-react/mui';
 
 import ItemTags from '../../../../components/ItemTags';
-import type { Team } from '../../../../utils/api-types';
+import { type Team } from '../../../../utils/api-types';
 import useSearchAnFilter from '../../../../utils/SortingFiltering';
 import { PermissionsContext, TeamContext } from '../../common/Context';
 import TeamPlayers from './TeamPlayers';

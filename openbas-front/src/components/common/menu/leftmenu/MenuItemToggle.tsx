@@ -1,6 +1,6 @@
 import { ChevronLeft, ChevronRight } from '@mui/icons-material';
 import { ListItemIcon, ListItemText, MenuItem } from '@mui/material';
-import { FunctionComponent } from 'react';
+import { type FunctionComponent } from 'react';
 
 import { useFormatter } from '../../../i18n';
 

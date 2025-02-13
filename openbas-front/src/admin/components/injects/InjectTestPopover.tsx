@@ -1,13 +1,13 @@
 import { MoreVert } from '@mui/icons-material';
 import { IconButton, Menu, MenuItem } from '@mui/material';
-import { FunctionComponent, MouseEvent as ReactMouseEvent, useContext, useState } from 'react';
+import { type FunctionComponent, type MouseEvent as ReactMouseEvent, useContext, useState } from 'react';
 
 import { deleteInjectTest } from '../../../actions/inject_test/inject-test-actions';
 import { testInject } from '../../../actions/injects/inject-action';
 import DialogDelete from '../../../components/common/DialogDelete';
 import DialogTest from '../../../components/common/DialogTest';
 import { useFormatter } from '../../../components/i18n';
-import type { InjectTestStatusOutput } from '../../../utils/api-types';
+import { type InjectTestStatusOutput } from '../../../utils/api-types';
 import { MESSAGING$ } from '../../../utils/Environment';
 import { PermissionsContext } from '../common/Context';
 

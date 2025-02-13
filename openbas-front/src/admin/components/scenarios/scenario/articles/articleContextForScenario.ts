@@ -1,6 +1,6 @@
-import type { FullArticleStore } from '../../../../../actions/channels/Article';
+import { type FullArticleStore } from '../../../../../actions/channels/Article';
 import { addScenarioArticle, deleteScenarioArticle, updateScenarioArticle } from '../../../../../actions/channels/article-action';
-import { Article, ArticleCreateInput, ArticleUpdateInput, Scenario } from '../../../../../utils/api-types';
+import { type Article, type ArticleCreateInput, type ArticleUpdateInput, type Scenario } from '../../../../../utils/api-types';
 import { useAppDispatch } from '../../../../../utils/hooks';
 
 const articleContextForScenario = (scenarioId: Scenario['scenario_id']) => {

@@ -14,10 +14,10 @@ import { Link, useParams } from 'react-router';
 import { makeStyles } from 'tss-react/mui';
 
 import { fetchExerciseTeams } from '../../../../../actions/Exercise';
-import type { ExercisesHelper } from '../../../../../actions/exercises/exercise-helper';
+import { type ExercisesHelper } from '../../../../../actions/exercises/exercise-helper';
 import { fetchExerciseInjects, updateInjectForExercise } from '../../../../../actions/Inject';
-import type { InjectStore } from '../../../../../actions/injects/Inject';
-import type { InjectHelper } from '../../../../../actions/injects/inject-helper';
+import { type InjectStore } from '../../../../../actions/injects/Inject';
+import { type InjectHelper } from '../../../../../actions/injects/inject-helper';
 import { BACK_LABEL, BACK_URI } from '../../../../../components/Breadcrumbs';
 import Empty from '../../../../../components/Empty';
 import { useFormatter } from '../../../../../components/i18n';
@@ -26,7 +26,7 @@ import ProgressBarCountdown from '../../../../../components/ProgressBarCountdown
 import SearchFilter from '../../../../../components/SearchFilter';
 import Timeline from '../../../../../components/Timeline';
 import { useHelper } from '../../../../../store';
-import type { Exercise, Inject } from '../../../../../utils/api-types';
+import { type Exercise, type Inject } from '../../../../../utils/api-types';
 import { useAppDispatch } from '../../../../../utils/hooks';
 import useDataLoader from '../../../../../utils/hooks/useDataLoader';
 import useSearchAnFilter from '../../../../../utils/SortingFiltering';

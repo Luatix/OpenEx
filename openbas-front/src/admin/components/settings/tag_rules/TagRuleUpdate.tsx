@@ -1,9 +1,9 @@
-import { FunctionComponent } from 'react';
+import { type FunctionComponent } from 'react';
 
 import { updateTagRule } from '../../../../actions/tag_rules/tagrule-actions';
-import type {
-  TagRuleInput,
-  TagRuleOutput,
+import {
+  type TagRuleInput,
+  type TagRuleOutput,
 } from '../../../../utils/api-types';
 import TagRuleForm from './TagRuleForm';
 

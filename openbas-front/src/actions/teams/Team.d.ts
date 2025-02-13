@@ -1,5 +1,5 @@
-import type { TeamUpdateInput } from '../../utils/api-types';
-import { Option } from '../../utils/Option';
+import { type TeamUpdateInput } from '../../utils/api-types';
+import { type Option } from '../../utils/Option';
 
 export type TeamInputForm = Omit<
   TeamUpdateInput,

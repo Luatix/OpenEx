@@ -1,7 +1,7 @@
 import { type Edge, type Node, useNodesInitialized, useReactFlow, useStore } from '@xyflow/react';
 import { useEffect } from 'react';
 
-import type { InjectExpectationsStore } from '../../admin/components/common/injects/expectations/Expectation';
+import { type InjectExpectationsStore } from '../../admin/components/common/injects/expectations/Expectation';
 import layoutAlgorithms, { type LayoutAlgorithmOptions } from './algorithms';
 import { getSourceHandlePosition, getTargetHandlePosition } from './utils';
 

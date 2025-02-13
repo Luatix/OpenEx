@@ -1,7 +1,7 @@
-import { FunctionComponent } from 'react';
+import { type FunctionComponent } from 'react';
 
 import SearchFilter from '../../../SearchFilter';
-import { TextSearchHelpers } from './TextSearchHelpers';
+import { type TextSearchHelpers } from './TextSearchHelpers';
 
 interface Props {
   textSearch?: string;

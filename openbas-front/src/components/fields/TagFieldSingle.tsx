@@ -1,14 +1,14 @@
 import { AddOutlined, LabelOutlined } from '@mui/icons-material';
 import { Autocomplete as MuiAutocomplete, Box, Dialog, DialogContent, DialogTitle, IconButton, TextField } from '@mui/material';
-import { CSSProperties, FunctionComponent, useState } from 'react';
-import { FieldErrors } from 'react-hook-form';
+import { type CSSProperties, type FunctionComponent, useState } from 'react';
+import { type FieldErrors } from 'react-hook-form';
 import { makeStyles } from 'tss-react/mui';
 
-import type { TagHelper, UserHelper } from '../../actions/helper';
+import { type TagHelper, type UserHelper } from '../../actions/helper';
 import { addTag } from '../../actions/Tag';
 import TagForm from '../../admin/components/settings/tags/TagForm';
 import { useHelper } from '../../store';
-import type { Tag } from '../../utils/api-types';
+import { type Tag } from '../../utils/api-types';
 import { useAppDispatch } from '../../utils/hooks';
 import { useFormatter } from '../i18n';
 

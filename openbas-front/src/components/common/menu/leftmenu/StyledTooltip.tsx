@@ -1,6 +1,6 @@
 import { Tooltip, tooltipClasses } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
-import { ComponentProps, FunctionComponent } from 'react';
+import { type ComponentProps, type FunctionComponent } from 'react';
 
 const StyledTooltip: FunctionComponent<ComponentProps<typeof Tooltip>> = (props) => {
   const theme = useTheme();

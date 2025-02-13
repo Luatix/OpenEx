@@ -1,10 +1,10 @@
-import { enUS, esES, frFR, Localization, zhCN } from '@mui/material/locale';
+import { enUS, esES, frFR, type Localization, zhCN } from '@mui/material/locale';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { FunctionComponent, ReactNode, useEffect, useState } from 'react';
+import { type FunctionComponent, type ReactNode, useEffect, useState } from 'react';
 
-import type { LoggedHelper } from '../actions/helper';
+import { type LoggedHelper } from '../actions/helper';
 import { useHelper } from '../store';
-import type { PlatformSettings } from '../utils/api-types';
+import { type PlatformSettings } from '../utils/api-types';
 import { useFormatter } from './i18n';
 import themeDark from './ThemeDark';
 import themeLight from './ThemeLight';

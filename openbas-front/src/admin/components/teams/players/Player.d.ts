@@ -1,5 +1,5 @@
-import type { PlayerInput, User } from '../../../../utils/api-types';
-import { Option } from '../../../../utils/Option';
+import { type PlayerInput, type User } from '../../../../utils/api-types';
+import { type Option } from '../../../../utils/Option';
 
 export type PlayerInputForm = Omit<
   PlayerInput,

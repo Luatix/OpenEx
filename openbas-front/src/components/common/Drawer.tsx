@@ -1,6 +1,6 @@
 import { Close } from '@mui/icons-material';
 import { Drawer as DrawerMUI, IconButton, type PaperProps, Typography } from '@mui/material';
-import { cloneElement, CSSProperties, FunctionComponent, ReactElement } from 'react';
+import { cloneElement, type CSSProperties, type FunctionComponent, type ReactElement } from 'react';
 import { makeStyles } from 'tss-react/mui';
 
 import { computeBannerSettings } from '../../public/components/systembanners/utils';

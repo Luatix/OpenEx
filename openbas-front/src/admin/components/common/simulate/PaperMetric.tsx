@@ -1,5 +1,5 @@
-import { Paper, SvgIconProps } from '@mui/material';
-import { cloneElement, FunctionComponent, ReactElement } from 'react';
+import { Paper, type SvgIconProps } from '@mui/material';
+import { cloneElement, type FunctionComponent, type ReactElement } from 'react';
 import { makeStyles } from 'tss-react/mui';
 
 import { useFormatter } from '../../../../components/i18n';

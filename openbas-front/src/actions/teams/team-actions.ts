@@ -1,7 +1,7 @@
-import type { Dispatch } from 'redux';
+import { type Dispatch } from 'redux';
 
 import { delReferential, getReferential, postReferential, putReferential, simplePostCall } from '../../utils/Action';
-import type { SearchPaginationInput, Team, TeamCreateInput, TeamUpdateInput, User } from '../../utils/api-types';
+import { type SearchPaginationInput, type Team, type TeamCreateInput, type TeamUpdateInput, type User } from '../../utils/api-types';
 import * as schema from '../Schema';
 
 export const fetchTeams = () => (dispatch: Dispatch) => {

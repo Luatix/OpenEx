@@ -1,6 +1,6 @@
 import { Autocomplete, TextField } from '@mui/material';
-import { FunctionComponent, useState } from 'react';
-import { FieldError } from 'react-hook-form';
+import { type FunctionComponent, useState } from 'react';
+import { type FieldError } from 'react-hook-form';
 
 import alphabet from '../admin/components/settings/data_ingestion/AttributeUtils';
 import { useFormatter } from './i18n';

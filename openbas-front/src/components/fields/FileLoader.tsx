@@ -1,16 +1,16 @@
 import { AttachmentOutlined, ControlPointOutlined } from '@mui/icons-material';
 import { List, ListItem, ListItemIcon, ListItemSecondaryAction, ListItemText, Typography } from '@mui/material';
-import { CSSProperties, FunctionComponent, useEffect, useState } from 'react';
+import { type CSSProperties, type FunctionComponent, useEffect, useState } from 'react';
 import { makeStyles } from 'tss-react/mui';
 
 import { fetchDocuments } from '../../actions/Document';
-import type { DocumentHelper } from '../../actions/helper';
+import { type DocumentHelper } from '../../actions/helper';
 import DocumentType from '../../admin/components/components/documents/DocumentType';
 import { useHelper } from '../../store';
-import type { RawDocument } from '../../utils/api-types';
+import { type RawDocument } from '../../utils/api-types';
 import { useAppDispatch } from '../../utils/hooks';
 import useDataLoader from '../../utils/hooks/useDataLoader';
-import ButtonPopover, { PopoverEntry } from '../common/ButtonPopover';
+import ButtonPopover, { type PopoverEntry } from '../common/ButtonPopover';
 import { useFormatter } from '../i18n';
 import ItemTags from '../ItemTags';
 import FileTransferDialog from './FileTransferDialog';

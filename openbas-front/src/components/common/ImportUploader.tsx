@@ -1,8 +1,8 @@
 import { CloudUploadOutlined } from '@mui/icons-material';
-import { CircularProgress, CircularProgressProps, IconButton, ToggleButton, Tooltip } from '@mui/material';
-import { ChangeEvent, FunctionComponent, useRef, useState } from 'react';
+import { CircularProgress, type CircularProgressProps, IconButton, ToggleButton, Tooltip } from '@mui/material';
+import { type ChangeEvent, type FunctionComponent, useRef, useState } from 'react';
 
-import type { UserHelper } from '../../actions/helper';
+import { type UserHelper } from '../../actions/helper';
 import { useHelper } from '../../store';
 import { useFormatter } from '../i18n';
 

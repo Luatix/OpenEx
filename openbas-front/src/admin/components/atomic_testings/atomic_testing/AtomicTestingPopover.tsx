@@ -1,4 +1,4 @@
-import { FunctionComponent, useState } from 'react';
+import { type FunctionComponent, useState } from 'react';
 import { useNavigate } from 'react-router';
 
 import { deleteAtomicTesting, duplicateAtomicTesting } from '../../../../actions/atomic_testings/atomic-testing-actions';
@@ -6,7 +6,7 @@ import ButtonPopover from '../../../../components/common/ButtonPopover';
 import DialogDelete from '../../../../components/common/DialogDelete';
 import DialogDuplicate from '../../../../components/common/DialogDuplicate';
 import { useFormatter } from '../../../../components/i18n';
-import type { InjectResultOutput, InjectResultOverviewOutput } from '../../../../utils/api-types';
+import { type InjectResultOutput, type InjectResultOverviewOutput } from '../../../../utils/api-types';
 import AtomicTestingUpdate from './AtomicTestingUpdate';
 
 type AtomicTestingActionType = 'Duplicate' | 'Update' | 'Delete';

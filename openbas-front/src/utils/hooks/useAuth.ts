@@ -1,6 +1,6 @@
 import { createContext, useContext } from 'react';
 
-import type { PlatformSettings } from '../api-types';
+import { type PlatformSettings } from '../api-types';
 
 export interface User {
   id?: string | null;

@@ -10,20 +10,19 @@ import {
   InputLabel,
   MenuItem,
   Select,
-  SelectChangeEvent,
+  type SelectChangeEvent,
   Tooltip,
   Typography,
 } from '@mui/material';
-import { FormApi } from 'final-form';
-import { FunctionComponent, ReactElement, ReactNode, useEffect, useState } from 'react';
+import { type FormApi } from 'final-form';
+import { type FunctionComponent, type ReactElement, type ReactNode, useEffect, useState } from 'react';
 import { makeStyles } from 'tss-react/mui';
 
-import type { ConditionElement, ConditionType, Content, ConvertedContentType, Dependency, InjectOutputType } from '../../../../actions/injects/Inject';
-import type { Element } from '../../../../components/common/chips/ClickableChip';
-import ClickableChip from '../../../../components/common/chips/ClickableChip';
+import { type ConditionElement, type ConditionType, type Content, type ConvertedContentType, type Dependency, type InjectOutputType } from '../../../../actions/injects/Inject';
+import ClickableChip, { type Element } from '../../../../components/common/chips/ClickableChip';
 import ClickableModeChip from '../../../../components/common/chips/ClickableModeChip';
 import { useFormatter } from '../../../../components/i18n';
-import type { Inject, InjectDependency, InjectDependencyCondition, InjectOutput } from '../../../../utils/api-types';
+import { type Inject, type InjectDependency, type InjectDependencyCondition, type InjectOutput } from '../../../../utils/api-types';
 import { capitalize } from '../../../../utils/String';
 
 const useStyles = makeStyles()(() => ({

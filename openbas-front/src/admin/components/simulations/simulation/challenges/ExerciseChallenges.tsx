@@ -1,13 +1,13 @@
 import { useParams } from 'react-router';
 
 import { fetchExerciseChallenges } from '../../../../../actions/Challenge';
-import type { ChallengeHelper } from '../../../../../actions/helper';
+import { type ChallengeHelper } from '../../../../../actions/helper';
 import { useHelper } from '../../../../../store';
-import type { Exercise } from '../../../../../utils/api-types';
+import { type Exercise } from '../../../../../utils/api-types';
 import { useAppDispatch } from '../../../../../utils/hooks';
 import useDataLoader from '../../../../../utils/hooks/useDataLoader';
 import ContextualChallenges from '../../../common/challenges/ContextualChallenges';
-import { ChallengeContext, ChallengeContextType } from '../../../common/Context';
+import { ChallengeContext, type ChallengeContextType } from '../../../common/Context';
 
 const ExerciseChallenges = () => {
   // Standard hooks

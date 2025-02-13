@@ -1,13 +1,13 @@
-import { Autocomplete, SelectChangeEvent, TextField } from '@mui/material';
-import { FunctionComponent, SyntheticEvent, useEffect, useState } from 'react';
-import { FieldError } from 'react-hook-form';
+import { Autocomplete, type SelectChangeEvent, TextField } from '@mui/material';
+import { type FunctionComponent, type SyntheticEvent, useEffect, useState } from 'react';
+import { type FieldError } from 'react-hook-form';
 import { makeStyles } from 'tss-react/mui';
 
 import { searchInjectorContracts } from '../actions/InjectorContracts';
 import InjectIcon from '../admin/components/common/injects/InjectIcon';
-import type { FilterGroup, InjectorContract } from '../utils/api-types';
+import { type FilterGroup, type InjectorContract } from '../utils/api-types';
 import { isNotEmptyField } from '../utils/utils';
-import { initSorting, Page } from './common/queryable/Page';
+import { initSorting, type Page } from './common/queryable/Page';
 import { useFormatter } from './i18n';
 
 const useStyles = makeStyles()(() => ({

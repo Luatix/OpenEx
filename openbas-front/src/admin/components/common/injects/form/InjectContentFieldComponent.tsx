@@ -1,7 +1,7 @@
 import { ControlPointOutlined, DeleteOutlined } from '@mui/icons-material';
 import { Alert, IconButton, InputLabel, List, ListItem, ListItemText, MenuItem } from '@mui/material';
 import { useEffect, useState } from 'react';
-import { Control, FieldValues, UseFormRegisterReturn, useWatch } from 'react-hook-form';
+import { type Control, type FieldValues, type UseFormRegisterReturn, useWatch } from 'react-hook-form';
 
 import FieldArray from '../../../../../components/fields/FieldArray';
 import RichTextField from '../../../../../components/fields/RichTextField';
@@ -9,7 +9,7 @@ import SelectField from '../../../../../components/fields/SelectField';
 import SwitchField from '../../../../../components/fields/SwitchField';
 import TextField from '../../../../../components/fields/TextField';
 import { useFormatter } from '../../../../../components/i18n';
-import { Document } from '../../../../../utils/api-types';
+import { type Document } from '../../../../../utils/api-types';
 
 type choiceItem = {
   label: string;

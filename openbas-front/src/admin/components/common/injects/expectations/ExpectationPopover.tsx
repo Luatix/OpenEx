@@ -1,15 +1,15 @@
 import { MoreVert } from '@mui/icons-material';
 import { Button, Dialog as DialogMUI, DialogActions, DialogContent, DialogContentText, IconButton, Menu, MenuItem } from '@mui/material';
-import { FunctionComponent, MouseEvent as ReactMouseEvent, useContext, useState } from 'react';
+import { type FunctionComponent, type MouseEvent as ReactMouseEvent, useContext, useState } from 'react';
 
-import type { LoggedHelper } from '../../../../../actions/helper';
+import { type LoggedHelper } from '../../../../../actions/helper';
 import Dialog from '../../../../../components/common/Dialog';
 import Transition from '../../../../../components/common/Transition';
 import { useFormatter } from '../../../../../components/i18n';
 import { useHelper } from '../../../../../store';
-import type { InjectExpectation, PlatformSettings } from '../../../../../utils/api-types';
+import { type InjectExpectation, type PlatformSettings } from '../../../../../utils/api-types';
 import { PermissionsContext } from '../../Context';
-import { ExpectationInput, ExpectationInputForm } from './Expectation';
+import { type ExpectationInput, type ExpectationInputForm } from './Expectation';
 import ExpectationFormUpdate from './ExpectationFormUpdate';
 import useExpectationExpirationTime from './useExpectationExpirationTime';
 

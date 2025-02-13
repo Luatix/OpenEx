@@ -1,10 +1,10 @@
-import { CSSProperties, FunctionComponent, useEffect, useState } from 'react';
+import { type CSSProperties, type FunctionComponent, useEffect, useState } from 'react';
 
-import type { FilterGroup, PropertySchemaDTO } from '../../../../utils/api-types';
+import { type FilterGroup, type PropertySchemaDTO } from '../../../../utils/api-types';
 import { useFormatter } from '../../../i18n';
-import FilterAutocomplete, { OptionPropertySchema } from './FilterAutocomplete';
+import FilterAutocomplete, { type OptionPropertySchema } from './FilterAutocomplete';
 import FilterChips from './FilterChips';
-import { FilterHelpers } from './FilterHelpers';
+import { type FilterHelpers } from './FilterHelpers';
 import { availableOperators } from './FilterUtils';
 import useFilterableProperties from './useFilterableProperties';
 

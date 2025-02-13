@@ -1,6 +1,6 @@
-import type { FullArticleStore } from '../../../../../actions/channels/Article';
+import { type FullArticleStore } from '../../../../../actions/channels/Article';
 import { addExerciseArticle, deleteExerciseArticle, updateExerciseArticle } from '../../../../../actions/channels/article-action';
-import { Article, ArticleCreateInput, ArticleUpdateInput, Exercise } from '../../../../../utils/api-types';
+import { type Article, type ArticleCreateInput, type ArticleUpdateInput, type Exercise } from '../../../../../utils/api-types';
 import { useAppDispatch } from '../../../../../utils/hooks';
 
 const articleContextForExercise = (exerciseId: Exercise['exercise_id']) => {

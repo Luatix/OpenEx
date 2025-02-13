@@ -1,4 +1,4 @@
-import type { PlatformSettings } from '../../../utils/api-types';
+import { type PlatformSettings } from '../../../utils/api-types';
 import { isNotEmptyField, recordEntries, recordKeys } from '../../../utils/utils';
 import { SYSTEM_BANNER_HEIGHT_PER_MESSAGE } from './SystemBanners';
 

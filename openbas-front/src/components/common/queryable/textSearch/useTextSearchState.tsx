@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-import { TextSearchHelpers } from './TextSearchHelpers';
+import { type TextSearchHelpers } from './TextSearchHelpers';
 
 const useTextSearchState = (initTextSearch: string = '', onChange?: (textSearch: string, page: number) => void): TextSearchHelpers => {
   const [textSearch, setTextSearch] = useState<string>(initTextSearch);

@@ -2,10 +2,10 @@ import { Grid, Typography } from '@mui/material';
 import { useParams } from 'react-router';
 import { makeStyles } from 'tss-react/mui';
 
-import type { ExercisesHelper } from '../../../../actions/exercises/exercise-helper';
+import { type ExercisesHelper } from '../../../../actions/exercises/exercise-helper';
 import { useFormatter } from '../../../../components/i18n';
 import { useHelper } from '../../../../store';
-import { Exercise } from '../../../../utils/api-types';
+import { type Exercise } from '../../../../utils/api-types';
 import ExerciseArticles from './articles/ExerciseArticles';
 import ExerciseChallenges from './challenges/ExerciseChallenges';
 import ExerciseTeams from './teams/ExerciseTeams';

@@ -1,11 +1,11 @@
 import { Chip, List, ListItem, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
-import { CSSProperties, useMemo, useState } from 'react';
+import { type CSSProperties, useMemo, useState } from 'react';
 import { makeStyles } from 'tss-react/mui';
 
 import { fetchCollectors } from '../../../actions/Collector';
-import type { CollectorHelper } from '../../../actions/collectors/collector-helper';
+import { type CollectorHelper } from '../../../actions/collectors/collector-helper';
 import { fetchDocuments } from '../../../actions/Document';
-import type { DocumentHelper } from '../../../actions/helper';
+import { type DocumentHelper } from '../../../actions/helper';
 import { searchPayloads } from '../../../actions/Payload';
 import Breadcrumbs from '../../../components/Breadcrumbs';
 import Drawer from '../../../components/common/Drawer';
@@ -16,13 +16,13 @@ import PaginationComponentV2 from '../../../components/common/queryable/paginati
 import { buildSearchPagination } from '../../../components/common/queryable/QueryableUtils';
 import SortHeadersComponentV2 from '../../../components/common/queryable/sort/SortHeadersComponentV2';
 import { useQueryableWithLocalStorage } from '../../../components/common/queryable/useQueryableWithLocalStorage';
-import { Header } from '../../../components/common/SortHeadersList';
+import { type Header } from '../../../components/common/SortHeadersList';
 import { useFormatter } from '../../../components/i18n';
 import ItemTags from '../../../components/ItemTags';
 import PayloadIcon from '../../../components/PayloadIcon';
 import PlatformIcon from '../../../components/PlatformIcon';
 import { useHelper } from '../../../store';
-import { Payload } from '../../../utils/api-types';
+import { type Payload } from '../../../utils/api-types';
 import { useAppDispatch } from '../../../utils/hooks';
 import useDataLoader from '../../../utils/hooks/useDataLoader';
 import CreatePayload from './CreatePayload';

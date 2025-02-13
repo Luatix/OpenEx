@@ -1,9 +1,9 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { UseFormProps } from 'react-hook-form';
+import { type UseFormProps } from 'react-hook-form';
 import { z } from 'zod';
 
 import { zodImplement } from '../../../../../utils/Zod';
-import { ExpectationInputForm } from './Expectation';
+import { type ExpectationInputForm } from './Expectation';
 
 export const infoMessage = (type: string, t: (key: string) => string) => {
   if (type === 'ARTICLE') {

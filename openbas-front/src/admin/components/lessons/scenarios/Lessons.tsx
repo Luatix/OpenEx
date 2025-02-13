@@ -18,12 +18,12 @@ import {
   Typography,
   useTheme,
 } from '@mui/material';
-import { ChangeEvent, FunctionComponent, useContext, useState } from 'react';
+import { type ChangeEvent, type FunctionComponent, useContext, useState } from 'react';
 import { makeStyles } from 'tss-react/mui';
 
 import Transition from '../../../../components/common/Transition';
 import { useFormatter } from '../../../../components/i18n';
-import type { Inject, LessonsAnswer, LessonsCategory, LessonsQuestion, LessonsTemplate, Objective, Team, User } from '../../../../utils/api-types';
+import { type Inject, type LessonsAnswer, type LessonsCategory, type LessonsQuestion, type LessonsTemplate, type Objective, type Team, type User } from '../../../../utils/api-types';
 import { LessonContext } from '../../common/Context';
 import CreateLessonsTemplate from '../../components/lessons/CreateLessonsTemplate';
 import CreateLessonsCategory from '../categories/CreateLessonsCategory';

@@ -15,7 +15,7 @@ import {
   TextField,
   Tooltip,
 } from '@mui/material';
-import { FunctionComponent, MouseEvent as ReactMouseEvent, useState } from 'react';
+import { type FunctionComponent, type MouseEvent as ReactMouseEvent, useState } from 'react';
 
 import { aiChangeTone, aiExplain, aiFixSpelling, aiGenMedia, aiGenMessage, aiGenSubject, aiMakeLonger, aiMakeShorter, aiSummarize } from '../../../../actions/AskAI';
 // eslint-disable-next-line import/no-cycle

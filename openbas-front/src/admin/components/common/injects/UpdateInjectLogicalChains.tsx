@@ -1,16 +1,16 @@
 import { HelpOutlined } from '@mui/icons-material';
 import { Avatar, Button, Card, CardContent, CardHeader } from '@mui/material';
 import arrayMutators from 'final-form-arrays';
-import { FunctionComponent } from 'react';
+import { type FunctionComponent } from 'react';
 import { Form } from 'react-final-form';
 import { makeStyles } from 'tss-react/mui';
 
-import type { InjectOutputType } from '../../../../actions/injects/Inject';
-import type { InjectHelper } from '../../../../actions/injects/inject-helper';
+import { type InjectOutputType } from '../../../../actions/injects/Inject';
+import { type InjectHelper } from '../../../../actions/injects/inject-helper';
 import { useFormatter } from '../../../../components/i18n';
 import PlatformIcon from '../../../../components/PlatformIcon';
 import { useHelper } from '../../../../store';
-import type { Inject, InjectDependency } from '../../../../utils/api-types';
+import { type Inject, type InjectDependency } from '../../../../utils/api-types';
 import InjectChainsForm from './InjectChainsForm';
 
 const useStyles = makeStyles()(theme => ({

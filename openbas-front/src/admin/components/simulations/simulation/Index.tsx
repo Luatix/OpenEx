@@ -1,10 +1,10 @@
 import { Alert, AlertTitle, Box, Tab, Tabs } from '@mui/material';
-import { FunctionComponent, lazy, Suspense, useState } from 'react';
+import { type FunctionComponent, lazy, Suspense, useState } from 'react';
 import { Link, Navigate, Route, Routes, useLocation, useParams } from 'react-router';
 import { makeStyles } from 'tss-react/mui';
 
 import { fetchExercise } from '../../../../actions/Exercise';
-import type { ExercisesHelper } from '../../../../actions/exercises/exercise-helper';
+import { type ExercisesHelper } from '../../../../actions/exercises/exercise-helper';
 import { fetchScenario } from '../../../../actions/scenarios/scenario-actions';
 import Breadcrumbs from '../../../../components/Breadcrumbs';
 import { errorWrapper } from '../../../../components/Error';
@@ -12,11 +12,11 @@ import { useFormatter } from '../../../../components/i18n';
 import Loader from '../../../../components/Loader';
 import NotFound from '../../../../components/NotFound';
 import { useHelper } from '../../../../store';
-import type { Exercise as ExerciseType } from '../../../../utils/api-types';
+import { type Exercise as ExerciseType } from '../../../../utils/api-types';
 import { usePermissions } from '../../../../utils/Exercise';
 import { useAppDispatch } from '../../../../utils/hooks';
 import useDataLoader from '../../../../utils/hooks/useDataLoader';
-import { DocumentContext, DocumentContextType, InjectContext, PermissionsContext, PermissionsContextType } from '../../common/Context';
+import { DocumentContext, type DocumentContextType, InjectContext, PermissionsContext, type PermissionsContextType } from '../../common/Context';
 import injectContextForExercise from './ExerciseContext';
 import ExerciseDatePopover from './ExerciseDatePopover';
 import ExerciseHeader from './ExerciseHeader';

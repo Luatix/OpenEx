@@ -1,4 +1,4 @@
-import type { InjectExpectationsStore } from '../../../../common/injects/expectations/Expectation';
+import { type InjectExpectationsStore } from '../../../../common/injects/expectations/Expectation';
 
 const groupedByAsset = (es: InjectExpectationsStore[]) => {
   return es.reduce((group, expectation) => {

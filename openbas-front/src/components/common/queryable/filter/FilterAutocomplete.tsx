@@ -1,12 +1,12 @@
 import { FilterListOffOutlined } from '@mui/icons-material';
 import { Autocomplete as MuiAutocomplete, IconButton, TextField, Tooltip } from '@mui/material';
-import { CSSProperties, FunctionComponent, useState } from 'react';
+import { type CSSProperties, type FunctionComponent, useState } from 'react';
 import { makeStyles } from 'tss-react/mui';
 
-import type { Filter, FilterGroup } from '../../../../utils/api-types';
-import { Option } from '../../../../utils/Option';
+import { type Filter, type FilterGroup } from '../../../../utils/api-types';
+import { type Option } from '../../../../utils/Option';
 import { useFormatter } from '../../../i18n';
-import { FilterHelpers } from './FilterHelpers';
+import { type FilterHelpers } from './FilterHelpers';
 import { buildEmptyFilter } from './FilterUtils';
 
 const useStyles = makeStyles()(() => ({

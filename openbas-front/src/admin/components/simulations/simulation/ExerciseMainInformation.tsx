@@ -1,9 +1,9 @@
 import { Chip, Grid, Link as MUILink, Paper, Typography } from '@mui/material';
 import * as R from 'ramda';
-import { FunctionComponent } from 'react';
+import { type FunctionComponent } from 'react';
 import { Link } from 'react-router';
 
-import type { ScenariosHelper } from '../../../../actions/scenarios/scenario-helper';
+import { type ScenariosHelper } from '../../../../actions/scenarios/scenario-helper';
 import ExpandableMarkdown from '../../../../components/ExpandableMarkdown';
 import { useFormatter } from '../../../../components/i18n';
 import ItemCategory from '../../../../components/ItemCategory';
@@ -12,7 +12,7 @@ import ItemSeverity from '../../../../components/ItemSeverity';
 import ItemTags from '../../../../components/ItemTags';
 import PlatformIcon from '../../../../components/PlatformIcon';
 import { useHelper } from '../../../../store';
-import type { Exercise, KillChainPhase } from '../../../../utils/api-types';
+import { type Exercise, type KillChainPhase } from '../../../../utils/api-types';
 import { truncate } from '../../../../utils/String';
 
 interface Props {

@@ -1,9 +1,9 @@
 import { Button, Checkbox, Dialog, DialogActions, DialogContent, DialogTitle, FormControlLabel, FormGroup } from '@mui/material';
-import { FunctionComponent, useState } from 'react';
+import { type FunctionComponent, useState } from 'react';
 
 import { updatePlatformEnterpriseEditionParameters } from '../../../../actions/Application';
 import { useFormatter } from '../../../../components/i18n';
-import type { SettingsEnterpriseEditionUpdateInput } from '../../../../utils/api-types';
+import { type SettingsEnterpriseEditionUpdateInput } from '../../../../utils/api-types';
 import { useAppDispatch } from '../../../../utils/hooks';
 
 interface EnterpriseEditionAgreementProps {

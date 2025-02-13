@@ -1,11 +1,11 @@
 import { List, ListItem, ListItemIcon, ListItemSecondaryAction, ListItemText } from '@mui/material';
 import * as R from 'ramda';
-import { FunctionComponent, useState } from 'react';
+import { type FunctionComponent, useState } from 'react';
 import { makeStyles } from 'tss-react/mui';
 
 import { useFormatter } from '../../../../../components/i18n';
 import { truncate } from '../../../../../utils/String';
-import type { ExpectationInput } from './Expectation';
+import { type ExpectationInput } from './Expectation';
 import ExpectationPopover from './ExpectationPopover';
 import { isAutomatic, typeIcon } from './ExpectationUtils';
 import InjectAddExpectation from './InjectAddExpectation';

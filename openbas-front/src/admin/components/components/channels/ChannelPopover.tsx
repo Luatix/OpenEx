@@ -1,13 +1,13 @@
 import { MoreVert } from '@mui/icons-material';
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton, Menu, MenuItem, PopoverProps } from '@mui/material';
-import { FunctionComponent, MouseEvent as ReactMouseEvent, useState } from 'react';
+import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton, Menu, MenuItem, type PopoverProps } from '@mui/material';
+import { type FunctionComponent, type MouseEvent as ReactMouseEvent, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { makeStyles } from 'tss-react/mui';
 
 import { deleteChannel, updateChannel } from '../../../../actions/channels/channel-action';
 import Transition from '../../../../components/common/Transition';
 import { useFormatter } from '../../../../components/i18n';
-import type { Channel, ChannelUpdateInput } from '../../../../utils/api-types';
+import { type Channel, type ChannelUpdateInput } from '../../../../utils/api-types';
 import { useAppDispatch } from '../../../../utils/hooks';
 import ChannelForm from './ChannelForm';
 

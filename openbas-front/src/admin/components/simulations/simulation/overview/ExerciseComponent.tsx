@@ -5,7 +5,7 @@ import { useParams } from 'react-router';
 import { makeStyles } from 'tss-react/mui';
 
 import { fetchExerciseExpectationResult, fetchExerciseInjectExpectationResults, searchExerciseInjects } from '../../../../../actions/exercises/exercise-action';
-import type { ExercisesHelper } from '../../../../../actions/exercises/exercise-helper';
+import { type ExercisesHelper } from '../../../../../actions/exercises/exercise-helper';
 import { buildEmptyFilter } from '../../../../../components/common/queryable/filter/FilterUtils';
 import { initSorting } from '../../../../../components/common/queryable/Page';
 import { buildSearchPagination } from '../../../../../components/common/queryable/QueryableUtils';
@@ -13,7 +13,7 @@ import { useQueryableWithLocalStorage } from '../../../../../components/common/q
 import { useFormatter } from '../../../../../components/i18n';
 import Loader from '../../../../../components/Loader';
 import { useHelper } from '../../../../../store';
-import type { Exercise, ExpectationResultsByType, FilterGroup, InjectExpectationResultsByAttackPattern } from '../../../../../utils/api-types';
+import { type Exercise, type ExpectationResultsByType, type FilterGroup, type InjectExpectationResultsByAttackPattern } from '../../../../../utils/api-types';
 import InjectResultList from '../../../atomic_testings/InjectResultList';
 import ResponsePie from '../../../common/injects/ResponsePie';
 import MitreMatrix from '../../../common/matrix/MitreMatrix';

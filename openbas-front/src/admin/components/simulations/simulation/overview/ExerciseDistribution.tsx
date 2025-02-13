@@ -1,18 +1,18 @@
 import { Grid, Paper, Typography } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
-import { FunctionComponent, useState } from 'react';
+import { type FunctionComponent, useState } from 'react';
 import { makeStyles } from 'tss-react/mui';
 
 import { fetchExerciseInjectExpectations, fetchExerciseTeams } from '../../../../../actions/Exercise';
-import type { ExercisesHelper } from '../../../../../actions/exercises/exercise-helper';
+import { type ExercisesHelper } from '../../../../../actions/exercises/exercise-helper';
 import { fetchExerciseInjects } from '../../../../../actions/Inject';
-import type { InjectHelper } from '../../../../../actions/injects/inject-helper';
+import { type InjectHelper } from '../../../../../actions/injects/inject-helper';
 import { useFormatter } from '../../../../../components/i18n';
 import Loader from '../../../../../components/Loader';
 import arrowDark from '../../../../../static/images/misc/arrow_dark.png';
 import arrowLight from '../../../../../static/images/misc/arrow_light.png';
 import { useHelper } from '../../../../../store';
-import { Exercise } from '../../../../../utils/api-types';
+import { type Exercise } from '../../../../../utils/api-types';
 import { useAppDispatch } from '../../../../../utils/hooks';
 import useDataLoader from '../../../../../utils/hooks/useDataLoader';
 import ExerciseDistributionByInjectorContract from './ExerciseDistributionByInjectorContract';

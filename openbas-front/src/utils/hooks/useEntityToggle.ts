@@ -1,5 +1,5 @@
 import * as R from 'ramda';
-import { SyntheticEvent, useState } from 'react';
+import { type SyntheticEvent, useState } from 'react';
 
 export interface UseEntityToggle<T> {
   selectedElements: Record<string, T>;

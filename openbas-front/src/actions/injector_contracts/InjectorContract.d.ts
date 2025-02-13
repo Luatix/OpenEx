@@ -1,4 +1,4 @@
-import type { InjectorContract } from '../../utils/api-types';
+import { type InjectorContract } from '../../utils/api-types';
 
 export type ContractType = 'text' | 'number' | 'tuple' | 'checkbox' | 'textarea' | 'select' | 'article' | 'challenge' | 'dependency-select' | 'attachment' | 'team' | 'expectation' | 'asset' | 'asset-group' | 'payload';
 

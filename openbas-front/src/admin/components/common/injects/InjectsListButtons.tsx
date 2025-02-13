@@ -1,10 +1,10 @@
 import { BarChartOutlined, ReorderOutlined, ViewTimelineOutlined } from '@mui/icons-material';
 import { ToggleButton, ToggleButtonGroup, Tooltip } from '@mui/material';
-import { FunctionComponent, useContext } from 'react';
+import { type FunctionComponent, useContext } from 'react';
 import { makeStyles } from 'tss-react/mui';
 
-import type { TagHelper } from '../../../../actions/helper';
-import type { InjectOutputType } from '../../../../actions/injects/Inject';
+import { type TagHelper } from '../../../../actions/helper';
+import { type InjectOutputType } from '../../../../actions/injects/Inject';
 import ButtonPopover from '../../../../components/common/ButtonPopover';
 import { useFormatter } from '../../../../components/i18n';
 import { useHelper } from '../../../../store';

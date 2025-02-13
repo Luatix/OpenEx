@@ -1,12 +1,12 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Button, FormControlLabel, Stack, Switch } from '@mui/material';
 import { DatePicker, TimePicker } from '@mui/x-date-pickers';
-import { ChangeEvent, FunctionComponent, useState } from 'react';
-import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import { type ChangeEvent, type FunctionComponent, useState } from 'react';
+import { Controller, type SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
 
 import { useFormatter } from '../../../../components/i18n';
-import type { ExerciseUpdateStartDateInput } from '../../../../utils/api-types';
+import { type ExerciseUpdateStartDateInput } from '../../../../utils/api-types';
 import { minutesInFuture } from '../../../../utils/Time';
 import { zodImplement } from '../../../../utils/Zod';
 

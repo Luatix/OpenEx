@@ -1,15 +1,15 @@
 import { Autocomplete, Box, TextField } from '@mui/material';
-import { FunctionComponent, useEffect } from 'react';
+import { type FunctionComponent, useEffect } from 'react';
 import { makeStyles } from 'tss-react/mui';
 
 import { fetchChannels } from '../../../../actions/channels/channel-action';
-import type { ChannelsHelper } from '../../../../actions/channels/channel-helper';
+import { type ChannelsHelper } from '../../../../actions/channels/channel-helper';
 import { useFormatter } from '../../../../components/i18n';
 import { useHelper } from '../../../../store';
-import type { Channel } from '../../../../utils/api-types';
+import { type Channel } from '../../../../utils/api-types';
 import { useAppDispatch } from '../../../../utils/hooks';
 import ChannelIcon from './ChannelIcon';
-import type { ChannelOption } from './ChannelOption';
+import { type ChannelOption } from './ChannelOption';
 
 const useStyles = makeStyles()(() => ({
   icon: {

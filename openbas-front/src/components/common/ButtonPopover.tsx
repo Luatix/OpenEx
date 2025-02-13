@@ -1,6 +1,6 @@
 import { MoreVert } from '@mui/icons-material';
-import { IconButton, Menu, MenuItem, ToggleButton, ToggleButtonProps } from '@mui/material';
-import { Dispatch, FunctionComponent, SetStateAction, useState } from 'react';
+import { IconButton, Menu, MenuItem, ToggleButton, type ToggleButtonProps } from '@mui/material';
+import { type Dispatch, type FunctionComponent, type SetStateAction, useState } from 'react';
 
 import { useFormatter } from '../i18n';
 

@@ -1,25 +1,25 @@
 import { ArrowDropDownOutlined, ArrowDropUpOutlined, CloseRounded, EmailOutlined, KeyOutlined, PersonOutlined, SmartphoneOutlined } from '@mui/icons-material';
 import { IconButton, List, ListItem, ListItemIcon, ListItemSecondaryAction, ListItemText, Typography } from '@mui/material';
 import * as R from 'ramda';
-import { CSSProperties, FunctionComponent, useContext, useState } from 'react';
+import { type CSSProperties, type FunctionComponent, useContext, useState } from 'react';
 import { makeStyles } from 'tss-react/mui';
 
-import type { OrganizationHelper, UserHelper } from '../../../../actions/helper';
+import { type OrganizationHelper, type UserHelper } from '../../../../actions/helper';
 import { fetchOrganizations } from '../../../../actions/Organization';
 import { fetchTeam, fetchTeamPlayers } from '../../../../actions/teams/team-actions';
-import type { TeamsHelper } from '../../../../actions/teams/team-helper';
+import { type TeamsHelper } from '../../../../actions/teams/team-helper';
 import { useFormatter } from '../../../../components/i18n';
 import ItemBoolean from '../../../../components/ItemBoolean';
 import ItemTags from '../../../../components/ItemTags';
 import SearchFilter from '../../../../components/SearchFilter';
 import { useHelper } from '../../../../store';
-import type { Organization, Team } from '../../../../utils/api-types';
+import { type Organization, type Team } from '../../../../utils/api-types';
 import { useAppDispatch } from '../../../../utils/hooks';
 import useDataLoader from '../../../../utils/hooks/useDataLoader';
-import type { Option } from '../../../../utils/Option';
+import { type Option } from '../../../../utils/Option';
 import { PermissionsContext, TeamContext } from '../../common/Context';
 import TagsFilter from '../../common/filters/TagsFilter';
-import type { UserStore } from '../../teams/players/Player';
+import { type UserStore } from '../../teams/players/Player';
 import PlayerPopover from '../../teams/players/PlayerPopover';
 import TeamAddPlayers from './TeamAddPlayers';
 

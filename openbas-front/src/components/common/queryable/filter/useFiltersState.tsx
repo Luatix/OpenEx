@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 
-import type { Filter, FilterGroup } from '../../../../utils/api-types';
-import { FilterHelpers } from './FilterHelpers';
+import { type Filter, type FilterGroup } from '../../../../utils/api-types';
+import { type FilterHelpers } from './FilterHelpers';
 import {
   handleAddFilterWithEmptyValueUtil,
   handleAddMultipleValueFilterUtil,

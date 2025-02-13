@@ -1,13 +1,13 @@
 import { MoreVert } from '@mui/icons-material';
 import { IconButton, Menu, MenuItem } from '@mui/material';
-import { FunctionComponent, useState } from 'react';
+import { type FunctionComponent, useState } from 'react';
 
 import { deleteSecurityPlatform, updateSecurityPlatform } from '../../../../actions/assets/securityPlatform-actions';
 import Dialog from '../../../../components/common/Dialog';
 import DialogDelete from '../../../../components/common/DialogDelete';
 import Drawer from '../../../../components/common/Drawer';
 import { useFormatter } from '../../../../components/i18n';
-import type { SecurityPlatform, SecurityPlatformInput } from '../../../../utils/api-types';
+import { type SecurityPlatform, type SecurityPlatformInput } from '../../../../utils/api-types';
 import { useAppDispatch } from '../../../../utils/hooks';
 import SecurityPlatformForm from './SecurityPlatformForm';
 

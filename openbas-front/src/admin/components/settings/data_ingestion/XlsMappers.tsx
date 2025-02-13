@@ -1,6 +1,6 @@
 import { TableViewOutlined } from '@mui/icons-material';
 import { List, ListItem, ListItemIcon, ListItemSecondaryAction, ListItemText } from '@mui/material';
-import { CSSProperties, useState } from 'react';
+import { type CSSProperties, useState } from 'react';
 import { makeStyles } from 'tss-react/mui';
 
 import { searchMappers } from '../../../../actions/mapper/mapper-actions';
@@ -11,7 +11,7 @@ import { initSorting } from '../../../../components/common/queryable/Page';
 import { buildSearchPagination } from '../../../../components/common/queryable/QueryableUtils';
 import Empty from '../../../../components/Empty';
 import { useFormatter } from '../../../../components/i18n';
-import type { RawPaginationImportMapper, SearchPaginationInput } from '../../../../utils/api-types';
+import { type RawPaginationImportMapper, type SearchPaginationInput } from '../../../../utils/api-types';
 import DataIngestionMenu from '../DataIngestionMenu';
 import ImportUploaderMapper from './ImportUploaderMapper';
 import XlsMapperCreation from './xls_mapper/XlsMapperCreation';

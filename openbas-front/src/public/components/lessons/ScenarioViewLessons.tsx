@@ -2,12 +2,12 @@ import { useEffect } from 'react';
 import { useParams } from 'react-router';
 
 import { fetchMe } from '../../../actions/Application';
-import type { UserHelper } from '../../../actions/helper';
+import { type UserHelper } from '../../../actions/helper';
 import { fetchLessonsCategories, fetchLessonsQuestions, fetchScenario } from '../../../actions/scenarios/scenario-actions';
-import type { ScenariosHelper } from '../../../actions/scenarios/scenario-helper';
-import { ViewLessonContext, ViewLessonContextType } from '../../../admin/components/common/Context';
+import { type ScenariosHelper } from '../../../actions/scenarios/scenario-helper';
+import { ViewLessonContext, type ViewLessonContextType } from '../../../admin/components/common/Context';
 import { useHelper } from '../../../store';
-import { Scenario } from '../../../utils/api-types';
+import { type Scenario } from '../../../utils/api-types';
 import { useQueryParameter } from '../../../utils/Environment';
 import { useAppDispatch } from '../../../utils/hooks';
 import useScenarioPermissions from '../../../utils/Scenario';

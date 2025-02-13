@@ -1,9 +1,9 @@
 import { ContentPasteOutlined } from '@mui/icons-material';
 import { List, ListItem, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
-import { FunctionComponent, useContext } from 'react';
+import { type FunctionComponent, useContext } from 'react';
 
 import { useFormatter } from '../../../../components/i18n';
-import type { Report } from '../../../../utils/api-types';
+import { type Report } from '../../../../utils/api-types';
 import { PermissionsContext } from '../../common/Context';
 import ReportPopover from './ReportPopover';
 

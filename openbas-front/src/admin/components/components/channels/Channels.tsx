@@ -1,17 +1,17 @@
 import { ChevronRightOutlined } from '@mui/icons-material';
 import { List, ListItem, ListItemButton, ListItemIcon, ListItemSecondaryAction, ListItemText } from '@mui/material';
-import { CSSProperties } from 'react';
+import { type CSSProperties } from 'react';
 import { Link } from 'react-router';
 import { makeStyles } from 'tss-react/mui';
 
 import { fetchChannels } from '../../../../actions/channels/channel-action';
-import type { ChannelsHelper } from '../../../../actions/channels/channel-helper';
-import type { UserHelper } from '../../../../actions/helper';
+import { type ChannelsHelper } from '../../../../actions/channels/channel-helper';
+import { type UserHelper } from '../../../../actions/helper';
 import Breadcrumbs from '../../../../components/Breadcrumbs';
 import { useFormatter } from '../../../../components/i18n';
 import SearchFilter from '../../../../components/SearchFilter';
 import { useHelper } from '../../../../store';
-import type { Channel } from '../../../../utils/api-types';
+import { type Channel } from '../../../../utils/api-types';
 import { useAppDispatch } from '../../../../utils/hooks';
 import useDataLoader from '../../../../utils/hooks/useDataLoader';
 import useSearchAnFilter from '../../../../utils/SortingFiltering';

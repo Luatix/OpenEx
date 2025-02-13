@@ -1,6 +1,6 @@
 import { Search } from '@mui/icons-material';
 import { InputAdornment, TextField } from '@mui/material';
-import { ChangeEvent, FunctionComponent, KeyboardEvent, useCallback } from 'react';
+import { type ChangeEvent, type FunctionComponent, type KeyboardEvent, useCallback } from 'react';
 import { makeStyles } from 'tss-react/mui';
 
 import { debounce } from '../utils/utils';

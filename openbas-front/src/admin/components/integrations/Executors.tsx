@@ -2,12 +2,12 @@ import { Card, CardContent, Chip, Grid, Typography } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import { fetchExecutors } from '../../../actions/Executor';
-import type { ExecutorHelper } from '../../../actions/executors/executor-helper';
+import { type ExecutorHelper } from '../../../actions/executors/executor-helper';
 import Breadcrumbs from '../../../components/Breadcrumbs';
 import { useFormatter } from '../../../components/i18n';
 import SearchFilter from '../../../components/SearchFilter';
 import { useHelper } from '../../../store';
-import type { Executor } from '../../../utils/api-types';
+import { type Executor } from '../../../utils/api-types';
 import { useAppDispatch } from '../../../utils/hooks';
 import useDataLoader from '../../../utils/hooks/useDataLoader';
 import useSearchAnFilter from '../../../utils/SortingFiltering';

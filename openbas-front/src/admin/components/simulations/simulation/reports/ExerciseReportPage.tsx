@@ -1,15 +1,15 @@
 import { Alert, Button, Paper, ToggleButtonGroup, Typography } from '@mui/material';
-import { FunctionComponent, useEffect, useState } from 'react';
+import { type FunctionComponent, useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router';
 
 import { updateReportForExercise, updateReportInjectCommentForExercise } from '../../../../../actions/reports/report-actions';
 import ExportPdfButton from '../../../../../components/ExportPdfButton';
 import { useFormatter } from '../../../../../components/i18n';
 import Loader from '../../../../../components/Loader';
-import type { Exercise, LessonsQuestion, Report, ReportInput } from '../../../../../utils/api-types';
+import { type Exercise, type LessonsQuestion, type Report, type ReportInput } from '../../../../../utils/api-types';
 import { usePermissions } from '../../../../../utils/Exercise';
 import { useAppDispatch } from '../../../../../utils/hooks';
-import { ReportContext, ReportContextType } from '../../../common/Context';
+import { ReportContext, type ReportContextType } from '../../../common/Context';
 import ResponsePie from '../../../common/injects/ResponsePie';
 import ReportComment from '../../../components/reports/ReportComment';
 import ReportPopover from '../../../components/reports/ReportPopover';

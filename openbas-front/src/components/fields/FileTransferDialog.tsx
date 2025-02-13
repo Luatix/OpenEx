@@ -1,13 +1,13 @@
 import { DescriptionOutlined } from '@mui/icons-material';
 import { Box, Button, Chip, Dialog, DialogActions, DialogContent, DialogTitle, Grid, List, ListItem, ListItemIcon, ListItemText } from '@mui/material';
-import { FunctionComponent, useEffect, useState } from 'react';
+import { type FunctionComponent, useEffect, useState } from 'react';
 import { makeStyles } from 'tss-react/mui';
 
-import type { DocumentHelper, UserHelper } from '../../actions/helper';
+import { type DocumentHelper, type UserHelper } from '../../actions/helper';
 import TagsFilter from '../../admin/components/common/filters/TagsFilter';
 import CreateDocument from '../../admin/components/components/documents/CreateDocument';
 import { useHelper } from '../../store';
-import type { RawDocument } from '../../utils/api-types';
+import { type RawDocument } from '../../utils/api-types';
 import { truncate } from '../../utils/String';
 import Transition from '../common/Transition';
 import { useFormatter } from '../i18n';

@@ -2,8 +2,8 @@ import { Typography } from '@mui/material';
 import { useParams } from 'react-router';
 import { makeStyles } from 'tss-react/mui';
 
-import type { UserHelper } from '../../../../actions/helper';
-import type { LessonsTemplatesHelper } from '../../../../actions/lessons/lesson-helper';
+import { type UserHelper } from '../../../../actions/helper';
+import { type LessonsTemplatesHelper } from '../../../../actions/lessons/lesson-helper';
 import { useHelper } from '../../../../store';
 import LessonsTemplatePopover from './LessonsTemplatePopover';
 

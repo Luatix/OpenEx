@@ -1,5 +1,5 @@
 import { Route, Routes } from 'react-router';
-import { CSSObject } from 'tss-react';
+import { type CSSObject } from 'tss-react';
 import { makeStyles } from 'tss-react/mui';
 
 import { errorWrapper } from '../components/Error';

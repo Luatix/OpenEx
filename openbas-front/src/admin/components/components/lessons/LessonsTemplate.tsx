@@ -3,12 +3,12 @@ import { Grid, List, ListItemButton, ListItemIcon, ListItemSecondaryAction, List
 import { useParams } from 'react-router';
 import { makeStyles } from 'tss-react/mui';
 
-import type { UserHelper } from '../../../../actions/helper';
+import { type UserHelper } from '../../../../actions/helper';
 import { fetchLessonsTemplateCategories, fetchLessonsTemplateQuestions } from '../../../../actions/Lessons';
-import type { LessonsTemplatesHelper } from '../../../../actions/lessons/lesson-helper';
+import { type LessonsTemplatesHelper } from '../../../../actions/lessons/lesson-helper';
 import { useFormatter } from '../../../../components/i18n';
 import { useHelper } from '../../../../store';
-import type { LessonsTemplateCategory, LessonsTemplateQuestion } from '../../../../utils/api-types';
+import { type LessonsTemplateCategory, type LessonsTemplateQuestion } from '../../../../utils/api-types';
 import { useAppDispatch } from '../../../../utils/hooks';
 import useDataLoader from '../../../../utils/hooks/useDataLoader';
 import CreateLessonsTemplateCategory from './categories/CreateLessonsTemplateCategory';

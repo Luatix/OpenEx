@@ -1,4 +1,4 @@
-import type { Exercise, ExerciseSimple, InjectExpectation, LessonsAnswer, LessonsCategory, LessonsQuestion, Objective, Team } from '../../utils/api-types';
+import { type Exercise, type ExerciseSimple, type InjectExpectation, type LessonsAnswer, type LessonsCategory, type LessonsQuestion, type Objective, type Team } from '../../utils/api-types';
 
 export interface ExercisesHelper {
   getExercise: (exerciseId: string) => Exercise;

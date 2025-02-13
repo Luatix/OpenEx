@@ -1,6 +1,6 @@
 import { ArrowDropDownOutlined, ArrowDropUpOutlined } from '@mui/icons-material';
 import * as R from 'ramda';
-import { CSSProperties, FunctionComponent, ReactElement, useState } from 'react';
+import { type CSSProperties, type FunctionComponent, type ReactElement, useState } from 'react';
 import { makeStyles } from 'tss-react/mui';
 
 import { useFormatter } from '../i18n';

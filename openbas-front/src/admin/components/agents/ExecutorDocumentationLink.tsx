@@ -1,10 +1,10 @@
 import { ArticleOutlined } from '@mui/icons-material';
 import { Chip, Typography } from '@mui/material';
-import { FunctionComponent } from 'react';
+import { type FunctionComponent } from 'react';
 import { makeStyles } from 'tss-react/mui';
 
 import { useFormatter } from '../../../components/i18n';
-import type { Executor } from '../../../utils/api-types';
+import { type Executor } from '../../../utils/api-types';
 
 const useStyles = makeStyles()(() => ({
   chip: {

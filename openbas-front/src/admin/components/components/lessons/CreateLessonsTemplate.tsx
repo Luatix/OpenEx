@@ -1,4 +1,4 @@
-import { FunctionComponent, useState } from 'react';
+import { type FunctionComponent, useState } from 'react';
 
 import { addLessonsTemplate } from '../../../../actions/Lessons';
 import ButtonCreate from '../../../../components/common/ButtonCreate';
@@ -6,7 +6,7 @@ import Dialog from '../../../../components/common/Dialog';
 import Drawer from '../../../../components/common/Drawer';
 import ListItemButtonCreate from '../../../../components/common/ListItemButtonCreate';
 import { useFormatter } from '../../../../components/i18n';
-import type { LessonsTemplate, LessonsTemplateInput } from '../../../../utils/api-types';
+import { type LessonsTemplate, type LessonsTemplateInput } from '../../../../utils/api-types';
 import { useAppDispatch } from '../../../../utils/hooks';
 import LessonsTemplateForm from './LessonsTemplateForm';
 

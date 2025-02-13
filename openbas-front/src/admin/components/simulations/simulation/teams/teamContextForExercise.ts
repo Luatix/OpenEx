@@ -1,11 +1,11 @@
 import { addExerciseTeamPlayers, disableExerciseTeamPlayers, enableExerciseTeamPlayers, removeExerciseTeamPlayers } from '../../../../../actions/Exercise';
 import { removeExerciseTeams, replaceExerciseTeams, searchExerciseTeams } from '../../../../../actions/exercises/exercise-teams-action';
 import { addTeam, fetchTeams } from '../../../../../actions/teams/team-actions';
-import type { Page } from '../../../../../components/common/queryable/Page';
-import { Exercise, ExerciseTeamUser, SearchPaginationInput, Team, TeamCreateInput, TeamOutput } from '../../../../../utils/api-types';
+import { type Page } from '../../../../../components/common/queryable/Page';
+import { type Exercise, type ExerciseTeamUser, type SearchPaginationInput, type Team, type TeamCreateInput, type TeamOutput } from '../../../../../utils/api-types';
 import { useAppDispatch } from '../../../../../utils/hooks';
-import { TeamContextType } from '../../../common/Context';
-import type { UserStore } from '../../../teams/players/Player';
+import { type TeamContextType } from '../../../common/Context';
+import { type UserStore } from '../../../teams/players/Player';
 
 const teamContextForExercise = (exerciseId: Exercise['exercise_id'], exerciseTeamsUsers: Exercise['exercise_teams_users']): TeamContextType => {
   const dispatch = useAppDispatch();

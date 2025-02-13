@@ -3,19 +3,19 @@ import { Alert, Button, Card, CardActionArea, CardContent, Dialog, DialogContent
 import { useTheme } from '@mui/material/styles';
 import { Bash, DownloadCircleOutline, Powershell } from 'mdi-material-ui';
 import * as R from 'ramda';
-import { SyntheticEvent, useState } from 'react';
+import { type SyntheticEvent, useState } from 'react';
 import { makeStyles } from 'tss-react/mui';
 
 import { fetchExecutors } from '../../../actions/Executor';
-import type { ExecutorHelper } from '../../../actions/executors/executor-helper';
-import type { MeTokensHelper } from '../../../actions/helper';
+import { type ExecutorHelper } from '../../../actions/executors/executor-helper';
+import { type MeTokensHelper } from '../../../actions/helper';
 import { meTokens } from '../../../actions/User';
 import Breadcrumbs from '../../../components/Breadcrumbs';
 import Transition from '../../../components/common/Transition';
 import { useFormatter } from '../../../components/i18n';
 import PlatformIcon from '../../../components/PlatformIcon';
 import { useHelper } from '../../../store';
-import type { Executor } from '../../../utils/api-types';
+import { type Executor } from '../../../utils/api-types';
 import { useAppDispatch } from '../../../utils/hooks';
 import useAuth from '../../../utils/hooks/useAuth';
 import useDataLoader from '../../../utils/hooks/useDataLoader';

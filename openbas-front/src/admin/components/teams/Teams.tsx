@@ -1,13 +1,13 @@
-import type { UserHelper } from '../../../actions/helper';
+import { type UserHelper } from '../../../actions/helper';
 import { updateTeamPlayers } from '../../../actions/teams/team-actions';
-import type { TeamsHelper } from '../../../actions/teams/team-helper';
-import { Page } from '../../../components/common/queryable/Page';
+import { type TeamsHelper } from '../../../actions/teams/team-helper';
+import { type Page } from '../../../components/common/queryable/Page';
 import { useHelper } from '../../../store';
-import type { SearchPaginationInput, Team, TeamOutput, User } from '../../../utils/api-types';
+import { type SearchPaginationInput, type Team, type TeamOutput, type User } from '../../../utils/api-types';
 import { useAppDispatch } from '../../../utils/hooks';
-import { PermissionsContext, PermissionsContextType, TeamContext, type TeamContextType } from '../common/Context';
+import { PermissionsContext, type PermissionsContextType, TeamContext, type TeamContextType } from '../common/Context';
 import TeamsComponent from '../components/teams/Teams';
-import type { UserStore } from './players/Player';
+import { type UserStore } from './players/Player';
 
 const Teams = () => {
   const dispatch = useAppDispatch();

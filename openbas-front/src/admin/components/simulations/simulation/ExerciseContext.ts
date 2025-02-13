@@ -11,18 +11,18 @@ import {
   updateInjectForExercise,
   updateInjectTriggerForExercise,
 } from '../../../../actions/Inject';
-import type { InjectOutputType, InjectStore } from '../../../../actions/injects/Inject';
+import { type InjectOutputType, type InjectStore } from '../../../../actions/injects/Inject';
 import { bulkTestInjects, searchExerciseInjectsSimple } from '../../../../actions/injects/inject-action';
-import { Page } from '../../../../components/common/queryable/Page';
-import type {
-  Exercise,
-  ImportTestSummary,
-  Inject,
-  InjectBulkProcessingInput,
-  InjectBulkUpdateInputs,
-  InjectsImportInput,
-  InjectTestStatusOutput,
-  SearchPaginationInput,
+import { type Page } from '../../../../components/common/queryable/Page';
+import {
+  type Exercise,
+  type ImportTestSummary,
+  type Inject,
+  type InjectBulkProcessingInput,
+  type InjectBulkUpdateInputs,
+  type InjectsImportInput,
+  type InjectTestStatusOutput,
+  type SearchPaginationInput,
 } from '../../../../utils/api-types';
 import { useAppDispatch } from '../../../../utils/hooks';
 

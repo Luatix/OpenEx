@@ -14,19 +14,19 @@ import {
   ListItemText,
 } from '@mui/material';
 import * as R from 'ramda';
-import { FunctionComponent, useContext, useState } from 'react';
+import { type FunctionComponent, useContext, useState } from 'react';
 import { makeStyles } from 'tss-react/mui';
 
 import { fetchChallenges } from '../../../../actions/Challenge';
-import type { ChallengeHelper } from '../../../../actions/helper';
+import { type ChallengeHelper } from '../../../../actions/helper';
 import Transition from '../../../../components/common/Transition';
 import { useFormatter } from '../../../../components/i18n';
 import SearchFilter from '../../../../components/SearchFilter';
 import { useHelper } from '../../../../store';
-import type { Challenge } from '../../../../utils/api-types';
+import { type Challenge } from '../../../../utils/api-types';
 import { useAppDispatch } from '../../../../utils/hooks';
 import useDataLoader from '../../../../utils/hooks/useDataLoader';
-import type { Option } from '../../../../utils/Option';
+import { type Option } from '../../../../utils/Option';
 import { truncate } from '../../../../utils/String';
 import CreateChallenge from '../../components/challenges/CreateChallenge';
 import { PermissionsContext } from '../Context';

@@ -1,12 +1,12 @@
 import { FactCheckOutlined, MailOutlined, NoteAltOutlined, TheatersOutlined } from '@mui/icons-material';
 import { Drawer, ListItemIcon, ListItemText, MenuItem, MenuList } from '@mui/material';
-import { FunctionComponent } from 'react';
+import { type FunctionComponent } from 'react';
 import { Link, useLocation } from 'react-router';
-import { CSSObject } from 'tss-react';
+import { type CSSObject } from 'tss-react';
 import { makeStyles } from 'tss-react/mui';
 
 import { useFormatter } from '../../../../components/i18n';
-import type { Exercise } from '../../../../utils/api-types';
+import { type Exercise } from '../../../../utils/api-types';
 
 const useStyles = makeStyles()(theme => ({
   drawer: {

@@ -1,7 +1,7 @@
 import { Drawer, ListItemIcon, ListItemText, MenuItem, MenuList } from '@mui/material';
-import { FunctionComponent, ReactElement } from 'react';
+import { type FunctionComponent, type ReactElement } from 'react';
 import { Link, useLocation } from 'react-router';
-import { CSSObject } from 'tss-react';
+import { type CSSObject } from 'tss-react';
 import { makeStyles } from 'tss-react/mui';
 
 import { isNotEmptyField } from '../../../utils/utils';

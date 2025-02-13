@@ -1,9 +1,9 @@
 import { RouteOutlined, StyleOutlined } from '@mui/icons-material';
 import { Drawer, ListItemIcon, ListItemText, MenuItem, MenuList } from '@mui/material';
 import { LockPattern } from 'mdi-material-ui';
-import { FunctionComponent } from 'react';
+import { type FunctionComponent } from 'react';
 import { Link, useLocation } from 'react-router';
-import { CSSObject } from 'tss-react';
+import { type CSSObject } from 'tss-react';
 import { makeStyles } from 'tss-react/mui';
 
 import { useFormatter } from '../../../components/i18n';

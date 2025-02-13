@@ -1,9 +1,9 @@
 import { Button, LinearProgress, Typography, useTheme } from '@mui/material';
-import { FunctionComponent } from 'react';
+import { type FunctionComponent } from 'react';
 
 import Dialog from '../../../../components/common/Dialog';
 import { useFormatter } from '../../../../components/i18n';
-import type { LessonsAnswer, User } from '../../../../utils/api-types';
+import { type LessonsAnswer, type User } from '../../../../utils/api-types';
 import { resolveUserName } from '../../../../utils/String';
 
 interface Props {

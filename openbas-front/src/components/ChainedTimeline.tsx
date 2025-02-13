@@ -2,12 +2,12 @@ import { CropFree, UnfoldLess, UnfoldMore } from '@mui/icons-material';
 import { Tooltip } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import {
-  Connection,
+  type Connection,
   ConnectionLineType,
-  ConnectionState,
+  type ConnectionState,
   ControlButton,
   Controls,
-  Edge,
+  type Edge,
   MarkerType,
   MiniMap,
   ReactFlow,
@@ -15,29 +15,29 @@ import {
   useEdgesState,
   useNodesState,
   useReactFlow,
-  Viewport,
-  XYPosition,
+  type Viewport,
+  type XYPosition,
 } from '@xyflow/react';
 import moment from 'moment-timezone';
-import { FunctionComponent, MouseEvent as ReactMouseEvent, useEffect, useState } from 'react';
+import { type FunctionComponent, type MouseEvent as ReactMouseEvent, useEffect, useState } from 'react';
 import { makeStyles } from 'tss-react/mui';
 
-import type { AssetGroupsHelper } from '../actions/asset_groups/assetgroup-helper';
-import type { EndpointHelper } from '../actions/assets/asset-helper';
-import type { ExercisesHelper } from '../actions/exercises/exercise-helper';
-import type { InjectOutputType, InjectStore } from '../actions/injects/Inject';
-import type { InjectHelper } from '../actions/injects/inject-helper';
-import type { ScenariosHelper } from '../actions/scenarios/scenario-helper';
-import type { TeamsHelper } from '../actions/teams/team-helper';
+import { type AssetGroupsHelper } from '../actions/asset_groups/assetgroup-helper';
+import { type EndpointHelper } from '../actions/assets/asset-helper';
+import { type ExercisesHelper } from '../actions/exercises/exercise-helper';
+import { type InjectOutputType, type InjectStore } from '../actions/injects/Inject';
+import { type InjectHelper } from '../actions/injects/inject-helper';
+import { type ScenariosHelper } from '../actions/scenarios/scenario-helper';
+import { type TeamsHelper } from '../actions/teams/team-helper';
 import { useHelper } from '../store';
-import type { Inject, InjectDependency } from '../utils/api-types';
+import { type Inject, type InjectDependency } from '../utils/api-types';
 import { parseCron } from '../utils/Cron';
 import ChainingUtils from './common/chaining/ChainingUtils';
 import CustomTimelineBackground from './CustomTimelineBackground';
 import CustomTimelinePanel from './CustomTimelinePanel';
 import { useFormatter } from './i18n';
 import nodeTypes from './nodes';
-import { NodeInject } from './nodes/NodeInject';
+import { type NodeInject } from './nodes/NodeInject';
 import NodePhantom from './nodes/NodePhantom';
 
 const useStyles = makeStyles()(() => ({

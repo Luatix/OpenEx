@@ -1,12 +1,12 @@
 import { DevicesOtherOutlined } from '@mui/icons-material';
 import { Chip, List, ListItem, ListItemIcon, ListItemText, Tooltip } from '@mui/material';
-import { cloneElement, CSSProperties, FunctionComponent, ReactElement } from 'react';
+import { cloneElement, type CSSProperties, type FunctionComponent, type ReactElement } from 'react';
 import { makeStyles } from 'tss-react/mui';
 
 import ItemTags from '../../../../components/ItemTags';
 import PlatformIcon from '../../../../components/PlatformIcon';
-import { EndpointStoreWithType } from './endpoint';
-import { EndpointPopoverProps } from './EndpointPopover';
+import { type EndpointStoreWithType } from './endpoint';
+import { type EndpointPopoverProps } from './EndpointPopover';
 
 const useStyles = makeStyles()(() => ({
   item: {

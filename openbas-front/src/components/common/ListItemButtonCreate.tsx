@@ -1,6 +1,6 @@
 import { ControlPointOutlined } from '@mui/icons-material';
 import { ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
-import { FunctionComponent } from 'react';
+import { type FunctionComponent } from 'react';
 import { makeStyles } from 'tss-react/mui';
 
 const useStyles = makeStyles()(theme => ({

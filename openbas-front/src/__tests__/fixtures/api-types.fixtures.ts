@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker';
 
-import { Exercise, Organization, Scenario, Tag } from '../../utils/api-types';
+import { type Exercise, type Organization, type Scenario, type Tag } from '../../utils/api-types';
 
 export function createTagMap(numberTags: number): { [key: string]: Tag } {
   const tagMap: { [key: string]: Tag } = {};

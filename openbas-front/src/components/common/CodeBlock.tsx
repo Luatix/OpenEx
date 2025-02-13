@@ -1,5 +1,5 @@
 import { useTheme } from '@mui/material/styles';
-import { FunctionComponent } from 'react';
+import { type FunctionComponent } from 'react';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { a11yDark, coy } from 'react-syntax-highlighter/dist/esm/styles/prism';
 

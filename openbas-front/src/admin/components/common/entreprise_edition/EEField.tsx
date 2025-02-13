@@ -1,4 +1,4 @@
-import { cloneElement, FunctionComponent, ReactElement } from 'react';
+import { cloneElement, type FunctionComponent, type ReactElement } from 'react';
 import { makeStyles } from 'tss-react/mui';
 
 import { useFormatter } from '../../../../components/i18n';

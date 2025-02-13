@@ -1,5 +1,5 @@
-import { Box, Chip, SelectChangeEvent, Tooltip } from '@mui/material';
-import { FunctionComponent, useRef, useState } from 'react';
+import { Box, Chip, type SelectChangeEvent, Tooltip } from '@mui/material';
+import { type FunctionComponent, useRef, useState } from 'react';
 import { makeStyles } from 'tss-react/mui';
 
 import { useFormatter } from '../../i18n';

@@ -1,7 +1,7 @@
 import { FormHelperText, InputLabel, useTheme } from '@mui/material';
 import MDEditor, { commands } from '@uiw/react-md-editor/nohighlight';
-import { CSSProperties, FunctionComponent } from 'react';
-import { Field, FieldInputProps, FieldMetaState } from 'react-final-form';
+import { type CSSProperties, type FunctionComponent } from 'react';
+import { Field, type FieldInputProps, type FieldMetaState } from 'react-final-form';
 
 import TextFieldAskAI from '../../admin/components/common/form/TextFieldAskAI';
 import { useFormatter } from '../i18n';

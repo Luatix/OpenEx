@@ -1,16 +1,16 @@
 import { CopyAllOutlined } from '@mui/icons-material';
 import { TabContext, TabList, TabPanel } from '@mui/lab';
 import { Alert, Button, Dialog, DialogActions, DialogContent, List, ListItem, ListItemButton, ListItemText, Tab } from '@mui/material';
-import { FunctionComponent, SyntheticEvent, useState } from 'react';
+import { type FunctionComponent, type SyntheticEvent, useState } from 'react';
 import { Link } from 'react-router';
 import { makeStyles } from 'tss-react/mui';
 
-import type { Contract } from '../../../../../actions/contract/contract';
-import type { UserHelper } from '../../../../../actions/helper';
+import { type Contract } from '../../../../../actions/contract/contract';
+import { type UserHelper } from '../../../../../actions/helper';
 import Transition from '../../../../../components/common/Transition';
 import { useFormatter } from '../../../../../components/i18n';
 import { useHelper } from '../../../../../store';
-import type { Variable } from '../../../../../utils/api-types';
+import { type Variable } from '../../../../../utils/api-types';
 import { copyToClipboard } from '../../../../../utils/utils';
 
 interface VariableChildItemProps {

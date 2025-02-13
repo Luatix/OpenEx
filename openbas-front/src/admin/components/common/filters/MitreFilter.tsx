@@ -1,16 +1,16 @@
 import { Button, Typography } from '@mui/material';
-import { FunctionComponent, useEffect } from 'react';
+import { type FunctionComponent, useEffect } from 'react';
 import { makeStyles } from 'tss-react/mui';
 
-import type { AttackPatternHelper } from '../../../../actions/attack_patterns/attackpattern-helper';
-import type { InjectorContractHelper } from '../../../../actions/injector_contracts/injector-contract-helper';
+import { type AttackPatternHelper } from '../../../../actions/attack_patterns/attackpattern-helper';
+import { type InjectorContractHelper } from '../../../../actions/injector_contracts/injector-contract-helper';
 import { fetchInjectorsContracts } from '../../../../actions/InjectorContracts';
-import type { KillChainPhaseHelper } from '../../../../actions/kill_chain_phases/killchainphase-helper';
-import { FilterHelpers } from '../../../../components/common/queryable/filter/FilterHelpers';
+import { type KillChainPhaseHelper } from '../../../../actions/kill_chain_phases/killchainphase-helper';
+import { type FilterHelpers } from '../../../../components/common/queryable/filter/FilterHelpers';
 import { buildEmptyFilter } from '../../../../components/common/queryable/filter/FilterUtils';
 import { useFormatter } from '../../../../components/i18n';
 import { useHelper } from '../../../../store';
-import type { AttackPattern, KillChainPhase } from '../../../../utils/api-types';
+import { type AttackPattern, type KillChainPhase } from '../../../../utils/api-types';
 import { useAppDispatch } from '../../../../utils/hooks';
 import useDataLoader from '../../../../utils/hooks/useDataLoader';
 

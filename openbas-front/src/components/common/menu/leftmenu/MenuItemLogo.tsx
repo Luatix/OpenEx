@@ -1,6 +1,6 @@
 import { ListItemIcon, MenuItem, Tooltip } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
-import { FunctionComponent } from 'react';
+import { type FunctionComponent } from 'react';
 
 import logoFiligranDark from '../../../../static/images/logo_filigran_dark.png';
 import logoFiligranLight from '../../../../static/images/logo_filigran_light.png';

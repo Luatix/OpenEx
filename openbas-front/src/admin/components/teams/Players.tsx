@@ -1,10 +1,10 @@
 import { PersonOutlined } from '@mui/icons-material';
 import { List, ListItem, ListItemIcon, ListItemSecondaryAction, ListItemText } from '@mui/material';
-import { CSSProperties, useMemo, useState } from 'react';
+import { type CSSProperties, useMemo, useState } from 'react';
 import { useSearchParams } from 'react-router';
 import { makeStyles } from 'tss-react/mui';
 
-import type { OrganizationHelper, UserHelper } from '../../../actions/helper';
+import { type OrganizationHelper, type UserHelper } from '../../../actions/helper';
 import { fetchOrganizations } from '../../../actions/Organization';
 import { searchPlayers } from '../../../actions/players/player-actions';
 import Breadcrumbs from '../../../components/Breadcrumbs';
@@ -14,11 +14,11 @@ import PaginationComponentV2 from '../../../components/common/queryable/paginati
 import { buildSearchPagination } from '../../../components/common/queryable/QueryableUtils';
 import SortHeadersComponentV2 from '../../../components/common/queryable/sort/SortHeadersComponentV2';
 import { useQueryableWithLocalStorage } from '../../../components/common/queryable/useQueryableWithLocalStorage';
-import { Header } from '../../../components/common/SortHeadersList';
+import { type Header } from '../../../components/common/SortHeadersList';
 import { useFormatter } from '../../../components/i18n';
 import ItemTags from '../../../components/ItemTags';
 import { useHelper } from '../../../store';
-import type { PlayerOutput } from '../../../utils/api-types';
+import { type PlayerOutput } from '../../../utils/api-types';
 import { useAppDispatch } from '../../../utils/hooks';
 import useDataLoader from '../../../utils/hooks/useDataLoader';
 import CreatePlayer from './players/CreatePlayer';

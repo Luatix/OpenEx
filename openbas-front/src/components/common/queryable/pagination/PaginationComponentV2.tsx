@@ -1,20 +1,20 @@
 import { Box, Button, Chip } from '@mui/material';
-import { cloneElement, ReactElement, useEffect, useState } from 'react';
+import { cloneElement, type ReactElement, useEffect, useState } from 'react';
 import { makeStyles } from 'tss-react/mui';
 
 import InjectorContractSwitchFilter from '../../../../admin/components/common/filters/InjectorContractSwitchFilter';
 import MitreFilter, { MITRE_FILTER_KEY } from '../../../../admin/components/common/filters/MitreFilter';
 import mitreAttack from '../../../../static/images/misc/attack.png';
-import type { AttackPattern, Filter, PropertySchemaDTO, SearchPaginationInput } from '../../../../utils/api-types';
+import { type AttackPattern, type Filter, type PropertySchemaDTO, type SearchPaginationInput } from '../../../../utils/api-types';
 import { useFormatter } from '../../../i18n';
 import ClickableModeChip from '../../chips/ClickableModeChip';
 import Drawer from '../../Drawer';
-import FilterAutocomplete, { OptionPropertySchema } from '../filter/FilterAutocomplete';
+import FilterAutocomplete, { type OptionPropertySchema } from '../filter/FilterAutocomplete';
 import FilterChips from '../filter/FilterChips';
 import { availableOperators, isEmptyFilter } from '../filter/FilterUtils';
 import useFilterableProperties from '../filter/useFilterableProperties';
-import type { Page } from '../Page';
-import { QueryableHelpers } from '../QueryableHelpers';
+import { type Page } from '../Page';
+import { type QueryableHelpers } from '../QueryableHelpers';
 import TextSearchComponent from '../textSearch/TextSearchComponent';
 import TablePaginationComponentV2 from './TablePaginationComponentV2';
 

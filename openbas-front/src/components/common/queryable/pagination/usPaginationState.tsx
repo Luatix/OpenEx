@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-import { PaginationHelpers } from './PaginationHelpers';
+import { type PaginationHelpers } from './PaginationHelpers';
 
 export const ROWS_PER_PAGE_OPTIONS = [20, 50, 100];
 

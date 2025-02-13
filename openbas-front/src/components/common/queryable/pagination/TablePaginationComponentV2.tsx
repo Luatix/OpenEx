@@ -1,7 +1,7 @@
 import { TablePagination } from '@mui/material';
-import { ChangeEvent, FunctionComponent, MouseEvent } from 'react';
+import { type ChangeEvent, type FunctionComponent, type MouseEvent } from 'react';
 
-import { PaginationHelpers } from './PaginationHelpers';
+import { type PaginationHelpers } from './PaginationHelpers';
 import { ROWS_PER_PAGE_OPTIONS } from './usPaginationState';
 
 interface Props {

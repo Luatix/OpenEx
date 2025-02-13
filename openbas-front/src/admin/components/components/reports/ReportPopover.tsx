@@ -1,10 +1,10 @@
-import { FunctionComponent, useContext, useState } from 'react';
+import { type FunctionComponent, useContext, useState } from 'react';
 
-import ButtonPopover, { VariantButtonPopover } from '../../../../components/common/ButtonPopover';
+import ButtonPopover, { type VariantButtonPopover } from '../../../../components/common/ButtonPopover';
 import Dialog from '../../../../components/common/Dialog';
 import DialogDelete from '../../../../components/common/DialogDelete';
 import { useFormatter } from '../../../../components/i18n';
-import type { Report, ReportInput } from '../../../../utils/api-types';
+import { type Report, type ReportInput } from '../../../../utils/api-types';
 import { ReportContext } from '../../common/Context';
 
 type ReportActionType = 'Update' | 'Delete';

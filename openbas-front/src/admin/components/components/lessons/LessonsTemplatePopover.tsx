@@ -1,4 +1,4 @@
-import { FunctionComponent, useState } from 'react';
+import { type FunctionComponent, useState } from 'react';
 import { useNavigate } from 'react-router';
 
 import { deleteLessonsTemplate, updateLessonsTemplate } from '../../../../actions/Lessons';
@@ -6,7 +6,7 @@ import ButtonPopover from '../../../../components/common/ButtonPopover';
 import DialogDelete from '../../../../components/common/DialogDelete';
 import Drawer from '../../../../components/common/Drawer';
 import { useFormatter } from '../../../../components/i18n';
-import type { LessonsTemplate, LessonsTemplateInput } from '../../../../utils/api-types';
+import { type LessonsTemplate, type LessonsTemplateInput } from '../../../../utils/api-types';
 import { useAppDispatch } from '../../../../utils/hooks';
 import LessonsTemplateForm from './LessonsTemplateForm';
 

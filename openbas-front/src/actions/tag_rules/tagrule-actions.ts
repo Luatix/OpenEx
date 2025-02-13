@@ -1,5 +1,5 @@
 import { simpleCall, simpleDelCall, simplePostCall, simplePutCall } from '../../utils/Action';
-import type { SearchPaginationInput, TagRuleInput, TagRuleOutput } from '../../utils/api-types';
+import { type SearchPaginationInput, type TagRuleInput, type TagRuleOutput } from '../../utils/api-types';
 
 const TAG_RULES_URI = '/api/tag-rules';
 

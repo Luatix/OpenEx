@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 
-import type { SortField } from '../../../../utils/api-types';
-import { SortHelpers } from './SortHelpers';
+import { type SortField } from '../../../../utils/api-types';
+import { type SortHelpers } from './SortHelpers';
 
 const computeDirection = (direction?: string) => {
   if (direction) {

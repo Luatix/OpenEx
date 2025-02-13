@@ -1,5 +1,5 @@
 import { Box, FormHelperText, InputLabel } from '@mui/material';
-import { CSSProperties, FunctionComponent } from 'react';
+import { type CSSProperties, type FunctionComponent } from 'react';
 import { useController, useFormContext } from 'react-hook-form';
 
 import TextFieldAskAI from '../../admin/components/common/form/TextFieldAskAI';

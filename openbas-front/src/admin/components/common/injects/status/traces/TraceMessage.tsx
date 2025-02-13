@@ -1,4 +1,4 @@
-import { ExecutionTracesOutput } from '../../../../../../utils/api-types';
+import { type ExecutionTracesOutput } from '../../../../../../utils/api-types';
 
 interface Props {
   traces: ExecutionTracesOutput[];

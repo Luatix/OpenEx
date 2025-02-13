@@ -1,6 +1,6 @@
 import { Edit } from '@mui/icons-material';
 import { Button, IconButton, Paper } from '@mui/material';
-import { FunctionComponent, useState } from 'react';
+import { type FunctionComponent, useState } from 'react';
 
 import Dialog from '../../../../components/common/Dialog';
 import ExpandableMarkdown from '../../../../components/ExpandableMarkdown';

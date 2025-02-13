@@ -1,12 +1,12 @@
 import { GroupsOutlined } from '@mui/icons-material';
 import { ListItem, ListItemIcon, ListItemSecondaryAction, ListItemText } from '@mui/material';
 import * as R from 'ramda';
-import { FunctionComponent, useContext, useEffect, useState } from 'react';
+import { type FunctionComponent, useContext, useEffect, useState } from 'react';
 import { makeStyles } from 'tss-react/mui';
 
 import { findTeams } from '../../../../../actions/teams/team-actions';
 import ItemTags from '../../../../../components/ItemTags';
-import type { TeamOutput } from '../../../../../utils/api-types';
+import { type TeamOutput } from '../../../../../utils/api-types';
 import TeamPopover from '../../../components/teams/TeamPopover';
 import { PermissionsContext, TeamContext } from '../../Context';
 

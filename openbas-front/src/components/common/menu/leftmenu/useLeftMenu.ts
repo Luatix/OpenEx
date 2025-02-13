@@ -1,8 +1,8 @@
-import { MutableRefObject, useRef, useState } from 'react';
+import { type MutableRefObject, useRef, useState } from 'react';
 import { useNavigate } from 'react-router';
 
 import { MESSAGING$ } from '../../../../utils/Environment';
-import { hasHref, LeftMenuEntries } from './leftmenu-model';
+import { hasHref, type LeftMenuEntries } from './leftmenu-model';
 
 export interface LeftMenuState {
   navOpen: boolean;

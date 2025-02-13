@@ -1,5 +1,5 @@
 import { simplePostCall } from '../../utils/Action';
-import type { SearchPaginationInput } from '../../utils/api-types';
+import { type SearchPaginationInput } from '../../utils/api-types';
 
 const PLAYER_URI = '/api/players';
 

@@ -1,6 +1,6 @@
 import { AdsClickOutlined, AppsOutlined, BlurLinearOutlined, CrisisAlertOutlined, NewspaperOutlined, TourOutlined } from '@mui/icons-material';
 import { AirFilter, CarShiftPattern, CrosshairsQuestion, DatabaseEyeOutline } from 'mdi-material-ui';
-import { FunctionComponent } from 'react';
+import { type FunctionComponent } from 'react';
 
 interface ItemCategoryProps {
   category: string;

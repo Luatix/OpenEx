@@ -1,12 +1,12 @@
 import { Add } from '@mui/icons-material';
 import { Fab } from '@mui/material';
-import { FunctionComponent, useState } from 'react';
+import { type FunctionComponent, useState } from 'react';
 import { makeStyles } from 'tss-react/mui';
 
 import { createMapper } from '../../../../../actions/mapper/mapper-actions';
 import Drawer from '../../../../../components/common/Drawer';
 import { useFormatter } from '../../../../../components/i18n';
-import type { ImportMapperAddInput, RawPaginationImportMapper } from '../../../../../utils/api-types';
+import { type ImportMapperAddInput, type RawPaginationImportMapper } from '../../../../../utils/api-types';
 import MapperForm from './MapperForm';
 
 const useStyles = makeStyles()(() => ({

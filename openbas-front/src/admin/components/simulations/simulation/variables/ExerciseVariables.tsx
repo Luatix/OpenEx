@@ -3,13 +3,13 @@ import { useContext } from 'react';
 import { useParams } from 'react-router';
 
 import { addVariableForExercise, deleteVariableForExercise, fetchVariablesForExercise, updateVariableForExercise } from '../../../../../actions/variables/variable-actions';
-import type { VariablesHelper } from '../../../../../actions/variables/variable-helper';
+import { type VariablesHelper } from '../../../../../actions/variables/variable-helper';
 import { useFormatter } from '../../../../../components/i18n';
 import { useHelper } from '../../../../../store';
-import type { Exercise, Variable, VariableInput } from '../../../../../utils/api-types';
+import { type Exercise, type Variable, type VariableInput } from '../../../../../utils/api-types';
 import { useAppDispatch } from '../../../../../utils/hooks';
 import useDataLoader from '../../../../../utils/hooks/useDataLoader';
-import { PermissionsContext, VariableContext, VariableContextType } from '../../../common/Context';
+import { PermissionsContext, VariableContext, type VariableContextType } from '../../../common/Context';
 import CreateVariable from '../../../components/variables/CreateVariable';
 import Variables from '../../../components/variables/Variables';
 

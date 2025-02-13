@@ -1,13 +1,13 @@
 import { DevicesOtherOutlined } from '@mui/icons-material';
 import { List, ListItem, ListItemIcon, ListItemText } from '@mui/material';
-import { CSSProperties, FunctionComponent } from 'react';
+import { type CSSProperties, type FunctionComponent } from 'react';
 import { makeStyles } from 'tss-react/mui';
 
 import { fetchExecutors } from '../../../../../actions/Executor';
-import type { ExecutorHelper } from '../../../../../actions/executors/executor-helper';
+import { type ExecutorHelper } from '../../../../../actions/executors/executor-helper';
 import { useFormatter } from '../../../../../components/i18n';
 import { useHelper } from '../../../../../store';
-import type { AgentOutput } from '../../../../../utils/api-types';
+import { type AgentOutput } from '../../../../../utils/api-types';
 import { useAppDispatch } from '../../../../../utils/hooks';
 import useDataLoader from '../../../../../utils/hooks/useDataLoader';
 import AssetStatus from '../../AssetStatus';

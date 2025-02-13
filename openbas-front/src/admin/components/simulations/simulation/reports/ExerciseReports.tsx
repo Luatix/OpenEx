@@ -1,17 +1,17 @@
 import { Add } from '@mui/icons-material';
 import { Fab } from '@mui/material';
-import { FunctionComponent, useContext, useState } from 'react';
+import { type FunctionComponent, useContext, useState } from 'react';
 import { useNavigate } from 'react-router';
 
 import { addReportForExercise, deleteReportForExercise, fetchReportsForExercise, updateReportForExercise } from '../../../../../actions/reports/report-actions';
-import type { ReportsHelper } from '../../../../../actions/reports/report-helper';
+import { type ReportsHelper } from '../../../../../actions/reports/report-helper';
 import Dialog from '../../../../../components/common/Dialog';
 import { useFormatter } from '../../../../../components/i18n';
 import { useHelper } from '../../../../../store';
-import type { Report, ReportInput } from '../../../../../utils/api-types';
+import { type Report, type ReportInput } from '../../../../../utils/api-types';
 import { useAppDispatch } from '../../../../../utils/hooks';
 import useDataLoader from '../../../../../utils/hooks/useDataLoader';
-import { PermissionsContext, ReportContext, ReportContextType } from '../../../common/Context';
+import { PermissionsContext, ReportContext, type ReportContextType } from '../../../common/Context';
 import Reports from '../../../components/reports/Reports';
 import ExerciseReportForm from './ExerciseReportForm';
 

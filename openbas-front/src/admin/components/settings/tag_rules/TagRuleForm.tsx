@@ -1,14 +1,14 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Button, Typography } from '@mui/material';
-import { FunctionComponent, SyntheticEvent, useState } from 'react';
-import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import { type FunctionComponent, type SyntheticEvent, useState } from 'react';
+import { Controller, type SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
 
 import TagFieldSingle from '../../../../components/fields/TagFieldSingle';
 import { useFormatter } from '../../../../components/i18n';
 import {
-  TagRuleInput, TagRuleOutput,
+  type TagRuleInput, type TagRuleOutput,
 } from '../../../../utils/api-types';
 import { zodImplement } from '../../../../utils/Zod';
 import AssetGroupPopover from '../../assets/asset_groups/AssetGroupPopover';

@@ -1,7 +1,7 @@
 import { AccountCircleOutlined } from '@mui/icons-material';
-import { AppBar, IconButton, Menu, MenuItem, MenuProps, Toolbar } from '@mui/material';
+import { AppBar, IconButton, Menu, MenuItem, type MenuProps, Toolbar } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
-import { FunctionComponent, MouseEvent as ReactMouseEvent, useState } from 'react';
+import { type FunctionComponent, type MouseEvent as ReactMouseEvent, useState } from 'react';
 import { Link, useNavigate } from 'react-router';
 import { makeStyles } from 'tss-react/mui';
 

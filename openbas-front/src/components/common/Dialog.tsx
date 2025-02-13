@@ -1,5 +1,5 @@
-import { Breakpoint, Dialog as DialogMUI, DialogContent, DialogTitle } from '@mui/material';
-import { cloneElement, FunctionComponent, ReactElement } from 'react';
+import { type Breakpoint, Dialog as DialogMUI, DialogContent, DialogTitle } from '@mui/material';
+import { cloneElement, type FunctionComponent, type ReactElement } from 'react';
 
 import Transition from './Transition';
 

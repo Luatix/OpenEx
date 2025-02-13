@@ -17,16 +17,16 @@ import {
   Typography,
 } from '@mui/material';
 import { CogOutline, InformationOutline } from 'mdi-material-ui';
-import { FunctionComponent, useEffect, useState } from 'react';
-import { Controller, FieldArrayWithId, useFieldArray, UseFieldArrayRemove, UseFormReturn } from 'react-hook-form';
+import { type FunctionComponent, useEffect, useState } from 'react';
+import { Controller, type FieldArrayWithId, useFieldArray, type UseFieldArrayRemove, type UseFormReturn } from 'react-hook-form';
 import { makeStyles } from 'tss-react/mui';
 
-import type { ContractElement, InjectorContractConverted } from '../../../../../actions/injector_contracts/InjectorContract';
+import { type ContractElement, type InjectorContractConverted } from '../../../../../actions/injector_contracts/InjectorContract';
 import { directFetchInjectorContract } from '../../../../../actions/InjectorContracts';
 import { useFormatter } from '../../../../../components/i18n';
 import InjectContractComponent from '../../../../../components/InjectContractComponent';
 import RegexComponent from '../../../../../components/RegexComponent';
-import type { ImportMapperAddInput } from '../../../../../utils/api-types';
+import { type ImportMapperAddInput } from '../../../../../utils/api-types';
 
 const useStyles = makeStyles()(() => ({
   rulesArray: {

@@ -1,4 +1,4 @@
-import { FunctionComponent, ReactElement, useEffect } from 'react';
+import { type FunctionComponent, type ReactElement, useEffect } from 'react';
 import { useNavigate } from 'react-router';
 
 import { MESSAGING$ } from '../utils/Environment';

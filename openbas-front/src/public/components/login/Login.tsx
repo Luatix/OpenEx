@@ -5,7 +5,7 @@ import Markdown from 'react-markdown';
 import { makeStyles } from 'tss-react/mui';
 
 import { askToken, checkKerberos, fetchPlatformParameters } from '../../../actions/Application';
-import type { LoggedHelper } from '../../../actions/helper';
+import { type LoggedHelper } from '../../../actions/helper';
 import { useFormatter } from '../../../components/i18n';
 import byFiligranDark from '../../../static/images/by_filigran_dark.png';
 import byFiligranLight from '../../../static/images/by_filigran_light.png';

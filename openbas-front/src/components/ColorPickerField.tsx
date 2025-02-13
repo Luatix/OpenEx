@@ -1,9 +1,9 @@
 import { ColorLensOutlined } from '@mui/icons-material';
-import { IconButton, InputAdornment, Popover, TextField as MuiTextField, TextFieldProps } from '@mui/material';
-import { FunctionComponent, MouseEvent as ReactMouseEvent, useState } from 'react';
+import { IconButton, InputAdornment, Popover, TextField as MuiTextField, type TextFieldProps } from '@mui/material';
+import { type FunctionComponent, type MouseEvent as ReactMouseEvent, useState } from 'react';
 // @ts-expect-error react-color does not have types
 import { SketchPicker } from 'react-color';
-import { Control, useController } from 'react-hook-form';
+import { type Control, useController } from 'react-hook-form';
 
 type Props = Omit<TextFieldProps, 'name'> & {
   control: Control;

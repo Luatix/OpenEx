@@ -1,7 +1,7 @@
 import { KeyboardArrowRight } from '@mui/icons-material';
-import { TabPanelProps } from '@mui/lab';
+import { type TabPanelProps } from '@mui/lab';
 import { Box, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Tab, Tabs } from '@mui/material';
-import { CSSProperties, SyntheticEvent, useEffect, useState } from 'react';
+import { type CSSProperties, type SyntheticEvent, useEffect, useState } from 'react';
 import { Link, useSearchParams } from 'react-router';
 import { makeStyles } from 'tss-react/mui';
 
@@ -9,10 +9,10 @@ import { fullTextSearch, fullTextSearchByClass } from '../../../actions/fullText
 import Breadcrumbs from '../../../components/Breadcrumbs';
 import PaginationComponent from '../../../components/common/pagination/PaginationComponent';
 import { buildSearchPagination } from '../../../components/common/queryable/QueryableUtils';
-import { Header } from '../../../components/common/SortHeadersList';
+import { type Header } from '../../../components/common/SortHeadersList';
 import { useFormatter } from '../../../components/i18n';
 import ItemTags from '../../../components/ItemTags';
-import type { FullTextSearchCountResult, FullTextSearchResult, SearchPaginationInput } from '../../../utils/api-types';
+import { type FullTextSearchCountResult, type FullTextSearchResult, type SearchPaginationInput } from '../../../utils/api-types';
 import useEntityIcon from '../../../utils/hooks/useEntityIcon';
 import useEntityLink from './useEntityLink';
 

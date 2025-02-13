@@ -3,8 +3,8 @@ import { Paper, Typography } from '@mui/material';
 import { useFormatter } from '../../../../../components/i18n';
 import ItemStatus from '../../../../../components/ItemStatus';
 import {
-  AgentStatusOutput,
-  EndpointOutput, InjectStatusOutput,
+  type AgentStatusOutput,
+  type EndpointOutput, type InjectStatusOutput,
 } from '../../../../../utils/api-types';
 import EndpointTraces from './traces/EndpointTraces';
 import ExecutionTime from './traces/ExecutionTime';

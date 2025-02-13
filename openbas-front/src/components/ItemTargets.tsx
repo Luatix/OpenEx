@@ -1,10 +1,10 @@
 import { DevicesOtherOutlined, Groups3Outlined, HorizontalRule } from '@mui/icons-material';
 import { Chip, Tooltip } from '@mui/material';
 import { SelectGroup } from 'mdi-material-ui';
-import { FunctionComponent } from 'react';
+import { type FunctionComponent } from 'react';
 import { makeStyles } from 'tss-react/mui';
 
-import type { TargetSimple } from '../utils/api-types';
+import { type TargetSimple } from '../utils/api-types';
 import { getLabelOfRemainingItems, getRemainingItemsCount, getVisibleItems, truncate } from '../utils/String';
 
 const useStyles = makeStyles()(() => ({

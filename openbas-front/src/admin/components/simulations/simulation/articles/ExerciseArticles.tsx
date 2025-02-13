@@ -1,9 +1,9 @@
 import { useParams } from 'react-router';
 
 import { fetchExerciseArticles } from '../../../../../actions/channels/article-action';
-import type { ArticlesHelper } from '../../../../../actions/channels/article-helper';
+import { type ArticlesHelper } from '../../../../../actions/channels/article-helper';
 import { useHelper } from '../../../../../store';
-import type { Exercise } from '../../../../../utils/api-types';
+import { type Exercise } from '../../../../../utils/api-types';
 import { useAppDispatch } from '../../../../../utils/hooks';
 import useDataLoader from '../../../../../utils/hooks/useDataLoader';
 import Articles from '../../../common/articles/Articles';

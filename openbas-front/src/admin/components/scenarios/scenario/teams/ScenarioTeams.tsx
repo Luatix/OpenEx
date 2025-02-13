@@ -1,14 +1,14 @@
 import { Paper, Typography } from '@mui/material';
-import { FunctionComponent, useContext } from 'react';
+import { type FunctionComponent, useContext } from 'react';
 import { useParams } from 'react-router';
 
 import {
   fetchScenarioTeams,
 } from '../../../../../actions/scenarios/scenario-actions';
-import type { ScenariosHelper } from '../../../../../actions/scenarios/scenario-helper';
+import { type ScenariosHelper } from '../../../../../actions/scenarios/scenario-helper';
 import { useFormatter } from '../../../../../components/i18n';
 import { useHelper } from '../../../../../store';
-import type { Scenario, Team } from '../../../../../utils/api-types';
+import { type Scenario, type Team } from '../../../../../utils/api-types';
 import { useAppDispatch } from '../../../../../utils/hooks';
 import useDataLoader from '../../../../../utils/hooks/useDataLoader';
 import { PermissionsContext, TeamContext } from '../../../common/Context';

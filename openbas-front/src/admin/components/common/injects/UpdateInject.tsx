@@ -1,13 +1,13 @@
 import { Tab, Tabs } from '@mui/material';
-import { FunctionComponent, SyntheticEvent, useEffect, useRef, useState } from 'react';
+import { type FunctionComponent, type SyntheticEvent, useEffect, useRef, useState } from 'react';
 
 import { fetchInject } from '../../../../actions/Inject';
-import type { InjectOutputType } from '../../../../actions/injects/Inject';
-import type { InjectHelper } from '../../../../actions/injects/inject-helper';
+import { type InjectOutputType } from '../../../../actions/injects/Inject';
+import { type InjectHelper } from '../../../../actions/injects/inject-helper';
 import Drawer from '../../../../components/common/Drawer';
 import { useFormatter } from '../../../../components/i18n';
 import { useHelper } from '../../../../store';
-import type { Inject } from '../../../../utils/api-types';
+import { type Inject } from '../../../../utils/api-types';
 import { useAppDispatch } from '../../../../utils/hooks';
 import useDataLoader from '../../../../utils/hooks/useDataLoader';
 import UpdateInjectDetails from './UpdateInjectDetails';

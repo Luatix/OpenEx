@@ -1,10 +1,10 @@
 import { ChevronRightOutlined, SchoolOutlined } from '@mui/icons-material';
 import { List, ListItem, ListItemButton, ListItemIcon, ListItemSecondaryAction, ListItemText } from '@mui/material';
-import { CSSProperties, useState } from 'react';
+import { type CSSProperties, useState } from 'react';
 import { Link } from 'react-router';
 import { makeStyles } from 'tss-react/mui';
 
-import type { UserHelper } from '../../../../actions/helper';
+import { type UserHelper } from '../../../../actions/helper';
 import { searchLessonsTemplates } from '../../../../actions/Lessons';
 import Breadcrumbs from '../../../../components/Breadcrumbs';
 import PaginationComponent from '../../../../components/common/pagination/PaginationComponent.js';
@@ -13,7 +13,7 @@ import { initSorting } from '../../../../components/common/queryable/Page';
 import { buildSearchPagination } from '../../../../components/common/queryable/QueryableUtils';
 import { useFormatter } from '../../../../components/i18n';
 import { useHelper } from '../../../../store';
-import type { LessonsTemplate, SearchPaginationInput } from '../../../../utils/api-types';
+import { type LessonsTemplate, type SearchPaginationInput } from '../../../../utils/api-types';
 import CreateLessonsTemplate from './CreateLessonsTemplate';
 
 const useStyles = makeStyles()(() => ({

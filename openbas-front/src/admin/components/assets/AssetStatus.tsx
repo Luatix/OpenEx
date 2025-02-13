@@ -1,5 +1,5 @@
 import { Chip } from '@mui/material';
-import { FunctionComponent } from 'react';
+import { type FunctionComponent } from 'react';
 import { makeStyles } from 'tss-react/mui';
 
 import { useFormatter } from '../../../components/i18n';

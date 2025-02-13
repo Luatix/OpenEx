@@ -1,10 +1,10 @@
 import { Autocomplete, Checkbox, TextField } from '@mui/material';
 import { DateTimePicker } from '@mui/x-date-pickers';
-import { FunctionComponent, useEffect } from 'react';
+import { type FunctionComponent, useEffect } from 'react';
 
-import type { Filter, PropertySchemaDTO } from '../../../../utils/api-types';
+import { type Filter, type PropertySchemaDTO } from '../../../../utils/api-types';
 import { useFormatter } from '../../../i18n';
-import { FilterHelpers } from './FilterHelpers';
+import { type FilterHelpers } from './FilterHelpers';
 import useSearchOptions from './useSearchOptions';
 import wordsToExcludeFromTranslation from './WordsToExcludeFromTranslation';
 

@@ -1,12 +1,12 @@
 import { Box, Chip, Drawer as MuiDrawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
 import { SelectGroup } from 'mdi-material-ui';
-import { CSSProperties, Fragment, useMemo, useState } from 'react';
+import { type CSSProperties, Fragment, useMemo, useState } from 'react';
 import { useSearchParams } from 'react-router';
 import { makeStyles } from 'tss-react/mui';
 
 import { searchAssetGroups } from '../../../../actions/asset_groups/assetgroup-action';
-import type { EndpointHelper } from '../../../../actions/assets/asset-helper';
-import type { TagHelper, UserHelper } from '../../../../actions/helper';
+import { type EndpointHelper } from '../../../../actions/assets/asset-helper';
+import { type TagHelper, type UserHelper } from '../../../../actions/helper';
 import Breadcrumbs from '../../../../components/Breadcrumbs';
 import ClickableModeChip from '../../../../components/common/chips/ClickableModeChip';
 import ExportButton from '../../../../components/common/ExportButton';
@@ -16,11 +16,11 @@ import PaginationComponentV2 from '../../../../components/common/queryable/pagin
 import { buildSearchPagination } from '../../../../components/common/queryable/QueryableUtils';
 import SortHeadersComponentV2 from '../../../../components/common/queryable/sort/SortHeadersComponentV2';
 import { useQueryableWithLocalStorage } from '../../../../components/common/queryable/useQueryableWithLocalStorage';
-import { Header } from '../../../../components/common/SortHeadersList';
+import { type Header } from '../../../../components/common/SortHeadersList';
 import { useFormatter } from '../../../../components/i18n';
 import ItemTags from '../../../../components/ItemTags';
 import { useHelper } from '../../../../store';
-import type { AssetGroup, AssetGroupOutput } from '../../../../utils/api-types';
+import { type AssetGroup, type AssetGroupOutput } from '../../../../utils/api-types';
 import AssetGroupCreation from './AssetGroupCreation';
 import AssetGroupManagement from './AssetGroupManagement';
 import AssetGroupPopover from './AssetGroupPopover';

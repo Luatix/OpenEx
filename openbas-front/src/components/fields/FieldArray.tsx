@@ -1,5 +1,5 @@
-import { ReactElement } from 'react';
-import { Control, FieldValues, useFieldArray, UseFieldArrayAppend, UseFieldArrayRemove } from 'react-hook-form';
+import { type ReactElement } from 'react';
+import { type Control, type FieldValues, useFieldArray, type UseFieldArrayAppend, type UseFieldArrayRemove } from 'react-hook-form';
 
 interface Props {
   control: Control;

@@ -1,5 +1,5 @@
 import {
-  PaletteColorOptions,
+  type PaletteColorOptions,
 } from '@mui/material';
 
 declare module '@mui/material/IconButton' {

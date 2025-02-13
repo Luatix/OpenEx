@@ -1,4 +1,4 @@
-import type { InjectExpectation } from '../../../../../utils/api-types';
+import { type InjectExpectation } from '../../../../../utils/api-types';
 
 export interface InjectExpectationsStore extends Omit<InjectExpectation, 'inject_expectation_team' | 'inject_expectation_user' | 'inject_expectation_article' | 'inject_expectation_challenge' | 'inject_expectation_asset'> {
   inject_expectation_team: string | undefined;

@@ -1,9 +1,9 @@
 import { ListItemIcon, ListItemText, MenuItem } from '@mui/material';
-import { FunctionComponent } from 'react';
+import { type FunctionComponent } from 'react';
 import { Link, useLocation } from 'react-router';
 
 import { useFormatter } from '../../../i18n';
-import { LeftMenuItem } from './leftmenu-model';
+import { type LeftMenuItem } from './leftmenu-model';
 import StyledTooltip from './StyledTooltip';
 
 interface Props {

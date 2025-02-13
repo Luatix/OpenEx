@@ -1,10 +1,10 @@
 import { Divider, Drawer, MenuList, Toolbar } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
-import { Fragment, FunctionComponent } from 'react';
+import { Fragment, type FunctionComponent } from 'react';
 
 import { computeBannerSettings } from '../../../../public/components/systembanners/utils';
 import useAuth from '../../../../utils/hooks/useAuth';
-import { hasHref, LeftMenuEntries } from './leftmenu-model';
+import { hasHref, type LeftMenuEntries } from './leftmenu-model';
 import MenuItemGroup from './MenuItemGroup';
 import MenuItemLogo from './MenuItemLogo';
 import MenuItemSingle from './MenuItemSingle';

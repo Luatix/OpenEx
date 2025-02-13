@@ -1,4 +1,4 @@
-import type { Collector } from '../../utils/api-types';
+import { type Collector } from '../../utils/api-types';
 
 export interface CollectorHelper {
   getCollectors: () => Collector[];

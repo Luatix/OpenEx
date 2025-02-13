@@ -1,4 +1,4 @@
-import type { Filter } from '../../../../utils/api-types';
+import { type Filter } from '../../../../utils/api-types';
 
 export interface FilterHelpers {
   handleSwitchMode: () => void;

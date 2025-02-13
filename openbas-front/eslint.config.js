@@ -90,7 +90,7 @@ export default [
         },
       ],
       '@typescript-eslint/no-use-before-define': 'error',
-      // '@typescript-eslint/consistent-type-imports': ['error', { fixStyle: 'inline-type-imports' }],
+      '@typescript-eslint/consistent-type-imports': ['error', { fixStyle: 'inline-type-imports' }],
 
       // eslint-plugin-react rules
       'react/prop-types': 0,

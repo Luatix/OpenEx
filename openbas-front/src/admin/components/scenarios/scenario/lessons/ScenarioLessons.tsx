@@ -1,12 +1,12 @@
 import { useParams } from 'react-router';
 
 import { addScenarioEvaluation, fetchScenarioEvaluations, updateScenarioEvaluation } from '../../../../../actions/Evaluation';
-import type { ExercisesHelper } from '../../../../../actions/exercises/exercise-helper';
-import type { UserHelper } from '../../../../../actions/helper';
+import { type ExercisesHelper } from '../../../../../actions/exercises/exercise-helper';
+import { type UserHelper } from '../../../../../actions/helper';
 import { fetchScenarioInjects } from '../../../../../actions/Inject';
-import type { InjectHelper } from '../../../../../actions/injects/inject-helper';
+import { type InjectHelper } from '../../../../../actions/injects/inject-helper';
 import { fetchLessonsTemplates } from '../../../../../actions/Lessons';
-import type { LessonsTemplatesHelper } from '../../../../../actions/lessons/lesson-helper';
+import { type LessonsTemplatesHelper } from '../../../../../actions/lessons/lesson-helper';
 import { addScenarioObjective, deleteScenarioObjective, fetchScenarioObjectives, updateScenarioObjective } from '../../../../../actions/Objective';
 import {
   addLessonsCategory,
@@ -23,24 +23,24 @@ import {
   updateLessonsQuestion,
   updateScenarioLessons,
 } from '../../../../../actions/scenarios/scenario-actions';
-import type { ScenariosHelper } from '../../../../../actions/scenarios/scenario-helper';
+import { type ScenariosHelper } from '../../../../../actions/scenarios/scenario-helper';
 import { fetchTeams } from '../../../../../actions/teams/team-actions';
-import type { TeamsHelper } from '../../../../../actions/teams/team-helper';
+import { type TeamsHelper } from '../../../../../actions/teams/team-helper';
 import { fetchPlayers } from '../../../../../actions/User';
 import { useHelper } from '../../../../../store';
-import type {
-  EvaluationInput,
-  LessonsCategoryCreateInput,
-  LessonsCategoryTeamsInput,
-  LessonsCategoryUpdateInput,
-  LessonsQuestionCreateInput,
-  LessonsQuestionUpdateInput,
-  ObjectiveInput, Scenario,
+import {
+  type EvaluationInput,
+  type LessonsCategoryCreateInput,
+  type LessonsCategoryTeamsInput,
+  type LessonsCategoryUpdateInput,
+  type LessonsQuestionCreateInput,
+  type LessonsQuestionUpdateInput,
+  type ObjectiveInput, type Scenario,
 } from '../../../../../utils/api-types';
 import { usePermissions } from '../../../../../utils/Exercise';
 import { useAppDispatch } from '../../../../../utils/hooks';
 import useDataLoader from '../../../../../utils/hooks/useDataLoader';
-import { LessonContext, LessonContextType } from '../../../common/Context';
+import { LessonContext, type LessonContextType } from '../../../common/Context';
 import Lessons from '../../../lessons/scenarios/Lessons';
 
 const ScenarioLessons = () => {

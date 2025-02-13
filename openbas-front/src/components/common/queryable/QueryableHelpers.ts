@@ -1,8 +1,8 @@
-import { FilterHelpers } from './filter/FilterHelpers';
-import { PaginationHelpers } from './pagination/PaginationHelpers';
-import { SortHelpers } from './sort/SortHelpers';
-import { TextSearchHelpers } from './textSearch/TextSearchHelpers';
-import { UriHelpers } from './uri/UriHelpers';
+import { type FilterHelpers } from './filter/FilterHelpers';
+import { type PaginationHelpers } from './pagination/PaginationHelpers';
+import { type SortHelpers } from './sort/SortHelpers';
+import { type TextSearchHelpers } from './textSearch/TextSearchHelpers';
+import { type UriHelpers } from './uri/UriHelpers';
 
 export interface QueryableHelpers {
   textSearchHelpers: TextSearchHelpers;

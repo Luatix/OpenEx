@@ -6,7 +6,7 @@ import { Alert, Button, Dialog, DialogActions, DialogContent, DialogTitle, TextF
 import MDEditor, { commands } from '@uiw/react-md-editor/nohighlight';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
-import { FunctionComponent, useEffect, useRef } from 'react';
+import { type FunctionComponent, useEffect, useRef } from 'react';
 
 // eslint-disable-next-line import/no-cycle
 import TextFieldAskAI from '../../admin/components/common/form/TextFieldAskAI';

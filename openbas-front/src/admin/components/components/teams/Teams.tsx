@@ -1,13 +1,13 @@
 import { GroupsOutlined } from '@mui/icons-material';
 import { Drawer, List, ListItem, ListItemIcon, ListItemSecondaryAction, ListItemText } from '@mui/material';
-import { CSSProperties, useState } from 'react';
+import { type CSSProperties, useState } from 'react';
 import { useSearchParams } from 'react-router';
 import { makeStyles } from 'tss-react/mui';
 
-import type { EndpointHelper } from '../../../../actions/assets/asset-helper';
-import type { TagHelper, UserHelper } from '../../../../actions/helper';
+import { type EndpointHelper } from '../../../../actions/assets/asset-helper';
+import { type TagHelper, type UserHelper } from '../../../../actions/helper';
 import { searchTeams } from '../../../../actions/teams/team-actions';
-import { TeamsHelper } from '../../../../actions/teams/team-helper';
+import { type TeamsHelper } from '../../../../actions/teams/team-helper';
 import Breadcrumbs from '../../../../components/Breadcrumbs';
 import PaginationComponent from '../../../../components/common/pagination/PaginationComponent';
 import SortHeadersComponent from '../../../../components/common/pagination/SortHeadersComponent';
@@ -16,7 +16,7 @@ import { buildSearchPagination } from '../../../../components/common/queryable/Q
 import { useFormatter } from '../../../../components/i18n';
 import ItemTags from '../../../../components/ItemTags';
 import { useHelper } from '../../../../store';
-import type { SearchPaginationInput, Team } from '../../../../utils/api-types';
+import { type SearchPaginationInput, type Team } from '../../../../utils/api-types';
 import CreateTeam from './CreateTeam';
 import TeamPlayers from './TeamPlayers';
 import TeamPopover from './TeamPopover';

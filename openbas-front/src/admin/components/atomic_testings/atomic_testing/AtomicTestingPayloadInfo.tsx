@@ -1,6 +1,6 @@
 import { Chip, Grid, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Tooltip, Typography } from '@mui/material';
-import { Props } from 'html-react-parser/lib/attributes-to-props';
-import { FunctionComponent, useEffect, useState } from 'react';
+import { type Props } from 'html-react-parser/lib/attributes-to-props';
+import { type FunctionComponent, useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import { makeStyles } from 'tss-react/mui';
 
@@ -9,7 +9,7 @@ import { useFormatter } from '../../../../components/i18n';
 import ItemCopy from '../../../../components/ItemCopy';
 import ItemTags from '../../../../components/ItemTags';
 import PlatformIcon from '../../../../components/PlatformIcon';
-import { AttackPatternSimple, PayloadArgument, PayloadCommandBlock, PayloadPrerequisite, StatusPayloadOutput } from '../../../../utils/api-types';
+import { type AttackPatternSimple, type PayloadArgument, type PayloadCommandBlock, type PayloadPrerequisite, type StatusPayloadOutput } from '../../../../utils/api-types';
 import { emptyFilled } from '../../../../utils/String';
 
 const useStyles = makeStyles()(() => ({

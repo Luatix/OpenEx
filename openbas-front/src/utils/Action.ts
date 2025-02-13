@@ -1,9 +1,9 @@
-import { AxiosError } from 'axios';
+import { type AxiosError } from 'axios';
 import { FORM_ERROR } from 'final-form';
-import type { Schema } from 'normalizr';
+import { type Schema } from 'normalizr';
 import * as R from 'ramda';
 import { createIntl, createIntlCache } from 'react-intl';
-import { Dispatch } from 'redux';
+import { type Dispatch } from 'redux';
 import Immutable from 'seamless-immutable';
 
 import { LANG } from '../components/AppIntlProvider';

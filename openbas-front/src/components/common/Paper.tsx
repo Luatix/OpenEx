@@ -1,5 +1,5 @@
 import { Paper as PaperMui } from '@mui/material';
-import { FunctionComponent, ReactElement } from 'react';
+import { type FunctionComponent, type ReactElement } from 'react';
 import { makeStyles } from 'tss-react/mui';
 
 interface PaperProps {

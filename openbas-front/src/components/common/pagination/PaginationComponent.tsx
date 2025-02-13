@@ -1,17 +1,17 @@
 import { Button, Chip, TablePagination, ToggleButtonGroup } from '@mui/material';
-import { ChangeEvent, cloneElement, MouseEvent as ReactMouseEvent, ReactElement, useEffect, useState } from 'react';
+import { type ChangeEvent, cloneElement, type MouseEvent as ReactMouseEvent, type ReactElement, useEffect, useState } from 'react';
 import { makeStyles } from 'tss-react/mui';
 
 import MitreFilter, { MITRE_FILTER_KEY } from '../../../admin/components/common/filters/MitreFilter';
 import mitreAttack from '../../../static/images/misc/attack.png';
-import type { AttackPattern, Filter, SearchPaginationInput } from '../../../utils/api-types';
+import { type AttackPattern, type Filter, type SearchPaginationInput } from '../../../utils/api-types';
 import { useFormatter } from '../../i18n';
 import SearchFilter from '../../SearchFilter';
 import Drawer from '../Drawer';
-import ExportButton, { ExportProps } from '../ExportButton';
-import { FilterHelpers } from '../queryable/filter/FilterHelpers';
+import ExportButton, { type ExportProps } from '../ExportButton';
+import { type FilterHelpers } from '../queryable/filter/FilterHelpers';
 import { isEmptyFilter } from '../queryable/filter/FilterUtils';
-import type { Page } from '../queryable/Page';
+import { type Page } from '../queryable/Page';
 
 const useStyles = makeStyles()(() => ({
   container: {

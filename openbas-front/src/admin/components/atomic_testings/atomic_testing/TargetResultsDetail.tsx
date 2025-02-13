@@ -22,8 +22,8 @@ import {
   Typography,
 } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
-import { Edge, MarkerType, ReactFlow, ReactFlowProvider, useEdgesState, useNodesState, useReactFlow } from '@xyflow/react';
-import { FunctionComponent, SyntheticEvent, useContext, useEffect, useState } from 'react';
+import { type Edge, MarkerType, ReactFlow, ReactFlowProvider, useEdgesState, useNodesState, useReactFlow } from '@xyflow/react';
+import { type FunctionComponent, type SyntheticEvent, useContext, useEffect, useState } from 'react';
 import { makeStyles } from 'tss-react/mui';
 
 import { fetchInjectResultOverviewOutput, fetchTargetResult } from '../../../../actions/atomic_testings/atomic-testing-actions';
@@ -31,20 +31,20 @@ import { deleteInjectExpectationResult } from '../../../../actions/Exercise';
 import Transition from '../../../../components/common/Transition';
 import { useFormatter } from '../../../../components/i18n';
 import ItemResult from '../../../../components/ItemResult';
-import { type InjectExpectation, InjectExpectationResult, InjectResultOverviewOutput, InjectTargetWithResult } from '../../../../utils/api-types';
+import { type InjectExpectation, type InjectExpectationResult, type InjectResultOverviewOutput, type InjectTargetWithResult } from '../../../../utils/api-types';
 import useAutoLayout, { type LayoutOptions } from '../../../../utils/flows/useAutoLayout';
 import { useAppDispatch } from '../../../../utils/hooks';
 import { emptyFilled, truncate } from '../../../../utils/String';
 import { splitDuration } from '../../../../utils/Time';
 import { isNotEmptyField } from '../../../../utils/utils';
-import type { InjectExpectationsStore } from '../../common/injects/expectations/Expectation';
+import { type InjectExpectationsStore } from '../../common/injects/expectations/Expectation';
 import { isTechnicalExpectation } from '../../common/injects/expectations/ExpectationUtils';
 import InjectIcon from '../../common/injects/InjectIcon';
 import DetectionPreventionExpectationsValidationForm from '../../simulations/simulation/validation/expectations/DetectionPreventionExpectationsValidationForm';
 import ManualExpectationsValidationForm from '../../simulations/simulation/validation/expectations/ManualExpectationsValidationForm';
-import { InjectResultOverviewOutputContext, InjectResultOverviewOutputContextType } from '../InjectResultOverviewOutputContext';
+import { InjectResultOverviewOutputContext, type InjectResultOverviewOutputContextType } from '../InjectResultOverviewOutputContext';
 import nodeTypes from './types/nodes';
-import { NodeResultStep } from './types/nodes/NodeResultStep';
+import { type NodeResultStep } from './types/nodes/NodeResultStep';
 
 interface Steptarget {
   label: string;

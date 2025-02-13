@@ -1,6 +1,6 @@
 import { createContext } from 'react';
 
-import type { InjectResultOverviewOutput } from '../../../utils/api-types';
+import { type InjectResultOverviewOutput } from '../../../utils/api-types';
 
 export type InjectResultOverviewOutputContextType = {
   injectResultOverviewOutput: InjectResultOverviewOutput | null;

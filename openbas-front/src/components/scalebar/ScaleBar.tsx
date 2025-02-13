@@ -1,9 +1,9 @@
 import { useTheme } from '@mui/material/styles';
-import { FunctionComponent } from 'react';
+import { type FunctionComponent } from 'react';
 import { makeStyles } from 'tss-react/mui';
 
 import { useFormatter } from '../i18n';
-import { Scale } from './Tick';
+import { type Scale } from './Tick';
 
 const useStyles = makeStyles()(theme => ({
   scaleBar: {

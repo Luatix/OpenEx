@@ -2,8 +2,8 @@ import { ToggleButtonGroup } from '@mui/material';
 import { useState } from 'react';
 
 import { searchExercises } from '../../../actions/Exercise';
-import type { ExercisesHelper } from '../../../actions/exercises/exercise-helper';
-import type { UserHelper } from '../../../actions/helper';
+import { type ExercisesHelper } from '../../../actions/exercises/exercise-helper';
+import { type UserHelper } from '../../../actions/helper';
 import Breadcrumbs from '../../../components/Breadcrumbs';
 import ExportButton from '../../../components/common/ExportButton';
 import { buildEmptyFilter } from '../../../components/common/queryable/filter/FilterUtils';
@@ -13,7 +13,7 @@ import { buildSearchPagination } from '../../../components/common/queryable/Quer
 import { useQueryableWithLocalStorage } from '../../../components/common/queryable/useQueryableWithLocalStorage';
 import { useFormatter } from '../../../components/i18n';
 import { useHelper } from '../../../store';
-import type { ExerciseSimple, FilterGroup, SearchPaginationInput } from '../../../utils/api-types';
+import { type ExerciseSimple, type FilterGroup, type SearchPaginationInput } from '../../../utils/api-types';
 import ExerciseList from './ExerciseList';
 import ImportUploaderExercise from './ImportUploaderExercise';
 import ExerciseCreation from './simulation/ExerciseCreation';

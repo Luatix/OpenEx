@@ -1,15 +1,15 @@
 import { KeyboardArrowRightOutlined } from '@mui/icons-material';
 import { Alert, Button, List, ListItem, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
 import * as R from 'ramda';
-import { FunctionComponent, useState } from 'react';
+import { type FunctionComponent, useState } from 'react';
 import { makeStyles } from 'tss-react/mui';
 
-import type { Contract } from '../../../../../../actions/contract/contract';
+import { type Contract } from '../../../../../../actions/contract/contract';
 import Drawer from '../../../../../../components/common/Drawer';
 import { useFormatter } from '../../../../../../components/i18n';
-import type { InjectExpectationResult } from '../../../../../../utils/api-types';
+import { type InjectExpectationResult } from '../../../../../../utils/api-types';
 import { truncate } from '../../../../../../utils/String';
-import type { InjectExpectationsStore } from '../../../../common/injects/expectations/Expectation';
+import { type InjectExpectationsStore } from '../../../../common/injects/expectations/Expectation';
 import { typeIcon } from '../../../../common/injects/expectations/ExpectationUtils';
 import ExpectationLine from './ExpectationLine';
 

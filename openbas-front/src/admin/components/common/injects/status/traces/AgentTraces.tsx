@@ -4,7 +4,7 @@ import { useState } from 'react';
 
 import { useFormatter } from '../../../../../../components/i18n';
 import ItemStatus from '../../../../../../components/ItemStatus';
-import { AgentStatusOutput, ExecutionTracesOutput } from '../../../../../../utils/api-types';
+import { type AgentStatusOutput, type ExecutionTracesOutput } from '../../../../../../utils/api-types';
 import ExecutionTime from './ExecutionTime';
 import TraceMessage from './TraceMessage';
 

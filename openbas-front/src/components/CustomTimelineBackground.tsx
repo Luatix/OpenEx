@@ -1,7 +1,7 @@
 import { useTheme } from '@mui/material/styles';
 import { type BackgroundProps, type ReactFlowState, useStore } from '@xyflow/react';
 import cc from 'classcat';
-import { CSSProperties, memo, useRef } from 'react';
+import { type CSSProperties, memo, useRef } from 'react';
 import { shallow } from 'zustand/shallow';
 
 interface Props extends BackgroundProps {

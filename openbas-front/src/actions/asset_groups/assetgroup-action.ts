@@ -1,6 +1,13 @@
 import { Dispatch } from 'redux';
 
-import { delReferential, getReferential, postReferential, putReferential, simplePostCall } from '../../utils/Action';
+import {
+  delReferential,
+  getReferential,
+  postReferential,
+  putReferential,
+  simpleCall,
+  simplePostCall,
+} from '../../utils/Action';
 import type { AssetGroup, AssetGroupInput, SearchPaginationInput, UpdateAssetsOnAssetGroupInput } from '../../utils/api-types';
 import { arrayOfAssetGroups, assetGroup } from './assetgroup-schema';
 
@@ -49,4 +56,13 @@ export const findAssetGroups = (assetGroupIds: string[]) => {
 export const fetchAssetGroup = (assetGroupId: AssetGroup['asset_group_id']) => (dispatch: Dispatch) => {
   const uri = `${ASSET_GROUP_URI}/${assetGroupId}`;
   return getReferential(assetGroup, uri)(dispatch);
+};
+
+export const searchAssetGroupAsOption = (searchText: string = '', simulationOrScenarioId: string = '') => {
+  const params = { searchText, simulationOrScenarioId };
+  return simpleCall(`${ASSET_GROUP_URI}/options`, params);
+};
+
+export const searchAssetGroupByIdAsOption = (ids: string[]) => {
+  return simplePostCall(`${ASSET_GROUP_URI}/options`, ids);
 };

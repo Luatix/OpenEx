@@ -1,6 +1,6 @@
 import { Dispatch } from 'redux';
 
-import { delReferential, getReferential, putReferential, simplePostCall } from '../../utils/Action';
+import { delReferential, getReferential, putReferential, simpleCall, simplePostCall } from '../../utils/Action';
 import type { Endpoint, EndpointOutput, EndpointUpdateInput, SearchPaginationInput } from '../../utils/api-types';
 import { arrayOfEndpoints, endpoint } from './asset-schema';
 
@@ -38,4 +38,13 @@ export const findEndpoints = (endpointIds: string[]) => {
 export const fetchEndpoint = (endpointId: string) => (dispatch: Dispatch) => {
   const uri = `/api/endpoints/${endpointId}`;
   return getReferential(endpoint, uri)(dispatch);
+};
+
+export const searchEndpointAsOption = (searchText: string = '', simulationOrScenarioId: string = '') => {
+  const params = { searchText, simulationOrScenarioId };
+  return simpleCall(`${ENDPOINT_URI}/options`, params);
+};
+
+export const searchEndpointByIdAsOption = (ids: string[]) => {
+  return simplePostCall(`${ENDPOINT_URI}/options`, ids);
 };

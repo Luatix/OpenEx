@@ -90,4 +90,15 @@ public interface AssetGroupRepository
               + "WHERE iag.inject_id in :injectIds",
       nativeQuery = true)
   List<Object[]> assetGroupsByInjectIds(Set<String> injectIds);
+
+  @Query(
+      "SELECT ag FROM Inject i"
+          + " JOIN i.assetGroups ag"
+          + " WHERE ("
+          + "   :simulationOrScenarioId is NULL AND i.exercise.id is NULL AND i.scenario.id IS NULL"
+          + "   OR (i.exercise.id = :simulationOrScenarioId"
+          + "   OR i.scenario.id = :simulationOrScenarioId)"
+          + " ) AND (:name IS NULL OR ag.name iLIKE %:name%)")
+  List<AssetGroup> findAllBySimulationOrScenarioIdAndName(
+      String simulationOrScenarioId, String name);
 }

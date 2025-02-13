@@ -12,6 +12,7 @@ interface Props {
   availableFilterNames?: string[];
   helpers: FilterHelpers;
   pristine: boolean;
+  contextId?: string;
 }
 
 const FilterChips: FunctionComponent<Props> = ({
@@ -20,6 +21,7 @@ const FilterChips: FunctionComponent<Props> = ({
   availableFilterNames = [],
   helpers,
   pristine,
+  contextId,
 }) => {
   const filters = filterGroup?.filters?.filter(f => availableFilterNames.length === 0 || availableFilterNames.includes(f.key)) ?? [];
 
@@ -56,6 +58,7 @@ const FilterChips: FunctionComponent<Props> = ({
               helpers={helpers}
               propertySchema={property}
               pristine={pristine}
+              contextId={contextId}
             />
           </Fragment>
         );

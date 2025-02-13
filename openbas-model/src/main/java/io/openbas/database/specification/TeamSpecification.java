@@ -3,6 +3,7 @@ package io.openbas.database.specification;
 import io.openbas.database.model.Exercise;
 import io.openbas.database.model.Scenario;
 import io.openbas.database.model.Team;
+import jakarta.annotation.Nullable;
 import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.JoinType;
 import jakarta.validation.constraints.NotBlank;
@@ -44,5 +45,9 @@ public class TeamSpecification {
       Join<Team, Scenario> scenariosJoin = root.join("scenarios", JoinType.LEFT);
       return cb.equal(scenariosJoin.get("id"), scenarioId);
     };
+  }
+
+  public static Specification<Team> byName(@Nullable final String searchText) {
+    return UtilsSpecification.byName(searchText, "name");
   }
 }

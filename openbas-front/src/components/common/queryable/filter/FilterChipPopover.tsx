@@ -15,6 +15,7 @@ interface Props {
   open: boolean;
   onClose: () => void;
   anchorEl?: HTMLElement;
+  contextId?: string;
 }
 
 const FilterChipPopover: FunctionComponent<Props> = ({
@@ -24,6 +25,7 @@ const FilterChipPopover: FunctionComponent<Props> = ({
   open,
   onClose,
   anchorEl,
+  contextId,
 }) => {
   // Standard hooks
   const { t } = useFormatter();
@@ -55,7 +57,7 @@ const FilterChipPopover: FunctionComponent<Props> = ({
             </MenuItem>
           ))}
         </Select>
-        <FilterChipPopoverInput filter={filter} helpers={helpers} propertySchema={propertySchema} />
+        <FilterChipPopoverInput filter={filter} helpers={helpers} propertySchema={propertySchema} contextId={contextId} />
       </>
     );
   };

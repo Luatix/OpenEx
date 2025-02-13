@@ -1,11 +1,14 @@
 import { useState } from 'react';
 
+import { searchAssetGroupAsOption } from '../../../../actions/asset_groups/assetgroup-action';
+import { searchEndpointAsOption } from '../../../../actions/assets/endpoint-actions';
 import { searchAttackPatternsByNameAsOption } from '../../../../actions/AttackPattern';
 import { searchInjectorsByNameAsOption } from '../../../../actions/injectors/injector-action';
 import { searchKillChainPhasesByNameAsOption } from '../../../../actions/kill_chain_phases/killChainPhase-action';
 import { searchOrganizationsByNameAsOption } from '../../../../actions/organizations/organization-actions';
 import { searchScenarioAsOption, searchScenarioCategoryAsOption } from '../../../../actions/scenarios/scenario-actions';
 import { searchTagAsOption } from '../../../../actions/tags/tag-action';
+import { searchTeamsAsOption } from '../../../../actions/teams/team-actions';
 import { Option } from '../../../../utils/Option';
 import { useFormatter } from '../../../i18n';
 
@@ -15,7 +18,7 @@ const useSearchOptions = () => {
 
   const [options, setOptions] = useState<Option[]>([]);
 
-  const searchOptions = (filterKey: string, search: string = '') => {
+  const searchOptions = (filterKey: string, search: string = '', contextId: string = '') => {
     switch (filterKey) {
       case 'injector_contract_injector':
       case 'inject_injector_contract':
@@ -45,6 +48,21 @@ const useSearchOptions = () => {
       case 'team_tags':
       case 'user_tags':
         searchTagAsOption(search).then((response) => {
+          setOptions(response.data);
+        });
+        break;
+      case 'inject_asset_groups':
+        searchAssetGroupAsOption(search, contextId).then((response) => {
+          setOptions(response.data);
+        });
+        break;
+      case 'inject_assets':
+        searchEndpointAsOption(search, contextId).then((response) => {
+          setOptions(response.data);
+        });
+        break;
+      case 'inject_teams':
+        searchTeamsAsOption(search, contextId).then((response) => {
           setOptions(response.data);
         });
         break;

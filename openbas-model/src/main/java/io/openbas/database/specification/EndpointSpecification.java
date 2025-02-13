@@ -1,6 +1,7 @@
 package io.openbas.database.specification;
 
 import io.openbas.database.model.Endpoint;
+import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.NotBlank;
 import java.util.List;
 import org.jetbrains.annotations.NotNull;
@@ -37,5 +38,9 @@ public class EndpointSpecification {
 
   public static Specification<Endpoint> fromIds(@NotNull final List<String> ids) {
     return (root, query, builder) -> root.get("id").in(ids);
+  }
+
+  public static Specification<Endpoint> byName(@Nullable final String searchText) {
+    return UtilsSpecification.byName(searchText, "name");
   }
 }

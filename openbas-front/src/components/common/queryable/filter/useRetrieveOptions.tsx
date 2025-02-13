@@ -1,11 +1,14 @@
 import { useState } from 'react';
 
+import { searchAssetGroupByIdAsOption } from '../../../../actions/asset_groups/assetgroup-action';
+import { searchEndpointByIdAsOption } from '../../../../actions/assets/endpoint-actions';
 import { searchAttackPatternsByIdAsOption } from '../../../../actions/AttackPattern';
 import { searchInjectorByIdAsOptions } from '../../../../actions/injectors/injector-action';
 import { searchKillChainPhasesByIdAsOption } from '../../../../actions/kill_chain_phases/killChainPhase-action';
 import { searchOrganizationByIdAsOptions } from '../../../../actions/organizations/organization-actions';
 import { searchScenarioByIdAsOption } from '../../../../actions/scenarios/scenario-actions';
 import { searchTagByIdAsOption } from '../../../../actions/tags/tag-action';
+import { searchTeamByIdAsOption } from '../../../../actions/teams/team-actions';
 import { Option } from '../../../../utils/Option';
 
 const useRetrieveOptions = () => {
@@ -41,6 +44,21 @@ const useRetrieveOptions = () => {
       case 'team_tags':
       case 'user_tags':
         searchTagByIdAsOption(ids).then((response) => {
+          setOptions(response.data);
+        });
+        break;
+      case 'inject_asset_groups':
+        searchAssetGroupByIdAsOption(ids).then((response) => {
+          setOptions(response.data);
+        });
+        break;
+      case 'inject_assets':
+        searchEndpointByIdAsOption(ids).then((response) => {
+          setOptions(response.data);
+        });
+        break;
+      case 'inject_teams':
+        searchTeamByIdAsOption(ids).then((response) => {
           setOptions(response.data);
         });
         break;

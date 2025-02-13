@@ -14,6 +14,7 @@ interface Props {
   filterGroup: FilterGroup;
   helpers: FilterHelpers;
   style: CSSProperties;
+  contextId?: string;
 }
 
 const FilterField: FunctionComponent<Props> = ({
@@ -22,6 +23,7 @@ const FilterField: FunctionComponent<Props> = ({
   filterGroup,
   helpers,
   style,
+  contextId,
 }) => {
   // Standard hooks
   const { t } = useFormatter();
@@ -55,6 +57,7 @@ const FilterField: FunctionComponent<Props> = ({
         availableFilterNames={availableFilterNames}
         helpers={helpers}
         pristine={pristine}
+        contextId={contextId}
       />
     </>
   );

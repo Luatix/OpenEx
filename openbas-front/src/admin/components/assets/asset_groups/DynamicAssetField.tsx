@@ -11,11 +11,13 @@ import type { FilterGroup } from '../../../../utils/api-types';
 interface Props {
   value?: FilterGroup;
   onChange?: (value: FilterGroup) => void;
+  contextId?: string;
 }
 
 const DynamicAssetField: FunctionComponent<Props> = ({
   value,
   onChange,
+  contextId,
 }) => {
   // Standard hooks
   const { t } = useFormatter();
@@ -47,6 +49,7 @@ const DynamicAssetField: FunctionComponent<Props> = ({
         filterGroup={filterGroup}
         helpers={helpers}
         style={{ marginTop: 20 }}
+        contextId={contextId}
       />
     </div>
   );

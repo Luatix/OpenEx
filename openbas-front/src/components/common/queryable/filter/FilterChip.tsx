@@ -12,6 +12,7 @@ interface Props {
   helpers: FilterHelpers;
   propertySchema: PropertySchemaDTO;
   pristine: boolean;
+  contextId?: string;
 }
 
 const FilterChip: FunctionComponent<Props> = ({
@@ -19,6 +20,7 @@ const FilterChip: FunctionComponent<Props> = ({
   helpers,
   propertySchema,
   pristine,
+  contextId,
 }) => {
   const chipRef = useRef<HTMLDivElement>(null);
   const [open, setOpen] = useState(!pristine);
@@ -74,6 +76,7 @@ const FilterChip: FunctionComponent<Props> = ({
           onClose={handleClose}
           anchorEl={chipRef.current}
           propertySchema={propertySchema}
+          contextId={contextId}
         />
       )}
     </>

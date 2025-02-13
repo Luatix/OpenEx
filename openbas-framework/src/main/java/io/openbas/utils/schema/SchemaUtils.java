@@ -171,10 +171,11 @@ public class SchemaUtils {
             .filterable(queryable.filterable())
             .dynamicValues(queryable.dynamicValues())
             .sortable(queryable.sortable())
-            .path(queryable.path());
+            .path(queryable.path())
+            .paths(queryable.paths());
         if (member instanceof Method) {
           builder.type(queryable.clazz()); // Override
-        } else if (member instanceof Field && hasText(queryable.path())) {
+        } else if (hasText(queryable.path()) || queryable.paths().length > 0) {
           builder.type(queryable.clazz()); // Override
         }
       }

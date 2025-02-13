@@ -2,8 +2,7 @@ package io.openbas.rest.team;
 
 import static io.openbas.config.SessionHelper.currentUser;
 import static io.openbas.database.model.User.ROLE_USER;
-import static io.openbas.database.specification.TeamSpecification.contextual;
-import static io.openbas.database.specification.TeamSpecification.fromIds;
+import static io.openbas.database.specification.TeamSpecification.*;
 import static io.openbas.helper.DatabaseHelper.updateRelation;
 import static io.openbas.helper.StreamHelper.fromIterable;
 import static io.openbas.helper.StreamHelper.iterableToSet;
@@ -31,6 +30,7 @@ import io.openbas.rest.team.form.UpdateUsersTeamInput;
 import io.openbas.rest.team.output.TeamOutput;
 import io.openbas.service.TeamService;
 import io.openbas.telemetry.Tracing;
+import io.openbas.utils.FilterUtilsJpa;
 import io.openbas.utils.pagination.SearchPaginationInput;
 import io.swagger.v3.oas.annotations.ExternalDocumentation;
 import io.swagger.v3.oas.annotations.Operation;
@@ -43,6 +43,7 @@ import jakarta.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.access.annotation.Secured;
@@ -235,6 +236,26 @@ public class TeamApi extends RestBehavior {
     Iterable<User> teamUsers = userRepository.findAllById(input.getUserIds());
     team.setUsers(fromIterable(teamUsers));
     return teamRepository.save(team);
+  }
+
+  // -- OPTION --
+  @GetMapping(TEAM_URI + "/options")
+  public List<FilterUtilsJpa.Option> optionsByName(
+      @RequestParam(required = false) final String searchText,
+      @RequestParam(required = false) final String simulationOrScenarioId) {
+    return teamRepository
+        .findAllBySimulationOrScenarioIdAndName(
+            StringUtils.trimToNull(simulationOrScenarioId), StringUtils.trimToNull(searchText))
+        .stream()
+        .map(i -> new FilterUtilsJpa.Option(i.getId(), i.getName()))
+        .toList();
+  }
+
+  @PostMapping(TEAM_URI + "/options")
+  public List<FilterUtilsJpa.Option> optionsById(@RequestBody final List<String> ids) {
+    return fromIterable(this.teamRepository.findAllById(ids)).stream()
+        .map(i -> new FilterUtilsJpa.Option(i.getId(), i.getName()))
+        .toList();
   }
 
   // -- PRIVATE --

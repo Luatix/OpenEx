@@ -91,6 +91,31 @@ public class FilterUtilsJpa {
       }
       List<PropertySchema> filterableProperties = getFilterableProperties(propertySchemas);
       PropertySchema filterableProperty = retrieveProperty(filterableProperties, filterKey);
+
+      // multiple paths case
+      if (filterableProperty.getPaths().length > 1) {
+        List<Predicate> predicates = new ArrayList<>();
+        for (String path : filterableProperty.getPaths()) {
+          PropertySchema singlePathPropertySchema =
+              PropertySchema.builder()
+                  .name(filterableProperty.getName())
+                  .type(filterableProperty.getType())
+                  .path(path)
+                  .build();
+          Expression<U> paths = toPath(singlePathPropertySchema, root, joinMap);
+          predicates.add(
+              toPredicate(
+                  paths,
+                  filter,
+                  cb,
+                  filterableProperty.getJoinTable() != null
+                      ? String.class
+                      : filterableProperty.getType()));
+        }
+        return cb.or(predicates.toArray(Predicate[]::new));
+      }
+
+      // Single path or no path case
       Expression<U> paths = toPath(filterableProperty, root, joinMap);
       // In case of join table, we will use ID so type is String
       return toPredicate(

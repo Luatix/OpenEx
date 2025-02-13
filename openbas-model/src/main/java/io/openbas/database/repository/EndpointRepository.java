@@ -51,4 +51,14 @@ public interface EndpointRepository
               + "AND asset.asset_id = :endpointId",
       nativeQuery = true)
   Optional<Endpoint> findByEndpointIdWithFirstLevelOfAgents(@NotBlank String endpointId);
+
+  @Query(
+      "SELECT a FROM Inject i"
+          + " JOIN i.assets a"
+          + " WHERE ("
+          + "   :simulationOrScenarioId is NULL AND i.exercise.id is NULL AND i.scenario.id IS NULL"
+          + "   OR (i.exercise.id = :simulationOrScenarioId"
+          + "   OR i.scenario.id = :simulationOrScenarioId)"
+          + " ) AND (:name IS NULL OR a.name iLIKE %:name%)")
+  List<Endpoint> findAllBySimulationOrScenarioIdAndName(String simulationOrScenarioId, String name);
 }

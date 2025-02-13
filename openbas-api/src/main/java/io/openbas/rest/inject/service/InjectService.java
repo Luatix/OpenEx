@@ -566,12 +566,22 @@ public class InjectService {
   }
 
   public List<Agent> getAgentsByInject(Inject inject) {
-    return this.resolveAllAssetsToExecute(inject).keySet().stream()
+    List<Agent> agents = new ArrayList<>();
+    List<String> agentIds = new ArrayList<>();
+
+    resolveAllAssetsToExecute(inject).keySet().stream()
         .filter(Endpoint.class::isInstance)
         .map(Endpoint.class::cast)
         .flatMap(
             endpoint -> Optional.ofNullable(endpoint.getAgents()).stream().flatMap(List::stream))
-        .distinct()
-        .collect(Collectors.toList());
+        .filter(agent -> agent.getParent() == null && agent.getInject() == null)
+        .forEach(
+            agent -> {
+              if (!agentIds.contains(agent.getId())) {
+                agents.add(agent);
+                agentIds.add(agent.getId());
+              }
+            });
+    return agents;
   }
 }

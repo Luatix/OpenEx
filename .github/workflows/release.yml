@@ -6,15 +6,15 @@ on:
       branch_platform:
         type: string
         default: 'main'
-        required: false
+        required: true
       previous_version:
         type: string
         default: ''
-        required: false
+        required: true
       new_version:
         type: string
         default: ''
-        required: false
+        required: true
 
 jobs:
   release:

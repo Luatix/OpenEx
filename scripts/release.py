@@ -140,7 +140,7 @@ logging.info("[platform] Tagging")
 os.system("git tag " + new_version + " && git push --tags > /dev/null 2>&1")
 
 logging.info(
-    "[platform] Tag pushed! Waiting 30 minutes for CI/CD build before final release...."
+    "[platform] Tag pushed! Checking that the release has been done ..."
 )
 
 check_release(

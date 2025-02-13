@@ -1,7 +1,7 @@
 package io.openbas.executors.caldera.service;
 
+import static io.openbas.utils.Time.toInstant;
 import static java.time.Instant.now;
-import static java.time.ZoneOffset.UTC;
 
 import com.cronutils.utils.VisibleForTesting;
 import io.openbas.database.model.*;
@@ -15,10 +15,6 @@ import io.openbas.service.EndpointService;
 import io.openbas.service.PlatformSettingsService;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
@@ -233,15 +229,6 @@ public class CalderaExecutorService implements Runnable {
         log.info("Failed clear agents");
       }
     }
-  }
-
-  @VisibleForTesting
-  protected Instant toInstant(@NotNull final String lastSeen) {
-    String pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'";
-    DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(pattern, Locale.getDefault());
-    LocalDateTime localDateTime = LocalDateTime.parse(lastSeen, dateTimeFormatter);
-    ZonedDateTime zonedDateTime = localDateTime.atZone(UTC);
-    return zonedDateTime.toInstant();
   }
 
   @VisibleForTesting

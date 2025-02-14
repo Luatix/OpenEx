@@ -2,8 +2,8 @@ import * as R from 'ramda';
 
 import { AttackPattern, InjectorContractOutput } from '../api-types';
 
-const computeAttackPatterns = (contract: InjectorContractOutput, attackPatternsMap: Record<string, AttackPattern>) => {
-  const attackPatternParents = (contract.injector_contract_attack_patterns ?? []).flatMap((attackPattern) => {
+const computeAttackPatterns = (attackPatternIds: InjectorContractOutput['injector_contract_attack_patterns'], attackPatternsMap: Record<string, AttackPattern>) => {
+  const attackPatternParents = (attackPatternIds ?? []).flatMap((attackPattern) => {
     const attackPatternParentId = attackPatternsMap[attackPattern]?.attack_pattern_parent;
     if (attackPatternParentId) {
       return [attackPatternsMap[attackPatternParentId]];
@@ -13,7 +13,7 @@ const computeAttackPatterns = (contract: InjectorContractOutput, attackPatternsM
   if (!R.isEmpty(attackPatternParents)) {
     return attackPatternParents;
   }
-  return (contract.injector_contract_attack_patterns ?? []).map((attackPattern) => {
+  return (attackPatternIds ?? []).map((attackPattern) => {
     return attackPatternsMap[attackPattern];
   });
 };

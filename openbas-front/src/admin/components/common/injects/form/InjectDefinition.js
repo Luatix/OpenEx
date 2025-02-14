@@ -594,7 +594,7 @@ class InjectDefinition extends Component {
                     onChange={this.toggleAll.bind(this)}
                     color="primary"
                     size="small"
-                    disabled={this.props.permissions.readOnly || fieldTeams.readOnly}
+                    disabled={this.props.readOnly || fieldTeams.readOnly}
                   />
                 )}
                 label={<strong>{t('All teams')}</strong>}
@@ -748,7 +748,7 @@ class InjectDefinition extends Component {
                     <ArticlePopover
                       article={article}
                       onRemoveArticle={this.handleRemoveArticle.bind(this)}
-                      disabled={this.props.permissions.readOnly || fieldArticles.readOnly}
+                      disabled={this.props.readOnly || fieldArticles.readOnly}
                     />
                   </ListItemSecondaryAction>
                 </ListItem>
@@ -810,7 +810,7 @@ class InjectDefinition extends Component {
                       onRemoveChallenge={this.handleRemoveChallenge.bind(
                         this,
                       )}
-                      disabled={this.props.permissions.readOnly || fieldChallenges.readOnly}
+                      disabled={this.props.readOnly || fieldChallenges.readOnly}
                     />
                   </ListItemSecondaryAction>
                 </ListItem>
@@ -833,7 +833,7 @@ class InjectDefinition extends Component {
               <IconButton
                 color="primary"
                 variant="outlined"
-                disabled={submitting || this.props.permissions.readOnly}
+                disabled={submitting || this.props.readOnly}
                 onClick={() => this.resetDefaultvalues(setValue, injectorContract)}
                 size="small"
                 style={{ margin: '-12px 0 0 5px' }}
@@ -866,7 +866,7 @@ class InjectDefinition extends Component {
               values={values}
               attachedDocs={attachedDocs}
               onSelectOrCheckboxFieldChange={() => this.setDynamicFields()}
-              readOnly={this.props.permissions.readOnly || field.readOnly}
+              readOnly={this.props.readOnly || field.readOnly}
             />
           ))
         }
@@ -963,7 +963,7 @@ class InjectDefinition extends Component {
                               event.preventDefault();
                               this.toggleAttachment(document.document_id);
                             }}
-                            disabled={this.props.permissions.readOnly || (hasAttachments && fieldAttachements.readOnly) || !hasAttachments}
+                            disabled={this.props.readOnly || (hasAttachments && fieldAttachements.readOnly) || !hasAttachments}
                           />
                         </div>
                       </>
@@ -976,7 +976,7 @@ class InjectDefinition extends Component {
                       onRemoveDocument={this.handleRemoveDocument.bind(this)}
                       onToggleAttach={hasAttachments ? this.toggleAttachment.bind(this) : null}
                       attached={document.document_attached}
-                      disabled={this.props.permissions.readOnly || (hasAttachments && fieldAttachements.readOnly)}
+                      disabled={this.props.readOnly || (hasAttachments && fieldAttachements.readOnly)}
                     />
                   </ListItemSecondaryAction>
                 </ListItemButton>
@@ -1015,9 +1015,7 @@ InjectDefinition.propTypes = {
   tagsMap: PropTypes.object,
   articlesFromExerciseOrScenario: PropTypes.array,
   variablesFromExerciseOrScenario: PropTypes.array,
-  permissions: PropTypes.object,
-  onUpdateInject: PropTypes.func,
-  onCreateInject: PropTypes.func,
+  readOnly: PropTypes.bool,
   uriVariable: PropTypes.string,
   allUsersNumber: PropTypes.number,
   usersNumber: PropTypes.number,

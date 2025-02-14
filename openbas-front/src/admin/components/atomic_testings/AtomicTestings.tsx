@@ -12,7 +12,7 @@ import { buildSearchPagination } from '../../../components/common/queryable/Quer
 import { useQueryableWithLocalStorage } from '../../../components/common/queryable/useQueryableWithLocalStorage';
 import { useFormatter } from '../../../components/i18n';
 import { useHelper } from '../../../store';
-import type { FilterGroup, Inject, InjectResultOverviewOutput } from '../../../utils/api-types';
+import { AtomicTestingInput, FilterGroup, InjectResultOverviewOutput } from '../../../utils/api-types';
 import { TeamContext } from '../common/Context';
 import CreateInject from '../common/injects/CreateInject';
 import teamContextForAtomicTesting from './atomic_testing/context/TeamContextForAtomicTesting';
@@ -28,7 +28,7 @@ const AtomicTestings = () => {
     userAdmin: helper.getMe()?.user_admin ?? false,
   }));
 
-  const onCreateAtomicTesting = async (data: Inject) => {
+  const onCreateAtomicTesting = async (data: AtomicTestingInput) => {
     const toCreate = R.pipe(
       R.assoc('inject_tags', data.inject_tags),
       R.assoc('inject_title', data.inject_title),

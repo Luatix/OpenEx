@@ -61,11 +61,7 @@ interface Props {
   injects: InjectOutputType[];
   exerciseOrScenarioId: string;
   onSelectedInject(inject?: InjectOutputType): void;
-  openCreateInjectDrawer(data: {
-    inject_depends_duration_days: number;
-    inject_depends_duration_minutes: number;
-    inject_depends_duration_hours: number;
-  }): void;
+  onTimelineClick(duration: number): void;
   onUpdateInject: (data: Inject[]) => void;
   onCreate: (result: { result: string; entities: { injects: Record<string, InjectStore> } }) => void;
   onUpdate: (result: { result: string; entities: { injects: Record<string, InjectStore> } }) => void;
@@ -76,7 +72,7 @@ const ChainedTimelineFlow: FunctionComponent<Props> = ({
   injects,
   exerciseOrScenarioId,
   onSelectedInject,
-  openCreateInjectDrawer,
+  onTimelineClick,
   onUpdateInject,
   onCreate,
   onUpdate,
@@ -473,14 +469,8 @@ const ChainedTimelineFlow: FunctionComponent<Props> = ({
     if (newNodeCursorClickable) {
       const position = reactFlow.screenToFlowPosition({ x: event.clientX - (newNodeSize / 2), y: event.clientY });
 
-      const totalMinutes = position.x > 0
-        ? moment.duration((position.x / gapSize) * minutesPerGapAllowed[minutesPerGapIndex] * 60, 's')
-        : moment.duration(0);
-      openCreateInjectDrawer({
-        inject_depends_duration_days: totalMinutes.days(),
-        inject_depends_duration_hours: totalMinutes.hours(),
-        inject_depends_duration_minutes: totalMinutes.minutes(),
-      });
+      const totalSeconds = (position.x / gapSize) * minutesPerGapAllowed[minutesPerGapIndex] * 60;
+      onTimelineClick(totalSeconds);
     }
   };
 

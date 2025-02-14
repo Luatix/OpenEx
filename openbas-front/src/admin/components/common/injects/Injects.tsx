@@ -19,11 +19,12 @@ import ItemBoolean from '../../../../components/ItemBoolean';
 import ItemTags from '../../../../components/ItemTags';
 import Loader from '../../../../components/Loader';
 import PlatformIcon from '../../../../components/PlatformIcon';
-import type {
+import {
   Article,
   FilterGroup,
   Inject,
   InjectBulkUpdateOperation,
+  InjectInput,
   InjectTestStatusOutput,
   Team,
   Variable,
@@ -286,8 +287,8 @@ const Injects: FunctionComponent<Props> = ({
     }
   };
 
-  const onCreateInject = async (data: Inject) => {
-    await injectContext.onAddInject(data).then((result: { result: string; entities: { injects: Record<string, InjectStore> } }) => {
+  const onCreateInject = async (data: InjectInput) => {
+    await injectContext.onAddInject(data as Inject).then((result: { result: string; entities: { injects: Record<string, InjectStore> } }) => {
       onCreate(result);
     });
   };
@@ -324,19 +325,11 @@ const Injects: FunctionComponent<Props> = ({
   };
 
   const [openCreateDrawer, setOpenCreateDrawer] = useState(false);
-  const [presetCreationValues, setPresetCreationValues] = useState<{
-    inject_depends_duration_days?: number;
-    inject_depends_duration_hours?: number;
-    inject_depends_duration_minutes?: number;
-  }>();
 
-  const openCreateInjectDrawer = (data: {
-    inject_depends_duration_days?: number;
-    inject_depends_duration_hours?: number;
-    inject_depends_duration_minutes?: number;
-  }) => {
+  const [presetInjectDuration, setPresetInjectDuration] = useState<number>(0);
+  const openCreateInjectDrawer = (duration: number) => {
     setOpenCreateDrawer(true);
-    setPresetCreationValues(data);
+    setPresetInjectDuration(duration);
   };
 
   // Toolbar
@@ -512,7 +505,7 @@ const Injects: FunctionComponent<Props> = ({
               injects={injects}
               exerciseOrScenarioId={exerciseOrScenarioId}
               onUpdateInject={massUpdateInject}
-              openCreateInjectDrawer={openCreateInjectDrawer}
+              onTimelineClick={openCreateInjectDrawer}
               onSelectedInject={(inject) => {
                 const injectContract = inject?.inject_injector_contract.convertedContent;
                 const isContractExposed = injectContract?.config.expose;
@@ -661,7 +654,7 @@ const Injects: FunctionComponent<Props> = ({
           )}
           <ButtonCreate onClick={() => {
             setOpenCreateDrawer(true);
-            setPresetCreationValues(undefined);
+            setPresetInjectDuration(0);
           }}
           />
           <ToolBar
@@ -682,7 +675,7 @@ const Injects: FunctionComponent<Props> = ({
             open={openCreateDrawer}
             handleClose={() => setOpenCreateDrawer(false)}
             onCreateInject={onCreateInject}
-            presetValues={presetCreationValues}
+            presetInjectDuration={presetInjectDuration}
             // @ts-expect-error typing
             teamsFromExerciseOrScenario={teams}
             articlesFromExerciseOrScenario={articles}

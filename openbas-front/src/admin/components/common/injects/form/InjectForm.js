@@ -64,7 +64,7 @@ class InjectForm extends Component {
       isAtomic = false,
     } = this.props;
     return (
-      <>
+      <div>
         <TextField
           variant="standard"
           inputProps={register('inject_title')}
@@ -131,7 +131,7 @@ class InjectForm extends Component {
             />
           </div>
         )}
-      </>
+      </div>
     );
   }
 }

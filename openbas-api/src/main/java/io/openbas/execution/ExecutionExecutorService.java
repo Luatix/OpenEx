@@ -69,7 +69,7 @@ public class ExecutionExecutorService {
     }
   }
 
-  private void launchExecutorContextForAgent(Inject inject, Agent agent) {
+  private void launchExecutorContextForAgent(Inject inject, Agent agent) throws AgentException {
     Endpoint assetEndpoint = (Endpoint) Hibernate.unproxy(agent.getAsset());
     Executor executor = agent.getExecutor();
     if (executor == null) {

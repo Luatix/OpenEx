@@ -4,7 +4,7 @@ import io.openbas.database.model.Agent;
 import lombok.Getter;
 
 @Getter
-public class AgentException extends RuntimeException {
+public class AgentException extends Exception {
   private final Agent agent;
 
   public AgentException(String message, Agent agent) {

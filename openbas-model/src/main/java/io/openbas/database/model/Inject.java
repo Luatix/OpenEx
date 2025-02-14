@@ -7,6 +7,7 @@ import static java.util.Optional.ofNullable;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import io.openbas.annotation.Queryable;
@@ -358,6 +359,38 @@ public class Inject implements Base, Injection {
         // validation link is always from a player
         .filter(execution -> execution.getUser().equals(user))
         .toList();
+  }
+
+  public List<Article> getArticles() {
+    if (!this.getContent().has("articles")) {
+      return List.of();
+    }
+
+    return this.getExercise() != null
+        ? this.getExercise().getArticles().stream()
+            .filter(article -> isArticleInInjectContent(this.getContent(), article))
+            .toList()
+        : this.getScenario() != null
+            ? this.getScenario().getArticles().stream()
+                .filter(article -> isArticleInInjectContent(this.getContent(), article))
+                .toList()
+            : List.of();
+  }
+
+  private boolean isArticleInInjectContent(JsonNode injectContent, Article article) {
+    if (!injectContent.has("articles")) {
+      return false;
+    }
+
+    JsonNode injectArticles = injectContent.get("articles");
+    if (injectArticles.isArray()) {
+      List<String> injectArticleIds = new ArrayList<>();
+      for (JsonNode articleId : injectArticles) {
+        injectArticleIds.add(articleId.asText());
+      }
+      return injectArticleIds.contains(article.getId());
+    }
+    return false;
   }
 
   @JsonProperty("inject_communications_number")

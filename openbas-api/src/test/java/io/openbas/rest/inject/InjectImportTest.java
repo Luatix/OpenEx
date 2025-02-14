@@ -11,6 +11,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import io.openbas.IntegrationTest;
 import io.openbas.database.model.*;
+import io.openbas.database.model.Tag;
 import io.openbas.database.repository.ExerciseRepository;
 import io.openbas.rest.exercise.exports.ExportOptions;
 import io.openbas.rest.inject.form.InjectImportInput;
@@ -20,14 +21,12 @@ import io.openbas.rest.inject.service.InjectExportService;
 import io.openbas.service.ChallengeService;
 import io.openbas.utils.fixtures.*;
 import io.openbas.utils.fixtures.composers.*;
+import io.openbas.utils.helpers.ExerciseHelper;
 import io.openbas.utils.mockUser.WithMockPlannerUser;
 import io.openbas.utils.mockUser.WithMockUnprivilegedUser;
 import jakarta.persistence.EntityManager;
 import java.io.IOException;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -51,7 +50,12 @@ public class InjectImportTest extends IntegrationTest {
   @Autowired private ArticleComposer articleComposer;
   @Autowired private ChannelComposer channelComposer;
   @Autowired private ChallengeComposer challengeComposer;
+  @Autowired private DocumentComposer documentComposer;
   @Autowired private ExerciseRepository exerciseRepository;
+  @Autowired private TeamComposer teamComposer;
+  @Autowired private UserComposer userComposer;
+  @Autowired private OrganizationComposer organizationComposer;
+  @Autowired private TagComposer tagComposer;
   @Autowired private PayloadComposer payloadComposer;
   @Autowired private InjectorFixture injectorFixture;
   @Autowired private ChallengeService challengeService;
@@ -64,10 +68,18 @@ public class InjectImportTest extends IntegrationTest {
     ArticleComposer.Composer articleWrapper =
         articleComposer
             .forArticle(ArticleFixture.getDefaultArticle())
-            .withChannel(channelComposer.forChannel(ChannelFixture.getDefaultChannel()));
+            .withChannel(channelComposer.forChannel(ChannelFixture.getDefaultChannel()))
+            .withDocument(
+                documentComposer
+                    .forDocument(DocumentFixture.getDocument(FileFixture.getPngFileContent()))
+                    .withInMemoryFile(FileFixture.getPngFileContent()));
     InjectComposer.Composer injectWithArticleInExercise =
         injectComposer
             .forInject(InjectFixture.getDefaultInject())
+            .withDocument(
+                documentComposer
+                    .forDocument(DocumentFixture.getDocument(FileFixture.getPngFileContent()))
+                    .withInMemoryFile(FileFixture.getPngFileContent()))
             .withInjectorContract(
                 injectorContractComposer
                     .forInjectorContract(InjectorContractFixture.createDefaultInjectorContract())
@@ -133,6 +145,32 @@ public class InjectImportTest extends IntegrationTest {
     targetDefinition.setId(targetId);
     input.setTarget(targetDefinition);
     return input;
+  }
+
+  private List<Document> crawlDocumentsFromInjects(List<Inject> injects) {
+    List<Document> documents = new ArrayList<>();
+
+    documents.addAll(
+        injects.stream()
+            .flatMap(inject -> inject.getDocuments().stream().map(InjectDocument::getDocument))
+            .toList());
+    documents.addAll(
+        fromIterable(challengeService.getInjectsChallenges(injects)).stream()
+            .flatMap(challenge -> challenge.getDocuments().stream())
+            .toList());
+    documents.addAll(
+        injects.stream()
+            .flatMap(inject -> inject.getArticles().stream())
+            .flatMap(article -> article.getDocuments().stream())
+            .toList());
+    documents.addAll(
+        injects.stream()
+            .flatMap(inject -> inject.getArticles().stream())
+            .map(Article::getChannel)
+            .flatMap(channel -> channel.getLogos().stream())
+            .toList());
+
+    return documents;
   }
 
   @Nested
@@ -421,41 +459,41 @@ public class InjectImportTest extends IntegrationTest {
       @Test
       @DisplayName("All challenges have been recreated")
       public void allChallengesHaveBeenRecreated() throws Exception {
-          byte[] exportData = getExportDataThenDelete(getInjectFromExerciseWrappers());
-          ExerciseComposer.Composer destinationExerciseWrapper = getPersistedExerciseWrapper();
-          InjectImportInput input =
-                  createTargetInput(
-                          InjectImportTargetType.SIMULATION, destinationExerciseWrapper.get().getId());
+        byte[] exportData = getExportDataThenDelete(getInjectFromExerciseWrappers());
+        ExerciseComposer.Composer destinationExerciseWrapper = getPersistedExerciseWrapper();
+        InjectImportInput input =
+            createTargetInput(
+                InjectImportTargetType.SIMULATION, destinationExerciseWrapper.get().getId());
 
-          doImport(exportData, input).andExpect(status().is2xxSuccessful());
-          clearEntityManager();
+        doImport(exportData, input).andExpect(status().is2xxSuccessful());
+        clearEntityManager();
 
-          for (Challenge expected : challengeComposer.generatedItems) {
-              Exercise dest =
-                      exerciseRepository.findById(destinationExerciseWrapper.get().getId()).orElseThrow();
-              Optional<Challenge> recreated =
-                      fromIterable(challengeService.getExerciseChallenges(dest.getId())).stream()
-                              .filter(c -> c.getName().equals(expected.getName()))
-                              .findAny();
+        for (Challenge expected : challengeComposer.generatedItems) {
+          Exercise dest =
+              exerciseRepository.findById(destinationExerciseWrapper.get().getId()).orElseThrow();
+          Optional<Challenge> recreated =
+              fromIterable(challengeService.getExerciseChallenges(dest.getId())).stream()
+                  .filter(c -> c.getName().equals(expected.getName()))
+                  .findAny();
 
-              Assertions.assertTrue(recreated.isPresent(), "Could not find expected challenge");
-              Assertions.assertEquals(expected.getName(), recreated.get().getName());
-              Assertions.assertEquals(expected.getContent(), recreated.get().getContent());
-              Assertions.assertEquals(expected.getCategory(), recreated.get().getCategory());
-              Assertions.assertEquals(expected.getScore(), recreated.get().getScore());
-              Assertions.assertEquals(expected.getMaxAttempts(), recreated.get().getMaxAttempts());
-              for (ChallengeFlag flag : expected.getFlags()) {
-                Assertions.assertTrue(
-                        recreated.get().getFlags().stream()
-                                .anyMatch(
-                                        flg ->
-                                                flg.getType().equals(flag.getType())
-                                                        && flg.getValue().equals(flag.getValue())),
-                        "Flag of type " + flag.getType() + " not found in challenge");
+          Assertions.assertTrue(recreated.isPresent(), "Could not find expected challenge");
+          Assertions.assertEquals(expected.getName(), recreated.get().getName());
+          Assertions.assertEquals(expected.getContent(), recreated.get().getContent());
+          Assertions.assertEquals(expected.getCategory(), recreated.get().getCategory());
+          Assertions.assertEquals(expected.getScore(), recreated.get().getScore());
+          Assertions.assertEquals(expected.getMaxAttempts(), recreated.get().getMaxAttempts());
+          for (ChallengeFlag flag : expected.getFlags()) {
+            Assertions.assertTrue(
+                recreated.get().getFlags().stream()
+                    .anyMatch(
+                        flg ->
+                            flg.getType().equals(flag.getType())
+                                && flg.getValue().equals(flag.getValue())),
+                "Flag of type " + flag.getType() + " not found in challenge");
 
-                Assertions.assertNotEquals(expected.getId(), recreated.get().getId());
-              }
+            Assertions.assertNotEquals(expected.getId(), recreated.get().getId());
           }
+        }
       }
 
       @Test
@@ -464,29 +502,34 @@ public class InjectImportTest extends IntegrationTest {
         byte[] exportData = getExportDataThenDelete(getInjectFromExerciseWrappers());
         ExerciseComposer.Composer destinationExerciseWrapper = getPersistedExerciseWrapper();
         InjectImportInput input =
-                createTargetInput(
-                        InjectImportTargetType.SIMULATION, destinationExerciseWrapper.get().getId());
+            createTargetInput(
+                InjectImportTargetType.SIMULATION, destinationExerciseWrapper.get().getId());
 
         doImport(exportData, input).andExpect(status().is2xxSuccessful());
         clearEntityManager();
 
         for (Payload expected : payloadComposer.generatedItems) {
           Exercise dest =
-                  exerciseRepository.findById(destinationExerciseWrapper.get().getId()).orElseThrow();
+              exerciseRepository.findById(destinationExerciseWrapper.get().getId()).orElseThrow();
           Optional<Payload> recreated =
-                  dest.getInjects().stream().map(Inject::getInjectorContract).filter(Optional::isPresent)
-                          .map(injectorContract -> injectorContract.get().getPayload())
-                          .filter(c -> c.getName().equals(expected.getName()))
-                          .findAny();
+              dest.getInjects().stream()
+                  .map(Inject::getInjectorContract)
+                  .filter(Optional::isPresent)
+                  .map(injectorContract -> injectorContract.get().getPayload())
+                  .filter(c -> c.getName().equals(expected.getName()))
+                  .findAny();
 
           Assertions.assertTrue(recreated.isPresent(), "Could not find expected payload");
           Assertions.assertEquals(expected.getName(), recreated.get().getName());
           Assertions.assertEquals(expected.getDescription(), recreated.get().getDescription());
           Assertions.assertEquals(expected.getStatus(), recreated.get().getStatus());
-          Assertions.assertEquals(expected.getCleanupCommand(), recreated.get().getCleanupCommand());
-          Assertions.assertEquals(expected.getCleanupExecutor(), recreated.get().getCleanupExecutor());
+          Assertions.assertEquals(
+              expected.getCleanupCommand(), recreated.get().getCleanupCommand());
+          Assertions.assertEquals(
+              expected.getCleanupExecutor(), recreated.get().getCleanupExecutor());
           Assertions.assertEquals(expected.getExecutionArch(), recreated.get().getExecutionArch());
-          Assertions.assertEquals(expected.getNumberOfActions(), recreated.get().getNumberOfActions());
+          Assertions.assertEquals(
+              expected.getNumberOfActions(), recreated.get().getNumberOfActions());
           Assertions.assertEquals(expected.getType(), recreated.get().getType());
           Assertions.assertEquals(expected.getSource(), recreated.get().getSource());
           Assertions.assertEquals(expected.getExternalId(), recreated.get().getExternalId());
@@ -498,31 +541,154 @@ public class InjectImportTest extends IntegrationTest {
       @Test
       @DisplayName("All teams have been recreated")
       public void allTeamsHaveBeenRecreated() throws Exception {
-        Assertions.fail();
+        byte[] exportData = getExportDataThenDelete(getInjectFromExerciseWrappers());
+        ExerciseComposer.Composer destinationExerciseWrapper = getPersistedExerciseWrapper();
+        InjectImportInput input =
+            createTargetInput(
+                InjectImportTargetType.SIMULATION, destinationExerciseWrapper.get().getId());
+
+        doImport(exportData, input).andExpect(status().is2xxSuccessful());
+        clearEntityManager();
+
+        for (Team expected : teamComposer.generatedItems) {
+          Exercise dest =
+              exerciseRepository.findById(destinationExerciseWrapper.get().getId()).orElseThrow();
+          Optional<Team> recreated =
+              dest.getTeams().stream()
+                  .filter(c -> c.getName().equals(expected.getName()))
+                  .findAny();
+
+          Assertions.assertTrue(recreated.isPresent(), "Could not find expected team");
+          Assertions.assertEquals(expected.getName(), recreated.get().getName());
+          Assertions.assertEquals(expected.getDescription(), recreated.get().getDescription());
+
+          Assertions.assertNotEquals(expected.getId(), recreated.get().getId());
+        }
       }
 
       @Test
       @DisplayName("All users have been recreated")
       public void allUsersHaveBeenRecreated() throws Exception {
-        Assertions.fail();
+        byte[] exportData = getExportDataThenDelete(getInjectFromExerciseWrappers());
+        ExerciseComposer.Composer destinationExerciseWrapper = getPersistedExerciseWrapper();
+        InjectImportInput input =
+            createTargetInput(
+                InjectImportTargetType.SIMULATION, destinationExerciseWrapper.get().getId());
+
+        doImport(exportData, input).andExpect(status().is2xxSuccessful());
+        clearEntityManager();
+
+        for (User expected : userComposer.generatedItems) {
+          Exercise dest =
+              exerciseRepository.findById(destinationExerciseWrapper.get().getId()).orElseThrow();
+          Optional<User> recreated =
+              dest.getTeams().stream()
+                  .flatMap(team -> team.getUsers().stream())
+                  .filter(c -> c.getEmail().equals(expected.getEmail()))
+                  .findAny();
+
+          Assertions.assertTrue(recreated.isPresent(), "Could not find expected user");
+          Assertions.assertEquals(expected.getName(), recreated.get().getName());
+          Assertions.assertEquals(expected.getFirstname(), recreated.get().getFirstname());
+          Assertions.assertEquals(expected.getLastname(), recreated.get().getLastname());
+          Assertions.assertEquals(expected.getLang(), recreated.get().getLang());
+          Assertions.assertEquals(expected.getEmail(), recreated.get().getEmail());
+          Assertions.assertEquals(expected.getPhone(), recreated.get().getPhone());
+          Assertions.assertEquals(expected.getPgpKey(), recreated.get().getPgpKey());
+          Assertions.assertEquals(expected.getCountry(), recreated.get().getCountry());
+          Assertions.assertEquals(expected.getCity(), recreated.get().getCity());
+
+          Assertions.assertNotEquals(expected.getId(), recreated.get().getId());
+        }
       }
 
       @Test
       @DisplayName("All organisations have been recreated")
       public void allOrganisationsHaveBeenRecreated() throws Exception {
-        Assertions.fail();
+        byte[] exportData = getExportDataThenDelete(getInjectFromExerciseWrappers());
+        ExerciseComposer.Composer destinationExerciseWrapper = getPersistedExerciseWrapper();
+        InjectImportInput input =
+            createTargetInput(
+                InjectImportTargetType.SIMULATION, destinationExerciseWrapper.get().getId());
+
+        doImport(exportData, input).andExpect(status().is2xxSuccessful());
+        clearEntityManager();
+
+        for (Organization expected : organizationComposer.generatedItems) {
+          Exercise dest =
+              exerciseRepository.findById(destinationExerciseWrapper.get().getId()).orElseThrow();
+          Optional<Organization> recreated =
+              dest.getTeams().stream()
+                  .flatMap(team -> team.getUsers().stream())
+                  .map(User::getOrganization)
+                  .filter(c -> c.getName().equals(expected.getName()))
+                  .findAny();
+
+          Assertions.assertTrue(recreated.isPresent(), "Could not find expected user");
+          Assertions.assertEquals(expected.getName(), recreated.get().getName());
+          Assertions.assertEquals(expected.getDescription(), recreated.get().getDescription());
+
+          Assertions.assertNotEquals(expected.getId(), recreated.get().getId());
+        }
       }
 
       @Test
       @DisplayName("All tags have been recreated")
       public void allTagsHaveBeenRecreated() throws Exception {
-        Assertions.fail();
+        byte[] exportData = getExportDataThenDelete(getInjectFromExerciseWrappers());
+        ExerciseComposer.Composer destinationExerciseWrapper = getPersistedExerciseWrapper();
+        InjectImportInput input =
+            createTargetInput(
+                InjectImportTargetType.SIMULATION, destinationExerciseWrapper.get().getId());
+
+        doImport(exportData, input).andExpect(status().is2xxSuccessful());
+        clearEntityManager();
+
+        for (Tag expected : tagComposer.generatedItems) {
+          Exercise dest =
+              exerciseRepository.findById(destinationExerciseWrapper.get().getId()).orElseThrow();
+
+          Optional<Tag> recreated =
+              ExerciseHelper.crawlAllTags(dest, challengeService).stream()
+                  .filter(c -> c.getName().equals(expected.getName()))
+                  .findAny();
+
+          Assertions.assertTrue(recreated.isPresent(), "Could not find expected user");
+          Assertions.assertEquals(expected.getName(), recreated.get().getName());
+          Assertions.assertEquals(expected.getColor(), recreated.get().getColor());
+
+          Assertions.assertNotEquals(expected.getId(), recreated.get().getId());
+        }
       }
 
       @Test
       @DisplayName("All documents have been recreated")
       public void allDocumentsHaveBeenRecreated() throws Exception {
-        Assertions.fail();
+        byte[] exportData = getExportDataThenDelete(getInjectFromExerciseWrappers());
+        ExerciseComposer.Composer destinationExerciseWrapper = getPersistedExerciseWrapper();
+        InjectImportInput input =
+            createTargetInput(
+                InjectImportTargetType.SIMULATION, destinationExerciseWrapper.get().getId());
+
+        doImport(exportData, input).andExpect(status().is2xxSuccessful());
+        clearEntityManager();
+
+        for (Document expected : documentComposer.generatedItems) {
+          Exercise dest =
+              exerciseRepository.findById(destinationExerciseWrapper.get().getId()).orElseThrow();
+          Optional<Document> recreated =
+              crawlDocumentsFromInjects(dest.getInjects()).stream()
+                  .filter(c -> c.getName().equals(expected.getName()))
+                  .findAny();
+
+          Assertions.assertTrue(recreated.isPresent(), "Could not find expected document");
+          Assertions.assertEquals(expected.getName(), recreated.get().getName());
+          Assertions.assertEquals(expected.getDescription(), recreated.get().getDescription());
+          Assertions.assertEquals(expected.getTarget(), recreated.get().getTarget());
+          Assertions.assertEquals(expected.getType(), recreated.get().getType());
+
+          Assertions.assertNotEquals(expected.getId(), recreated.get().getId());
+        }
       }
     }
 

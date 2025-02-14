@@ -101,7 +101,7 @@ public class InjectComposer extends ComposerBase<Inject> {
 
     @Override
     public Composer delete() {
-      injectDocumentRepository.deleteAll(inject.getDocuments());
+      // injectDocumentRepository.deleteAll(inject.getDocuments());
       injectRepository.delete(inject);
       documentComposers.forEach(DocumentComposer.Composer::delete);
       tagComposers.forEach(TagComposer.Composer::delete);

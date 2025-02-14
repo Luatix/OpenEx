@@ -147,17 +147,5 @@ public class Agent implements Base {
     return Objects.hash(id);
   }
 
-  @Override
-  public boolean equals(final Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (null == o || this.getClass() != o.getClass()) {
-      return false;
-    }
-    final Agent agent = (Agent) o;
-    return Objects.equals(this.id, agent.id);
-  }
-
   public Agent() {}
 }

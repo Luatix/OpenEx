@@ -2,6 +2,7 @@ package io.openbas.rest.inject.service;
 
 import static io.openbas.helper.StreamHelper.fromIterable;
 import static io.openbas.helper.StreamHelper.iterableToSet;
+import static io.openbas.service.AgentService.isPrimaryAgent;
 import static io.openbas.utils.FilterUtilsJpa.computeFilterGroupJpa;
 import static io.openbas.utils.StringUtils.duplicateString;
 import static io.openbas.utils.pagination.SearchUtilsJpa.computeSearchJpa;
@@ -566,15 +567,22 @@ public class InjectService {
         });
   }
 
-  public final Set<Agent> getAgentsByInject(Inject inject) {
-    Set<Agent> agents = new HashSet<>();
+  public final List<Agent> getAgentsByInject(Inject inject) {
+    List<Agent> agents = new ArrayList<>();
+    Set<String> agentIds = new HashSet<>();
 
     resolveAllAssetsToExecute(inject).keySet().stream()
         .map(asset -> (Endpoint) Hibernate.unproxy(asset))
         .flatMap(
             endpoint -> Optional.ofNullable(endpoint.getAgents()).stream().flatMap(List::stream))
-        .filter(AgentService::isPrimaryAgent)
-        .forEach(agents::add);
+        .filter(agent -> isPrimaryAgent(agent))
+        .forEach(
+            agent -> {
+              if (!agentIds.contains(agent.getId())) {
+                agents.add(agent);
+                agentIds.add(agent.getId());
+              }
+            });
 
     return agents;
   }

@@ -97,7 +97,7 @@ public class InjectStatusService {
 
   public boolean isAllInjectAgentsExecuted(Inject inject) {
     int totalCompleteTrace = getCompleteTrace(inject);
-    List<Agent> agents = this.injectService.getAgentsByInject(inject);
+    Set<Agent> agents = this.injectService.getAgentsByInject(inject);
     return agents.size() == totalCompleteTrace;
   }
 

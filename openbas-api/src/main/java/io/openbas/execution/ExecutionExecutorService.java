@@ -13,7 +13,7 @@ import io.openbas.executors.tanium.config.TaniumExecutorConfig;
 import io.openbas.executors.tanium.service.TaniumExecutorContextService;
 import io.openbas.rest.exception.AgentException;
 import io.openbas.rest.inject.service.InjectService;
-import java.util.List;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.logging.Level;
 import lombok.RequiredArgsConstructor;
@@ -37,7 +37,7 @@ public class ExecutionExecutorService {
 
   public void launchExecutorContext(Inject inject) {
     // First, get the agents of this injects
-    List<Agent> agents = this.injectService.getAgentsByInject(inject);
+    Set<Agent> agents = this.injectService.getAgentsByInject(inject);
 
     InjectStatus injectStatus =
         inject.getStatus().orElseThrow(() -> new IllegalArgumentException("Status should exist"));

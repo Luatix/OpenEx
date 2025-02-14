@@ -115,11 +115,13 @@ public class CalderaExecutorService implements Runnable {
                   .filter(agent -> !agent.getExe_name().contains("implant"))
                   .toList());
       log.info("Caldera executor provisioning based on " + endpointAgentList.size() + " assets");
+
       for (io.openbas.database.model.Agent agent : endpointAgentList) {
         Endpoint endpoint = (Endpoint) Hibernate.unproxy(agent.getAsset());
         Optional<Endpoint> optionalEndpoint =
             this.endpointService.findEndpointByAgentDetails(
                 endpoint.getHostname(), endpoint.getPlatform(), endpoint.getArch());
+
         if (agent.isActive()) {
           // Endpoint already created -> attributes to update
           if (optionalEndpoint.isPresent()) {

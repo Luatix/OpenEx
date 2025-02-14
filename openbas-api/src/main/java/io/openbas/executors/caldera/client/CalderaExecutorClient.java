@@ -51,7 +51,7 @@ public class CalderaExecutorClient {
     }
   }
 
-  public void deleteAgent(String externalReference) {
+  public void deleteAgent(final String externalReference) {
     try {
       this.delete(this.config.getRestApiV2Url() + AGENT_URI + "/" + externalReference);
     } catch (IOException e) {

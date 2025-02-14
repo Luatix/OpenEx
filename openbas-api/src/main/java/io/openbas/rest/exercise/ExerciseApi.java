@@ -7,6 +7,7 @@ import static io.openbas.database.specification.ExerciseSpecification.findGrante
 import static io.openbas.database.specification.TeamSpecification.fromExercise;
 import static io.openbas.helper.StreamHelper.fromIterable;
 import static io.openbas.helper.StreamHelper.iterableToSet;
+import static io.openbas.rest.exercise.form.SimulationDetails.fromRawExercise;
 import static io.openbas.utils.pagination.PaginationUtils.buildPaginationCriteriaBuilder;
 import static java.time.Duration.between;
 import static java.time.Instant.now;
@@ -39,13 +40,11 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.persistence.criteria.Join;
 import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import java.io.IOException;
 import java.time.Instant;
 import java.util.*;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 import lombok.RequiredArgsConstructor;
@@ -56,6 +55,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
@@ -66,8 +66,6 @@ import org.springframework.web.server.ResponseStatusException;
 public class ExerciseApi extends RestBehavior {
 
   public static final String EXERCISE_URI = "/api/exercises";
-
-  private static final Logger LOGGER = Logger.getLogger(ExerciseApi.class.getName());
 
   // region repositories
   private final LogRepository logRepository;
@@ -110,7 +108,7 @@ public class ExerciseApi extends RestBehavior {
   }
 
   @PostMapping(EXERCISE_URI + "/{exerciseId}/logs")
-  @Transactional(rollbackOn = Exception.class)
+  @Transactional(rollbackFor = Exception.class)
   public Log createLog(@PathVariable String exerciseId, @Valid @RequestBody LogCreateInput input) {
     Exercise exercise =
         exerciseRepository.findById(exerciseId).orElseThrow(ElementNotFoundException::new);
@@ -127,7 +125,7 @@ public class ExerciseApi extends RestBehavior {
 
   @PutMapping(EXERCISE_URI + "/{exerciseId}/logs/{logId}")
   @PreAuthorize("isExercisePlanner(#exerciseId)")
-  @Transactional(rollbackOn = Exception.class)
+  @Transactional(rollbackFor = Exception.class)
   public Log updateLog(
       @PathVariable String exerciseId,
       @PathVariable String logId,
@@ -140,7 +138,7 @@ public class ExerciseApi extends RestBehavior {
 
   @DeleteMapping(EXERCISE_URI + "/{exerciseId}/logs/{logId}")
   @PreAuthorize("isExercisePlanner(#exerciseId)")
-  @Transactional(rollbackOn = Exception.class)
+  @Transactional(rollbackFor = Exception.class)
   public void deleteLog(@PathVariable String exerciseId, @PathVariable String logId) {
     logRepository.deleteById(logId);
   }
@@ -177,7 +175,7 @@ public class ExerciseApi extends RestBehavior {
     return this.teamService.find(fromExercise(exerciseId));
   }
 
-  @Transactional(rollbackOn = Exception.class)
+  @Transactional(rollbackFor = Exception.class)
   @PutMapping(EXERCISE_URI + "/{exerciseId}/teams/remove")
   @PreAuthorize("isExercisePlanner(#exerciseId)")
   public Iterable<TeamOutput> removeExerciseTeams(
@@ -185,7 +183,7 @@ public class ExerciseApi extends RestBehavior {
     return this.exerciseService.removeTeams(exerciseId, input.getTeamIds());
   }
 
-  @Transactional(rollbackOn = Exception.class)
+  @Transactional(rollbackFor = Exception.class)
   @PutMapping(EXERCISE_URI + "/{exerciseId}/teams/replace")
   @PreAuthorize("isExercisePlanner(#exerciseId)")
   public Iterable<TeamOutput> replaceExerciseTeams(
@@ -199,7 +197,7 @@ public class ExerciseApi extends RestBehavior {
     return userRepository.rawPlayersByExerciseId(exerciseId);
   }
 
-  @Transactional(rollbackOn = Exception.class)
+  @Transactional(rollbackFor = Exception.class)
   @PutMapping(EXERCISE_URI + "/{exerciseId}/teams/{teamId}/players/enable")
   @PreAuthorize("isExercisePlanner(#exerciseId)")
   public Exercise enableExerciseTeamPlayers(
@@ -223,7 +221,7 @@ public class ExerciseApi extends RestBehavior {
     return exerciseRepository.findById(exerciseId).orElseThrow(ElementNotFoundException::new);
   }
 
-  @Transactional(rollbackOn = Exception.class)
+  @Transactional(rollbackFor = Exception.class)
   @PutMapping(EXERCISE_URI + "/{exerciseId}/teams/{teamId}/players/disable")
   @PreAuthorize("isExercisePlanner(#exerciseId)")
   public Exercise disableExerciseTeamPlayers(
@@ -243,7 +241,7 @@ public class ExerciseApi extends RestBehavior {
     return exerciseRepository.findById(exerciseId).orElseThrow(ElementNotFoundException::new);
   }
 
-  @Transactional(rollbackOn = Exception.class)
+  @Transactional(rollbackFor = Exception.class)
   @PutMapping(EXERCISE_URI + "/{exerciseId}/teams/{teamId}/players/add")
   @PreAuthorize("isExercisePlanner(#exerciseId)")
   public Exercise addExerciseTeamPlayers(
@@ -272,7 +270,7 @@ public class ExerciseApi extends RestBehavior {
 
   @PutMapping(EXERCISE_URI + "/{exerciseId}/teams/{teamId}/players/remove")
   @PreAuthorize("isExercisePlanner(#exerciseId)")
-  @Transactional(rollbackOn = Exception.class)
+  @Transactional(rollbackFor = Exception.class)
   public Exercise removeExerciseTeamPlayers(
       @PathVariable String exerciseId,
       @PathVariable String teamId,
@@ -309,14 +307,14 @@ public class ExerciseApi extends RestBehavior {
   }
 
   @PostMapping(EXERCISE_URI + "/{exerciseId}")
-  @Transactional(rollbackOn = Exception.class)
+  @Transactional(rollbackFor = Exception.class)
   public Exercise duplicateExercise(@PathVariable @NotBlank final String exerciseId) {
     return exerciseService.getDuplicateExercise(exerciseId);
   }
 
   @PutMapping(EXERCISE_URI + "/{exerciseId}")
   @PreAuthorize("isExercisePlanner(#exerciseId)")
-  @Transactional(rollbackOn = Exception.class)
+  @Transactional(rollbackFor = Exception.class)
   public Exercise updateExerciseInformation(
       @PathVariable String exerciseId, @Valid @RequestBody UpdateExerciseInput input) {
     Exercise exercise =
@@ -329,7 +327,7 @@ public class ExerciseApi extends RestBehavior {
 
   @PutMapping(EXERCISE_URI + "/{exerciseId}/start_date")
   @PreAuthorize("isExercisePlanner(#exerciseId)")
-  @Transactional(rollbackOn = Exception.class)
+  @Transactional(rollbackFor = Exception.class)
   public Exercise updateExerciseStart(
       @PathVariable String exerciseId, @Valid @RequestBody ExerciseUpdateStartDateInput input)
       throws InputValidationException {
@@ -345,7 +343,7 @@ public class ExerciseApi extends RestBehavior {
 
   @PutMapping(EXERCISE_URI + "/{exerciseId}/tags")
   @PreAuthorize("isExercisePlanner(#exerciseId)")
-  @Transactional(rollbackOn = Exception.class)
+  @Transactional(rollbackFor = Exception.class)
   public Exercise updateExerciseTags(
       @PathVariable String exerciseId, @Valid @RequestBody ExerciseUpdateTagsInput input) {
     Exercise exercise =
@@ -357,7 +355,7 @@ public class ExerciseApi extends RestBehavior {
 
   @PutMapping(EXERCISE_URI + "/{exerciseId}/logos")
   @PreAuthorize("isExercisePlanner(#exerciseId)")
-  @Transactional(rollbackOn = Exception.class)
+  @Transactional(rollbackFor = Exception.class)
   public Exercise updateExerciseLogos(
       @PathVariable String exerciseId, @Valid @RequestBody ExerciseUpdateLogoInput input) {
     Exercise exercise =
@@ -369,7 +367,7 @@ public class ExerciseApi extends RestBehavior {
 
   @PutMapping(EXERCISE_URI + "/{exerciseId}/lessons")
   @PreAuthorize("isExercisePlanner(#exerciseId)")
-  @Transactional(rollbackOn = Exception.class)
+  @Transactional(rollbackFor = Exception.class)
   public Exercise updateExerciseLessons(
       @PathVariable String exerciseId, @Valid @RequestBody LessonsInput input) {
     Exercise exercise =
@@ -380,20 +378,20 @@ public class ExerciseApi extends RestBehavior {
 
   @DeleteMapping(EXERCISE_URI + "/{exerciseId}")
   @PreAuthorize("isExercisePlanner(#exerciseId)")
-  @Transactional(rollbackOn = Exception.class)
+  @Transactional(rollbackFor = Exception.class)
   public void deleteExercise(@PathVariable String exerciseId) {
     exerciseRepository.deleteById(exerciseId);
   }
 
   @GetMapping(EXERCISE_URI + "/{exerciseId}")
   @PreAuthorize("isExerciseObserver(#exerciseId)")
-  @org.springframework.transaction.annotation.Transactional(readOnly = true)
-  public ExerciseDetails exercise(@PathVariable String exerciseId) {
+  @Transactional(readOnly = true)
+  public SimulationDetails exercise(@PathVariable String exerciseId) {
     // We get the raw exercise
-    RawExercise rawExercise = exerciseRepository.rawDetailsById(exerciseId);
+    RawSimulation rawSimulation = exerciseRepository.rawDetailsById(exerciseId);
     // We get the injects linked to this exercise
     List<RawInject> rawInjects =
-        injectRepository.findRawByIds(rawExercise.getInject_ids().stream().distinct().toList());
+        injectRepository.findRawByIds(rawSimulation.getInject_ids().stream().distinct().toList());
     // We get the tuple exercise/team/user
     List<RawExerciseTeamUser> listRawExerciseTeamUsers =
         exerciseTeamUserRepository.rawByExerciseIds(List.of(exerciseId));
@@ -446,59 +444,8 @@ public class ExerciseApi extends RestBehavior {
     List<ExerciseTeamUser> listExerciseTeamUsers =
         listRawExerciseTeamUsers.stream().map(ExerciseTeamUser::fromRawExerciseTeamUser).toList();
 
-    // From the raw injects, we recreate Injects with minimal objects for calculations
-    List<Inject> injects =
-        rawInjects.stream()
-            .map(
-                rawInject -> {
-                  Inject inject = new Inject();
-                  if (rawInject.getInject_scenario() != null) {
-                    inject.setScenario(new Scenario());
-                    inject.getScenario().setId(rawInject.getInject_scenario());
-                  }
-                  // We set the communications
-                  inject.setCommunications(
-                      rawInject.getInject_communications().stream()
-                          .map(
-                              com -> {
-                                Communication communication = new Communication();
-                                communication.setId(com);
-                                return communication;
-                              })
-                          .toList());
-                  // We set the status too
-                  if (rawInject.getStatus_name() != null) {
-                    InjectStatus injectStatus = new InjectStatus();
-                    injectStatus.setName(ExecutionStatus.valueOf(rawInject.getStatus_name()));
-                    inject.setStatus(injectStatus);
-                  }
-                  // We recreate an exercise out of the raw exercise
-                  Exercise exercise = new Exercise();
-                  exercise.setStatus(ExerciseStatus.valueOf(rawExercise.getExercise_status()));
-                  exercise.setStart(rawExercise.getExercise_start_date());
-                  exercise.setPauses(
-                      // We set the pauses as they are used for calculations
-                      pauseRepository.rawAllForExercise(exerciseId).stream()
-                          .map(
-                              rawPause -> {
-                                Pause pause = new Pause();
-                                pause.setExercise(new Exercise());
-                                pause.getExercise().setId(exerciseId);
-                                pause.setDate(rawPause.getPause_date());
-                                pause.setId(rawPause.getPause_id());
-                                pause.setDuration(rawPause.getPause_duration());
-                                return pause;
-                              })
-                          .toList());
-                  exercise.setCurrentPause(rawExercise.getExercise_pause_date());
-                  inject.setExercise(exercise);
-                  return inject;
-                })
-            .toList();
-
     // We create an ExerciseDetails object and populate it
-    ExerciseDetails detail =
-        ExerciseDetails.fromRawExercise(rawExercise, injects, listExerciseTeamUsers, objectives);
+    SimulationDetails detail = fromRawExercise(rawSimulation, listExerciseTeamUsers, objectives);
     detail.setPlatforms(
         rawInjects.stream()
             .flatMap(inject -> inject.getInject_platforms().stream())
@@ -556,7 +503,7 @@ public class ExerciseApi extends RestBehavior {
 
   @DeleteMapping(EXERCISE_URI + "/{exerciseId}/{documentId}")
   @PreAuthorize("isExercisePlanner(#exerciseId)")
-  @Transactional(rollbackOn = Exception.class)
+  @Transactional(rollbackFor = Exception.class)
   public Exercise deleteDocument(@PathVariable String exerciseId, @PathVariable String documentId) {
     Exercise exercise =
         exerciseRepository.findById(exerciseId).orElseThrow(ElementNotFoundException::new);
@@ -583,7 +530,7 @@ public class ExerciseApi extends RestBehavior {
 
   @PutMapping(EXERCISE_URI + "/{exerciseId}/status")
   @PreAuthorize("isExercisePlanner(#exerciseId)")
-  @Transactional(rollbackOn = Exception.class)
+  @Transactional(rollbackFor = Exception.class)
   public Exercise changeExerciseStatus(
       @PathVariable String exerciseId, @Valid @RequestBody ExerciseUpdateStatusInput input) {
     ExerciseStatus status = input.getStatus();

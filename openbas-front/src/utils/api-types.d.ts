@@ -1000,58 +1000,42 @@ export interface Exercise {
 export interface ExerciseDetails {
   /** @format int64 */
   exercise_all_users_number?: number;
-  /** @uniqueItems true */
-  exercise_articles?: string[];
   exercise_category?: string;
   /** @format int64 */
   exercise_communications_number?: number;
   /** @format date-time */
   exercise_created_at?: string;
   exercise_description?: string;
-  /** @uniqueItems true */
-  exercise_documents?: string[];
   /** @format date-time */
   exercise_end_date?: string;
   exercise_id: string;
-  /** @uniqueItems true */
-  exercise_injects?: string[];
-  exercise_injects_statistics?: Record<string, number>;
   exercise_kill_chain_phases?: KillChainPhase[];
   exercise_lessons_anonymized?: boolean;
   /** @format int64 */
   exercise_lessons_answers_number?: number;
-  /** @uniqueItems true */
-  exercise_lessons_categories?: string[];
   /** @format int64 */
   exercise_logs_number?: number;
-  exercise_mail_from?: string;
+  exercise_mail_from: string;
   exercise_mails_reply_to?: string[];
   exercise_main_focus?: string;
   exercise_message_footer?: string;
   exercise_message_header?: string;
   exercise_name: string;
-  /** @format date-time */
-  exercise_next_inject_date?: string;
-  exercise_next_possible_status?: ("SCHEDULED" | "CANCELED" | "RUNNING" | "PAUSED" | "FINISHED")[];
   /** @uniqueItems true */
   exercise_observers?: string[];
-  /** @uniqueItems true */
-  exercise_pauses?: string[];
   /** @uniqueItems true */
   exercise_planners?: string[];
   exercise_platforms?: string[];
   exercise_scenario?: string;
   /** @format double */
   exercise_score?: number;
-  exercise_severity?: string;
+  exercise_severity?: "low" | "medium" | "high" | "critical";
   /** @format date-time */
   exercise_start_date?: string;
-  exercise_status?: "SCHEDULED" | "CANCELED" | "RUNNING" | "PAUSED" | "FINISHED";
+  exercise_status: "SCHEDULED" | "CANCELED" | "RUNNING" | "PAUSED" | "FINISHED";
   exercise_subtitle?: string;
   /** @uniqueItems true */
   exercise_tags?: string[];
-  /** @uniqueItems true */
-  exercise_teams?: string[];
   /** @uniqueItems true */
   exercise_teams_users?: ExerciseTeamUser[];
   /** @format date-time */

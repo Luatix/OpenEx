@@ -2,7 +2,6 @@ package io.openbas.database.model;
 
 import static org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS;
 
-import io.openbas.database.raw.RawExercise;
 import io.openbas.database.repository.ExerciseRepository;
 import io.openbas.utils.fixtures.ExerciseFixture;
 import io.openbas.utils.fixtures.composers.ExerciseComposer;
@@ -19,7 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 @SpringBootTest
 @TestInstance(PER_CLASS)
 @Transactional
-public class ExerciseTest {
+class SimulationTest {
   @Autowired private ExerciseComposer exerciseComposer;
   @Autowired private ExerciseRepository exerciseRepository;
   @Autowired private EntityManager entityManager;
@@ -28,7 +27,7 @@ public class ExerciseTest {
 
   @Test
   @DisplayName("Given a persisted exercise, current pause from raw query is correctly persisted.")
-  public void GivenAnExercise_CurrentPauseFromRawQueryIsCorrectlyPersisted() {
+  void GivenAnExercise_CurrentPauseFromRawQueryIsCorrectlyPersisted() {
     Instant expectedCurrentPauseTime = Instant.parse("2012-11-21T04:05:00Z");
     ExerciseComposer.Composer wrapper =
         exerciseComposer.forExercise(
@@ -41,11 +40,11 @@ public class ExerciseTest {
     entityManager.flush();
     entityManager.clear();
 
-    RawExercise dbExercise = exerciseRepository.rawDetailsById(expected.getId());
+    Exercise dbExercise = exerciseRepository.findById(expected.getId()).orElseThrow();
 
     Assertions.assertTrue(
         expected.getCurrentPause().isPresent(),
         "Current pause should be present for expected exercise");
-    Assertions.assertEquals(expected.getCurrentPause().get(), dbExercise.getExercise_pause_date());
+    Assertions.assertEquals(expected.getCurrentPause().get(), dbExercise.getCurrentPause().get());
   }
 }

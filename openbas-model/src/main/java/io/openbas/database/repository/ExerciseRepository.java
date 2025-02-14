@@ -232,43 +232,32 @@ public interface ExerciseRepository
    */
   @Query(
       value =
-          " SELECT ex.exercise_category, ex.exercise_id, ex.exercise_status, ex.exercise_start_date, ex.exercise_name, "
-              + " ex.exercise_description, ex.exercise_main_focus, ex.exercise_severity, ex.exercise_start_date, "
-              + " ex.exercise_end_date, ex.exercise_message_header, ex.exercise_message_footer, ex.exercise_mail_from, "
-              + " ex.exercise_subtitle, ex.exercise_logo_dark, ex.exercise_logo_light, ex.exercise_lessons_anonymized, "
-              + " inj.inject_scenario, ex.exercise_created_at, ex.exercise_updated_at, se.scenario_id, ex.exercise_pause_date, "
-              + " coalesce(array_agg(et.tag_id) FILTER ( WHERE et.tag_id IS NOT NULL ), '{}') as exercise_tags, "
-              + " coalesce(array_agg(ed.document_id) FILTER ( WHERE ed.document_id IS NOT NULL ), '{}') as exercise_documents, "
-              + " coalesce(array_agg(inj.inject_id) FILTER ( WHERE inj.inject_id IS NOT NULL ), '{}') as inject_ids, "
-              + " coalesce(array_agg(ext.team_id) FILTER ( WHERE ext.team_id IS NOT NULL ), '{}') as exercise_teams, "
+          " SELECT ex.exercise_id, ex.exercise_name, ex.exercise_description, ex.exercise_status, ex.exercise_subtitle, "
+              + "ex.exercise_category, ex.exercise_main_focus, ex.exercise_severity, ex.exercise_start_date, "
+              + "ex.exercise_end_date, ex.exercise_message_header, ex.exercise_message_footer, ex.exercise_mail_from, "
+              + "ex.exercise_lessons_anonymized, ex.exercise_created_at, ex.exercise_updated_at, "
+              + "se.scenario_id, inj.inject_scenario, "
               + " coalesce(array_agg(emrt.exercise_reply_to) FILTER ( WHERE emrt.exercise_reply_to IS NOT NULL ), '{}') as exercise_reply_to, "
-              + " coalesce(array_agg(pauses.pause_id) FILTER ( WHERE pauses.pause_id IS NOT NULL ), '{}') as exercise_pauses, "
-              + " coalesce(array_agg(art.article_id) FILTER ( WHERE art.article_id IS NOT NULL ), '{}') as exercise_articles, "
-              + " coalesce(array_agg(lc.lessons_category_id) FILTER ( WHERE lc.lessons_category_id IS NOT NULL ), '{}') as exercise_lessons_categories, "
+              + " coalesce(array_agg(et.tag_id) FILTER ( WHERE et.tag_id IS NOT NULL ), '{}') as exercise_tags, "
               + " coalesce(array_agg(ut.user_id) FILTER ( WHERE ut.user_id IS NOT NULL ), '{}') as exercise_users, "
               + " coalesce(array_agg(la.lessons_answer_id) FILTER ( WHERE la.lessons_answer_id IS NOT NULL ), '{}') as lessons_answers, "
-              + " coalesce(array_agg(ut.user_id) FILTER ( WHERE ut.user_id IS NOT NULL ), '{}') as users, "
-              + " coalesce(array_agg(logs.log_id) FILTER ( WHERE logs.log_id IS NOT NULL ), '{}') as logs "
+              + " coalesce(array_agg(logs.log_id) FILTER ( WHERE logs.log_id IS NOT NULL ), '{}') as logs, "
+              + " coalesce(array_agg(inj.inject_id) FILTER ( WHERE inj.inject_id IS NOT NULL ), '{}') as inject_ids "
               + "FROM exercises ex "
-              + "LEFT JOIN injects_expectations ie ON ex.exercise_id = ie.exercise_id "
-              + "LEFT JOIN injects ON ie.inject_id = injects.inject_id "
-              + "LEFT JOIN injects inj ON ex.exercise_id = inj.inject_exercise "
-              + "LEFT JOIN exercises_tags et ON et.exercise_id = ex.exercise_id "
+              + "LEFT JOIN scenarios_exercises se ON se.exercise_id = ex.exercise_id "
               + "LEFT JOIN exercise_mails_reply_to emrt ON emrt.exercise_id = ex.exercise_id "
+              + "LEFT JOIN exercises_tags et ON et.exercise_id = ex.exercise_id "
               + "LEFT JOIN exercises_teams ext ON ext.exercise_id = ex.exercise_id "
-              + "LEFT JOIN pauses ON pauses.pause_exercise = ex.exercise_id "
-              + "LEFT JOIN exercises_documents ed ON ed.exercise_id = ex.exercise_id "
-              + "LEFT JOIN articles art ON art.article_exercise = ex.exercise_id "
+              + "LEFT JOIN users_teams ut ON ext.team_id = ut.team_id "
               + "LEFT JOIN lessons_categories lc ON lc.lessons_category_exercise = ex.exercise_id "
               + "LEFT JOIN lessons_questions lq ON lq.lessons_question_category = lc.lessons_category_id "
               + "LEFT JOIN lessons_answers la ON la.lessons_answer_question = lq.lessons_question_id "
-              + "LEFT JOIN scenarios_exercises se ON se.exercise_id = ex.exercise_id "
-              + "LEFT JOIN users_teams ut ON ext.team_id = ut.team_id "
               + "LEFT JOIN logs ON logs.log_exercise = ex.exercise_id "
+              + "LEFT JOIN injects inj ON ex.exercise_id = inj.inject_exercise "
               + "WHERE ex.exercise_id = :exerciseId "
               + "GROUP BY ex.exercise_id, inj.inject_scenario, se.scenario_id ;",
       nativeQuery = true)
-  RawExercise rawDetailsById(@Param("exerciseId") String exerciseId);
+  RawSimulation rawDetailsById(@Param("exerciseId") String exerciseId);
 
   @Query(
       value =

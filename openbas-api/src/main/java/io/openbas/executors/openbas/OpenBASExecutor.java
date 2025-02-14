@@ -1,7 +1,7 @@
 package io.openbas.executors.openbas;
 
 import io.openbas.database.model.Endpoint;
-import io.openbas.integrations.ExecutorService;
+import io.openbas.executors.ExecutorService;
 import jakarta.annotation.PostConstruct;
 import java.util.logging.Level;
 import lombok.RequiredArgsConstructor;

@@ -316,19 +316,24 @@ public class DocumentApi extends RestBehavior {
 
   @GetMapping("/api/documents/{documentId}")
   public Document document(@PathVariable String documentId) {
-    return resolveDocument(documentId).orElseThrow(ElementNotFoundException::new);
+    return resolveDocument(documentId)
+        .orElseThrow(() -> new ElementNotFoundException("Document not found"));
   }
 
   @GetMapping("/api/documents/{documentId}/tags")
   public Set<Tag> documentTags(@PathVariable String documentId) {
-    Document document = resolveDocument(documentId).orElseThrow(ElementNotFoundException::new);
+    Document document =
+        resolveDocument(documentId)
+            .orElseThrow(() -> new ElementNotFoundException("Document not found"));
     return document.getTags();
   }
 
   @PutMapping("/api/documents/{documentId}/tags")
   public Document documentTags(
       @PathVariable String documentId, @RequestBody DocumentTagUpdateInput input) {
-    Document document = resolveDocument(documentId).orElseThrow(ElementNotFoundException::new);
+    Document document =
+        resolveDocument(documentId)
+            .orElseThrow(() -> new ElementNotFoundException("Document not found"));
     document.setTags(iterableToSet(tagRepository.findAllById(input.getTagIds())));
     return documentRepository.save(document);
   }
@@ -337,7 +342,9 @@ public class DocumentApi extends RestBehavior {
   @PutMapping("/api/documents/{documentId}")
   public Document updateDocumentInformation(
       @PathVariable String documentId, @Valid @RequestBody DocumentUpdateInput input) {
-    Document document = resolveDocument(documentId).orElseThrow(ElementNotFoundException::new);
+    Document document =
+        resolveDocument(documentId)
+            .orElseThrow(() -> new ElementNotFoundException("Document not found"));
     document.setUpdateAttributes(input);
     document.setTags(iterableToSet(tagRepository.findAllById(input.getTagIds())));
 
@@ -392,13 +399,17 @@ public class DocumentApi extends RestBehavior {
   @GetMapping("/api/documents/{documentId}/file")
   public void downloadDocument(@PathVariable String documentId, HttpServletResponse response)
       throws IOException {
-    Document document = resolveDocument(documentId).orElseThrow(ElementNotFoundException::new);
+    Document document =
+        resolveDocument(documentId)
+            .orElseThrow(() -> new ElementNotFoundException("Document not found"));
     response.addHeader(
         HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + document.getName());
     response.addHeader(HttpHeaders.CONTENT_TYPE, document.getType());
     response.setStatus(HttpServletResponse.SC_OK);
     try (InputStream fileStream =
-        fileService.getFile(document).orElseThrow(ElementNotFoundException::new)) {
+        fileService
+            .getFile(document)
+            .orElseThrow(() -> new ElementNotFoundException("File not found"))) {
       fileStream.transferTo(response.getOutputStream());
     }
   }
@@ -419,7 +430,9 @@ public class DocumentApi extends RestBehavior {
   public @ResponseBody ResponseEntity<byte[]> getInjectorImageFromId(
       @PathVariable String injectorId) throws IOException {
     Injector injector =
-        this.injectorRepository.findById(injectorId).orElseThrow(ElementNotFoundException::new);
+        this.injectorRepository
+            .findById(injectorId)
+            .orElseThrow(() -> new ElementNotFoundException("Injector not found"));
     Optional<InputStream> fileStream = fileService.getInjectorImage(injector.getType());
     if (fileStream.isPresent()) {
       return ResponseEntity.ok()
@@ -450,7 +463,9 @@ public class DocumentApi extends RestBehavior {
     response.addHeader(HttpHeaders.CONTENT_TYPE, MediaType.IMAGE_PNG_VALUE);
     response.setStatus(HttpServletResponse.SC_OK);
     try (InputStream fileStream =
-        fileService.getCollectorImage(collectorType).orElseThrow(ElementNotFoundException::new)) {
+        fileService
+            .getCollectorImage(collectorType)
+            .orElseThrow(() -> new ElementNotFoundException("File not found"))) {
       fileStream.transferTo(response.getOutputStream());
     }
   }
@@ -461,7 +476,9 @@ public class DocumentApi extends RestBehavior {
   public @ResponseBody ResponseEntity<byte[]> getCollectorImageFromId(
       @PathVariable String collectorId) throws IOException {
     Collector collector =
-        this.collectorRepository.findById(collectorId).orElseThrow(ElementNotFoundException::new);
+        this.collectorRepository
+            .findById(collectorId)
+            .orElseThrow(() -> new ElementNotFoundException("Collector not found"));
     Optional<InputStream> fileStream = fileService.getCollectorImage(collector.getType());
     if (fileStream.isPresent()) {
       return ResponseEntity.ok()
@@ -478,7 +495,7 @@ public class DocumentApi extends RestBehavior {
     SecurityPlatform securityPlatform =
         this.securityPlatformRepository
             .findById(assetId)
-            .orElseThrow(ElementNotFoundException::new);
+            .orElseThrow(() -> new ElementNotFoundException("Security platform not found"));
     if (theme.equals("dark") && securityPlatform.getLogoDark() != null) {
       downloadDocument(securityPlatform.getLogoDark().getId(), response);
     } else if (securityPlatform.getLogoLight() != null) {
@@ -616,7 +633,7 @@ public class DocumentApi extends RestBehavior {
           getExercisePlayerDocuments(exerciseOpt.get()).stream()
               .filter(doc -> doc.getId().equals(documentId))
               .findFirst()
-              .orElseThrow(ElementNotFoundException::new);
+              .orElseThrow(() -> new ElementNotFoundException("Document not found"));
     } else if (scenarioOpt.isPresent()) {
       if (!scenarioOpt.get().isUserHasAccess(user)
           && !scenarioOpt.get().getUsers().contains(user)) {
@@ -626,7 +643,7 @@ public class DocumentApi extends RestBehavior {
           getScenarioPlayerDocuments(scenarioOpt.get()).stream()
               .filter(doc -> doc.getId().equals(documentId))
               .findFirst()
-              .orElseThrow(ElementNotFoundException::new);
+              .orElseThrow(() -> new ElementNotFoundException("Document not found"));
     }
 
     if (document != null) {
@@ -635,7 +652,9 @@ public class DocumentApi extends RestBehavior {
       response.addHeader(HttpHeaders.CONTENT_TYPE, document.getType());
       response.setStatus(HttpServletResponse.SC_OK);
       try (InputStream fileStream =
-          fileService.getFile(document).orElseThrow(ElementNotFoundException::new)) {
+          fileService
+              .getFile(document)
+              .orElseThrow(() -> new ElementNotFoundException("File not found"))) {
         fileStream.transferTo(response.getOutputStream());
       }
     }

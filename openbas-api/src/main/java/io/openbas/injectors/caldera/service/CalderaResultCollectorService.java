@@ -130,7 +130,7 @@ public class CalderaResultCollectorService implements Runnable {
           }
 
           Inject relatedInject = injectStatus.getInject();
-          if (injectStatusService.isAllInjectAssetsExecuted(relatedInject)) {
+          if (injectStatusService.isAllInjectAgentsExecuted(relatedInject)) {
             injectStatusService.updateFinalInjectStatus(injectStatus);
           }
 

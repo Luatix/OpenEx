@@ -3,7 +3,6 @@ package io.openbas.database.repository;
 import io.openbas.database.model.Endpoint;
 import jakarta.validation.constraints.NotBlank;
 import java.time.Instant;
-import java.util.List;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
@@ -18,15 +17,13 @@ public interface EndpointRepository
         JpaSpecificationExecutor<Endpoint> {
 
   @Query(
-      value = "select e.* from assets e where e.endpoint_hostname = :hostname",
-      nativeQuery = true)
-  List<Endpoint> findByHostname(@NotBlank final @Param("hostname") String hostname);
-
-  @Query(
       value =
-          "select e.* from assets e left join agents a on e.asset_id = a.agent_asset where a.agent_external_reference = :externalReference",
+          "select e.* from assets e where e.endpoint_hostname = :hostname and e.endpoint_platform = :platform and e.endpoint_arch = :arch",
       nativeQuery = true)
-  Optional<Endpoint> findByExternalReference(@Param("externalReference") String externalReference);
+  Optional<Endpoint> findByHostnameArchAndPlatform(
+      @NotBlank final @Param("hostname") String hostname,
+      @NotBlank final @Param("platform") String platform,
+      @NotBlank final @Param("arch") String arch);
 
   @Override
   @Query(
@@ -42,13 +39,11 @@ public interface EndpointRepository
   @Query("select count(distinct e) from Endpoint e where e.createdAt > :creationDate")
   long globalCount(@Param("creationDate") Instant creationDate);
 
-  /* For some agents (e.g. Caldera), we have the behavior that secondary agents are created to run the implants, so with this query we only get the first level of the agent and not the secondary ones*/ @Query(
+  @Query(
       value =
           "select asset.* from assets asset "
               + "left join agents agent on asset.asset_id = agent.agent_asset "
-              + "where agent.agent_parent is null "
-              + "AND agent.agent_inject is null "
-              + "AND asset.asset_id = :endpointId",
+              + "where asset.asset_id = :endpointId",
       nativeQuery = true)
-  Optional<Endpoint> findByEndpointIdWithFirstLevelOfAgents(@NotBlank String endpointId);
+  Optional<Endpoint> findByEndpointId(@NotBlank String endpointId);
 }

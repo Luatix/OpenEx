@@ -758,11 +758,8 @@ class InjectApiTest extends IntegrationTest {
           .withEndpoint(
               endpointComposer
                   .forEndpoint(EndpointFixture.createEndpoint())
-                  .withAgent(agentComposer.forAgent(AgentFixture.createDefaultAgent())))
-          .withEndpoint(
-              endpointComposer
-                  .forEndpoint(EndpointFixture.createEndpoint())
-                  .withAgent(agentComposer.forAgent(AgentFixture.createDefaultAgent())))
+                  .withAgent(agentComposer.forAgent(AgentFixture.createDefaultAgentService()))
+                  .withAgent(agentComposer.forAgent(AgentFixture.createDefaultAgentSession())))
           .withInjectStatus(
               injectStatusComposer.forInjectStatus(InjectStatusFixture.createDefaultInjectStatus()))
           .persist()

@@ -1,5 +1,6 @@
 package io.openbas.database.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.openbas.annotation.Queryable;
 import io.openbas.database.audit.ModelBaseListener;
@@ -39,5 +40,11 @@ public class Command extends Payload {
 
   public Command(String id, String type, String name) {
     super(id, type, name);
+  }
+
+  @Override
+  @JsonIgnore
+  public String getExpectationSignatureValue() {
+    return getContent();
   }
 }

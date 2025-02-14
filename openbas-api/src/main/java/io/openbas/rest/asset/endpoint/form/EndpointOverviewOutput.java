@@ -53,7 +53,7 @@ public class EndpointOverviewOutput {
   @JsonProperty("endpoint_mac_addresses")
   private Set<String> macAddresses;
 
-  @Schema(description = "List of agents")
+  @Schema(description = "List of primary agents")
   @JsonProperty("asset_agents")
   @NotNull
   private Set<AgentOutput> agents;

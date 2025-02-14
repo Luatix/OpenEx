@@ -10,6 +10,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
 public class Time {
+
   public static Instant toInstant(@NotNull final String dateString) {
     String pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'";
     DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(pattern, Locale.getDefault());

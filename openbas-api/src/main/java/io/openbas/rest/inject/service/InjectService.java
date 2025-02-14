@@ -2,6 +2,7 @@ package io.openbas.rest.inject.service;
 
 import static io.openbas.helper.StreamHelper.fromIterable;
 import static io.openbas.helper.StreamHelper.iterableToSet;
+import static io.openbas.service.AgentService.isPrimaryAgent;
 import static io.openbas.utils.FilterUtilsJpa.computeFilterGroupJpa;
 import static io.openbas.utils.StringUtils.duplicateString;
 import static io.openbas.utils.pagination.SearchUtilsJpa.computeSearchJpa;
@@ -46,6 +47,7 @@ import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
+import org.hibernate.Hibernate;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.access.AccessDeniedException;
@@ -563,5 +565,25 @@ public class InjectService {
                     "Invalid operation to update inject entities: " + operation);
           }
         });
+  }
+
+  public final List<Agent> getAgentsByInject(Inject inject) {
+    List<Agent> agents = new ArrayList<>();
+    Set<String> agentIds = new HashSet<>();
+
+    resolveAllAssetsToExecute(inject).keySet().stream()
+        .map(asset -> (Endpoint) Hibernate.unproxy(asset))
+        .flatMap(
+            endpoint -> Optional.ofNullable(endpoint.getAgents()).stream().flatMap(List::stream))
+        .filter(agent -> isPrimaryAgent(agent))
+        .forEach(
+            agent -> {
+              if (!agentIds.contains(agent.getId())) {
+                agents.add(agent);
+                agentIds.add(agent.getId());
+              }
+            });
+
+    return agents;
   }
 }

@@ -138,6 +138,10 @@ public class Agent implements Base {
   @NotNull
   private Instant updatedAt = now();
 
+  @Column(name = "agent_cleared_at")
+  @JsonProperty("agent_cleared_at")
+  private Instant clearedAt = now();
+
   @Override
   public int hashCode() {
     return Objects.hash(id);

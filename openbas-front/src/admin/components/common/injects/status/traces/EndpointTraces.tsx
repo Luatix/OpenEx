@@ -13,6 +13,12 @@ interface Props {
 const EndpointTraces = ({ endpoint, tracesByAgent }: Props) => {
   const { t } = useFormatter();
 
+  const sortedTraces = [...tracesByAgent].sort((a, b) => {
+    const nameA = a.agent_name ?? '';
+    const nameB = b.agent_name ?? '';
+    return nameA.localeCompare(nameB);
+  });
+
   return (
     <div style={{ display: 'grid', marginTop: '24px', gap: '5px' }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
@@ -29,7 +35,7 @@ const EndpointTraces = ({ endpoint, tracesByAgent }: Props) => {
         <Typography variant="body2">{t(endpoint.endpoint_platform)}</Typography>
       </div>
       <div style={{ marginTop: '8px' }}>
-        {tracesByAgent.map(t => <AgentTraces key={t.agent_id} agentStatus={t} />)}
+        {sortedTraces.map(t => <AgentTraces key={t.agent_id} agentStatus={t} />)}
       </div>
     </div>
   );

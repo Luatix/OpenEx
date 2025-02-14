@@ -165,7 +165,6 @@ public class User implements Base {
 
   @ArraySchema(schema = @Schema(description = "Group IDs of the user", type = "string"))
   @Setter
-  // @ManyToMany(fetch = FetchType.LAZY)
   @ManyToMany(fetch = FetchType.EAGER)
   @JoinTable(
       name = "users_groups",

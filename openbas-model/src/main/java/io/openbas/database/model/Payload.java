@@ -4,6 +4,7 @@ import static jakarta.persistence.DiscriminatorType.STRING;
 import static java.time.Instant.now;
 import static lombok.AccessLevel.NONE;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import io.hypersistence.utils.hibernate.type.array.StringArrayType;
@@ -229,10 +230,10 @@ public class Payload implements Base {
   }
 
   /*
-   * return the number of actions a given payload is expected to achieve
-   * by default this is 1, e.g. one command, one file drop etc...
+   * Return the value to match in expectations
    */
-  public int getNumberOfActions() {
-    return DEFAULT_NUMBER_OF_ACTIONS_FOR_PAYLOAD;
+  @JsonIgnore
+  public String getExpectationSignatureValue() {
+    return "";
   }
 }

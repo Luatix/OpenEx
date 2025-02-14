@@ -2,16 +2,48 @@ package io.openbas.database.repository;
 
 import io.openbas.database.model.Agent;
 import java.util.List;
-import org.springframework.data.jpa.repository.JpaRepository;
+import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 public interface AgentRepository
-    extends JpaRepository<Agent, String>, JpaSpecificationExecutor<Agent> {
+    extends CrudRepository<Agent, String>, JpaSpecificationExecutor<Agent> {
 
-  @Query("SELECT a FROM Agent a WHERE a.asset.id IN :assetIds")
-  List<Agent> findAgentsByAssetIds(@Param("assetIds") List<String> assetIds);
+  @Query(
+      value =
+          "SELECT a.* FROM agents a left join executors ex on a.agent_executor = ex.executor_id "
+              + "where a.agent_asset = :assetId and a.agent_executed_by_user = :user and a.agent_deployment_mode = :deployment "
+              + "and a.agent_privilege = :privilege and a.agent_parent is null and a.agent_inject is null and ex.executor_type = :executor",
+      nativeQuery = true)
+  Optional<Agent> findByAssetExecutorUserDeploymentAndPrivilege(
+      @Param("assetId") String assetId,
+      @Param("user") String user,
+      @Param("deployment") String deployment,
+      @Param("privilege") String privilege,
+      @Param("executor") String executor);
+
+  Optional<Agent> findByExternalReference(String externalReference);
+
+  /**
+   * Returns the agents for Caldera execution
+   *
+   * @return the list of agents
+   */
+  @Query(
+      value =
+          "SELECT a.* FROM agents a WHERE a.agent_parent is not null and a.agent_inject is not null;",
+      nativeQuery = true)
+  List<Agent> findForExecution();
+
+  // TODO : understand why the generic deleteById from Hibernate doesn't work
+  @Modifying
+  @Query(value = "DELETE FROM agents agent where agent.agent_id = :agentId;", nativeQuery = true)
+  @Transactional
+  void deleteByAgentId(String agentId);
 }

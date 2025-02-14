@@ -30,7 +30,9 @@ public class CrowdStrikeExecutorContextService {
   }
 
   public void launchExecutorSubprocess(
-      @NotNull final Inject inject, @NotNull final Endpoint assetEndpoint) {
+      @NotNull final Inject inject,
+      @NotNull final Endpoint assetEndpoint,
+      @NotNull final Agent agent) {
     Injector injector =
         inject
             .getInjectorContract()
@@ -56,15 +58,11 @@ public class CrowdStrikeExecutorContextService {
     String executorCommandKey = platform.name() + "." + arch.name();
     String command = injector.getExecutorCommands().get(executorCommandKey);
 
-    command =
-        replaceArgs(
-            platform, command, inject.getId(), assetEndpoint.getAgents().getFirst().getId());
+    command = replaceArgs(platform, command, inject.getId(), agent.getId());
 
     this.crowdStrikeExecutorClient.executeAction(
-        assetEndpoint.getAgents().getFirst().getExternalReference(),
+        agent.getExternalReference(),
         scriptName,
         Base64.getEncoder().encodeToString(command.getBytes()));
   }
-
-  public void launchExecutorClear(@NotNull final Injector injector, @NotNull final Asset asset) {}
 }

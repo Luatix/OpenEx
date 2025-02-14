@@ -1,4 +1,4 @@
-package io.openbas.integrations;
+package io.openbas.executors;
 
 import static io.openbas.service.FileService.EXECUTORS_IMAGES_BASE_PATH;
 

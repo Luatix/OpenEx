@@ -1,11 +1,12 @@
 package io.openbas.executors.caldera;
 
+import io.openbas.executors.ExecutorService;
 import io.openbas.executors.caldera.client.CalderaExecutorClient;
 import io.openbas.executors.caldera.config.CalderaExecutorConfig;
 import io.openbas.executors.caldera.service.CalderaExecutorContextService;
 import io.openbas.executors.caldera.service.CalderaExecutorService;
-import io.openbas.integrations.ExecutorService;
 import io.openbas.integrations.InjectorService;
+import io.openbas.service.AgentService;
 import io.openbas.service.EndpointService;
 import io.openbas.service.PlatformSettingsService;
 import jakarta.annotation.PostConstruct;
@@ -26,6 +27,7 @@ public class CalderaExecutor {
   private final ExecutorService executorService;
   private final InjectorService injectorService;
   private final PlatformSettingsService platformSettingsService;
+  private final AgentService agentService;
 
   @PostConstruct
   public void init() {
@@ -37,7 +39,8 @@ public class CalderaExecutor {
             this.calderaExecutorContextService,
             this.endpointService,
             this.injectorService,
-            this.platformSettingsService);
+            this.platformSettingsService,
+            this.agentService);
     if (this.config.isEnable()) {
       this.taskScheduler.scheduleAtFixedRate(service, Duration.ofSeconds(60));
     }

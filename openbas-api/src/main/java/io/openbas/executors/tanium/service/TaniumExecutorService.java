@@ -1,24 +1,19 @@
 package io.openbas.executors.tanium.service;
 
-import static java.time.Instant.now;
-import static java.time.ZoneOffset.UTC;
+import static io.openbas.utils.Time.toInstant;
 
 import io.openbas.database.model.*;
+import io.openbas.executors.ExecutorService;
 import io.openbas.executors.tanium.client.TaniumExecutorClient;
 import io.openbas.executors.tanium.config.TaniumExecutorConfig;
 import io.openbas.executors.tanium.model.NodeEndpoint;
 import io.openbas.executors.tanium.model.TaniumEndpoint;
-import io.openbas.integrations.ExecutorService;
-import io.openbas.integrations.InjectorService;
 import io.openbas.service.EndpointService;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.logging.Level;
+import java.util.stream.Collectors;
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -28,8 +23,7 @@ import org.springframework.stereotype.Service;
 @Log
 @Service
 public class TaniumExecutorService implements Runnable {
-  private static final int CLEAR_TTL = 1800000; // 30 minutes
-  private static final int DELETE_TTL = 86400000; // 24 hours
+
   private static final String TANIUM_EXECUTOR_TYPE = "openbas_tanium";
   private static final String TANIUM_EXECUTOR_NAME = "Tanium";
   private static final String TANIUM_EXECUTOR_DOCUMENTATION_LINK =
@@ -38,10 +32,6 @@ public class TaniumExecutorService implements Runnable {
   private final TaniumExecutorClient client;
 
   private final EndpointService endpointService;
-
-  private final TaniumExecutorContextService taniumExecutorContextService;
-
-  private final InjectorService injectorService;
 
   private Executor executor = null;
 
@@ -67,13 +57,9 @@ public class TaniumExecutorService implements Runnable {
       ExecutorService executorService,
       TaniumExecutorClient client,
       TaniumExecutorConfig config,
-      TaniumExecutorContextService taniumExecutorContextService,
-      EndpointService endpointService,
-      InjectorService injectorService) {
+      EndpointService endpointService) {
     this.client = client;
     this.endpointService = endpointService;
-    this.taniumExecutorContextService = taniumExecutorContextService;
-    this.injectorService = injectorService;
     try {
       if (config.isEnable()) {
         this.executor =
@@ -101,55 +87,20 @@ public class TaniumExecutorService implements Runnable {
     log.info("Running Tanium executor endpoints gathering...");
     List<NodeEndpoint> nodeEndpoints =
         this.client.endpoints().getData().getEndpoints().getEdges().stream().toList();
-    List<Endpoint> endpoints =
-        toEndpoint(nodeEndpoints).stream().filter(endpoint -> endpoint.getActive()).toList();
-    log.info("Tanium executor provisioning based on " + endpoints.size() + " assets");
-    endpoints.forEach(
-        endpoint -> {
-          List<Endpoint> existingEndpoints =
-              this.endpointService.findAssetsForInjectionByHostname(endpoint.getHostname()).stream()
-                  .filter(
-                      endpoint1 ->
-                          Arrays.stream(endpoint1.getIps())
-                              .anyMatch(s -> Arrays.stream(endpoint.getIps()).toList().contains(s)))
-                  .toList();
-          if (existingEndpoints.isEmpty()) {
-            Optional<Endpoint> endpointByExternalReference =
-                endpointService.findByExternalReference(
-                    endpoint.getAgents().getFirst().getExternalReference());
-            if (endpointByExternalReference.isPresent()) {
-              this.updateEndpoint(endpoint, List.of(endpointByExternalReference.get()));
-            } else {
-              this.endpointService.createEndpoint(endpoint);
-            }
-          } else {
-            this.updateEndpoint(endpoint, existingEndpoints);
-          }
-        });
-    List<Endpoint> inactiveEndpoints =
-        toEndpoint(nodeEndpoints).stream().filter(endpoint -> !endpoint.getActive()).toList();
-    inactiveEndpoints.forEach(
-        endpoint -> {
-          Optional<Endpoint> optionalExistingEndpoint =
-              this.endpointService.findByExternalReference(
-                  endpoint.getAgents().getFirst().getExternalReference());
-          if (optionalExistingEndpoint.isPresent()) {
-            Endpoint existingEndpoint = optionalExistingEndpoint.get();
-            if ((now().toEpochMilli() - existingEndpoint.getClearedAt().toEpochMilli())
-                > DELETE_TTL) {
-              log.info("Found stale endpoint " + existingEndpoint.getName() + ", deleting it...");
-              this.endpointService.deleteEndpoint(existingEndpoint.getId());
-            }
-          }
-        });
+    List<Agent> endpointAgentList = toAgentEndpoint(nodeEndpoints);
+    log.info("Tanium executor provisioning based on " + endpointAgentList.size() + " assets");
+
+    for (Agent agent : endpointAgentList) {
+      endpointService.registerAgentEndpoint(agent, TANIUM_EXECUTOR_TYPE);
+    }
   }
 
   // -- PRIVATE --
 
-  private List<Endpoint> toEndpoint(@NotNull final List<NodeEndpoint> nodeEndpoints) {
+  private List<Agent> toAgentEndpoint(@NotNull final List<NodeEndpoint> nodeEndpoints) {
     return nodeEndpoints.stream()
         .map(
-            (nodeEndpoint) -> {
+            nodeEndpoint -> {
               TaniumEndpoint taniumEndpoint = nodeEndpoint.getNode();
               Endpoint endpoint = new Endpoint();
               Agent agent = new Agent();
@@ -170,54 +121,8 @@ public class TaniumExecutorService implements Runnable {
               endpoint.setArch(toArch(taniumEndpoint.getProcessor().getArchitecture()));
               agent.setLastSeen(toInstant(taniumEndpoint.getEidLastSeen()));
               agent.setAsset(endpoint);
-              endpoint.setAgents(List.of(agent));
-              return endpoint;
+              return agent;
             })
-        .toList();
-  }
-
-  private void updateEndpoint(
-      @NotNull final Endpoint external, @NotNull final List<Endpoint> existingList) {
-    Endpoint matchingExistingEndpoint = existingList.getFirst();
-    matchingExistingEndpoint
-        .getAgents()
-        .getFirst()
-        .setLastSeen(external.getAgents().getFirst().getLastSeen());
-    matchingExistingEndpoint.setName(external.getName());
-    matchingExistingEndpoint.setIps(external.getIps());
-    matchingExistingEndpoint.setHostname(external.getHostname());
-    matchingExistingEndpoint
-        .getAgents()
-        .getFirst()
-        .setExternalReference(external.getAgents().getFirst().getExternalReference());
-    matchingExistingEndpoint.setPlatform(external.getPlatform());
-    matchingExistingEndpoint.setArch(external.getArch());
-    matchingExistingEndpoint.getAgents().getFirst().setExecutor(this.executor);
-    if ((now().toEpochMilli() - matchingExistingEndpoint.getClearedAt().toEpochMilli())
-        > CLEAR_TTL) {
-      try {
-        log.info("Clearing endpoint " + matchingExistingEndpoint.getHostname());
-        Iterable<Injector> injectors = injectorService.injectors();
-        injectors.forEach(
-            injector -> {
-              if (injector.getExecutorClearCommands() != null) {
-                this.taniumExecutorContextService.launchExecutorClear(
-                    injector, matchingExistingEndpoint);
-              }
-            });
-        matchingExistingEndpoint.setClearedAt(now());
-      } catch (RuntimeException e) {
-        log.info("Failed clear agents");
-      }
-    }
-    this.endpointService.updateEndpoint(matchingExistingEndpoint);
-  }
-
-  private Instant toInstant(@NotNull final String lastSeen) {
-    String pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'";
-    DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(pattern, Locale.getDefault());
-    LocalDateTime localDateTime = LocalDateTime.parse(lastSeen, dateTimeFormatter);
-    ZonedDateTime zonedDateTime = localDateTime.atZone(UTC);
-    return zonedDateTime.toInstant();
+        .collect(Collectors.toList());
   }
 }

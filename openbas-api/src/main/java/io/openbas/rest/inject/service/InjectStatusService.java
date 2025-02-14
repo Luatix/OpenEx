@@ -15,6 +15,7 @@ import jakarta.transaction.Transactional;
 import jakarta.validation.constraints.NotNull;
 import java.time.Instant;
 import java.util.*;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -23,9 +24,9 @@ import org.springframework.stereotype.Service;
 public class InjectStatusService {
   private final InjectRepository injectRepository;
   private final AgentRepository agentRepository;
+  private final InjectService injectService;
   private final InjectUtils injectUtils;
   private final InjectStatusRepository injectStatusRepository;
-  private final InjectService injectService;
 
   public List<InjectStatus> findPendingInjectStatusByType(String injectType) {
     return this.injectStatusRepository.pendingForInjectType(injectType);
@@ -86,14 +87,18 @@ public class InjectStatusService {
   private int getCompleteTrace(Inject inject) {
     return inject.getStatus().map(InjectStatus::getTraces).orElse(Collections.emptyList()).stream()
         .filter(trace -> ExecutionTraceAction.COMPLETE.equals(trace.getAction()))
-        .toList()
+        .filter(trace -> trace.getAgent() != null)
+        .collect(
+            Collectors.groupingBy(
+                trace -> trace.getAgent().getId(),
+                Collectors.collectingAndThen(Collectors.toList(), traces -> traces.get(0))))
         .size();
   }
 
-  public boolean isAllInjectAssetsExecuted(Inject inject) {
+  public boolean isAllInjectAgentsExecuted(Inject inject) {
     int totalCompleteTrace = getCompleteTrace(inject);
-    Map<Asset, Boolean> assets = this.injectService.resolveAllAssetsToExecute(inject);
-    return assets.size() == totalCompleteTrace;
+    List<Agent> agents = this.injectService.getAgentsByInject(inject);
+    return agents.size() == totalCompleteTrace;
   }
 
   public void updateFinalInjectStatus(InjectStatus injectStatus) {
@@ -123,6 +128,7 @@ public class InjectStatusService {
           convertExecutionStatus(
               computeStatus(
                   injectStatus.getTraces().stream()
+                      .filter(t -> t.getAgent() != null)
                       .filter(t -> t.getAgent().getId().equals(agentId))
                       .toList()));
       executionTraces.setStatus(traceStatus);
@@ -143,7 +149,7 @@ public class InjectStatusService {
     injectStatus.addTrace(executionTraces);
 
     if (executionTraces.getAction().equals(ExecutionTraceAction.COMPLETE)
-        && (agentId == null || isAllInjectAssetsExecuted(inject))) {
+        && (agentId == null || isAllInjectAgentsExecuted(inject))) {
       updateFinalInjectStatus(injectStatus);
     }
     return injectRepository.save(inject);
@@ -157,7 +163,7 @@ public class InjectStatusService {
       switch (trace.getStatus()) {
         case SUCCESS, WARNING -> successCount++;
         case PARTIAL -> partialCount++;
-        case ERROR, COMMAND_NOT_FOUND, ASSET_INACTIVE -> errorCount++;
+        case ERROR, COMMAND_NOT_FOUND, AGENT_INACTIVE -> errorCount++;
         case MAYBE_PREVENTED, MAYBE_PARTIAL_PREVENTED, COMMAND_CANNOT_BE_EXECUTED ->
             maybePreventedCount++;
       }

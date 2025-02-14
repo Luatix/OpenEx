@@ -1,10 +1,10 @@
 package io.openbas.executors.caldera;
 
+import io.openbas.executors.ExecutorService;
 import io.openbas.executors.caldera.client.CalderaExecutorClient;
 import io.openbas.executors.caldera.config.CalderaExecutorConfig;
 import io.openbas.executors.caldera.service.CalderaExecutorContextService;
 import io.openbas.executors.caldera.service.CalderaExecutorService;
-import io.openbas.integrations.ExecutorService;
 import io.openbas.integrations.InjectorService;
 import io.openbas.service.AgentService;
 import io.openbas.service.EndpointService;

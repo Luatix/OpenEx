@@ -9,10 +9,10 @@ import static org.mockito.Mockito.when;
 
 import io.openbas.database.model.Endpoint;
 import io.openbas.database.model.Executor;
+import io.openbas.executors.ExecutorService;
 import io.openbas.executors.caldera.client.CalderaExecutorClient;
 import io.openbas.executors.caldera.config.CalderaExecutorConfig;
 import io.openbas.executors.caldera.model.Agent;
-import io.openbas.integrations.ExecutorService;
 import io.openbas.integrations.InjectorService;
 import io.openbas.service.AgentService;
 import io.openbas.service.EndpointService;

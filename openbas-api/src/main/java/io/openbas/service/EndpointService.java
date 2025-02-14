@@ -33,7 +33,9 @@ import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.java.Log;
 import org.apache.commons.io.IOUtils;
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -43,7 +45,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Service
+@Log
 public class EndpointService {
+
+  private static final int DELETE_TTL = 86400000; // 24 hours
 
   public static String JFROG_BASE = "https://filigran.jfrog.io/artifactory";
 
@@ -126,6 +131,67 @@ public class EndpointService {
   }
 
   // -- INSTALLATION AGENT --
+
+  public void registerAgentEndpoint(Agent agent, String executorType) {
+    Endpoint endpoint = (Endpoint) Hibernate.unproxy(agent.getAsset());
+    Optional<Endpoint> optionalEndpoint =
+        this.findEndpointByAgentDetails(
+            endpoint.getHostname(), endpoint.getPlatform(), endpoint.getArch());
+    if (agent.isActive()) {
+      // Endpoint already created -> attributes to update
+      if (optionalEndpoint.isPresent()) {
+        Endpoint endpointToUpdate = optionalEndpoint.get();
+        Optional<Agent> optionalAgent =
+            this.agentService.getAgentByAgentDetailsForAnAsset(
+                endpointToUpdate.getId(),
+                agent.getExecutedByUser(),
+                agent.getDeploymentMode(),
+                agent.getPrivilege(),
+                executorType);
+        endpointToUpdate.setIps(endpoint.getIps());
+        endpointToUpdate.setMacAddresses(endpoint.getMacAddresses());
+        this.updateEndpoint(endpointToUpdate);
+        // Agent already created -> attributes to update
+        if (optionalAgent.isPresent()) {
+          Agent agentToUpdate = optionalAgent.get();
+          agentToUpdate.setAsset(endpointToUpdate);
+          agentToUpdate.setLastSeen(agent.getLastSeen());
+          agentToUpdate.setExternalReference(agent.getExternalReference());
+          this.agentService.createOrUpdateAgent(agentToUpdate);
+        } else {
+          // New agent to create for the endpoint
+          agent.setAsset(endpointToUpdate);
+          this.agentService.createOrUpdateAgent(agent);
+        }
+      } else {
+        // New endpoint and new agent to create
+        this.createEndpoint(endpoint);
+        this.agentService.createOrUpdateAgent(agent);
+      }
+    } else {
+      if (optionalEndpoint.isPresent()) {
+        Optional<Agent> optionalAgent =
+            this.agentService.getAgentByAgentDetailsForAnAsset(
+                optionalEndpoint.get().getId(),
+                agent.getExecutedByUser(),
+                agent.getDeploymentMode(),
+                agent.getPrivilege(),
+                executorType);
+        if (optionalAgent.isPresent()) {
+          Agent existingAgent = optionalAgent.get();
+          if ((now().toEpochMilli() - existingAgent.getLastSeen().toEpochMilli()) > DELETE_TTL) {
+            log.info(
+                "Found stale endpoint "
+                    + endpoint.getName()
+                    + ", deleting the agent "
+                    + existingAgent.getExecutedByUser()
+                    + " in it...");
+            this.agentService.deleteAgent(existingAgent.getId());
+          }
+        }
+      }
+    }
+  }
 
   public Endpoint register(final EndpointRegisterInput input) throws IOException {
     Optional<Endpoint> optionalEndpoint =

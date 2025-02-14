@@ -1,15 +1,13 @@
 package io.openbas.executors.tanium.service;
 
 import static io.openbas.utils.Time.toInstant;
-import static java.time.Instant.now;
 
 import io.openbas.database.model.*;
+import io.openbas.executors.ExecutorService;
 import io.openbas.executors.tanium.client.TaniumExecutorClient;
 import io.openbas.executors.tanium.config.TaniumExecutorConfig;
 import io.openbas.executors.tanium.model.NodeEndpoint;
 import io.openbas.executors.tanium.model.TaniumEndpoint;
-import io.openbas.integrations.ExecutorService;
-import io.openbas.service.AgentService;
 import io.openbas.service.EndpointService;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -17,7 +15,6 @@ import java.util.*;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
 import lombok.extern.java.Log;
-import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Service;
@@ -26,7 +23,7 @@ import org.springframework.stereotype.Service;
 @Log
 @Service
 public class TaniumExecutorService implements Runnable {
-  private static final int DELETE_TTL = 86400000; // 24 hours
+
   private static final String TANIUM_EXECUTOR_TYPE = "openbas_tanium";
   private static final String TANIUM_EXECUTOR_NAME = "Tanium";
   private static final String TANIUM_EXECUTOR_DOCUMENTATION_LINK =
@@ -35,8 +32,6 @@ public class TaniumExecutorService implements Runnable {
   private final TaniumExecutorClient client;
 
   private final EndpointService endpointService;
-
-  private final AgentService agentService;
 
   private Executor executor = null;
 
@@ -62,11 +57,9 @@ public class TaniumExecutorService implements Runnable {
       ExecutorService executorService,
       TaniumExecutorClient client,
       TaniumExecutorConfig config,
-      EndpointService endpointService,
-      AgentService agentService) {
+      EndpointService endpointService) {
     this.client = client;
     this.endpointService = endpointService;
-    this.agentService = agentService;
     try {
       if (config.isEnable()) {
         this.executor =
@@ -96,65 +89,9 @@ public class TaniumExecutorService implements Runnable {
         this.client.endpoints().getData().getEndpoints().getEdges().stream().toList();
     List<Agent> endpointAgentList = toAgentEndpoint(nodeEndpoints);
     log.info("Tanium executor provisioning based on " + endpointAgentList.size() + " assets");
+
     for (Agent agent : endpointAgentList) {
-      Endpoint endpoint = (Endpoint) Hibernate.unproxy(agent.getAsset());
-      Optional<Endpoint> optionalEndpoint =
-          this.endpointService.findEndpointByAgentDetails(
-              endpoint.getHostname(), endpoint.getPlatform(), endpoint.getArch());
-      if (agent.isActive()) {
-        // Endpoint already created -> attributes to update
-        if (optionalEndpoint.isPresent()) {
-          Endpoint endpointToUpdate = optionalEndpoint.get();
-          Optional<Agent> optionalAgent =
-              this.agentService.getAgentByAgentDetailsForAnAsset(
-                  endpointToUpdate.getId(),
-                  agent.getExecutedByUser(),
-                  agent.getDeploymentMode(),
-                  agent.getPrivilege(),
-                  TANIUM_EXECUTOR_TYPE);
-          endpointToUpdate.setIps(endpoint.getIps());
-          endpointToUpdate.setMacAddresses(endpoint.getMacAddresses());
-          this.endpointService.updateEndpoint(endpointToUpdate);
-          // Agent already created -> attributes to update
-          if (optionalAgent.isPresent()) {
-            Agent agentToUpdate = optionalAgent.get();
-            agentToUpdate.setAsset(endpointToUpdate);
-            agentToUpdate.setLastSeen(agent.getLastSeen());
-            agentToUpdate.setExternalReference(agent.getExternalReference());
-            this.agentService.createOrUpdateAgent(agentToUpdate);
-          } else {
-            // New agent to create for the endpoint
-            agent.setAsset(endpointToUpdate);
-            this.agentService.createOrUpdateAgent(agent);
-          }
-        } else {
-          // New endpoint and new agent to create
-          this.endpointService.createEndpoint(endpoint);
-          this.agentService.createOrUpdateAgent(agent);
-        }
-      } else {
-        if (optionalEndpoint.isPresent()) {
-          Optional<Agent> optionalAgent =
-              this.agentService.getAgentByAgentDetailsForAnAsset(
-                  optionalEndpoint.get().getId(),
-                  agent.getExecutedByUser(),
-                  agent.getDeploymentMode(),
-                  agent.getPrivilege(),
-                  TANIUM_EXECUTOR_TYPE);
-          if (optionalAgent.isPresent()) {
-            Agent existingAgent = optionalAgent.get();
-            if ((now().toEpochMilli() - existingAgent.getLastSeen().toEpochMilli()) > DELETE_TTL) {
-              log.info(
-                  "Found stale endpoint "
-                      + endpoint.getName()
-                      + ", deleting the agent "
-                      + existingAgent.getExecutedByUser()
-                      + " in it...");
-              this.agentService.deleteAgent(existingAgent.getId());
-            }
-          }
-        }
-      }
+      endpointService.registerAgentEndpoint(agent, TANIUM_EXECUTOR_TYPE);
     }
   }
 

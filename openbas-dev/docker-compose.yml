@@ -59,6 +59,12 @@ services:
     ports:
       - "16686:16686"
       - "4317:4317"
+#  openbas-pyroscope:
+#    container_name: openbas-pyroscope
+#    image: grafana/pyroscope:latest
+#    restart: unless-stopped
+#    ports:
+#      - "4040:4040"
   openbas-pgadmin:
     image: dpage/pgadmin4
     container_name: pgadmin

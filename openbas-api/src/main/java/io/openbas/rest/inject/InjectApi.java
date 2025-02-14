@@ -14,6 +14,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import io.openbas.aop.LogExecutionTime;
+import io.openbas.authorisation.AuthorisationService;
 import io.openbas.database.model.*;
 import io.openbas.database.model.InjectStatus;
 import io.openbas.database.repository.*;
@@ -26,6 +27,7 @@ import io.openbas.injector_contract.ContractType;
 import io.openbas.rest.atomic_testing.form.InjectResultOutput;
 import io.openbas.rest.exception.BadRequestException;
 import io.openbas.rest.exception.ElementNotFoundException;
+import io.openbas.rest.exception.UnprocessableContentException;
 import io.openbas.rest.exercise.exports.ExportOptions;
 import io.openbas.rest.helper.RestBehavior;
 import io.openbas.rest.inject.form.*;
@@ -50,6 +52,7 @@ import lombok.extern.java.Log;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpHeaders;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
@@ -90,6 +93,8 @@ public class InjectApi extends RestBehavior {
   private final ExecutableInjectService executableInjectService;
   private final ChallengeService challengeService;
   private final InjectExportService injectExportService;
+  private final ScenarioRepository scenarioRepository;
+  private final AuthorisationService authorisationService;
 
   // -- INJECTS --
 
@@ -126,7 +131,7 @@ public class InjectApi extends RestBehavior {
             injectExportRequestInput.getExportOptions().isWithPlayers(),
             injectExportRequestInput.getExportOptions().isWithTeams(),
             injectExportRequestInput.getExportOptions().isWithVariableValues());
-    byte[] zippedExport = injectExportService.exportExerciseToZip(injects, exportOptionsMask);
+    byte[] zippedExport = injectExportService.exportInjectsToZip(injects, exportOptionsMask);
     String zipName = injectExportService.getZipFileName(exportOptionsMask);
 
     response.addHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + zipName);
@@ -135,6 +140,52 @@ public class InjectApi extends RestBehavior {
     ServletOutputStream outputStream = response.getOutputStream();
     outputStream.write(zippedExport);
     outputStream.close();
+  }
+
+  @PostMapping(INJECT_URI + "/import")
+  public void injectsImport(
+      @RequestPart("file") MultipartFile file,
+      @RequestBody InjectImportInput input,
+      HttpServletResponse response)
+      throws Exception {
+    // find target
+    if (input == null || input.getTarget() == null) {
+      throw new UnprocessableContentException("Insufficient input");
+    }
+    if (!List.of(InjectImportTargetType.values()).contains(input.getTarget().getType())) {
+      throw new UnprocessableContentException("Invalid target type");
+    }
+
+    Exercise targetExercise = null;
+    Scenario targetScenario = null;
+
+    if (input.getTarget().getType().equals(InjectImportTargetType.SIMULATION)) {
+      targetExercise =
+          exerciseRepository
+              .findById(input.getTarget().getId())
+              .orElseThrow(ElementNotFoundException::new);
+      if (!authorisationService
+          .getSecurityExpression()
+          .isSimulationPlanner(targetExercise.getId())) {
+        throw new AccessDeniedException("Insufficient privileges");
+      }
+    }
+
+    if (input.getTarget().getType().equals(InjectImportTargetType.SCENARIO)) {
+      targetScenario =
+          scenarioRepository
+              .findById(input.getTarget().getId())
+              .orElseThrow(ElementNotFoundException::new);
+      if (!authorisationService.getSecurityExpression().isScenarioPlanner(targetScenario.getId())) {
+        throw new AccessDeniedException("Insufficient privileges");
+      }
+    }
+
+    if (input.getTarget().getType().equals(InjectImportTargetType.ATOMIC_TESTING)) {
+      if (!authorisationService.getSecurityExpression().isAdmin()) {
+        throw new AccessDeniedException("Insufficient privileges");
+      }
+    }
   }
 
   @Secured(ROLE_ADMIN)

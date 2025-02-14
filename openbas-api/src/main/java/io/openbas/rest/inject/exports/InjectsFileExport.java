@@ -1,12 +1,10 @@
 package io.openbas.rest.inject.exports;
 
 import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
-import static io.openbas.utils.Constants.ARTICLES;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.openbas.database.model.*;
 import io.openbas.export.FileExportBase;
@@ -15,7 +13,6 @@ import io.openbas.service.ChallengeService;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 import lombok.Getter;
 
@@ -75,36 +72,7 @@ public class InjectsFileExport extends FileExportBase {
 
   @JsonProperty("inject_articles")
   private List<Article> getArticles() {
-    return injects.stream()
-        // only consider injects with articles
-        .filter(inject -> inject.getContent().has(ARTICLES))
-        .flatMap(
-            inject ->
-                inject.getExercise() != null
-                    ? inject.getExercise().getArticles().stream()
-                        .filter(article -> isArticleInInjectContent(inject.getContent(), article))
-                    : inject.getScenario() != null
-                        ? inject.getScenario().getArticles().stream()
-                            .filter(
-                                article -> isArticleInInjectContent(inject.getContent(), article))
-                        : Stream.of())
-        .toList();
-  }
-
-  private boolean isArticleInInjectContent(JsonNode injectContent, Article article) {
-    if (!injectContent.has(ARTICLES)) {
-      return false;
-    }
-
-    JsonNode injectArticles = injectContent.get(ARTICLES);
-    if (injectArticles.isArray()) {
-      List<String> injectArticleIds = new ArrayList<>();
-      for (JsonNode articleId : injectArticles) {
-        injectArticleIds.add(articleId.asText());
-      }
-      return injectArticleIds.contains(article.getId());
-    }
-    return false;
+    return injects.stream().flatMap(inject -> inject.getArticles().stream()).toList();
   }
 
   @JsonProperty("inject_channels")

@@ -3,6 +3,8 @@ package io.openbas.utils.fixtures.composers;
 import io.openbas.database.model.*;
 import io.openbas.database.model.Article;
 import io.openbas.database.repository.*;
+import io.openbas.rest.exercise.service.ExerciseService;
+import jakarta.persistence.EntityManager;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -12,6 +14,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class ExerciseComposer extends ComposerBase<Exercise> {
   @Autowired private ExerciseRepository exerciseRepository;
+  @Autowired private ExerciseService exerciseService;
+  @Autowired private InjectorContractRepository injectorContractRepository;
+  @Autowired private EntityManager entityManager;
 
   public class Composer extends InnerComposerBase<Exercise> {
     private final Exercise exercise;
@@ -34,6 +39,11 @@ public class ExerciseComposer extends ComposerBase<Exercise> {
       List<Variable> variables = exercise.getVariables();
       variables.add(variableComposer.get());
       this.exercise.setVariables(variables);
+      return this;
+    }
+
+    public Composer withInjects(List<InjectComposer.Composer> injectComposers) {
+      injectComposers.forEach(this::withInject);
       return this;
     }
 
@@ -140,6 +150,7 @@ public class ExerciseComposer extends ComposerBase<Exercise> {
       this.variableComposers.forEach(VariableComposer.Composer::persist);
       this.pauseComposers.forEach(PauseComposer.Composer::persist);
       exerciseRepository.save(exercise);
+      exerciseService.createExercise(exercise);
       return this;
     }
 

@@ -1,7 +1,10 @@
 package io.openbas.utils.fixtures.composers;
 
 import io.openbas.database.model.Article;
+import io.openbas.database.model.Document;
 import io.openbas.database.repository.ArticleRepository;
+import java.util.ArrayList;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -12,6 +15,7 @@ public class ArticleComposer extends ComposerBase<Article> {
   public class Composer extends InnerComposerBase<Article> {
     private final Article article;
     private ChannelComposer.Composer channelComposer;
+    private List<DocumentComposer.Composer> documentComposers = new ArrayList<>();
 
     public Composer(Article article) {
       this.article = article;
@@ -23,6 +27,14 @@ public class ArticleComposer extends ComposerBase<Article> {
       return this;
     }
 
+    public Composer withDocument(DocumentComposer.Composer documentComposer) {
+      documentComposers.add(documentComposer);
+      List<Document> tempDocs = article.getDocuments();
+      tempDocs.add(documentComposer.get());
+      article.setDocuments(tempDocs);
+      return this;
+    }
+
     public Composer withId(String id) {
       this.article.setId(id);
       return this;
@@ -31,6 +43,7 @@ public class ArticleComposer extends ComposerBase<Article> {
     @Override
     public Composer persist() {
       this.channelComposer.persist();
+      documentComposers.forEach(DocumentComposer.Composer::persist);
       articleRepository.save(article);
       return this;
     }
@@ -38,6 +51,7 @@ public class ArticleComposer extends ComposerBase<Article> {
     @Override
     public Composer delete() {
       articleRepository.delete(article);
+      documentComposers.forEach(DocumentComposer.Composer::delete);
       this.channelComposer.delete();
       return null;
     }

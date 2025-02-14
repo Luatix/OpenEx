@@ -124,11 +124,7 @@
   "Browse the link": "浏览链接",
   "Builtin variables": "内置变量",
   "By": "由",
-  "By default we accept iso date (YYYY-MM-DDThh": {
-    "mm": {
-      "ss[.mmm]TZD), but you can specify your own date format in ISO notation (for instance DD.MM.YYYY hh'h'mm)": "默認情況下，我哋接受iso日期（ YYYY-MM-DDThh：mm：ss[.mmm]TZD ），但你可以用ISO表示法指定自己嘅日期格式（例如DD.MM.YYYY hh'h'mm ）"
-    }
-  },
+  "By default we accept iso date (YYYY-MM-DD hh:mm:ss[.mmm]TZD), but you can specify your own date format in ISO notation (for instance DD.MM.YYYY hh'h'mm)": "默認情況下，我哋接受iso日期（ YYYY-MM-DDThh：mm：ss[.mmm]TZD ），但你可以用ISO表示法指定自己嘅日期格式（例如DD.MM.YYYY hh'h'mm ）",
   "By default, only assets compliant with the injector are displayed": "默认情况下,只显示符合注入器要求的资产",
   "CMD does not support base64 obfuscation": "CMD唔撐base64混淆",
   "COMMUNITY": "社区",

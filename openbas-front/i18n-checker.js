@@ -11,9 +11,16 @@ const __dirname = `${path.dirname(__filename)}/src`;
 // -- Retrieve i18n lang keys --
 
 const computeLangKeys = (lang) => {
-  const data = fs.readFileSync(`${__dirname}/utils/Localization.js`, { encoding: 'utf8' });
-  const regexp = `${lang}: ({[\\s\\S]*?},)`;
-  const matches = data.match(regexp);
+  let data;
+  if (lang === 'en') {
+    data = fs.readFileSync(`${__dirname}/utils/lang/en.json`, { encoding: 'utf8' });
+  } else if (lang === 'fr') {
+    data = fs.readFileSync(`${__dirname}/utils/lang/fr.json`, { encoding: 'utf8' });
+  } else if (lang === 'zh') {
+    data = fs.readFileSync(`${__dirname}/utils/lang/zh.json`, { encoding: 'utf8' });
+  }
+  const regexp = `({[\\s\\S]*?},)`;
+  const matches = data?.match(regexp);
   return matches[1];
 };
 

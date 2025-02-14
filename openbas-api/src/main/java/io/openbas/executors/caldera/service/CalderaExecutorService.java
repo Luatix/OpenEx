@@ -171,7 +171,7 @@ public class CalderaExecutorService implements Runnable {
                         + ", deleting the agent "
                         + existingAgent.getExecutedByUser()
                         + " in it...");
-                this.client.deleteAgent(existingAgent);
+                this.client.deleteAgent(existingAgent.getExternalReference());
                 this.agentService.deleteAgent(existingAgent.getId());
               }
             }

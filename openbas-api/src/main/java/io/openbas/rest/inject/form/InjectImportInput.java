@@ -6,7 +6,7 @@ import lombok.Data;
 
 @Data
 public class InjectImportInput {
-    @JsonProperty("target")
-    @NotBlank
-    private InjectImportTargetDefinition target;
+  @JsonProperty("target")
+  @NotBlank
+  private InjectImportTargetDefinition target;
 }

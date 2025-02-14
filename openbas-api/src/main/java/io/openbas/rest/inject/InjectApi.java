@@ -144,28 +144,47 @@ public class InjectApi extends RestBehavior {
 
   @PostMapping(INJECT_URI + "/import")
   public void injectsImport(
-          @RequestPart("file") MultipartFile file,
-          @RequestBody InjectImportInput input,
-          HttpServletResponse response) throws Exception {
+      @RequestPart("file") MultipartFile file,
+      @RequestBody InjectImportInput input,
+      HttpServletResponse response)
+      throws Exception {
     // find target
-    if (input == null || input.getTarget() == null) { throw new UnprocessableContentException("Insufficient input"); }
-    if (! List.of(InjectImportTargetType.values()).contains(input.getTarget().getType())) { throw new UnprocessableContentException("Invalid target type"); }
+    if (input == null || input.getTarget() == null) {
+      throw new UnprocessableContentException("Insufficient input");
+    }
+    if (!List.of(InjectImportTargetType.values()).contains(input.getTarget().getType())) {
+      throw new UnprocessableContentException("Invalid target type");
+    }
 
     Exercise targetExercise = null;
     Scenario targetScenario = null;
 
     if (input.getTarget().getType().equals(InjectImportTargetType.SIMULATION)) {
-      targetExercise = exerciseRepository.findById(input.getTarget().getId()).orElseThrow(ElementNotFoundException::new);
-      if(!authorisationService.getSecurityExpression().isSimulationPlanner(targetExercise.getId())) { throw new AccessDeniedException("Insufficient privileges"); }
+      targetExercise =
+          exerciseRepository
+              .findById(input.getTarget().getId())
+              .orElseThrow(ElementNotFoundException::new);
+      if (!authorisationService
+          .getSecurityExpression()
+          .isSimulationPlanner(targetExercise.getId())) {
+        throw new AccessDeniedException("Insufficient privileges");
+      }
     }
 
     if (input.getTarget().getType().equals(InjectImportTargetType.SCENARIO)) {
-      targetScenario = scenarioRepository.findById(input.getTarget().getId()).orElseThrow(ElementNotFoundException::new);
-      if(!authorisationService.getSecurityExpression().isScenarioPlanner(targetScenario.getId())) { throw new AccessDeniedException("Insufficient privileges"); }
+      targetScenario =
+          scenarioRepository
+              .findById(input.getTarget().getId())
+              .orElseThrow(ElementNotFoundException::new);
+      if (!authorisationService.getSecurityExpression().isScenarioPlanner(targetScenario.getId())) {
+        throw new AccessDeniedException("Insufficient privileges");
+      }
     }
 
     if (input.getTarget().getType().equals(InjectImportTargetType.ATOMIC_TESTING)) {
-      if(!authorisationService.getSecurityExpression().isAdmin()) { throw new AccessDeniedException("Insufficient privileges"); }
+      if (!authorisationService.getSecurityExpression().isAdmin()) {
+        throw new AccessDeniedException("Insufficient privileges");
+      }
     }
   }
 

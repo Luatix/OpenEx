@@ -99,17 +99,16 @@ public class RestBehavior {
   @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
   @ExceptionHandler(UnprocessableContentException.class)
   @ApiResponses(
-          value= {
-                  @ApiResponse(
-                          responseCode = "422",
-                          description = "Unprocessable Content",
-                          content = @Content(schema = @Schema(implementation = ResponseEntity.class))
-                  )
-          }
-  )
+      value = {
+        @ApiResponse(
+            responseCode = "422",
+            description = "Unprocessable Content",
+            content = @Content(schema = @Schema(implementation = ResponseEntity.class)))
+      })
   ResponseEntity<ErrorMessage> handleUnprocessableException() {
     return new ResponseEntity<>(
-            new ErrorMessage(HttpStatus.UNPROCESSABLE_ENTITY.getReasonPhrase()), HttpStatus.UNPROCESSABLE_ENTITY);
+        new ErrorMessage(HttpStatus.UNPROCESSABLE_ENTITY.getReasonPhrase()),
+        HttpStatus.UNPROCESSABLE_ENTITY);
   }
 
   @ResponseStatus(HttpStatus.UNAUTHORIZED)

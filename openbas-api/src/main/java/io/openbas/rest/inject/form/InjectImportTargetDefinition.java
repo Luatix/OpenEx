@@ -6,10 +6,10 @@ import lombok.Data;
 
 @Data
 public class InjectImportTargetDefinition {
-    @JsonProperty("type")
-    @NotBlank
-    private InjectImportTargetType type;
+  @JsonProperty("type")
+  @NotBlank
+  private InjectImportTargetType type;
 
-    @JsonProperty("id")
-    private String id;
+  @JsonProperty("id")
+  private String id;
 }

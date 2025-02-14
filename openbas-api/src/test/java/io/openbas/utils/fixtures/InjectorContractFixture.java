@@ -11,13 +11,12 @@ import io.openbas.database.model.InjectorContract;
 import io.openbas.database.model.Payload;
 import io.openbas.injector_contract.ContractCardinality;
 import io.openbas.injector_contract.fields.ContractSelect;
-import lombok.SneakyThrows;
-
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import lombok.SneakyThrows;
 
 public class InjectorContractFixture {
 
@@ -26,6 +25,7 @@ public class InjectorContractFixture {
     node.set(CONTACT_CONTENT_FIELDS, objectMapper.valueToTree(new ArrayList<>()));
     return node;
   }
+
   private static InjectorContract createPayloadInjectorContractInternal(
       Injector injector, Payload payloadCommand, List<ContractSelect> customContent)
       throws JsonProcessingException {

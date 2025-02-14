@@ -6,21 +6,27 @@ import io.openbas.database.repository.ScenarioRepository;
 import io.openbas.database.repository.UserRepository;
 import io.openbas.rest.security.SecurityExpression;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
 @Getter
 @Validated
+@RequiredArgsConstructor
 @Service
 public class AuthorisationService {
-    private final SecurityExpression securityExpression;
+  private final ExerciseRepository exerciseRepository;
+  private final UserRepository userRepository;
+  private final ScenarioRepository scenarioRepository;
+  private final InjectRepository injectRepository;
 
-    private SecurityExpression createSecurityExpression(InjectRepository injectRepository, ExerciseRepository exerciseRepository, ScenarioRepository scenarioRepository, UserRepository userRepository) {
-        return new SecurityExpression(SecurityContextHolder.getContext().getAuthentication(), userRepository, exerciseRepository, scenarioRepository, injectRepository);
-    }
-
-    public AuthorisationService(InjectRepository injectRepository, ExerciseRepository exerciseRepository, ScenarioRepository scenarioRepository, UserRepository userRepository) {
-        this.securityExpression = createSecurityExpression(injectRepository, exerciseRepository, scenarioRepository, userRepository);
-    }
+  public SecurityExpression getSecurityExpression() {
+    return new SecurityExpression(
+        SecurityContextHolder.getContext().getAuthentication(),
+        userRepository,
+        exerciseRepository,
+        scenarioRepository,
+        injectRepository);
+  }
 }

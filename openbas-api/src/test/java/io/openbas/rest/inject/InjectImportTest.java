@@ -13,6 +13,8 @@ import io.openbas.IntegrationTest;
 import io.openbas.database.model.*;
 import io.openbas.database.model.Tag;
 import io.openbas.database.repository.ExerciseRepository;
+import io.openbas.database.repository.InjectRepository;
+import io.openbas.database.repository.InjectorContractRepository;
 import io.openbas.rest.exercise.exports.ExportOptions;
 import io.openbas.rest.inject.form.InjectImportInput;
 import io.openbas.rest.inject.form.InjectImportTargetDefinition;
@@ -61,6 +63,9 @@ public class InjectImportTest extends IntegrationTest {
   @Autowired private ChallengeService challengeService;
   @Autowired private EntityManager entityManager;
 
+  @Autowired private InjectRepository injectRepository;
+  @Autowired private InjectorContractRepository injectorContractRepository;
+
   public final String INJECT_IMPORT_URI = INJECT_URI + "/import";
 
   private List<InjectComposer.Composer> getInjectFromExerciseWrappers() {
@@ -83,7 +88,17 @@ public class InjectImportTest extends IntegrationTest {
             .withInjectorContract(
                 injectorContractComposer
                     .forInjectorContract(InjectorContractFixture.createDefaultInjectorContract())
-                    .withArticle(articleWrapper));
+                    .withArticle(articleWrapper))
+            .withTag(tagComposer.forTag(TagFixture.getTagWithText("inject with article tag")))
+            .withTeam(
+                teamComposer
+                    .forTeam(TeamFixture.getDefaultTeam())
+                    .withUser(
+                        userComposer
+                            .forUser(UserFixture.getUserWithDefaultEmail())
+                            .withOrganization(
+                                organizationComposer.forOrganization(
+                                    OrganizationFixture.createDefaultOrganisation()))));
     // Inject with challenge in exercise
     InjectComposer.Composer injectWithChallengeInExercise =
         injectComposer
@@ -92,13 +107,29 @@ public class InjectImportTest extends IntegrationTest {
                 injectorContractComposer
                     .forInjectorContract(InjectorContractFixture.createDefaultInjectorContract())
                     .withChallenge(
-                        challengeComposer.forChallenge(ChallengeFixture.createDefaultChallenge())));
+                        challengeComposer.forChallenge(ChallengeFixture.createDefaultChallenge())))
+            .withTag(tagComposer.forTag(TagFixture.getTagWithText("inject with challenge tag")))
+            .withTeam(
+                teamComposer
+                    .forTeam(TeamFixture.getDefaultTeam())
+                    .withUser(userComposer.forUser(UserFixture.getUserWithDefaultEmail())));
+    // Inject with payload !
+    InjectComposer.Composer injectWithPayload =
+        injectComposer
+            .forInject(InjectFixture.getDefaultInject())
+            .withInjectorContract(
+                injectorContractComposer
+                    .forInjectorContract(InjectorContractFixture.createDefaultInjectorContract())
+                    .withInjector(injectorFixture.getWellKnownObasImplantInjector())
+                    .withPayload(payloadComposer.forPayload(PayloadFixture.createDefaultCommand())))
+            .withTag(tagComposer.forTag(TagFixture.getTagWithText("inject with payload tag")));
     // wrap it into an exercise
     exerciseComposer
         .forExercise(ExerciseFixture.createDefaultExercise())
         .withArticle(articleWrapper)
         .withInject(injectWithArticleInExercise)
         .withInject(injectWithChallengeInExercise)
+        .withInject(injectWithPayload)
         .persist();
 
     return List.of(injectWithArticleInExercise, injectWithChallengeInExercise);

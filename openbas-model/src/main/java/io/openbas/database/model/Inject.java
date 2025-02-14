@@ -45,7 +45,10 @@ public class Inject implements Base, Injection {
         if (o1.getDate().isPresent() && o2.getDate().isPresent()) {
           return o1.getDate().get().compareTo(o2.getDate().get());
         }
-        return o1.getId().compareTo(o2.getId());
+        if (o1.getId() != null && o2.getId() != null) {
+          return o1.getId().compareTo(o2.getId());
+        }
+        return 0;
       };
 
   @Getter

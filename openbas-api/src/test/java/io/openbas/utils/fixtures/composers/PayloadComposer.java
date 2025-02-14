@@ -18,6 +18,7 @@ public class PayloadComposer extends ComposerBase<Payload> {
 
     @Override
     public Composer persist() {
+      payload.setId(null);
       payloadRepository.save(payload);
       return this;
     }

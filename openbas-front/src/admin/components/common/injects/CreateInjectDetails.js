@@ -71,6 +71,7 @@ const CreateInjectDetails = ({
   onCreateInject,
   setSelectedContract,
   selectedContractKillChainPhase,
+  selectedContractAttackPatterns,
   isAtomic = false,
   drawerRef,
   presetValues,
@@ -316,13 +317,8 @@ const CreateInjectDetails = ({
           classes={{ root: contractContent ? classes.injectorContractHeader : classes.injectorContractHeaderDisabled }}
           avatar={contractContent ? (
             <InjectIcon
-              type={
-                contract?.injector_contract_payload
-                  ? contract?.injector_contract_payload?.payload_collector_type
-                  || contract?.injector_contract_payload?.payload_type
-                  : contract?.injector_contract_injector_type
-              }
-              isPayload={isNotEmptyField(contract?.injector_contract_payload)}
+              type={contract.injector_contract_payload_type ?? contract.injector_contract_injector_type}
+              isPayload={isNotEmptyField(contract?.injector_contract_payload_type)}
             />
           ) : (
             <Avatar sx={{ width: 24, height: 24 }}><HelpOutlined /></Avatar>
@@ -332,7 +328,7 @@ const CreateInjectDetails = ({
               <HighlightOffOutlined />
             </IconButton>
           )}
-          title={selectedContractKillChainPhase || t('Kill chain phase')}
+          title={selectedContractAttackPatterns!==null ? (selectedContractAttackPatterns.length!==0 ? `${selectedContractKillChainPhase} / ${selectedContractAttackPatterns[0].attack_pattern_external_id}` : contract.injector_contract_injector_name )  : t('Kill chain phase')}
         />
         <CardContent classes={{ root: contractContent ? classes.injectorContractContent : classes.injectorContractContentDisabled }}>
           {contractContent ? tPick(contractContent.label) : t('Select an inject in the left panel')}

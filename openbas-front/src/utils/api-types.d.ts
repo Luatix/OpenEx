@@ -358,6 +358,7 @@ export interface ChallengeFlag {
 
 export interface ChallengeInformation {
   challenge_detail?: PublicChallenge;
+  /** List of expectations id linked to this team */
   challenge_expectation?: InjectExpectation;
 }
 
@@ -423,9 +424,11 @@ export interface ChannelCreateInput {
 
 export interface ChannelReader {
   channel_articles?: Article[];
+  /** IDs of the simulations linked to the team */
   channel_exercise?: Exercise;
   channel_id?: string;
   channel_information?: Channel;
+  /** IDs of the scenarios linked to the team */
   channel_scenario?: Scenario;
 }
 
@@ -939,6 +942,7 @@ export interface ExecutorUpdateInput {
   executor_last_execution?: string;
 }
 
+/** IDs of the simulations linked to the team */
 export interface Exercise {
   /** @format int64 */
   exercise_all_users_number?: number;
@@ -1098,6 +1102,7 @@ export interface ExerciseTeamPlayersEnableInput {
   exercise_team_players?: string[];
 }
 
+/** List of 3-tuple linking simulation IDs and user IDs to this team ID */
 export interface ExerciseTeamUser {
   exercise_id?: string;
   team_id?: string;
@@ -1245,6 +1250,7 @@ export interface Grant {
   listened?: boolean;
 }
 
+/** Group IDs of the user */
 export interface Group {
   group_default_exercise_assign?: ("OBSERVER" | "PLANNER")[];
   group_default_exercise_observer?: boolean;
@@ -1333,6 +1339,7 @@ export interface ImportTestSummary {
   total_injects?: number;
 }
 
+/** List of inject IDs from all scenarios of the team */
 export interface Inject {
   footer?: string;
   header?: string;
@@ -1457,6 +1464,7 @@ export interface InjectExecutionInput {
   execution_status: string;
 }
 
+/** List of expectations id linked to this team */
 export interface InjectExpectation {
   inject_expectation_agent?: string;
   inject_expectation_article?: string;
@@ -1778,6 +1786,7 @@ export interface InjectorContract {
   injector_contract_import_available?: boolean;
   injector_contract_injector: string;
   injector_contract_injector_type?: string;
+  injector_contract_injector_type_name?: string;
   injector_contract_labels?: Record<string, string>;
   injector_contract_manual?: boolean;
   injector_contract_needs_executor?: boolean;
@@ -1829,6 +1838,8 @@ export interface InjectorContractOutput {
   injector_contract_content: string;
   /** Injector contract Id */
   injector_contract_id: string;
+  /** Injector name */
+  injector_contract_injector_name?: string;
   /** Injector type */
   injector_contract_injector_type?: string;
   /** Labels */
@@ -3199,6 +3210,7 @@ export interface RuleAttributeUpdateInput {
   rule_attribute_name: string;
 }
 
+/** IDs of the scenarios linked to the team */
 export interface Scenario {
   listened?: boolean;
   /** @format int64 */
@@ -3461,6 +3473,7 @@ export interface StatusPayloadOutput {
   payload_type?: string;
 }
 
+/** Tag IDs of the user */
 export interface Tag {
   listened?: boolean;
   /** Color of the tag */
@@ -3507,6 +3520,7 @@ export interface TargetSimple {
   target_type?: "AGENT" | "ASSETS" | "ASSETS_GROUPS" | "PLAYER" | "TEAMS";
 }
 
+/** Team IDs of the user */
 export interface Team {
   listened?: boolean;
   /** List of communications of this team */
@@ -3521,20 +3535,13 @@ export interface Team {
   /** Description of the team */
   team_description?: string;
   team_exercise_injects?: string[];
-  /**
-   * Number of injects of all simulations of the team
-   * @format int64
-   */
+  /** @format int64 */
   team_exercise_injects_number?: number;
   team_exercises?: string[];
   team_exercises_users?: string[];
-  /** ID of the team */
   team_id: string;
   team_inject_expectations?: string[];
-  /**
-   * Number of expectations linked to this team
-   * @format int64
-   */
+  /** @format int64 */
   team_injects_expectations_number?: number;
   /**
    * Total expected score of expectations linked to this team
@@ -3555,23 +3562,14 @@ export interface Team {
   /** Organization of the team */
   team_organization?: string;
   team_scenario_injects?: string[];
-  /**
-   * Number of injects of all scenarios of the team
-   * @format int64
-   */
+  /** @format int64 */
   team_scenario_injects_number?: number;
   team_scenarios?: string[];
   team_tags?: string[];
-  /**
-   * Update date of the team
-   * @format date-time
-   */
+  /** @format date-time */
   team_updated_at: string;
   team_users?: string[];
-  /**
-   * Number of users of the team
-   * @format int64
-   */
+  /** @format int64 */
   team_users_number?: number;
 }
 
@@ -3776,6 +3774,7 @@ export interface User {
   user_admin?: boolean;
   /** City of the user */
   user_city?: string;
+  /** Country of the user */
   user_communications?: string[];
   /** Country of the user */
   user_country?: string;

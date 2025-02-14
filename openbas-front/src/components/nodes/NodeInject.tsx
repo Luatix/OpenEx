@@ -186,7 +186,7 @@ const NodeInjectComponent = ({ data }: NodeProps<NodeInject>) => {
           }
         />
       </div>
-      { data.startDate !== undefined ? (
+      {data.startDate !== undefined ? (
         <div
           className={classes.triggerTime}
           style={{ opacity: dimNode ? '0.3' : '1' }}

@@ -14,7 +14,7 @@ import useDataLoader from '../../../../../utils/hooks/useDataLoader';
 import useSearchAnFilter from '../../../../../utils/SortingFiltering';
 import { TeamContext } from '../../../common/Context';
 import TagsFilter from '../../../common/filters/TagsFilter';
-import InjectIcon from '../../../common/injects/InjectIcon';
+import InjectIcon from '../../../common/injects/InjectIcon.tsx';
 import AnimationMenu from '../AnimationMenu';
 import CreateQuickInject from '../injects/CreateQuickInject';
 import teamContextForExercise from '../teams/teamContextForExercise';

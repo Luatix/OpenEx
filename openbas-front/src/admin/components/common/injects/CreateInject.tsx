@@ -220,8 +220,9 @@ const CreateInject: FunctionComponent<Props> = ({ title, onCreateInject, open = 
   }, [contracts]);
 
   let selectedContractKillChainPhase = null;
+  let selectedContractAttackPatterns = null;
   if (selectedContract !== null && contracts[selectedContract] !== undefined) {
-    const selectedContractAttackPatterns = computeAttackPatterns(contracts[selectedContract], attackPatternsMap);
+    selectedContractAttackPatterns = computeAttackPatterns(contracts[selectedContract], attackPatternsMap);
     // eslint-disable-next-line max-len
     const killChainPhaseforSelection = selectedContractAttackPatterns.map((contractAttackPattern: AttackPattern) => contractAttackPattern.attack_pattern_kill_chain_phases ?? []).flat().at(0);
     selectedContractKillChainPhase = killChainPhaseforSelection && killChainPhasesMap[killChainPhaseforSelection] && killChainPhasesMap[killChainPhaseforSelection].phase_name;
@@ -319,6 +320,7 @@ const CreateInject: FunctionComponent<Props> = ({ title, onCreateInject, open = 
               contract={selectedContract !== null ? contracts[selectedContract] : null}
               setSelectedContract={setSelectedContract}
               selectedContractKillChainPhase={selectedContractKillChainPhase}
+              selectedContractAttackPatterns={selectedContractAttackPatterns}
               handleClose={handleCloseDrawer}
               onCreateInject={onCreateInject}
               isAtomic={isAtomic}

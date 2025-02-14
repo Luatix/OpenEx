@@ -60,7 +60,7 @@ const iconSelector = (type, isPayload, variant, fontSize, done, disabled, onClic
   );
 };
 
-const InjectIcon = (props) => {
+const OldInjectIcon = (props) => {
   const { t } = useFormatter();
   const { type, isPayload, size, variant, done, disabled, onClick, tooltip } = props;
   const fontSize = size || 'medium';
@@ -71,7 +71,7 @@ const InjectIcon = (props) => {
   );
 };
 
-InjectIcon.propTypes = {
+OldInjectIcon.propTypes = {
   type: PropTypes.string,
   size: PropTypes.string,
   variant: PropTypes.string,
@@ -82,4 +82,4 @@ InjectIcon.propTypes = {
   tooltip: PropTypes.object,
 };
 
-export default InjectIcon;
+export default OldInjectIcon;

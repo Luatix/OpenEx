@@ -11,7 +11,9 @@ import { useFormatter } from '../../../../components/i18n';
 import PlatformIcon from '../../../../components/PlatformIcon';
 import { useHelper } from '../../../../store';
 import type { Inject, InjectDependency } from '../../../../utils/api-types';
+import { isNotEmptyField } from '../../../../utils/utils';
 import InjectChainsForm from './InjectChainsForm';
+import InjectIcon from './InjectIcon';
 
 const useStyles = makeStyles()(theme => ({
   injectorContract: {
@@ -117,9 +119,14 @@ const UpdateInjectLogicalChains: React.FC<Props> = ({ inject, handleClose, onUpd
       <Card elevation={0} classes={{ root: classes.injectorContract }}>
         <CardHeader
           classes={{ root: classes.injectorContractHeader }}
-          avatar={injectorContractContent?.config?.type ? <Avatar sx={{ width: 24, height: 24 }} src={`/api/images/injectors/${injectorContractContent.config.type}`} />
-            : <Avatar sx={{ width: 24, height: 24 }}><HelpOutlined /></Avatar>}
-          title={inject?.inject_attack_patterns?.map(value => value.attack_pattern_external_id)?.join(', ')}
+          avatar={injectorContractContent
+            ? (
+                <InjectIcon
+                  type={inject.inject_injector_contract?.injector_contract_payload ? (inject.inject_injector_contract.injector_contract_payload.payload_collector_type ?? inject.inject_injector_contract.injector_contract_payload.payload_type) : inject.inject_injector_contract?.injector_contract_injector_type}
+                  isPayload={isNotEmptyField(inject.inject_injector_contract?.injector_contract_payload?.payload_collector_type ?? inject.inject_injector_contract?.injector_contract_payload?.payload_type)}
+                />
+              ) : (<Avatar sx={{ width: 24, height: 24 }}><HelpOutlined /></Avatar>)}
+          title={inject.inject_injector_contract?.injector_contract_needs_executor === true ? (inject?.inject_attack_patterns?.length !== 0 ? `${inject?.inject_kill_chain_phases?.map(value => value.phase_name)?.join(', ')} /${inject?.inject_attack_patterns?.map(value => value.attack_pattern_external_id)?.join(', ')}` : t('TTP Unknown')) : inject.inject_injector_contract?.injector_contract_injector_type_name}
           action={(
             <div style={{ display: 'flex', alignItems: 'center' }}>
               {inject?.inject_injector_contract?.injector_contract_platforms?.map(

@@ -217,7 +217,7 @@ const Timeline: FunctionComponent<Props> = ({ injects, onSelectInject, teams }) 
                   ) : (
                     <CastForEducationOutlined fontSize="small" />
                   )}
-                      &nbsp;&nbsp;
+                  &nbsp;&nbsp;
                   {team.team_name.startsWith('openbas_')
                     ? t(team.team_name)
                     : truncate(team.team_name, 20)}

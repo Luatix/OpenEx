@@ -15,7 +15,7 @@ import { useHelper } from '../../../../../store';
 import useDataLoader from '../../../../../utils/hooks/useDataLoader';
 import { isNotEmptyField } from '../../../../../utils/utils';
 import TagsFilter from '../../../common/filters/TagsFilter';
-import InjectIcon from '../../../common/injects/InjectIcon';
+import InjectIcon from '../../../common/injects/InjectIcon.tsx';
 import AnimationMenu from '../AnimationMenu';
 import TeamOrAssetLine from './common/TeamOrAssetLine';
 

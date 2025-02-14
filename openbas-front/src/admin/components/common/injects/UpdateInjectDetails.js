@@ -11,10 +11,11 @@ import { useFormatter } from '../../../../components/i18n';
 import PlatformIcon from '../../../../components/PlatformIcon';
 import { useHelper } from '../../../../store';
 import { splitDuration } from '../../../../utils/Time';
-import { isEmptyField } from '../../../../utils/utils';
+import { isEmptyField, isNotEmptyField } from '../../../../utils/utils';
 import { PermissionsContext } from '../Context';
 import InjectDefinition from './form/InjectDefinition';
 import InjectForm from './form/InjectForm';
+import InjectIcon from './InjectIcon';
 
 const useStyles = makeStyles()(theme => ({
   details: {
@@ -57,7 +58,7 @@ const UpdateInjectDetails = ({
   drawerRef,
   ...props
 }) => {
-  const { t, tPick } = useFormatter();
+  const { t } = useFormatter();
   const { classes } = useStyles();
   const { permissions } = useContext(PermissionsContext);
   const [openDetails, setOpenDetails] = useState(true);
@@ -277,16 +278,19 @@ const UpdateInjectDetails = ({
       })),
     defaultValues: initialValues,
   });
-
   return (
     <>
       <Card elevation={0} classes={{ root: classes.injectorContract }}>
         <CardHeader
           classes={{ root: classes.injectorContractHeader }}
           avatar={contractContent
-            ? <Avatar sx={{ width: 24, height: 24 }} src={`/api/images/injectors/${contractContent.config.type}`} />
-            : <Avatar sx={{ width: 24, height: 24 }}><HelpOutlined /></Avatar>}
-          title={contractContent?.contract_attack_patterns_external_ids.join(', ')}
+            ? (
+                <InjectIcon
+                  type={inject.inject_injector_contract?.injector_contract_payload ? (inject.inject_injector_contract.injector_contract_payload.payload_collector_type ?? inject.inject_injector_contract.injector_contract_payload.payload_type) : inject.inject_injector_contract?.injector_contract_injector_type}
+                  isPayload={isNotEmptyField(inject.inject_injector_contract?.injector_contract_payload?.payload_collector_type ?? inject.inject_injector_contract?.injector_contract_payload?.payload_type)}
+                />
+              ) : (<Avatar sx={{ width: 24, height: 24 }}><HelpOutlined /></Avatar>)}
+          title={inject.inject_injector_contract?.injector_contract_needs_executor === true ? (inject?.inject_attack_patterns?.length !== 0 ? `${inject?.inject_kill_chain_phases?.map(value => value.phase_name)?.join(', ')} /${inject?.inject_attack_patterns?.map(value => value.attack_pattern_external_id)?.join(', ')}` : t('TTP Unknown')) : inject.inject_injector_contract?.injector_contract_injector_type_name}
           action={(
             <div style={{ display: 'flex', alignItems: 'center' }}>
               {inject?.inject_injector_contract?.injector_contract_platforms?.map(
@@ -296,7 +300,7 @@ const UpdateInjectDetails = ({
           )}
         />
         <CardContent classes={{ root: classes.injectorContractContent }}>
-          {contractContent !== null ? tPick(contractContent.label) : ''}
+          {contractContent !== null ? inject.inject_title : ''}
         </CardContent>
       </Card>
 

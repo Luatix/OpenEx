@@ -18,8 +18,10 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+
 import java.time.Instant;
 import java.util.*;
+
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.Type;
@@ -132,6 +134,11 @@ public class InjectorContract implements Base {
     return this.getInjector() != null ? this.getInjector().getType() : null;
   }
 
+  @JsonProperty("injector_contract_injector_type_name")
+  private String getInjectorName() {
+    return this.getInjector() != null ? this.getInjector().getName() : null;
+  }
+
   @JsonIgnore
   @JsonProperty("injector_contract_kill_chain_phases")
   @Queryable(filterable = true, dynamicValues = true, path = "attackPatterns.killChainPhases.id")
@@ -150,8 +157,12 @@ public class InjectorContract implements Base {
 
   @Override
   public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || !Base.class.isAssignableFrom(o.getClass())) return false;
+    if (this == o) {
+      return true;
+    }
+    if (o == null || !Base.class.isAssignableFrom(o.getClass())) {
+      return false;
+    }
     Base base = (Base) o;
     return id.equals(base.getId());
   }

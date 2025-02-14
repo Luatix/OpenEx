@@ -160,6 +160,7 @@ public class InjectorContractService {
             injectorContractPayloadJoin.get("type").alias("payload_type"),
             payloadCollectorJoin.get("type").alias("collector_type"),
             injectorContractInjectorJoin.get("type").alias("injector_contract_injector_type"),
+            injectorContractInjectorJoin.get("name").alias("injector_contract_injector_name"),
             attackPatternIdsExpression.alias("injector_contract_attack_patterns"),
             injectorContractRoot.get("updatedAt").alias("injector_contract_updated_at"),
             injectorContractPayloadJoin.get("executionArch").alias("payload_execution_arch"))
@@ -184,6 +185,7 @@ public class InjectorContractService {
                     tuple.get("injector_contract_content", String.class),
                     tuple.get("injector_contract_platforms", Endpoint.PLATFORM_TYPE[].class),
                     tuple.get("payload_type", String.class),
+                    tuple.get("injector_contract_injector_name", String.class),
                     tuple.get("collector_type", String.class),
                     tuple.get("injector_contract_injector_type", String.class),
                     tuple.get("injector_contract_attack_patterns", String[].class),

@@ -101,7 +101,7 @@
     "chokidar": "4.0.3",
     "cross-env": "7.0.3",
     "esbuild": "0.25.0",
-    "eslint": "9.20.0",
+    "eslint": "9.20.1",
     "eslint-import-resolver-oxc": "0.10.1",
     "eslint-plugin-custom-rules": "link:packages/eslint-plugin-custom-rules",
     "eslint-plugin-i18next": "6.1.1",

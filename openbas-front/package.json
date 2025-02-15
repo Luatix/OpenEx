@@ -57,7 +57,7 @@
     "react-final-form-arrays": "3.1.4",
     "react-hook-form": "7.54.2",
     "react-intl": "7.1.6",
-    "react-leaflet": "4.2.1",
+    "react-leaflet": "5.0.0",
     "react-markdown": "9.0.1",
     "react-redux": "9.2.0",
     "react-router": "7.1.5",

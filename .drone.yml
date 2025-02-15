@@ -18,7 +18,7 @@ steps:
       - mvn test -q
 
   - name: frontend-tests
-    image: node:22.13.0-alpine
+    image: node:22.14.0-alpine
     volumes:
       - name: cache-node-frontend
         path: /drone/src/openbas-front/node_modules
@@ -65,7 +65,7 @@ steps:
       - frontend-tests
 
   - name: frontend-e2e-tests
-    image: node:22.13.0
+    image: node:22.14.0
     volumes:
       - name: cache-node-frontend-e2e
         path: /drone/src/openbas-front/node_modules

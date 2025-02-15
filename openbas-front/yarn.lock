@@ -3280,12 +3280,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:22.10.7":
-  version: 22.10.7
-  resolution: "@types/node@npm:22.10.7"
+"@types/node@npm:22.13.4":
+  version: 22.13.4
+  resolution: "@types/node@npm:22.13.4"
   dependencies:
     undici-types: "npm:~6.20.0"
-  checksum: 10c0/c941b4689dfc4044b64a5f601306cbcb0c7210be853ba378a5dd44137898c45accedd796ee002ad9407024cac7ecaf5049304951cb1d80ce3d7cebbbae56f20e
+  checksum: 10c0/3a234fa7766a3efc382cf81f66f474c26cdab2f54f43f757634c81c0444eb2160c2dabbde9741e4983078a318a88515b65416b5f1ab5478548579d7b3ead1d95
   languageName: node
   linkType: hard
 
@@ -9125,7 +9125,7 @@ __metadata:
     "@testing-library/react": "npm:16.2.0"
     "@types/d3-hierarchy": "npm:3.1.7"
     "@types/eslint__js": "npm:8.42.3"
-    "@types/node": "npm:22.10.7"
+    "@types/node": "npm:22.13.4"
     "@types/pdfmake": "npm:0.2.9"
     "@types/qs": "npm:6"
     "@types/react": "npm:18.3.14"
